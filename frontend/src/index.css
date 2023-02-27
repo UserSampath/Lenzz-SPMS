@@ -1,0 +1,31 @@
+#home {
+  background: rgb(0, 101, 219);
+  background: linear-gradient(
+    90deg,
+    rgb(0, 101, 219) 50%,
+    rgb(60, 113, 187) 100%
+  );
+  min-height: 650px;
+}
+
+.form {
+  background: rgb(0, 101, 219);
+  background: linear-gradient(
+    90deg,
+    rgb(0, 101, 219) 30%,
+    rgb(60, 113, 187) 100%
+  );
+  min-height: 650px;
+}
+
+.card {
+  transition: all 0.5s ease;
+}
+
+.card:hover {
+  cursor: pointer;
+  box-shadow: 0.5rem 1rem rgba();
+}
+.pageContainer {
+  margin-top: 50px;
+}

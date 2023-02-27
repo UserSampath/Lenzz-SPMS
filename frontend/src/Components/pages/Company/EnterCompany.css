@@ -1,0 +1,31 @@
+.Methods {
+  top: 70%;
+  position: absolute;
+  margin-left: 47%;
+  font-size: 18px;
+}
+
+.mainc {
+  margin-left: 39%;
+  font-size: 53px;
+}
+
+.formboxC {
+  top: 49%;
+  position: absolute;
+  margin-left: 39%;
+  width: 25%;
+}
+div.error {
+  padding: 10px;
+  padding-left: 85px;
+  background: #ffefef;
+  border: 1px solid var(--error);
+  color: red;
+  border-radius: 4px;
+  margin: 30px 0;
+  width: 350px;
+}
+input.error {
+  border: 1px solid var(--error);
+}

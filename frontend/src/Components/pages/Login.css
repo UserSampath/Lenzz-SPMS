@@ -1,0 +1,42 @@
+/* 
+@media screen and (min-width: 780px) {
+  .loginname {
+    font-size: 55px;
+    margin-left: 350px;
+  }
+  .loginbox {
+    margin-left: 185px;
+  }
+  .formboxA {
+    width: 250px;
+    height: 95px;
+  }
+  .formboxB {
+    width: 250px;
+  }
+  .password {
+    font-size: 15px;
+    margin-left: 117px;
+  }
+  .btnbtn-primary {
+    width: 15px;
+    height: 35px;
+  }
+  .mainsignup {
+    font-size: 13px;
+  }
+} */
+div.errors {
+  padding: 10px;
+  padding-left: 85px;
+  background: #ffefef;
+  border: 1px solid var(--error);
+  color: red;
+  border-radius: 15px;
+  margin: 30px 0;
+  width: 340px;
+  border-radius: 7px;
+}
+input.error {
+  border: 1px solid var(--error);
+}

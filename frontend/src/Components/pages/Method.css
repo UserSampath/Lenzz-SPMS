@@ -1,0 +1,27 @@
+.ShapeA {
+  width: 50%;
+  height: auto;
+  background-color: rgb(54, 104, 220);
+  font-family: "Poppins", sans-serif;
+}
+
+.ShapeA .what {
+  font-size: 56px;
+  margin-left: 30%;
+  position: absolute;
+  margin-top: 10%;
+  font-family: "Poppins", sans-serif;
+  font-weight: bold;
+  color: rgb(54, 104, 220);
+}
+
+.ShapeA .you {
+  font-size: 56px;
+  margin-left: 42%;
+  position: absolute;
+  margin-top: 10%;
+  font-family: "Poppins", sans-serif;
+  font-family: "Poppins", sans-serif;
+  font-weight: bold;
+  color: rgb(54, 104, 220);
+}

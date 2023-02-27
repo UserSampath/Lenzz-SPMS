@@ -1,0 +1,43 @@
+.btn-glyphicon {
+  padding: 8px;
+  background: #ffffff;
+  margin-right: 4px;
+}
+.icon-btn {
+  padding: 1px 1px 3px 2px;
+  border-radius: 10px;
+}
+.project-details {
+  background: #1f1d1d;
+  border-radius: 4px;
+  margin: 20px auto;
+  padding: 20px;
+  position: relative;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
+}
+.project-details h4 {
+  margin: 0 0 10px 0;
+  font-size: 1.2em;
+  color: var(--primary);
+}
+.project-details p {
+  margin: 0;
+  font-size: 0.9em;
+  color: #555;
+}
+.project-details span {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  cursor: pointer;
+  background: #f1f1f1;
+  padding: 6px;
+  border-radius: 50%;
+  color: #333;
+}
+.project-box {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+}

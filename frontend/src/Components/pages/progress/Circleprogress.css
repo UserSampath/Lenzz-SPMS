@@ -1,0 +1,54 @@
+.circle1 {
+  width: 300px;
+  height: 300px;
+  margin-left: 25%;
+  margin-top: 10%;
+}
+
+.pname {
+  font-size: 22px;
+  font-weight: bold;
+  font-family: "Signika Negative", sans-serif;
+  color: rgb(102, 102, 101);
+  text-align: left;
+  margin-left: 70px;
+  margin-bottom: 15%;
+  letter-spacing: 0.1rem;
+}
+
+.circle2 {
+  width: 300px;
+  height: 300px;
+  margin-left: 25%;
+  margin-top: 10%;
+}
+
+.circle3 {
+  width: 300px;
+  height: 300px;
+  margin-left: 25%;
+  margin-top: 10%;
+}
+.pname2 {
+  font-size: 22px;
+  font-weight: bold;
+  font-family: "Signika Negative", sans-serif;
+  color: rgb(102, 102, 101);
+  text-align: left;
+  margin-left: 20px;
+  margin-bottom: 15%;
+  letter-spacing: 0.1rem;
+}
+
+.pname3 {
+  font-size: 22px;
+  font-weight: bold;
+  font-family: "Signika Negative", sans-serif;
+  color: rgb(102, 102, 101);
+  text-align: left;
+  margin-left: 20px;
+  margin-bottom: 15%;
+  letter-spacing: 0.1rem;
+}
+.h3 {
+}
