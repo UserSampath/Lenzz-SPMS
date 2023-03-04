@@ -5,6 +5,7 @@ export const CompanyContext = createContext();
 export const companyReducer = (state, action) => {
   switch (action.type) {
     case "COMPANY_CREATE":
+      localStorage.setItem("Company", JSON.stringify(action.payload)); // Save company info to localStorage
       return { company: action.payload };
     case "COMPANY_KEY":
       return { company: [action.payload] };
@@ -14,6 +15,7 @@ export const companyReducer = (state, action) => {
       return state;
   }
 };
+
 export const CompanyContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(companyReducer, {
     company: null,
@@ -26,10 +28,9 @@ export const CompanyContextProvider = ({ children }) => {
       dispatch({ type: "COMPANY_CREATE", payload: company });
     }
     if (company) {
-      dispatch({ type: "COMPANY_KEY", payload: company });
+      dispatch({ type: "SHOW_COMPANY", payload: company });
     }
   }, []);
-  console.log("company state:", state);
 
   return (
     <CompanyContext.Provider value={{ ...state, dispatch }}>

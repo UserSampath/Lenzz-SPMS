@@ -5,6 +5,10 @@ const { Jobes } = require("../util/Constants");
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
+  Company_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Company",
+  },
   email: {
     type: String,
     required: true,

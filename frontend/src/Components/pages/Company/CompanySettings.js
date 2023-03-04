@@ -1,86 +1,153 @@
 import React, { useState } from "react";
-import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
-import Form from "react-bootstrap/Form";
-import { useNavigate } from "react-router-dom";
-
+import { BsArrowReturnLeft } from "react-icons/bs";
+import SideBar from "../Sidebar";
+import "./CompanySettings.css";
+import { useAuthContext } from "./../../../hooks/useAuthContext";
 const CompanySettings = () => {
-  const [show, setShow] = useState(true);
-  const [error, setError] = useState(null);
-  const history = useNavigate();
+  const [companyName, setCompanyName] = useState("");
+  const [companyKey, setCompanyKey] = useState("");
+  const [companyEmail, setCompanyEmail] = useState("");
+  const [companyAddress, setCompanyAddress] = useState("");
+  const { user } = useAuthContext();
 
-  const handleClose = () => {
-    setShow(false);
-    history("/Company");
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    const data = {
+      companyName,
+      companyKey,
+      companyEmail,
+      companyAddress,
+    };
+
+    fetch("/api/company", {
+      method: " GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${user.token}`,
+      },
+      body: JSON.stringify(data),
+    });
+
+    fetch("/api/company/update", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${user.token}`,
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        // handle successful response from server
+      })
+      .catch((error) => {
+        console.error(error);
+        // handle error from server
+      });
+    // Make API call to update company with new data
   };
 
-  const handleSubmit = async () => {};
   return (
-    <>
-      <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Company Settings</Modal.Title>
-          <br />
-        </Modal.Header>
-        <Modal.Body>
-          <Form>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-              <Form.Label style={{ fontWeight: "bold" }}>
-                Company Email
-              </Form.Label>
-              <Form.Control
-                type="email"
-                placeholder="Enter Company Email"
-                autoFocus
+    <SideBar>
+      <div
+        className="card shadow"
+        style={{
+          width: "1440px",
+          height: "655px",
+          marginLeft: "25px",
+          marginTop: "80px",
+        }}
+      >
+        <div
+          className="card shadow"
+          style={{
+            width: "800px",
+            height: "655px",
+            marginLeft: "0px",
+          }}
+        >
+          <div style={{ display: "flex" }}>
+            <a href="Company">
+              <BsArrowReturnLeft
+                style={{
+                  marginTop: "35px",
+                  marginLeft: "20px",
+                  fontSize: "20px",
+                }}
               />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-              <Form.Label style={{ fontWeight: "bold" }}>
-                Company key
-              </Form.Label>
-              <Form.Control
-                type="password"
-                placeholder="Change your company key"
-                autoFocus
-              />
-            </Form.Group>
-
-            <hr></hr>
-            <Form.Group className="mb-3">
-              <Form.Label style={{ fontWeight: "bold" }}>
-                Departments
-              </Form.Label>
-            </Form.Group>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={handleSubmit}>
-            Save Company details
-          </Button>
-          {error && (
-            <div
-              className="error"
-              style={{
-                padding: " 10px",
-                paddingLeft: "65px",
-                background: " #ffefef",
-                border: " 1px solid var(--error)",
-                color: "red",
-                borderRadius: "15px",
-                margin: " 10px 0",
-                marginRight: "55px",
-                width: " 340px",
-              }}
-            >
-              {error}
-            </div>
-          )}
-        </Modal.Footer>
-      </Modal>
-    </>
+            </a>
+            <h3 style={{ marginTop: "27px", marginLeft: "2px" }}>
+              Company Settings
+            </h3>
+          </div>
+          <div
+            className="check"
+            style={{
+              width: "700px",
+              marginTop: "20px",
+              marginLeft: "45px",
+            }}
+          >
+            <form onSubmit={handleSubmit}>
+              <div style={{ marginTop: "15px" }}>
+                <label>Company Name</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  value={companyName}
+                  onChange={(e) => setCompanyName(e.target.value)}
+                />
+              </div>
+              <div style={{ marginTop: "15px" }}>
+                <label>Company key</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  value={companyKey}
+                  onChange={(e) => setCompanyKey(e.target.value)}
+                />
+              </div>
+              <div style={{ marginTop: "15px" }}>
+                <label>Company Email</label>
+                <input
+                  type="email"
+                  className="form-control"
+                  value={companyEmail}
+                  onChange={(e) => setCompanyEmail(e.target.value)}
+                />
+              </div>
+              <div style={{ marginTop: "15px" }}>
+                <label>Company Address</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  value={companyAddress}
+                  onChange={(e) => setCompanyAddress(e.target.value)}
+                />
+              </div>
+              <div className="submit" style={{ marginTop: "35px" }}>
+                <button
+                  type="button"
+                  className="btn btn-danger"
+                  style={{ width: "130px" }}
+                >
+                  close
+                </button>
+                <button
+                  type="submit"
+                  className="btn btn-success"
+                  style={{ width: "130px", marginLeft: "20px" }}
+                >
+                  Save
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </SideBar>
   );
 };
 

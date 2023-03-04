@@ -3,29 +3,27 @@ import SideBar from "../Sidebar";
 import "./Company.css";
 import { Button } from "react-bootstrap";
 import { useProjectContext } from "../../../hooks/useProjectContext";
-import ProjectDetails from "../ProjectDetails";
-import { useCompanyContext } from "../../../hooks/useCompanyContext";
 
 import { FaCog } from "react-icons/fa";
 import { useAuthContext } from "./../../../hooks/useAuthContext";
 const Company = () => {
   const { projects, dispatch } = useProjectContext();
   const { user } = useAuthContext();
-  const { company } = useCompanyContext();
 
   useEffect(() => {
     const fetchProjects = async () => {
-      const response = await fetch("/api/project", {
+      const response = await fetch("/api/project:id", {
         headers: { Authorization: `Bearer ${user.token}` },
       });
       const json = await response.json();
 
       if (response.ok) {
         console.log("projects", json);
-        dispatch({ type: "SHOW_PROJECT", payload: json });
+        dispatch({ type: "SHOW_PROJECTS", payload: json });
       }
     };
-    if (user) {
+
+    if (user && user.projects) {
       fetchProjects();
     }
   }, [dispatch, user]);
@@ -42,18 +40,6 @@ const Company = () => {
             marginTop: "80px",
           }}
         >
-          {company && (
-            <div>
-              <h2 style={{ marginLeft: "650px" }}>{company.companyname}</h2>
-            </div>
-          )}
-
-          <div className="project-list">
-            {projects &&
-              projects.map((project) => (
-                <ProjectDetails key={project.id} project={project} />
-              ))}
-          </div>
           <div
             className="card shadow"
             style={{
@@ -84,6 +70,31 @@ const Company = () => {
                 Add project
               </Button>
             </div>
+            <div
+              style={{
+                display: "flex",
+                marginTop: "20px",
+                marginRight: "15px",
+              }}
+            >
+              {user &&
+                user.projects &&
+                user.projects.map((project) => (
+                  <div
+                    className="card shadow"
+                    style={{
+                      width: " 250px",
+                      height: " 65px",
+                      marginLeft: "25px",
+                      padding: "5px",
+                    }}
+                    key={user._id}
+                  >
+                    <h6>Project :{project.projectname}</h6>
+                    <h6> Description :{project.description}</h6>
+                  </div>
+                ))}
+            </div>
           </div>
           <div
             className="card shadow"
@@ -110,7 +121,7 @@ const Company = () => {
                 block="true"
                 href="./Createproject"
               >
-                Add project
+                Add member
               </Button>
             </div>
           </div>

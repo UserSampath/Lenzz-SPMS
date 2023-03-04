@@ -10,6 +10,7 @@ const CreateCompany = () => {
   const [companykey, setcompanykey] = useState("");
   const [contactnumber, setcontactnumber] = useState("");
   const [companyaddress, setcompanyaddress] = useState("");
+  const [SystemAdmin_id, setSystemAdmin_id] = useState("");
   const { user } = useAuthContext();
   const { dispatch } = useCompanyContext();
   const [error, setError] = useState(null);
@@ -26,6 +27,7 @@ const CreateCompany = () => {
       companykey,
       contactnumber,
       companyaddress,
+      SystemAdmin_id,
     };
     const response = await fetch("/api/company/createcompany", {
       method: "POST",
@@ -47,6 +49,7 @@ const CreateCompany = () => {
       setcompanykey("");
       setcontactnumber("");
       setcompanyaddress("");
+      setSystemAdmin_id("");
       setError(null);
       console.log("new company created", json);
       dispatch({ type: "COMPANY_CREATE", payload: json });

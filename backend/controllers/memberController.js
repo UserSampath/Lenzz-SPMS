@@ -1,4 +1,6 @@
 const User = require("../models/memberModel");
+const Company = require("../models/companyModel");
+const Project = require("../models/projectmodel");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 var nodemailer = require("nodemailer");
@@ -20,15 +22,22 @@ const transporter = nodemailer.createTransport({
 });
 // login a user
 const loginUser = async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, Company_id } = req.body;
 
   try {
-    const user = await User.login(email, password);
+    // Verify user credentials and retrieve user information
+    const user = await User.login(email, password, Company_id);
 
-    // create a token
+    // Create a token
     const token = createToken(user._id);
 
-    res.status(200).json({ email, token, selectedJob: user.selectedJob });
+    // Return the user's email, token, company information, and project information in the response
+    res.status(200).json({
+      email,
+      token,
+      selectedJob: user.selectedJob,
+      Company_id,
+    });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -36,7 +45,8 @@ const loginUser = async (req, res) => {
 
 // signup a user
 const signupUser = async (req, res) => {
-  const { firstName, lastName, email, password, selectedJob } = req.body;
+  const { firstName, lastName, email, password, selectedJob, Company_id } =
+    req.body;
 
   try {
     const user = await User.signup(
@@ -44,13 +54,19 @@ const signupUser = async (req, res) => {
       lastName,
       email,
       password,
-      selectedJob
+      selectedJob,
+      Company_id
     );
 
     // create a token
     const token = createToken(user._id);
 
-    res.status(200).json({ email, token, selectedJob: user.selectedJob });
+    res.status(200).json({
+      email,
+      token,
+      selectedJob: user.selectedJob,
+      Company_id,
+    });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

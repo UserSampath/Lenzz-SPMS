@@ -5,6 +5,10 @@ const Schema = mongoose.Schema;
 
 const projectSchema = new Schema(
   {
+    Project_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Company",
+    },
     projectname: {
       type: String,
       required: true,

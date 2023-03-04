@@ -4,7 +4,7 @@ import "../pages/Company/Company.css";
 const ProjectDetails = ({ project }) => {
   return (
     <div className="project-details">
-      <h4>{project.projectname}</h4>
+      <h4> Project name{project.projectname}</h4>
       <p>
         <strong>Description:</strong> {project.description}
       </p>

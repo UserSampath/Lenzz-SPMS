@@ -94,6 +94,7 @@ const Sidebar = ({ children }) => {
                 <div className="sub-menu">
                   <div>
                     <h5>{user.email}</h5>
+
                     <h5> {user.selectedJob}</h5>
                   </div>
                   <hr />

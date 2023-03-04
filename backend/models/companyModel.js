@@ -5,6 +5,10 @@ const validator = require("validator");
 const Schema = mongoose.Schema;
 
 const companySchema = new Schema({
+  Member_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
   companyname: {
     type: String,
     required: true,
