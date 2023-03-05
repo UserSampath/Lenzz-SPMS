@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import React, { useState } from "react";
 import "./Register.css";
-import useSignup from "../../hooks/useSignup";
+import useSignup from "../../../hooks/useSignup";
 import { Dropdown } from "react-bootstrap";
 
 const Register = () => {

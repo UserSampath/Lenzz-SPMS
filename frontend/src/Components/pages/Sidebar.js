@@ -8,6 +8,7 @@ import {
   FaThLarge,
 } from "react-icons/fa";
 import { CgProfile } from "react-icons/cg";
+import { SiGooglemessages } from "react-icons/si";
 import { AiOutlineLogout } from "react-icons/ai";
 import { MdSettingsSuggest } from "react-icons/md";
 import { NavLink } from "react-router-dom";
@@ -35,6 +36,10 @@ const Sidebar = ({ children }) => {
   function toggleMenu() {
     subMenu.classList.toggle("open-menu");
   }
+  let settingMenu = document.getElementById("settingmenu");
+  function toggleSetting() {
+    settingMenu.classList.toggle("open-menu");
+  }
   const menuItem = [
     {
       path: "/Company",
@@ -59,7 +64,7 @@ const Sidebar = ({ children }) => {
     {
       path: "/Settings",
       name: "Settings",
-      icon: <FaCog />,
+      icon: <FaCog onClick={toggleSetting} />,
     },
   ];
   return (
@@ -74,19 +79,22 @@ const Sidebar = ({ children }) => {
         <Container>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
-            <Nav className="me-auto">
+            <Nav className="sub-menu-wrap" id="settingMenu">
               <NavDropdown title="Members" id="collasible-nav-dropdown">
                 <NavDropdown.Item href="#action/3.1">member 1</NavDropdown.Item>
                 <NavDropdown.Item href="#action/3.3">member 2</NavDropdown.Item>
                 <NavDropdown.Item href="#action/3.3">member 3</NavDropdown.Item>
-
-                <NavDropdown.Divider />
-                <NavDropdown.Item href="#action/3.4">
-                  Add Member
-                </NavDropdown.Item>
               </NavDropdown>
             </Nav>
-            <div>
+
+            <div className="setting-menu-wrap" id="settingmenu">
+              <a href="#" className="setting-menu-link">
+                <SiGooglemessages className="profile" />
+                <p>Notlifications</p>
+              </a>
+            </div>
+
+            <div className="setting">
               <MdSettingsSuggest className="set-pic" onClick={toggleMenu} />
             </div>
             <div className="sub-menu-wrap" id="subMenu">

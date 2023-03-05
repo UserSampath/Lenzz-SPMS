@@ -89,12 +89,14 @@ userSchema.statics.signup = async function (
 
 // static login method
 userSchema.statics.login = async function (email, password) {
-  if (!email || !password) {
+  if (!email && !password) {
     throw Error("All fields must be filled");
-  } else if (!password) {
-    throw Error(" Password must be filled");
   } else if (!email) {
-    throw Error("Email must be filled");
+    throw Error("Please provide a valid email");
+  } else if (!password) {
+    throw Error("Please provide a Strong password");
+  } else if (!validator.isEmail(email)) {
+    throw Error("Email not valid");
   }
   const user = await this.findOne({ email });
   if (!user) {

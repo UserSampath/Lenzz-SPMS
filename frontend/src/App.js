@@ -1,15 +1,15 @@
 import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import Login from "./Components/pages/Login";
-import PasswordChange from "./Components/pages/PasswordChange";
-import Register from "./Components/pages/Register";
-import Methods from "./Components/pages/Methods";
+import Login from "./Components/pages/members/Login";
+import PasswordChange from "./Components/pages/members/PasswordChange";
+import Register from "./Components/pages/members/Register";
+import Methods from "./Components/pages/members/Methods";
 import EnterCompany from "./Components/pages/Company/EnterCompany";
 
 import Home from "./Components/pages/Home";
 import CreateCompany from "./Components/pages/Company/CreateCompany";
-import ForgotPassword from "./Components/pages/ForgotPassword";
-import Createproject from "./Components/popup/Createproject";
+import ForgotPassword from "./Components/pages/members/ForgotPassword";
+import Createproject from "./Components/project/Createproject";
 import Progress from "./Components/pages/Progress";
 import Settings from "./Components/pages/Settings";
 import Chatroom from "./Components/pages/Chatroom";
@@ -27,7 +27,6 @@ function App() {
           <Route exact path="/Home" element={<Home />} />
           <Route path="/" element={<Login />} />
           <Route path="/Register" element={<Register />} />
-
           <Route
             path="/forgotPassword/:id/:token"
             element={<ForgotPassword />}

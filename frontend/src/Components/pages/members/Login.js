@@ -2,18 +2,30 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import "./Login.css";
 import { useState } from "react";
-import { useLogin } from "../../hooks/useLogin";
+import { useLogin } from "../../../hooks/useLogin";
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [formError, setformError] = useState("");
   const { login, error, isLoading } = useLogin();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    //let isValid = validation();
 
     await login(email, password);
   };
-
+  /*const validation = (e) => {
+    let err = {};
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email.match(emailPattern)) {
+      err.email = "Email is invalid";
+    } else {
+    }
+    setformError({ ...err });
+    return true;
+  };
+*/
   return (
     <div>
       <div className="container shadow my-5">

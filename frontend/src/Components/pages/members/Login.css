@@ -40,3 +40,6 @@ div.errors {
 input.error {
   border: 1px solid var(--error);
 }
+.error-text {
+  color: #b40e0e;
+}

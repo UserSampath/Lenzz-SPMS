@@ -118,9 +118,12 @@ FaBars {
   width: 60px;
   border-radius: 50px;
   cursor: pointer;
-  margin-left: 30px;
+  margin-left: 90px;
   color: #e8e8e8;
   font-size: 29px;
+}
+.setting {
+  margin-left: 965px;
 }
 .sub-menu-link {
   display: flex;
@@ -166,3 +169,81 @@ FaBars {
 .container-xxl {
   margin-right: 0px;
 } */
+.setting-menu-wrap {
+  position: absolute;
+  top: 890%;
+  left: 5%;
+  width: 220px;
+  max-height: 0px;
+  overflow: hidden;
+  transition: max-height 0.5s;
+  box-shadow: 2px 2px 4px 0 rgba(0, 0, 0, 0.5),
+    -2px -2px 4px 0 rgba(255, 255, 255, 0.5);
+  border-radius: 10px;
+}
+.setting-menu-wrap.open-menu {
+  max-height: 500px;
+}
+.setting-menu {
+  background: #dedede;
+  padding: 0px;
+  margin: 1px;
+}
+.user-info {
+  display: flex;
+  align-items: center;
+}
+.user-info h5 {
+  font-weight: 300px;
+}
+.setting-menu hr {
+  border: 0;
+  height: 2.5px;
+  width: 100%;
+  background: #ccc;
+  margin: 0px 0 0px;
+}
+
+.set-pic {
+  width: 60px;
+  border-radius: 50px;
+  cursor: pointer;
+  margin-left: 30px;
+  color: #e8e8e8;
+  font-size: 29px;
+}
+.setting-menu-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #525252;
+  margin: 15px 0;
+}
+.setting-menu-link p {
+  width: 100%;
+  margin-top: 5px;
+}
+.setting-menu-link img {
+  color: #525252;
+}
+
+.profile {
+  color: #525252;
+  width: 60px;
+  border-radius: 50px;
+  cursor: pointer;
+  margin-left: 0px;
+  font-size: 29px;
+}
+
+.setting-menu-link span {
+  font-size: 24px;
+  transition: transform 0.5s;
+}
+
+.setting-menu-link:hover span {
+  transform: translate(3px);
+}
+.setting-menu-link:hover p {
+  font-weight: 600;
+}
