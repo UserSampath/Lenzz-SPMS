@@ -6,6 +6,7 @@ const cors = require("cors");
 const userRoutes = require("./routes/member");
 const companyRoutes = require("./routes/company");
 const projectRoutes = require("./routes/project");
+const chatRoutes = require("./routes/Chat");
 const app = express();
 const bodyParser = require("body-parser");
 
@@ -30,6 +31,7 @@ mongoose.set("strictQuery", true);
 app.use("/api/user", userRoutes);
 app.use("/api/company", companyRoutes);
 app.use("/api/project", projectRoutes);
+app.use("/api/chat",chatRoutes);
 // connect to db
 
 mongoose

@@ -4,7 +4,7 @@ function Chatroom() {
   return (
     <SideBar>
       <div className="pageContainer">
-        <h1>Chat room</h1>
+        
       </div>
     </SideBar>
   );

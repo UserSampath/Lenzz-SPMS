@@ -1,6 +1,7 @@
 const User = require("../models/memberModel");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+const asyncHandler = require('express-async-handler')
 var nodemailer = require("nodemailer");
 const express = require("express");
 const app = express();
@@ -134,10 +135,24 @@ const reset = async (req, res) => {
     res.status(401).json({ status: 401, error });
   }
 };
+const allUsers = asyncHandler(async(req, res)=>{
+  const keyword = req.query.serach ? {
+    $or:[
+      {name :{$regex:req.query.serach,$options:"i"}},
+      {email:{$regex:req.query.serach,$options:"i"}}
+    ]
+  } : {};
+  
+  // Check if req.user exists before accessing its _id property
+  const users = await User.find(keyword).find({_id: {$ne: req.user._id }});
+  res.send(users);
+});
+
 module.exports = {
   passwordlink,
   signupUser,
   loginUser,
   forgotpassword,
   reset,
+  allUsers
 };

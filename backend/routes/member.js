@@ -7,7 +7,11 @@ const {
   passwordlink,
   forgotpassword,
   reset,
+  allUsers
 } = require("../controllers/memberController");
+
+const requireAuth = require("../middleware/requireAuth");
+
 
 const router = express.Router();
 
@@ -22,5 +26,6 @@ router.post("/sendpasswordlink", passwordlink);
 router.get("/forgotPassword/:id/:token", forgotpassword);
 
 router.post("/:id/:token", reset);
+router.get("/",requireAuth,allUsers)
 
 module.exports = router;
