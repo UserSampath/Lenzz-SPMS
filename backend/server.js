@@ -13,7 +13,7 @@ app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: false }));
 var nodemailer = require("nodemailer");
 MONGO_URI =
-  "mongodb+srv://lenzz:lenzz@cluster0.wff0qit.mongodb.net/practise1?retryWrites=true&w=majority";
+  "mongodb://localhost:27017/main";
 // express app
 
 app.use(
@@ -30,6 +30,11 @@ mongoose.set("strictQuery", true);
 app.use("/api/user", userRoutes);
 app.use("/api/company", companyRoutes);
 app.use("/api/project", projectRoutes);
+const taskRoute = require("./routes/taskRoute")
+const listRoute = require("./routes/listRoute")
+
+app.use(taskRoute)
+app.use(listRoute)
 // connect to db
 
 mongoose

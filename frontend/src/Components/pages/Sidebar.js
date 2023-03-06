@@ -47,7 +47,7 @@ const Sidebar = ({ children }) => {
       icon: <FaRegChartBar />,
     },
     {
-      path: "/Dashboard",
+      path: "/DashboardProvider",
       name: "Dashboard",
       icon: <FaThLarge />,
     },

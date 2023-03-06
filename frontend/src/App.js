@@ -17,6 +17,7 @@ import Company from "./Components/pages/Company/Company";
 import Dashboard from "./Components/pages/Dashboard";
 import CompanySettings from "./Components/pages/Company/CompanySettings";
 import { useAuthContext } from "./hooks/useAuthContext";
+import DashboardProvider from "./Components/pages/dashboard/DashboardProvider";
 
 function App() {
   const { user } = useAuthContext();
@@ -44,7 +45,7 @@ function App() {
           <Route path="/ChatRoom" element={<Chatroom />} />
           <Route path="/Settings" element={<Settings />} />
           <Route path="/Company" element={<Company />} />
-          <Route path="/Dashboard" element={<Dashboard />} />
+          <Route path="/DashboardProvider" element={<DashboardProvider />} />
           <Route path="/CompanySettings" element={<CompanySettings />} />
         </Routes>
       </BrowserRouter>

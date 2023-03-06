@@ -1,0 +1,23 @@
+.buttonContainerTDM {
+  zindex: 9999;
+  position: absolute;
+}
+.buttonGroupTDM {
+  width: 100%;
+  padding: 10px;
+  font-weight: bold;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  margin-bottom: 5px;
+  cursor: pointer;
+}
+.buttonGroupTDM {
+  transition: opacity 0.3s ease-out;
+}
+
+.buttonGroupTDM:hover {
+  opacity: 0.8;
+  box-shadow: 0 0 5px rgba(64, 64, 64, 0.672);
+}

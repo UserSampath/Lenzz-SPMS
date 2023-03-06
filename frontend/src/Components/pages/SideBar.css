@@ -10,7 +10,7 @@
 .sidebar {
   background-color: #075d88;
   color: rgb(245, 245, 246);
-  height: auto;
+  height: 100vh;
   width: 220px;
   transition: all 0.2s;
 }
