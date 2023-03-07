@@ -16,6 +16,7 @@ import Chatroom from "./Components/pages/Chatroom";
 import Company from "./Components/pages/Company/Company";
 import Dashboard from "./Components/pages/Dashboard";
 import CompanySettings from "./Components/pages/Company/CompanySettings";
+import ChatProvider from "./context/ChatProvider";
 import { useAuthContext } from "./hooks/useAuthContext";
 
 function App() {
@@ -46,6 +47,7 @@ function App() {
           <Route path="/Company" element={<Company />} />
           <Route path="/Dashboard" element={<Dashboard />} />
           <Route path="/CompanySettings" element={<CompanySettings />} />
+          <Route path="/Chatprovider" element={<ChatProvider />} />
         </Routes>
       </BrowserRouter>
     </div>

@@ -7,6 +7,7 @@ const userRoutes = require("./routes/member");
 const companyRoutes = require("./routes/company");
 const projectRoutes = require("./routes/project");
 const chatRoutes = require("./routes/Chat");
+const messageRoutes = require("./routes/message");
 const app = express();
 const bodyParser = require("body-parser");
 
@@ -31,7 +32,8 @@ mongoose.set("strictQuery", true);
 app.use("/api/user", userRoutes);
 app.use("/api/company", companyRoutes);
 app.use("/api/project", projectRoutes);
-app.use("/api/chat",chatRoutes);
+app.use("/api/chat", chatRoutes);
+app.use("/api/messages", messageRoutes);
 // connect to db
 
 mongoose
