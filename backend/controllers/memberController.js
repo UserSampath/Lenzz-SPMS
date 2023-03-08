@@ -136,20 +136,19 @@ const reset = async (req, res) => {
   }
 };
 const allUsers = asyncHandler(async (req, res) => {
-  const keyword = req.query.serach
+  const keyword = req.query.search
     ? {
         $or: [
-          { name: { $regex: req.query.serach, $options: "i" } },
-          { email: { $regex: req.query.serach, $options: "i" } },
+          { firstName: { $regex: req.query.search, $options: "i" } },
+          { email: { $regex: req.query.search, $options: "i" } },
         ],
       }
     : {};
 
-  // Check if req.user exists before accessing its _id property
   const users = await User.find(keyword).find({ _id: { $ne: req.user._id } });
   res.send(users);
-});
-
+  console.log(users)
+})
 module.exports = {
   passwordlink,
   signupUser,

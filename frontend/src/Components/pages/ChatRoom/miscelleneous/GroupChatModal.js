@@ -19,6 +19,7 @@ import { Input } from "@chakra-ui/input";
 import axios from "axios";
 import UserListItem from "../UserDetails/UserListItem";
 import UserBadgeItem from "../UserDetails/UserBadgeItem";
+
 const GroupChatModal = ({ children }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [groupChatName, setGroupChatName] = useState();

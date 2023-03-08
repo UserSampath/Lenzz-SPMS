@@ -212,7 +212,7 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
           <ModalHeader>{selectedChat.chatName}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <Box>
+            <Box w='100%' display="flex" flexWrap="wrap" pb={3}>
               {selectedChat.users.map((u) => (
                 <UserBadgeItem
                   key={user._id}

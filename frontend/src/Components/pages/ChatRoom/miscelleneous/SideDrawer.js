@@ -67,12 +67,12 @@ const SideDrawer = () => {
       setLoading(true);
       const config = {
         headers: {
-          "Content-Type": "application/json",
+          "Content-type": "application/json",
           Authorization: `Bearer ${user.token}`,
         },
       };
       const { data } = await axios.post("/api/chat", { userId }, config);
-      if (!chats.find((c) => c._id === data.id)) setChats([data, ...chats]);
+      if (!chats.find((c) => c._id === data._id)) setChats([data, ...chats]);
 
       setSelectedChat(data);
       setLoading(false);
@@ -95,34 +95,34 @@ const SideDrawer = () => {
         justifyContent="space-between"
         alignItems="center"
         bg="white"
-        w="290%"
+        w="300%"
         p="5px 10px 5px 10px"
         borderWidth="5px"
       >
-        <Tooltip label="Search Users to chat">
+        <Tooltip label="Search Users to chat" hasArrow placement="bottom-end">
           <Button variant="ghost" onClick={onOpen}>
             <i className="fa fa-search"></i>
-            <Text s={{ base: "none", md: "flex" }} px="4">
+            <Text display={{ base: "none", md: "flex" }} px="4">
               Search User
             </Text>
           </Button>
         </Tooltip>
         <Text fontSize="2x1" fontFamily="Work sans">
-          Project WEB
+          Project Chat Box
         </Text>
         <div>
           <Menu>
             <MenuButton p={1}>
-              <BellIcon />
+              <BellIcon fontSize="2xl" m={1}/>
             </MenuButton>
           </Menu>
         </div>
       </Box>
-      <Drawer placement="top" onClose={onClose} isOpen={isOpen}>
+      <Drawer placement="left" onClose={onClose} isOpen={isOpen}>
         <DrawerOverlay />
         <DrawerContent
           style={{
-            width: "300px",
+            width: "400px",
             height: "900px",
             marginTop: "110px",
             marginLeft: "55px",
@@ -132,11 +132,11 @@ const SideDrawer = () => {
           <DrawerBody>
             <Box display="flex" pb={2}>
               <Input
-                placeholder="search by name"
+                placeholder="search by name or email"
                 mr={2}
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-              ></Input>
+              />
               <Button onClick={handleSearch}>Go</Button>
             </Box>
             {loading ? (
