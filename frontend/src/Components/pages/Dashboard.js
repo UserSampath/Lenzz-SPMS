@@ -6,10 +6,7 @@ import "./Dashboard.css";
 const Dashboard = () => {
   return (
     <SideBar>
-      <div className="pageContainer">
-        <h1>Dashboard</h1>
-        <div></div>
-      </div>
+      <div className="pageContainer"></div>
     </SideBar>
   );
 };

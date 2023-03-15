@@ -1,13 +1,17 @@
 import React, { useState } from "react";
 import "./passwordChange.css";
 import { NavLink } from "react-router-dom";
+
 const PasswordChange = () => {
   const [email, setEmail] = useState("");
-  const [message, setmessage] = useState("");
+  const [message, setMessage] = useState("");
   const [error, setError] = useState(null);
+  const [showError, setShowError] = useState(false);
+
   const setVal = (e) => {
     setEmail(e.target.value);
   };
+
   const sendLink = async (e) => {
     e.preventDefault();
 
@@ -21,11 +25,14 @@ const PasswordChange = () => {
 
     if (data.status === 201) {
       setEmail("");
-      setmessage(true);
+      setMessage(true);
+      setShowError(false);
     } else {
       setError(data.error);
+      setShowError(true);
     }
   };
+
   return (
     <div>
       <section>
@@ -35,13 +42,13 @@ const PasswordChange = () => {
           </div>
           {message ? (
             <p style={{ color: "green", fontWeight: "bold" }}>
-              password reset link send Succsfully in Your Email
+              password reset link sent successfully to your email
             </p>
           ) : (
             ""
           )}
 
-          <form>
+          <form className="needs-validation was-validated">
             <div className="form_input">
               <label htmlFor="email">Enter your Email</label>
               <input
@@ -51,15 +58,20 @@ const PasswordChange = () => {
                 name="email"
                 id="email"
                 placeholder="Enter your email"
-              ></input>
+              />
             </div>
-            <button className="butt " onClick={sendLink}>
-              send
+            <button className="butt" onClick={sendLink}>
+              Send
             </button>
           </form>
-          {error && <div className="errors">{error}</div>}
 
-          <NavLink to="/" className="log" style={{ textDecoration: "none" }}>
+          {showError && error && <div className="errors">{error}</div>}
+
+          <NavLink
+            to="/login"
+            className="log"
+            style={{ textDecoration: "none" }}
+          >
             Back to Login
           </NavLink>
         </div>

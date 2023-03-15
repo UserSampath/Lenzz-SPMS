@@ -37,7 +37,7 @@ export const useLogin = () => {
         json.selectedJob === "TEAM LEAD" ||
         json.selectedJob === "PROJECT MANAGER"
       ) {
-        history("/Dashboard");
+        history("/Company");
       }
       dispatch({ type: "LOGIN", payload: json });
 

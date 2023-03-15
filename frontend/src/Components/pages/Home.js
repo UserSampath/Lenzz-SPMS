@@ -1,6 +1,4 @@
 import React from "react";
-
-import { NavLink } from "react-router-dom";
 import Navbar from "./Navbar";
 const Home = () => {
   return (
@@ -27,20 +25,6 @@ const Home = () => {
                 productivity, improve the quality of software products, and
                 ensure projects are delivered on time and within budget.
               </p>
-              <div className="buttons d-flex justify-content-center">
-                <NavLink
-                  to="/contact"
-                  className="btn btn-light me-4 rounded-pill px-4 py-2"
-                >
-                  Get Quote
-                </NavLink>
-                <NavLink
-                  to="/service"
-                  className="btn btn-outline-light rounded-pill px-4 py-2"
-                >
-                  Our services
-                </NavLink>
-              </div>
             </div>
           </div>
         </div>

@@ -1,19 +1,14 @@
-div.error {
+div.errors {
   padding: 10px;
   padding-left: 85px;
   background: #ffefef;
   border: 1px solid var(--error);
   color: red;
-  border-radius: 4px;
+  border-radius: 15px;
   margin: 30px 0;
-  width: 350px;
+  width: 340px;
+  border-radius: 7px;
 }
 input.error {
   border: 1px solid var(--error);
-}
-.invalid-confirm-password {
-  display: block;
-  margin-top: 0.25rem;
-  font-size: 80%;
-  color: #dc3545;
 }

@@ -40,3 +40,16 @@ div.errors {
 input.error {
   border: 1px solid var(--error);
 }
+.form-control:not(:focus):not(:placeholder-shown).is-valid {
+  border-color: rgba(26, 14, 159, 0.323);
+}
+.form-control:not(:focus):not(:placeholder-shown).is-invalid {
+  border-color: rgb(154, 10, 46);
+}
+.form-check-input[type="checkbox"]:checked {
+  background-color: blue;
+  border-color: blue;
+}
+.form-check-label {
+  color: blue;
+}

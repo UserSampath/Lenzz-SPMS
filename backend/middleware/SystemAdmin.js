@@ -14,7 +14,7 @@ const AdminAuth = async (req, res, next) => {
   try {
     const { _id } = jwt.verify(token, process.env.SECRET);
 
-    const user = await User.findOne({ _id }).select("_id selectedJob");
+    const user = await User.findOne({ _id }).select("_id ");
 
     if (!user) {
       return res.status(401).json({ error: "User not found" });

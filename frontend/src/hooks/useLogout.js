@@ -11,7 +11,7 @@ export const useLogout = () => {
   const { dispatch: companyDispatch } = useCompanyContext();
   const logout = () => {
     // remove user from local
-    history("/");
+    history("/login");
     localStorage.removeItem("user");
 
     dispatch({ type: "LOGOUT" });

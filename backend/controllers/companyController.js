@@ -13,6 +13,10 @@ const createCompany = async (req, res) => {
     companyemail,
     companyaddress,
   } = req.body;
+  const { id, selectedJob } = req;
+  if (selectedJob != "SYSTEM ADMIN") {
+    return res.status(401).json({ error: "User is not authorized" });
+  }
 
   try {
     const user_id = req.user._id;
@@ -33,7 +37,10 @@ const createCompany = async (req, res) => {
 
 const checkcompany = async (req, res) => {
   const { companykey } = req.body;
-
+  const { id, selectedJob } = req;
+  if (selectedJob === "SYSTEM ADMIN") {
+    return res.status(401).json({ error: "User is not authorized" });
+  }
   try {
     const company = await Company.checkcompany(companykey);
     const token = createToken(company._id);
@@ -42,6 +49,7 @@ const checkcompany = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
+
 module.exports = {
   createCompany,
   checkcompany,
