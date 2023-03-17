@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Draggable } from "react-beautiful-dnd";
 import styled from "styled-components";
 import { connect } from "react-redux";
 import TaskDetails from "./taskDetails/TaskDetails";
 import { useState } from "react";
-import Card from "react-bootstrap/Card";
+// import Card from "react-bootstrap/Card";
 
 const CardContainer = styled.div`
   margin-bottom: 8px;
@@ -12,12 +12,37 @@ const CardContainer = styled.div`
 
 const TaskCard = (props) => {
   const [TaskDetailsModal, setTaskDetailsModal] = useState(false);
+
+  let [backgroundColor, setBackgroundColor] = useState("white")
+  
   const toggleModal = () => {
     console.log(props.id)
     console.log(props.index)
 
+   
+    
+
     setTaskDetailsModal(!TaskDetailsModal);
   };
+
+  useEffect(() => {
+    const changeColorOfCard = (flag) => {
+      switch (flag) {
+        case "🟡":
+          setBackgroundColor("#ebf0c5");
+          break;
+        case "🟢":
+          setBackgroundColor("#c5f0d1");
+          break;
+        case "🔴":
+          setBackgroundColor("#f0c5c5");
+          break;
+        default:
+          setBackgroundColor("white");
+      }
+    };
+    changeColorOfCard(props.card.flag);
+  }, [props.card.flag]);
   const clickedUpdateButton = () => {
     setTaskDetailsModal(!TaskDetailsModal);
     props.updateTask(props.id)
@@ -26,9 +51,13 @@ const TaskCard = (props) => {
   const clickedDeleteButton = () => {
     props.deleteTask(props.id, props.index)
     toggleModal();
+
+   
+  
+    
   }
   return (
-    <Draggable draggableId={String(props.id)} index={props.index}>
+    <Draggable draggableId={String(props.id)} index={props.index} isDragDisabled={false}>
       {provided => (
         <CardContainer
           ref={provided.innerRef}
@@ -39,24 +68,34 @@ const TaskCard = (props) => {
             <TaskDetails toggleModal={toggleModal} card={props.card} clickedUpdateButton={clickedUpdateButton} clickedDeleteButton={clickedDeleteButton} />
           )}
           <div onClick={toggleModal}>
-            <Card style={{
+
+            <div style={{
               border: "1px solid black",
               borderRadius: "3px",
               padding: "0px 10px",
-              backgroundColor: "white",
+              backgroundColor: backgroundColor,
               display: "flex",
               alignItems: "center",
-              height: "100%",
-              justifyContent: "space-between"
-            }}>
-              <Card.Text style={{
-                overflow: "hidden",
-                rightMargin: "20px"
-              }}>{props.text} </Card.Text>
-              <div className="aa" style={{
+              height: "50px",
+              justifyContent: "space-between",
+              overflow: "hidden",
+              
 
-              }}>{props.card.flag}</div>
-            </Card>
+
+            }}>
+              <div style={{ marginRight: "5px", overflow: "hidden" }}>{props.text}</div>
+              {/* {props.card.flag !== "default" ? (
+                <div className="aa" style={{}}>{props.card.flag}</div>
+              ) : null} */}
+              <img src="https://sampathnalaka.s3.amazonaws.com/uploads/2bc74bff-1f50-4c3c-a1e5-61e4fd0b51ea-3557.jpg" alt="svs"
+                width="38" height="38"
+                // style="border-radius: 50%; border: 1px solid black;
+                style={{borderRadius:"50%",border:"1px solid white"}}
+                >
+                </img>
+
+
+            </div>
           </div>
         </CardContainer>
       )}

@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import axios from 'axios';
 import { connect } from "react-redux";
 import { renameList } from "../../../../actions";
+import styles from './renameListModal.module.css'
 
 // import "./renameListModal.css"
 import { useRef, useEffect } from 'react';
@@ -12,8 +13,9 @@ const RenameListModel = (props) => {
 
     useEffect(() => {
         inputRef.current.focus();
+        console.log("gdgd")
         setListTitle(props.title);
-    }, []);
+    }, [props.title]);
 
     const handleRename = async () => {
         try {
@@ -47,9 +49,9 @@ const RenameListModel = (props) => {
 
     }
     return (
-        <div className="modal">
-            <div onClick={props.toggleRenameListModal} className="overlay"></div>
-            <div className="modal-content">
+        <div className={styles.modal}>
+            <div onClick={props.toggleRenameListModal} className={styles.overlay}></div>
+            <div className={styles.modalContent}>
                 <div style={{ marginBottom: '10px' }}>
                     <label style={{ display: 'block', marginBottom: '5px', fontSize: '16px', fontWeight: 'bold' }}>Progress stage name:</label>
                     <input type="text" value={listTitle} onChange={listTitleHandler} ref={inputRef} style={{ padding: '10px', fontSize: '16px', borderRadius: '3px', border: '1px solid #ccc', width: '100%', boxSizing: 'border-box' }} />
@@ -59,7 +61,7 @@ const RenameListModel = (props) => {
 
                     </div >
                     {isEmpty && (
-                        <div className="aa" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: '#f2dede', color: 'red', marginTop: '10px', padding: '10px', borderRadius: '3px', border: '1px solid #ebccd1' }}>
+                        <div className={styles.aa} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: '#f2dede', color: 'red', marginTop: '10px', padding: '10px', borderRadius: '3px', border: '1px solid #ebccd1' }}>
 
                             <p style={{ margin: '0', fontSize: '16px' }}>Progress stage can not be empty.</p>
 

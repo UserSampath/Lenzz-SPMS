@@ -240,6 +240,7 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
   }
   const [showRenameListModal, SetShowRenameListModal] = useState(false);
   const toggleRenameListModal = () => {
+    console.log("vvvv")
     SetShowRenameListModal(!showRenameListModal);
   };
 
@@ -356,12 +357,13 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
                   width: "100%",
                   marginBottom: 10
                 }}>
-                  <h3 style={{
+                  <h5 style={{
                     textAlign: "center",
                     marginTop: "3px",
+                    overflow:"hidden",
                     flex: 1, // this  make the h3 take up the remining spce
                     marginBottom: 0 // remove any margin  afect the alignment
-                  }}>{title}</h3>
+                  }}>{title}</h5>
                   <div onClick={handleThreeDoteButtonClick}>
                     <FaEllipsisH style={{ marginRight: "5px", marginLeft: 10, cursor: "pointer" }} />
                   </div>
@@ -381,19 +383,18 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
                 {provided.placeholder}
                 <button style={{
                   display: "flex",
+                  flexDirection: "row",
                   alignItems: "center",
                   cursor: "pointer",
                   border: "none",
                   borderRadius: "5px",
-                  height: 36,
-                  width: "130px",
-                  paddingLeft: "5px",
-                  marginLeft: 130,
+                  height: "36px",
+                  width: "120px",
+                  padding: "5px",
+                  marginLeft: "120px",
                   backgroundColor: "#DEF3FD",
                 }} onClick={toggleCreateTaskModal} className="btn-modal">
-                  <p style={{
-                    marginLeft: 6
-                  }}>add card</p>
+                  <p style={{ margin: "0 6px" }}>add card</p>
                   <FaPlus style={{ marginLeft: "10px" }} />
                 </button>
               </div>

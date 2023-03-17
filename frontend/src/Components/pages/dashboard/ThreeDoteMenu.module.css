@@ -1,14 +1,15 @@
 .buttonContainerTDM {
-  zindex: 9999;
+  zindex: 1;
   position: absolute;
 }
 .buttonGroupTDM {
+  height: 30px;
   width: 100%;
-  padding: 10px;
+  padding: 3px;
   font-weight: bold;
   background-color: #4caf50;
   color: white;
-  border: none;
+  border: 5px;
   border-radius: 4px;
   margin-bottom: 5px;
   cursor: pointer;

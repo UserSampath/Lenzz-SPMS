@@ -42,23 +42,20 @@ const ListButton = (props) => {
       <div className="aa"
         onClick={openForm}
         style={{
-
           display: "flex",
           alignItems: "center",
+          justifyContent: "center",
           cursor: "pointer",
           borderRadius: 3,
           height: 36,
           width: "262px",
-          paddingLeft: 10,
-          minWidth:"200px",
-
-          color: " black",
+          minWidth: "200px",
+          color: "black",
           backgroundColor: "#def3fd"
         }}
       >
-        <p style={{ marginRight: "5px", marginLeft: 20,  }}>Add another list</p>
-        <FaPlus style={{ marginRight: "5px", marginLeft: 20 }} />
-
+        <FaPlus style={{ marginRight: "5px" }} />
+        <p style={{ margin: 0 }}>Add another list</p>
       </div>
     );
   };
@@ -97,12 +94,23 @@ const ListButton = (props) => {
         }}>
           <div
             onMouseDown={handleAddList}
-            // variant="contained"
-            style={{ backgroundColor: "#def3fd", border: "1px", padding: "0px 10px", paddingLeft: "0px", display: "flex", alignItems: "center", width: "130px" }}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              cursor: "pointer",
+              borderRadius: 3,
+              height: 36,
+              width: "262px",
+              minWidth: "200px",
+              color: "black",
+              backgroundColor: "#def3fd"
+            }}
           >
-            <FaPlus style={{ marginRight: "5px", marginLeft: 10 }} />
-            <p style={{ marginLeft: 10 }}>Add list</p>
+            <FaPlus style={{ marginRight: "5px" }} />
+            <p style={{ margin: 0 }}>Add list</p>
           </div>
+
           {/* <Icon style={{ marginLeft: 8, cursor: "pointer" }}>close</Icon> */}
         </div>
       </div>
