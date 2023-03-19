@@ -13,14 +13,18 @@ import {
 } from "@chakra-ui/modal";
 import axios from "axios";
 import { useToast } from "@chakra-ui/toast";
-import { Menu, MenuButton } from "@chakra-ui/menu";
+import { Menu, MenuButton, MenuIcon, MenuItem, MenuList } from "@chakra-ui/menu";
 import { Input } from "@chakra-ui/input";
 import { ChatState } from "./../../../../context/ChatProvider";
 import ChatLoading from "../ChatLoading";
 import UserListItem from "../UserDetails/UserListItem";
 import { Spinner } from "@chakra-ui/spinner";
+import { getSender } from "../config/ChatLogics";
+import { Effect } from "react-notification-badge";
+import NotificationBadge from "react-notification-badge";
+
 const SideDrawer = () => {
-  const { user, setSelectedChat, chats, setChats } = ChatState();
+  const { user, setSelectedChat, chats, setChats ,notification, setNotification} = ChatState();
   const [search, setSearch] = useState("");
   const [searchResult, setSearchResult] = useState([]);
   const [loadingChat, setLoadingChat] = useState();
@@ -71,6 +75,7 @@ const SideDrawer = () => {
           Authorization: `Bearer ${user.token}`,
         },
       };
+      //api request
       const { data } = await axios.post("/api/chat", { userId }, config);
       if (!chats.find((c) => c._id === data._id)) setChats([data, ...chats]);
 
@@ -95,13 +100,13 @@ const SideDrawer = () => {
         justifyContent="space-between"
         alignItems="center"
         bg="white"
-        w="300%"
+        w="212%"
         p="5px 10px 5px 10px"
         borderWidth="5px"
       >
         <Tooltip label="Search Users to chat" hasArrow placement="bottom-end">
           <Button variant="ghost" onClick={onOpen}>
-            <i className="fa fa-search"></i>
+            <i className="fa fa-search"></i> 
             <Text display={{ base: "none", md: "flex" }} px="4">
               Search User
             </Text>
@@ -113,8 +118,28 @@ const SideDrawer = () => {
         <div>
           <Menu>
             <MenuButton p={1}>
+              <NotificationBadge
+              count={notification.length}
+              effect={Effect.SCALE}
+              />
               <BellIcon fontSize="2xl" m={1}/>
             </MenuButton>
+            <MenuList pl={2}>
+              {!notification.length && "No New Messages"}
+               {notification.map((notif) => (
+                <MenuItem
+                  key={notif._id}
+                  onClick={() => {
+                    setSelectedChat(notif.chat);
+                    setNotification(notification.filter((n) => n !== notif));
+                  }}
+                >
+                  {notif.chat.isGroupChat
+                    ? `New Message in ${notif.chat.chatName}`
+                    : `New Message from ${getSender(user, notif.chat.users)}`}
+                </MenuItem>
+              ))}
+            </MenuList>
           </Menu>
         </div>
       </Box>

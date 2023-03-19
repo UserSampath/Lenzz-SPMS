@@ -9,22 +9,23 @@ import {
 import { ChatState } from "../../../context/ChatProvider";
 import { Tooltip } from "@chakra-ui/tooltip";
 import { Avatar } from "@chakra-ui/avatar";
-const ScrollableChat = ({ messages }) => {
+const  ScrollableChat = ({ messages }) => {
   const { user } = ChatState();
   return (
-    <ScrollableFeed>
+  <ScrollableFeed>
       {messages &&
         messages.map((m, i) => (
           <div style={{ display: "flex" }} key={m._id}>
             {(isSameSender(messages, m, i, user._id) ||
               isLastMessage(messages, i, user._id)) && (
-              <Tooltip label={m.sender.name} placement="bottom-start" hasArrow>
+              <Tooltip label={m.sender.firstName} placement="bottom-start" hasArrow>
                 <Avatar
                   mt="7px"
                   mr={1}
                   size="sm"
                   cursor="pointer"
                   name={m.sender.firstName}
+                  
                 />
               </Tooltip>
             )}
@@ -38,6 +39,7 @@ const ScrollableChat = ({ messages }) => {
                 borderRadius: "20px",
                 padding: "5px 15px",
                 maxWidth: "75%",
+               
               }}
             >
               {m.content}
@@ -47,5 +49,6 @@ const ScrollableChat = ({ messages }) => {
     </ScrollableFeed>
   );
 };
+
 
 export default ScrollableChat;

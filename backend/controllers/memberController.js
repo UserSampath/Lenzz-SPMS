@@ -135,6 +135,7 @@ const reset = async (req, res) => {
     res.status(401).json({ status: 401, error });
   }
 };
+//serch users (api/user)
 const allUsers = asyncHandler(async (req, res) => {
   const keyword = req.query.search
     ? {

@@ -24,6 +24,7 @@ app.use(
   })
 );
 // middleware
+
 app.use(express.json());
 
 mongoose.set("strictQuery", true);
@@ -69,14 +70,15 @@ mongoose
 
       if(!chat.users) return console.log("chat.users not defined");
 
-      chat.user.forEach(user =>{
+      chat.users.forEach(user =>{
         if(user._id == newMessageRecieved.sender._id) return;
 
         socket.in(user._id).emit("message received",newMessageRecieved);
       })
     })
-    socket.on('disconnect', () => {
+    socket.off("setup", () => {
     console.log("USER DISCONNECTED");
+    socket.leave(userData._id);
   });
   })
     });

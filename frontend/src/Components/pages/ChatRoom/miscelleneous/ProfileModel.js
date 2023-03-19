@@ -5,13 +5,13 @@ import { Box, Text} from "@chakra-ui/layout";
 import { IconButton,Button } from '@chakra-ui/button';
 import { ModalContent, Modal,
     ModalOverlay,
-
     ModalHeader,
     ModalFooter,
     ModalBody,
     ModalCloseButton, } from '@chakra-ui/modal';
     import { Image} from "@chakra-ui/image";
-const ProfileModel = ({ user, children }) => {
+import { Avatar } from '@chakra-ui/avatar';
+    const ProfileModel = ({ user, children }) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -19,32 +19,39 @@ const ProfileModel = ({ user, children }) => {
     {children ? (
       <span onClick={onOpen}>{children}</span>
     ) : (
-      <IconButton d={{ base: "flex" }} icon={<ViewIcon />} onClick={onOpen} />
+      <IconButton 
+      display={{ base: "flex" }} 
+      icon={<ViewIcon />} 
+      onClick={onOpen} />
     )}
-    <Modal size="lg" onClose={onClose} isOpen={isOpen} isCentered>
+    <Modal size="lg" onClose={onClose} isOpen={isOpen} isCentered >
       <ModalOverlay />
-      <ModalContent h="410px">
+      <ModalContent >
         <ModalHeader
           fontSize="40px"
           fontFamily="Work sans"
-          d="flex"
+          display="flex"
           justifyContent="center"
         >
-          {user.name}
+          {user.firstName}
         </ModalHeader>
         <ModalCloseButton />
         <ModalBody
-          d="flex"
+          display="flex"
           flexDir="column"
           alignItems="center"
           justifyContent="space-between"
         >
-          <Image
+          {/* <Image
             borderRadius="full"
             boxSize="150px"
             src={user.pic}
             alt={user.name}
-          />
+          /> */}
+          <Avatar
+          size="xl"
+          name={user.firstName}
+          src={user.pic}/>
           <Text
             fontSize={{ base: "28px", md: "30px" }}
             fontFamily="Work sans"

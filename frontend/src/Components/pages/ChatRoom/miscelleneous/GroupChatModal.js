@@ -11,7 +11,7 @@ import {
   ModalCloseButton,
 } from "@chakra-ui/react";
 import { useToast } from "@chakra-ui/toast";
-import { Box, Text } from "@chakra-ui/layout";
+import { Box } from "@chakra-ui/layout";
 
 import { ChatState } from "../../../../context/ChatProvider";
 import { FormControl } from "@chakra-ui/form-control";
@@ -160,8 +160,8 @@ const GroupChatModal = ({ children }) => {
             <Box w="100%" display="flex" flexWrap="wrap">
               {selectedUsers.map((u) => (
                 <UserBadgeItem
-                  key={u._id}
-                  user={u}
+                  key={user._id}
+                  user={user}
                   handleFunction={() => handleDelete(u)}
                 />
               ))}

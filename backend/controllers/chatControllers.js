@@ -17,7 +17,7 @@ const accesChat = asyncHandler(async (req, res) => {
         { users: { $elemMatch: { $eq: userId } } },
       ],
     })
-      .populate("users", "-password")
+      .populate("users", "-password")  //if chat found
       .populate("latestMessage");
   
     isChat = await User.populate(isChat, {
@@ -48,15 +48,13 @@ const accesChat = asyncHandler(async (req, res) => {
     }
   });
 
-
-
   const fetchChats = asyncHandler(async (req, res) => {
     try {
       Chat.find({ users: { $elemMatch: { $eq: req.user._id } } })
         .populate("users", "-password")
         .populate("groupAdmin", "-password")
         .populate("latestMessage")
-        .sort({ updatedAt: -1 })
+        .sort({ updatedAt: -1 })  //decending order
         .then(async (results) => {
           results = await User.populate(results, {
             path: "latestMessage.sender",
@@ -83,7 +81,7 @@ const accesChat = asyncHandler(async (req, res) => {
         .send("More than 2 users are required to form a group chat");
     }
   
-    users.push(req.user);
+    users.push(req.user);   //logged in current user
   
     try {
       const groupChat = await Chat.create({
@@ -126,11 +124,11 @@ const accesChat = asyncHandler(async (req, res) => {
       res.json(updatedChat);
     }
   });
+
   const addToGroup = asyncHandler(async (req, res) => {
     const { chatId, userId } = req.body;
   
     // check if the requester is admin
-  
     const added = await Chat.findByIdAndUpdate(
       chatId,
       {
@@ -150,29 +148,37 @@ const accesChat = asyncHandler(async (req, res) => {
       res.json(added);
     }
   });
+const removeFromGroup = asyncHandler(async (req, res) => {
+  const { chatId, userId } = req.body;
 
-  const removeFromGroup = asyncHandler(async (req, res) => {
-    const { chatId, userId } = req.body;
-  
-    // check if the requester is admin
-  
-    const removed = await Chat.findByIdAndUpdate(
-      chatId,
-      {
-        $pull: { users: userId },
-      },
-      {
-        new: true,
-      }
-    )
-      .populate("users", "-password")
-      .populate("groupAdmin", "-password");
-  
-    if (!removed) {
-      res.status(404);
-      throw new Error("Chat Not Found");
-    } else {
-      res.json(removed);
+  // Get the chat
+  const chat = await Chat.findById(chatId);
+
+  if (!chat) {
+    res.status(404);
+    throw new Error("Chat Not Found");
+  }
+
+  // Check if the requester is the group admin
+  if (chat.groupAdmin.toString() !== req.user._id.toString()) {
+    res.status(401);
+    throw new Error("You are not authorized to perform this action");
+  }
+
+  // Remove the user from the group
+  const removed = await Chat.findByIdAndUpdate(
+    chatId,
+    {
+      $pull: { users: userId },
+    },
+    {
+      new: true,
     }
-  });
+  )
+    .populate("users", "-password")
+    .populate("groupAdmin", "-password");
+
+  res.json(removed);
+});
+
 module.exports= {removeFromGroup,accesChat,fetchChats,createGroupChat,renameGroup,addToGroup}; //}
