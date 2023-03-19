@@ -108,7 +108,7 @@ const CreateCompany = () => {
               Enter your company details to register
             </p>
             <h5 className="mb-4">OR</h5>
-            <NavLink to="/" className="btn btn-outline-light pb-2 w-50">
+            <NavLink to="/login" className="btn btn-outline-light pb-2 w-50">
               Login
             </NavLink>
           </div>

@@ -4,7 +4,6 @@ import "./Company.css";
 import { Button, Modal, Form } from "react-bootstrap";
 import { useProjectContext } from "../../../hooks/useProjectContext";
 import { useNavigate } from "react-router-dom";
-import { FaCog } from "react-icons/fa";
 import { useAuthContext } from "./../../../hooks/useAuthContext";
 
 const Company = () => {

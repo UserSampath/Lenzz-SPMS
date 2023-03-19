@@ -34,15 +34,35 @@ function App() {
             path="/Methods"
             element={user ? <Methods /> : <Navigate to="/login" />}
           />
-          <Route path="/EnterCompany" element={<EnterCompany />} />
+          <Route
+            path="/EnterCompany"
+            element={user ? <EnterCompany /> : <Navigate to="/login" />}
+          />
           <Route path="/CreateCompany" element={<CreateCompany />} />
-          .
-          <Route path="/Progress" element={<Progress />} />
-          <Route path="/ChatRoom" element={<Chatroom />} />
-          <Route path="/Settings" element={<Settings />} />
-          <Route path="/Company" element={<Company />} />
-          <Route path="/" element={<DashboardProvider />} />
-          <Route path="/AccountSettings" element={<AccountSettings />} />
+          <Route
+            path="/Progress"
+            element={user ? <Progress /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="/ChatRoom"
+            element={user ? <Chatroom /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="/Settings"
+            element={user ? <Settings /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="/Company"
+            element={user ? <Company /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="/"
+            element={user ? <DashboardProvider /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="/AccountSettings"
+            element={user ? <AccountSettings /> : <Navigate to="/login" />}
+          />
         </Routes>
       </BrowserRouter>
     </div>

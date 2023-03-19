@@ -17,3 +17,9 @@ input.error {
   font-size: 80%;
   color: #dc3545;
 }
+.invalid-strong-password {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: 80%;
+  color: #dc3545;
+}

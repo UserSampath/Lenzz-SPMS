@@ -1,56 +1,71 @@
 import { NavLink } from "react-router-dom";
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./Register.css";
 import useSignup from "../../hooks/useSignup";
 import { Dropdown } from "react-bootstrap";
-
+import {
+  faCheck,
+  faTimes,
+  faInfoCircle,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+const EMAIL_REGEX = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
+const NAME_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const Register = () => {
+  const userRef = useRef();
+  const errRef = useRef();
+
   const [firstName, setFirstName] = useState("");
+  const [validFirstName, setValidFirstName] = useState(false);
+  const [FirstNameFocus, setFirstNameFocus] = useState(false);
+
   const [lastName, setLastName] = useState("");
+  const [validLastName, setValidLastName] = useState(false);
+  const [LastNameFocus, setLastNameFocus] = useState(false);
+
   const [email, setEmail] = useState("");
+  const [validEmail, setValidEmail] = useState(false);
+  const [EmailFocus, setEmailFocus] = useState(false);
+
   const [password, setPassword] = useState("");
+  const [validPassword, setValidPassword] = useState(false);
+  const [passwordFocus, setPasswordFocus] = useState(false);
+
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [firstNameTouched, setFirstNameTouched] = useState("");
-  const [lastNameTouched, setLastNameTouched] = useState("");
-  const [emailTouched, setEmailTouched] = useState("");
-  const [passwordTouched, setPasswordTouched] = useState("");
-  const [confirmPasswordTouched, setConfirmPasswordTouched] = useState("");
+  const [validConfirmPassword, setValidConfirmPassword] = useState(false);
+  const [ConfirmpasswordFocus, setConfirmPasswordFocus] = useState(false);
+
   const options = ["SYSTEM ADMIN", "DEVELOPER", "TEAM LEAD", "PROJECT MANAGER"];
   const [selectedJob, setSelectedJob] = useState("");
   const { signup, isLoading, error } = useSignup();
+  const [errMsg, setErrMsg] = useState("");
+
+  useEffect(() => {
+    userRef.current.focus();
+  }, []);
+  useEffect(() => {
+    setValidFirstName(NAME_REGEX.test(firstName));
+  }, [firstName]);
+  useEffect(() => {
+    setValidLastName(NAME_REGEX.test(lastName));
+  }, [lastName]);
+  useEffect(() => {
+    setValidEmail(EMAIL_REGEX.test(email));
+  }, [email]);
+  useEffect(() => {
+    setValidPassword(PWD_REGEX.test(password));
+    setValidConfirmPassword(password === confirmPassword);
+  }, [password, confirmPassword]);
+  useEffect(() => {
+    setErrMsg("");
+  }, [firstName, lastName, email, password, confirmPassword]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (password !== confirmPassword) {
-      setConfirmPassword("");
-      document.getElementById("confirmPassword").classList.add("is-invalid");
-      return;
-    }
 
     await signup(email, password, firstName, lastName, selectedJob);
   };
-  const handleFirstNameBlur = () => {
-    setFirstNameTouched(true);
-  };
-
-  const handleLastNameBlur = () => {
-    setLastNameTouched(true);
-  };
-  const handleEmailBlur = () => {
-    setEmailTouched(true);
-  };
-
-  const handlePasswordBlur = () => {
-    setPasswordTouched(true);
-  };
-  const handleConfirmPasswordBlur = () => {
-    setConfirmPasswordTouched(true);
-  };
-  const isFirstNameInvalid = !firstName && firstNameTouched;
-  const isLastNameInvalid = !password && lastNameTouched;
-  const isEmailInvalid = !email && emailTouched;
-  const isPasswordInvalid = !password && passwordTouched;
-  const isConfirmPasswordInvalid = !confirmPassword && confirmPasswordTouched;
 
   const handleOptionChange = (eventKey) => {
     setSelectedJob(options[eventKey]);
@@ -74,113 +89,235 @@ const Register = () => {
               className="mform"
               style={{ width: "450px", marginLeft: "50px" }}
             >
-              <form className="needs-validation " onSubmit={handleSubmit}>
+              <form className="needs-validation" onSubmit={handleSubmit}>
+                <p
+                  ref={errRef}
+                  className={errMsg ? "errmsg" : "offscreen"}
+                  aria-live="assertive"
+                >
+                  {errMsg}
+                </p>
                 <div className="mb-3">
-                  <label htmlFor="First name" className="form-label">
-                    First name
+                  <label htmlFor="email">
+                    FirstName:
+                    <FontAwesomeIcon
+                      icon={faCheck}
+                      className={validFirstName ? "valid" : "hide"}
+                    />
+                    <FontAwesomeIcon
+                      icon={faTimes}
+                      className={
+                        validFirstName || !firstName ? "hide" : "invalid"
+                      }
+                    />
                   </label>
                   <input
                     type="text"
-                    className={`form-control ${
-                      isFirstNameInvalid ? "is-invalid" : ""
-                    }`}
+                    className="form-control"
                     id="firstname"
+                    ref={userRef}
+                    autoComplete="off"
                     onChange={(e) => setFirstName(e.target.value)}
-                    onBlur={handleFirstNameBlur}
-                    value={firstName}
                     required
+                    aria-invalid={validFirstName ? "false" : "true"}
+                    aria-describedby="uidnote"
+                    onFocus={() => setFirstNameFocus(true)}
+                    onBlur={() => setEmailFocus(false)}
+                    value={firstName}
                   />
-                  {isFirstNameInvalid && (
-                    <div className="invalid-feedback">
-                      Please Enter your First Name
-                    </div>
-                  )}
+
+                  <p
+                    id="uidnote"
+                    className={
+                      FirstNameFocus && firstName && !validFirstName
+                        ? "instructions"
+                        : "offscreen"
+                    }
+                  >
+                    <FontAwesomeIcon icon={faInfoCircle} />
+                    4 to 24 characters.
+                    <br />
+                    Must begin with a letter.
+                    <br />
+                    Letters, numbers, underscores, hyphens allowed.
+                  </p>
                 </div>
 
                 <div className="mb-3">
-                  <label htmlFor="Last name" className="form-label">
-                    Last name
+                  <label htmlFor="email">
+                    LastName:
+                    <FontAwesomeIcon
+                      icon={faCheck}
+                      className={validLastName ? "valid" : "hide"}
+                    />
+                    <FontAwesomeIcon
+                      icon={faTimes}
+                      className={
+                        validLastName || !lastName ? "hide" : "invalid"
+                      }
+                    />
                   </label>
                   <input
                     type="text"
                     className="form-control"
                     id="lastname"
+                    ref={userRef}
+                    autoComplete="off"
                     onChange={(e) => setLastName(e.target.value)}
-                    value={lastName}
-                    onBlur={handleLastNameBlur}
                     required
+                    aria-invalid={validLastName ? "false" : "true"}
+                    aria-describedby="uidnote"
+                    onFocus={() => setLastNameFocus(true)}
+                    onBlur={() => setLastNameFocus(false)}
+                    value={lastName}
                   />
-                  {isLastNameInvalid && (
-                    <div className="invalid-feedback">
-                      Please Enter your Last Name
-                    </div>
-                  )}
+                  <p
+                    id="uidnote"
+                    className={
+                      LastNameFocus && lastName && !validLastName
+                        ? "instructions"
+                        : "offscreen"
+                    }
+                  >
+                    <FontAwesomeIcon icon={faInfoCircle} />
+                    4 to 24 characters.
+                    <br />
+                    Must begin with a letter.
+                    <br />
+                    Letters, numbers, underscores, hyphens allowed.
+                  </p>
                 </div>
                 <div className="mb-3">
-                  <label htmlFor="exampleInputEmail1" className="form-label">
-                    Email address
+                  <label htmlFor="email">
+                    Email:
+                    <FontAwesomeIcon
+                      icon={faCheck}
+                      className={validEmail ? "valid" : "hide"}
+                    />
+                    <FontAwesomeIcon
+                      icon={faTimes}
+                      className={validEmail || !email ? "hide" : "invalid"}
+                    />
                   </label>
                   <input
                     type="email"
                     className="form-control"
-                    id="exampleInputEmail1"
-                    aria-describedby="emailHelp"
+                    ref={userRef}
+                    autoComplete="off"
                     onChange={(e) => setEmail(e.target.value)}
-                    onBlur={handleEmailBlur}
                     value={email}
                     required
+                    aria-invalid={validEmail ? "false" : "true"}
+                    aria-describedby="uidnote"
+                    onFocus={() => setEmailFocus(true)}
+                    onBlur={() => setEmailFocus(false)}
+                    id="exampleInputEmail1"
                   />
-                  {isEmailInvalid && (
-                    <div className="invalid-feedback">
-                      Please Enter your Email
-                    </div>
-                  )}
+                  <p
+                    id="uidnote"
+                    className={
+                      EmailFocus && email && !validEmail
+                        ? "instructions"
+                        : "offscreen"
+                    }
+                  >
+                    <FontAwesomeIcon icon={faInfoCircle} />
+                    @ matches the @ symbol.
+                    <br />
+                    Must begin with a letter.
+                  </p>
                   <div id="emailHelp" className="form-text">
                     We'll never share your email with anyone else.
                   </div>
                 </div>
                 <div className="mb-3">
-                  <label htmlFor="password" className="form-label">
-                    Password
+                  <label htmlFor="email">
+                    Password:
+                    <FontAwesomeIcon
+                      icon={faCheck}
+                      className={validPassword ? "valid" : "hide"}
+                    />
+                    <FontAwesomeIcon
+                      icon={faTimes}
+                      className={
+                        validPassword || !password ? "hide" : "invalid"
+                      }
+                    />
                   </label>
                   <input
                     type="password"
                     className="form-control"
-                    id="password"
                     onChange={(e) => setPassword(e.target.value)}
-                    onBlur={handlePasswordBlur}
-                    value={password}
+                    id="password"
                     required
+                    aria-invalid={validPassword ? "false" : "true"}
+                    aria-describedby="passwordnote"
+                    onFocus={() => setPasswordFocus(true)}
+                    onBlur={() => setPasswordFocus(false)}
                   />
-                  {isPasswordInvalid && (
-                    <div className="invalid-feedback">
-                      Please Enter your Password
-                    </div>
-                  )}
+                  <p
+                    id="passworddnote"
+                    className={
+                      passwordFocus && !validPassword
+                        ? "instructions"
+                        : "offscreen"
+                    }
+                  >
+                    <FontAwesomeIcon icon={faInfoCircle} />
+                    8 to 24 characters.
+                    <br />
+                    Must include uppercase and lowercase letters, a number and a
+                    special character.
+                    <br />
+                    Allowed special characters:{" "}
+                    <span aria-label="exclamation mark">!</span>{" "}
+                    <span aria-label="at symbol">@</span>{" "}
+                    <span aria-label="hashtag">#</span>{" "}
+                    <span aria-label="dollar sign">$</span>{" "}
+                    <span aria-label="percent">%</span>
+                  </p>
                 </div>
                 <div className="mb-3">
-                  <label htmlFor="Confirmpassword" className="form-label">
-                    Confirm Password
+                  <label htmlFor="confirm_pwd">
+                    Confirm Password:
+                    <FontAwesomeIcon
+                      icon={faCheck}
+                      className={
+                        validConfirmPassword && confirmPassword
+                          ? "valid"
+                          : "hide"
+                      }
+                    />
+                    <FontAwesomeIcon
+                      icon={faTimes}
+                      className={
+                        confirmPassword || !confirmPassword ? "hide" : "invalid"
+                      }
+                    />
                   </label>
                   <input
                     type="password"
+                    id="confirm_pwd"
                     className="form-control"
-                    id="password"
                     onChange={(e) => setConfirmPassword(e.target.value)}
-                    onBlur={handleConfirmPasswordBlur}
                     value={confirmPassword}
                     required
+                    aria-invalid={validConfirmPassword ? "false" : "true"}
+                    aria-describedby="confirmnote"
+                    onFocus={() => setConfirmPasswordFocus(true)}
+                    onBlur={() => setConfirmPasswordFocus(false)}
                   />
-                  {isConfirmPasswordInvalid && (
-                    <div className="invalid-feedback">
-                      Please Enter your Confirm Password
-                    </div>
-                  )}
-                  {password !== confirmPassword && (
-                    <div className="invalid-feedback invalid-confirm-password">
-                      Passwords do not match
-                    </div>
-                  )}
+                  <p
+                    id="confirmnote"
+                    className={
+                      ConfirmpasswordFocus && !validConfirmPassword
+                        ? "instructions"
+                        : "offscreen"
+                    }
+                  >
+                    <FontAwesomeIcon icon={faInfoCircle} />
+                    Must match the first password input field.
+                  </p>
                 </div>
 
                 <div className="mb-3">
