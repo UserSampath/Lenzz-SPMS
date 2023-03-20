@@ -3,11 +3,14 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 var nodemailer = require("nodemailer");
 const express = require("express");
+const validator = require("validator");
+const asyncHandler = require("express-async-handler");
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
 const createToken = (_id) => {
-  return jwt.sign({ _id }, process.env.SECRET, { expiresIn: "3d" });
+  return jwt.sign({ _id }, process.env.SECRET, { expiresIn: "1d" });
 };
 
 const keysecret = process.env.SECRET;
@@ -18,26 +21,28 @@ const transporter = nodemailer.createTransport({
     pass: "mfmpeqgzbjbxkcja",
   },
 });
+
 // login a user
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
-
   try {
     const user = await User.login(email, password);
-
-    // create a token
     const token = createToken(user._id);
-
-    res.status(200).json({ email, token, selectedJob: user.selectedJob });
+    res.status(200).json({
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email,
+      token,
+      selectedJob: user.selectedJob,
+    });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 };
 
-// signup a user
+//Signup a user
 const signupUser = async (req, res) => {
   const { firstName, lastName, email, password, selectedJob } = req.body;
-
   try {
     const user = await User.signup(
       firstName,
@@ -46,19 +51,16 @@ const signupUser = async (req, res) => {
       password,
       selectedJob
     );
-
-    // create a token
     const token = createToken(user._id);
-
     res.status(200).json({ email, token, selectedJob: user.selectedJob });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 };
 
+//Password Change
 const passwordlink = async (req, res) => {
   const { email } = req.body;
-
   try {
     const user = await User.forget(email);
     const userfind = await User.findOne({ email: email, user });
@@ -74,18 +76,18 @@ const passwordlink = async (req, res) => {
       const mailOptions = {
         from: "lenzzhasthiyit@gmail.com",
         to: email,
-        subject: "sending Email for password Reset",
-        text: `this link is valid for 2 minutes http://localhost:3000/forgotPassword/${userfind.id}/${setusertoken.verifytoken}`,
+        subject: "Sending Email for password Reset",
+        text: `This link is valid for 2 minutes http://localhost:3000/forgotPassword/${userfind.id}/${setusertoken.verifytoken}`,
       };
       transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
           console.log("error", error);
-          res.status(201).json({ status: 201, message: "email not send" });
+          res.status(201).json({ status: 201, message: "Email not send" });
         } else {
           console.log("Email sent", info.response);
           res
             .status(201)
-            .json({ status: 201, message: "email sent succsfully" });
+            .json({ status: 201, message: "Email sent succsfully" });
         }
       });
     }
@@ -93,7 +95,7 @@ const passwordlink = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
-
+//Check the user token
 const forgotpassword = async (req, res) => {
   const { id, token } = req.params;
   try {
@@ -117,7 +119,6 @@ const reset = async (req, res) => {
   try {
     const validuser = await User.findOne({ id: id, verifytoken: token });
     const verifyToken = jwt.verify(token, keysecret);
-
     if (validuser && verifyToken._id) {
       const newpassword = await bcrypt.hash(password, 12);
 
@@ -134,10 +135,52 @@ const reset = async (req, res) => {
     res.status(401).json({ status: 401, error });
   }
 };
+
+const updateUserProfile = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user._id);
+  if (user) {
+    user.firstName = req.body.firstName || user.firstName;
+    user.lastName = req.body.lastName || user.lastName;
+    user.email = req.body.email || user.email;
+    user.selectedJob = req.body.selectedJob || user.selectedJob;
+    if (req.body.password) {
+      user.password = await bcrypt.hash(req.body.password, 10);
+    }
+    const updatedUser = await user.save();
+    res.json({
+      _id: updatedUser._id,
+      firstName: updatedUser.firstName,
+      lastName: updatedUser.lastName,
+      email: updatedUser.email,
+      password: updatedUser.password,
+      selectedJob: updatedUser.selectedJob,
+      token: createToken(updatedUser._id),
+    });
+  } else {
+    res.status(404);
+    throw new Error("User not found");
+  }
+});
+const allUsers = asyncHandler(async (req, res) => {
+  const keyword = req.query.search
+    ? {
+        $or: [
+          { firstName: { $regex: req.query.search, $options: "i" } },
+          { email: { $regex: req.query.search, $options: "i" } },
+        ],
+      }
+    : {};
+
+  const users = await User.find(keyword).find({ _id: { $ne: req.user._id } });
+  res.send(users);
+  console.log(users);
+});
 module.exports = {
   passwordlink,
   signupUser,
   loginUser,
   forgotpassword,
   reset,
+  updateUserProfile,
+  allUsers,
 };

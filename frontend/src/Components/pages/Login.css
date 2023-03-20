@@ -40,3 +40,61 @@ div.errors {
 input.error {
   border: 1px solid var(--error);
 }
+.form-control:not(:focus):not(:placeholder-shown).is-valid {
+  border-color: rgba(26, 14, 159, 0.323);
+}
+.form-control:not(:focus):not(:placeholder-shown).is-invalid {
+  border-color: rgb(154, 10, 46);
+}
+.form-check-input[type="checkbox"]:checked {
+  background-color: blue;
+  border-color: blue;
+}
+.form-check-label {
+  color: blue;
+}
+
+.instructions {
+  font-size: 0.75rem;
+  border-radius: 0.5rem;
+  background: #ffffff;
+  color: #d25656;
+  padding: 0.25rem;
+  position: relative;
+  bottom: -10px;
+}
+
+.instructions > svg {
+  margin-right: 0.25rem;
+}
+
+.offscreen {
+  position: absolute;
+  left: -9999px;
+}
+
+.hide {
+  display: none;
+}
+
+.valid {
+  color: limegreen;
+  margin-left: 0.25rem;
+}
+
+.invalid {
+  color: red;
+  margin-left: 0.25rem;
+}
+
+.errmsg {
+  background-color: lightpink;
+  color: firebrick;
+  font-weight: bold;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.line {
+  display: inline-block;
+}

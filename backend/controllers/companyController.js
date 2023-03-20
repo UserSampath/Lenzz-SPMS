@@ -8,21 +8,27 @@ const createToken = (_id) => {
 const createCompany = async (req, res) => {
   const {
     companyname,
-    companykey,
+
     contactnumber,
     companyemail,
     companyaddress,
   } = req.body;
+  const { id, selectedJob } = req;
+  if (selectedJob != "SYSTEM ADMIN") {
+    return res.status(401).json({ error: "User is not authorized" });
+  }
 
   try {
+    const companyKey = generateRandomString(8);
     const user_id = req.user._id;
     const company = await Company.createcompany(
       companyname,
-      companykey,
+
       contactnumber,
       companyaddress,
       companyemail,
-      user_id
+      user_id,
+      companyKey
     );
     const token = createToken(company._id);
     res.status(200).json({ company, companyname, token });
@@ -33,7 +39,10 @@ const createCompany = async (req, res) => {
 
 const checkcompany = async (req, res) => {
   const { companykey } = req.body;
-
+  const { id, selectedJob } = req;
+  if (selectedJob === "SYSTEM ADMIN") {
+    return res.status(401).json({ error: "User is not authorized" });
+  }
   try {
     const company = await Company.checkcompany(companykey);
     const token = createToken(company._id);
@@ -42,7 +51,34 @@ const checkcompany = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
+
+const generateRandomString = (myLength) => {
+  try {
+    const chars =
+      "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890";
+    const randomArray = Array.from(
+      { length: myLength },
+      (v, k) => chars[Math.floor(Math.random() * chars.length)]
+    );
+
+    const randomString = randomArray.join("");
+    return randomString;
+  } catch (error) {
+    throw new Error("Failed to generate random string.");
+  }
+};
+
+const randomkey = async (req, res) => {
+  try {
+    const key = generateRandomString(8);
+    res.send(key);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 module.exports = {
   createCompany,
   checkcompany,
+  randomkey,
 };

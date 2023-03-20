@@ -32,9 +32,9 @@ const Sidebar = ({ children }) => {
   };
 
   let subMenu = document.getElementById("subMenu");
-  function toggleMenu() {
+  const toggleMenu = () => {
     subMenu.classList.toggle("open-menu");
-  }
+  };
   const menuItem = [
     {
       path: "/Company",
@@ -47,7 +47,7 @@ const Sidebar = ({ children }) => {
       icon: <FaRegChartBar />,
     },
     {
-      path: "/DashboardProvider",
+      path: "/",
       name: "Dashboard",
       icon: <FaThLarge />,
     },
@@ -97,7 +97,7 @@ const Sidebar = ({ children }) => {
                     <h5> {user.selectedJob}</h5>
                   </div>
                   <hr />
-                  <a href="#" className="sub-menu-link">
+                  <a href="/AccountSettings" className="sub-menu-link">
                     <CgProfile className="profile" />
                     <p>Edit Profile</p>
                     <span></span>

@@ -6,8 +6,11 @@ import { useAuthContext } from "./../../../hooks/useAuthContext";
 import { useProjectContext } from "../../../hooks/useProjectContext";
 function CircleProgress() {
   const [percentage, setPercentage] = useState("");
+  const [progress, setProgress] = useState("");
+  const [overallprogress, setOverallProgress] = useState("");
   const { user } = useAuthContext();
   const { projects, dispatch } = useProjectContext();
+
   useEffect(() => {
     const createDate = async () => {
       const res = await fetch("/api/project/changepersentage", {
@@ -16,10 +19,7 @@ function CircleProgress() {
           "Content-Type": "application/json",
           Authorization: `Bearer ${user.token} `,
         },
-        body: JSON.stringify({
-          startDate: "2023-02-20",
-          endDate: "2023-02-25",
-        }),
+        body: JSON.stringify({}),
       });
       const data = await res.json();
       console.log(res);
@@ -43,7 +43,46 @@ function CircleProgress() {
   } else {
     variant = "danger";
   }
-
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("/api/list/todo", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ index: 0 }),
+        });
+        const data = await response.json();
+        const percentage = data.percentage;
+        setProgress(percentage);
+        console.log(percentage);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchData();
+  }, []);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("/api/list/overall", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ index: 0 }),
+        });
+        const data = await response.json();
+        const percentage = data.percentage;
+        setOverallProgress(percentage);
+        console.log(percentage);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchData();
+  }, []);
   return (
     <div>
       <div style={{ display: "flex", justifyContent: "center" }}>
@@ -58,7 +97,7 @@ function CircleProgress() {
         >
           <div className="circle1">
             <label className="pname">ToDo</label>
-            <Bar progress={50} />
+            <Bar progress={progress} />
           </div>
         </div>
         <div
@@ -72,7 +111,7 @@ function CircleProgress() {
         >
           <div className="circle2">
             <label className="pname2">OverallProgress</label>
-            <Bar progress={15} />
+            <Bar progress={overallprogress} />
           </div>
         </div>
         <div

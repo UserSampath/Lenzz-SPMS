@@ -1,5 +1,4 @@
 const express = require("express");
-
 const {
   project,
   changepersentage,
@@ -9,10 +8,9 @@ const {
   updateProject,
 } = require("../controllers/projectController");
 const requireAuth = require("../middleware/requireAuth");
-const AdminAuth = require("../middleware/SystemAdmin");
 
 const router = express.Router();
-router.use(AdminAuth);
+
 router.use(requireAuth);
 router.post("/creatproject", project);
 router.get("/", getProjects);

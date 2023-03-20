@@ -1,15 +1,13 @@
 const express = require("express");
-
 const {
   createCompany,
   checkcompany,
+  randomkey,
 } = require("../controllers/companyController");
 const requireAuth = require("../middleware/requireAuth");
-const AdminAuth = require("../middleware/SystemAdmin");
-
 const router = express.Router();
 
-router.use(requireAuth);
-router.post("/createcompany", createCompany, AdminAuth);
-router.post("/checkcompany", checkcompany);
+router.post("/createcompany", requireAuth, createCompany);
+router.post("/checkcompany", requireAuth, checkcompany);
+router.get("/randomkey", randomkey);
 module.exports = router;

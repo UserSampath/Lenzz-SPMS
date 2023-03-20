@@ -6,6 +6,7 @@ import { useAuthContext } from "./../../../hooks/useAuthContext";
 
 function EnterCompany() {
   const [companykey, setCompanykey] = useState("");
+  const [companykeyTouched, setCompanykeyTouched] = useState("");
   const { user } = useAuthContext();
   const { dispatch } = useCompanyContext();
   const [error, setError] = useState(null);
@@ -31,7 +32,7 @@ function EnterCompany() {
       setError(json.error);
     }
     if (response.ok) {
-      history("/Dashboard");
+      history("/DashboardProvider");
 
       setCompanykey("");
 
@@ -40,7 +41,12 @@ function EnterCompany() {
       dispatch({ type: "COMPANY_KEY", payload: json });
     }
   };
+  const handleCompanykeyBlur = () => {
+    setCompanykeyTouched(true);
+  };
 
+  const isCompanykeyInvalid = !companykey && companykeyTouched;
+  const isCompanykeyValid = companykey && !isCompanykeyInvalid;
   return (
     <div>
       <div className="container shadow my-5">
@@ -48,7 +54,6 @@ function EnterCompany() {
           <div className="col-md-6 d-flex flex-column align-items-center text-white justify-content-center order-2 form ">
             <h1 className="display-4 fw-bolder">JOIN THE COMPANY</h1>
             <p className="lead text-center">Enter your Credentials </p>
-            <h5 className="mb-4">OR</h5>
           </div>
           <div className="col-md-6 p-5  ">
             <h1 className="display-6 fw-bolder mb-5">JOIN WITH YOUR COMPANY</h1>
@@ -56,23 +61,37 @@ function EnterCompany() {
               className="lg"
               style={{ marginLeft: "95px", marginTop: "125px" }}
             >
-              <form className="mt-5" onSubmit={handleSubmit}>
+              <form className="mt-5 needs-validation" onSubmit={handleSubmit}>
                 <div className="mb-4 w-75">
                   <label htmlFor="exampleInputEmail1" className="form-label">
                     Enter Company key
                   </label>
                   <input
                     type="text"
-                    className="form-control"
+                    className={`form-control ${
+                      isCompanykeyInvalid ||
+                      (!isCompanykeyValid && companykeyTouched)
+                        ? "is-invalid"
+                        : isCompanykeyValid
+                        ? "is-valid"
+                        : ""
+                    }`}
                     id="exampleInputEmail1"
                     onChange={(e) => setCompanykey(e.target.value)}
+                    onBlur={handleCompanykeyBlur}
                     value={companykey}
                   />
+                  {(isCompanykeyInvalid ||
+                    (!isCompanykeyValid && companykeyTouched)) && (
+                    <div className="invalid-feedback">
+                      Please enter a valid Company Key
+                    </div>
+                  )}{" "}
                 </div>
 
                 <button
                   type="submit"
-                  className="btn btn-primary w-75  rounded-pill mt-3 h-25 p-20"
+                  className="btn btn-primary w-75   mt-3 h-25 p-20"
                 >
                   Submit
                 </button>

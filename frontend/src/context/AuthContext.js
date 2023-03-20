@@ -6,6 +6,8 @@ export const authReducer = (state, action) => {
   switch (action.type) {
     case "LOGIN":
       return { user: action.payload };
+    case "UPDATEUSER":
+      return { user: action.payload };
     case "LOGOUT":
       return { user: null };
 
@@ -23,6 +25,9 @@ export const AuthContextProvider = ({ children }) => {
 
     if (user) {
       dispatch({ type: "LOGIN", payload: user });
+    }
+    if (user) {
+      dispatch({ type: "UPDATEUSER", payload: user });
     }
   }, []);
   console.log("AuthContext state:", state);
