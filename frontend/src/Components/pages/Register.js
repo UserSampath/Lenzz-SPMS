@@ -9,7 +9,7 @@ import {
   faInfoCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-const EMAIL_REGEX = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+const EMAIL_REGEX = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 const NAME_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const Register = () => {
@@ -124,6 +124,7 @@ const Register = () => {
                     onFocus={() => setFirstNameFocus(true)}
                     onBlur={() => setEmailFocus(false)}
                     value={firstName}
+                    placeholder="Enter your first name..."
                   />
 
                   <p
@@ -170,6 +171,7 @@ const Register = () => {
                     onFocus={() => setLastNameFocus(true)}
                     onBlur={() => setLastNameFocus(false)}
                     value={lastName}
+                    placeholder="Enter your last name..."
                   />
                   <p
                     id="uidnote"
@@ -212,6 +214,7 @@ const Register = () => {
                     onFocus={() => setEmailFocus(true)}
                     onBlur={() => setEmailFocus(false)}
                     id="exampleInputEmail1"
+                    placeholder="Enter your email..."
                   />
                   <p
                     id="emailnote"
@@ -254,6 +257,7 @@ const Register = () => {
                     aria-describedby="passwordnote"
                     onFocus={() => setPasswordFocus(true)}
                     onBlur={() => setPasswordFocus(false)}
+                    placeholder="Enter your password..."
                   />
                   <p
                     id="passworddnote"
@@ -306,6 +310,7 @@ const Register = () => {
                     aria-describedby="confirmnote"
                     onFocus={() => setConfirmPasswordFocus(true)}
                     onBlur={() => setConfirmPasswordFocus(false)}
+                    placeholder="Enter your Confirm password..."
                   />
                   <p
                     id="confirmnote"

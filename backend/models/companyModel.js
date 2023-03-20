@@ -11,7 +11,6 @@ const companySchema = new Schema({
     type: String,
     required: true,
   },
-
   contactnumber: {
     type: Number,
     required: true,
@@ -24,15 +23,18 @@ const companySchema = new Schema({
     type: String,
     required: true,
   },
+  companyKey: {
+    type: String,
+  },
 });
 
 companySchema.statics.createcompany = async function (
   companyname,
-
   contactnumber,
   companyaddress,
   companyemail,
-  user_id
+  user_id,
+  companyKey
 ) {
   if (!companyname || !contactnumber || !companyaddress || !companyemail) {
     const coname = await this.findOne({ companyname });
@@ -54,6 +56,7 @@ companySchema.statics.createcompany = async function (
     contactnumber,
     companyaddress,
     user_id,
+    companyKey,
   });
   return company;
 };

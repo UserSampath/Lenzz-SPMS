@@ -19,6 +19,7 @@ const createCompany = async (req, res) => {
   }
 
   try {
+    const companyKey = generateRandomString(8);
     const user_id = req.user._id;
     const company = await Company.createcompany(
       companyname,
@@ -26,7 +27,8 @@ const createCompany = async (req, res) => {
       contactnumber,
       companyaddress,
       companyemail,
-      user_id
+      user_id,
+      companyKey
     );
     const token = createToken(company._id);
     res.status(200).json({ company, companyname, token });
@@ -78,6 +80,5 @@ const randomkey = async (req, res) => {
 module.exports = {
   createCompany,
   checkcompany,
-
   randomkey,
 };

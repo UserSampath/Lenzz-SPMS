@@ -10,7 +10,7 @@ import {
   faInfoCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-const EMAIL_REGEX = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+const EMAIL_REGEX = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 const TEXT_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const CONTECTNUMBER_REGEX = /^\d{10}$/;
 const ADDRESS = /^[A-z][A-z0-9-_]{3,23}$/;
@@ -96,10 +96,12 @@ const CreateCompany = () => {
       setcontactnumber("");
       setcompanyaddress("");
       setError(null);
+
       console.log("New company created", json);
+      console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", json.company.companyKey);
+      setcompanyKey(json.company.companyKey);
       setShowModal(true);
       dispatch({ type: "COMPANY_CREATE", payload: json });
-      handlekey(user);
     }
   };
 
@@ -107,32 +109,6 @@ const CreateCompany = () => {
     setRedirectToCompany(true);
     handleClose();
     history("/Company");
-  };
-
-  const handlekey = async (user) => {
-    if (!user) {
-      setError("You must be logged in");
-      return;
-    }
-    try {
-      const response = await fetch("/api/company/randomkey", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`,
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to fetch key");
-      }
-
-      const key = await response.text();
-      setcompanyKey(key);
-      console.log(key);
-    } catch (error) {
-      console.error(error);
-    }
   };
 
   return (
@@ -189,6 +165,7 @@ const CreateCompany = () => {
                     onFocus={() => setCompanyNameFocus(true)}
                     onBlur={() => setCompanyNameFocus(false)}
                     value={companyname}
+                    placeholder="Enter company name"
                   />
                   <p
                     className={
@@ -275,6 +252,7 @@ const CreateCompany = () => {
                     autoComplete="on"
                     onFocus={() => setContactNumberFocus(true)}
                     onBlur={() => setContactNumberFocus(false)}
+                    placeholder="Enter your Contact Number"
                   />
                   <p
                     id="uidnote"
