@@ -36,7 +36,7 @@ const Register = () => {
   const [validConfirmPassword, setValidConfirmPassword] = useState(false);
   const [ConfirmpasswordFocus, setConfirmPasswordFocus] = useState(false);
 
-  const options = ["SYSTEM ADMIN", "DEVELOPER", "TEAM LEAD", "PROJECT MANAGER"];
+  const options = ["SYSTEM ADMIN", "DEVELOPER", "PROJECT MANAGER"];
   const [selectedJob, setSelectedJob] = useState("");
   const { signup, isLoading, error } = useSignup();
   const [errMsg, setErrMsg] = useState("");
@@ -116,7 +116,7 @@ const Register = () => {
                     className="form-control"
                     id="firstname"
                     ref={userRef}
-                    autoComplete="off"
+                    autoComplete="on"
                     onChange={(e) => setFirstName(e.target.value)}
                     required
                     aria-invalid={validFirstName ? "false" : "true"}
@@ -162,7 +162,7 @@ const Register = () => {
                     className="form-control"
                     id="lastname"
                     ref={userRef}
-                    autoComplete="off"
+                    autoComplete="on"
                     onChange={(e) => setLastName(e.target.value)}
                     required
                     aria-invalid={validLastName ? "false" : "true"}
@@ -203,18 +203,18 @@ const Register = () => {
                     type="email"
                     className="form-control"
                     ref={userRef}
-                    autoComplete="off"
+                    autoComplete="on"
                     onChange={(e) => setEmail(e.target.value)}
                     value={email}
                     required
                     aria-invalid={validEmail ? "false" : "true"}
-                    aria-describedby="uidnote"
+                    aria-describedby="emailnote"
                     onFocus={() => setEmailFocus(true)}
                     onBlur={() => setEmailFocus(false)}
                     id="exampleInputEmail1"
                   />
                   <p
-                    id="uidnote"
+                    id="emailnote"
                     className={
                       EmailFocus && email && !validEmail
                         ? "instructions"

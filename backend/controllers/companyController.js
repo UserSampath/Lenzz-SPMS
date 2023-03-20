@@ -8,7 +8,7 @@ const createToken = (_id) => {
 const createCompany = async (req, res) => {
   const {
     companyname,
-    companykey,
+
     contactnumber,
     companyemail,
     companyaddress,
@@ -22,7 +22,7 @@ const createCompany = async (req, res) => {
     const user_id = req.user._id;
     const company = await Company.createcompany(
       companyname,
-      companykey,
+
       contactnumber,
       companyaddress,
       companyemail,
@@ -50,7 +50,34 @@ const checkcompany = async (req, res) => {
   }
 };
 
+const generateRandomString = (myLength) => {
+  try {
+    const chars =
+      "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890";
+    const randomArray = Array.from(
+      { length: myLength },
+      (v, k) => chars[Math.floor(Math.random() * chars.length)]
+    );
+
+    const randomString = randomArray.join("");
+    return randomString;
+  } catch (error) {
+    throw new Error("Failed to generate random string.");
+  }
+};
+
+const randomkey = async (req, res) => {
+  try {
+    const key = generateRandomString(8);
+    res.send(key);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 module.exports = {
   createCompany,
   checkcompany,
+
+  randomkey,
 };

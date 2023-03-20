@@ -24,12 +24,7 @@ const userSchema = new Schema({
   },
   selectedJob: {
     type: String,
-    enum: [
-      Jobes.SystemAdmin,
-      Jobes.Projectmanager,
-      Jobes.Developer,
-      Jobes.TeamLead,
-    ],
+    enum: [Jobes.SystemAdmin, Jobes.Projectmanager, Jobes.Developer],
   },
   tokens: [
     {

@@ -1,29 +1,66 @@
 import { NavLink } from "react-router-dom";
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Modal } from "react-bootstrap";
 import { useCompanyContext } from "./../../../hooks/useCompanyContext";
 import { useAuthContext } from "./../../../hooks/useAuthContext";
+import {
+  faCheck,
+  faTimes,
+  faInfoCircle,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+const EMAIL_REGEX = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+const TEXT_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
+const CONTECTNUMBER_REGEX = /^\d{10}$/;
+const ADDRESS = /^[A-z][A-z0-9-_]{3,23}$/;
 
 const CreateCompany = () => {
+  const userRef = useRef();
+  const errRef = useRef();
   const [companyname, setcompanyname] = useState("");
+  const [validCompanyName, setValidCompanyName] = useState(false);
+  const [CompanyNameFocus, setCompanyNameFocus] = useState(false);
   const [companyemail, setcompanyemail] = useState("");
-  const [companykey, setcompanykey] = useState("");
+  const [validCompanyEmail, setValidCompanyEmail] = useState(false);
+  const [CompanyEmailFocus, setCompanyEmailFocus] = useState(false);
   const [contactnumber, setcontactnumber] = useState("");
+  const [validContactNumber, setValidContactNumber] = useState(false);
+  const [ContactNumberFocus, setContactNumberFocus] = useState(false);
   const [companyaddress, setcompanyaddress] = useState("");
-  const [companynameTouched, setcompanynameTouched] = useState("");
-  const [companyemailTouched, setcompanyemailTouched] = useState("");
-  const [companykeyTouched, setcompanykeyTouched] = useState("");
-  const [contactnumberTouched, setcontactnumberTouched] = useState("");
-  const [companyaddressTouched, setcompanyaddressTouched] = useState("");
+  const [validCompanyaddress, setValidCompanyaddress] = useState(false);
+  const [CompanyaddressFocus, setCompanyaddressFocus] = useState(false);
   const [redirectToCompany, setRedirectToCompany] = useState(false);
+  const [errMsg, setErrMsg] = useState("");
+  const [companyKey, setcompanyKey] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const [error, setError] = useState(null);
   const handleClose = () => setShowModal(false);
   const { user } = useAuthContext();
   const { dispatch } = useCompanyContext();
-  const [error, setError] = useState(null);
   const history = useNavigate();
   const handleShow = () => setShowModal(true);
+
+  useEffect(() => {
+    userRef.current.focus();
+  }, []);
+  useEffect(() => {
+    setValidCompanyName(TEXT_REGEX.test(companyname));
+  }, [companyname]);
+
+  useEffect(() => {
+    setValidCompanyEmail(EMAIL_REGEX.test(companyemail));
+  }, [companyemail]);
+
+  useEffect(() => {
+    setValidContactNumber(CONTECTNUMBER_REGEX.test(contactnumber));
+  }, [contactnumber]);
+  useEffect(() => {
+    setValidCompanyaddress(ADDRESS.test(companyaddress));
+  }, [companyaddress]);
+  useEffect(() => {
+    setErrMsg("");
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -34,7 +71,6 @@ const CreateCompany = () => {
     const company = {
       companyname,
       companyemail,
-      companykey,
       contactnumber,
       companyaddress,
     };
@@ -57,46 +93,47 @@ const CreateCompany = () => {
       }
       setcompanyname("");
       setcompanyemail("");
-      setcompanykey("");
       setcontactnumber("");
       setcompanyaddress("");
       setError(null);
       console.log("New company created", json);
+      setShowModal(true);
       dispatch({ type: "COMPANY_CREATE", payload: json });
+      handlekey(user);
     }
   };
 
-  const handleCompanynameBlur = () => {
-    setcompanynameTouched(true);
-  };
-
-  const handleCompanyemailBlur = () => {
-    setcompanyemailTouched(true);
-  };
-  const handleCompanykeyBlur = () => {
-    setcompanykeyTouched(true);
-  };
-  const handlecontactnumberBlur = () => {
-    setcontactnumberTouched(true);
-  };
-  const handleCompanyaddressBlur = () => {
-    setcompanyaddressTouched(true);
-  };
   const handleModalClose = () => {
     setRedirectToCompany(true);
     handleClose();
+    history("/Company");
   };
 
-  const isCompanynameInvalid = !companyname && companynameTouched;
-  const isCompanynameValid = companyname && !isCompanynameInvalid;
-  const isCompanyemailInvalid = !companyemail && companyemailTouched;
-  const isCompanyemailValid = companyemail && !isCompanyemailInvalid;
-  const isCompanykeyInvalid = !companykey && companykeyTouched;
-  const isCompanykeyValid = companykey && !isCompanykeyInvalid;
-  const isContactnumberInvalid = !contactnumber && contactnumberTouched;
-  const isContactnumberValid = contactnumber && !isContactnumberInvalid;
-  const isCompanyaddressInvalid = !companyaddress && companyaddressTouched;
-  const isCompanyaddressValid = companyaddress && !isCompanyaddressInvalid;
+  const handlekey = async (user) => {
+    if (!user) {
+      setError("You must be logged in");
+      return;
+    }
+    try {
+      const response = await fetch("/api/company/randomkey", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch key");
+      }
+
+      const key = await response.text();
+      setcompanyKey(key);
+      console.log(key);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <div>
@@ -119,155 +156,204 @@ const CreateCompany = () => {
               style={{ width: "450px", marginLeft: "50px" }}
             >
               <form onSubmit={handleSubmit} className="needs-validation">
+                <p
+                  ref={errRef}
+                  className={errMsg ? "errmsg" : "offscreen"}
+                  aria-live="assertive"
+                >
+                  {errMsg}
+                </p>
                 <div className="mb-3">
-                  <label htmlFor="Company name" className="form-label">
-                    Company name
+                  <label htmlFor="email">
+                    Company name:
+                    <FontAwesomeIcon
+                      icon={faCheck}
+                      className={validCompanyName ? "valid" : "hide"}
+                    />
+                    <FontAwesomeIcon
+                      icon={faTimes}
+                      className={
+                        validCompanyName || !companyname ? "hide" : "invalid"
+                      }
+                    />
                   </label>
                   <input
                     type="text"
-                    className={`form-control ${
-                      isCompanynameInvalid ||
-                      (!isCompanynameValid && companynameTouched)
-                        ? "is-invalid"
-                        : isCompanynameValid
-                        ? "is-valid"
-                        : ""
-                    }`}
                     id="companyname"
+                    className="form-control"
+                    ref={userRef}
+                    autoComplete="on"
                     onChange={(e) => setcompanyname(e.target.value)}
-                    onBlur={handleCompanynameBlur}
+                    required
+                    aria-invalid={validCompanyName ? "false" : "true"}
+                    onFocus={() => setCompanyNameFocus(true)}
+                    onBlur={() => setCompanyNameFocus(false)}
                     value={companyname}
                   />
-                  {(isCompanynameInvalid ||
-                    (!isCompanynameValid && companynameTouched)) && (
-                    <div className="invalid-feedback">
-                      Please enter Company Name
-                    </div>
-                  )}{" "}
+                  <p
+                    className={
+                      CompanyNameFocus && companyname && !validCompanyName
+                        ? "instructions"
+                        : "offscreen"
+                    }
+                  >
+                    <FontAwesomeIcon icon={faInfoCircle} />
+                    4 to 24 characters.
+                    <br />
+                    Must begin with a letter.
+                    <br />
+                    Letters, numbers, underscores, hyphens allowed.
+                  </p>
                 </div>
                 <div className="mb-3">
-                  <label htmlFor="company email" className="form-label">
-                    Company Email
+                  <label htmlFor="email">
+                    CompanyEmail:
+                    <FontAwesomeIcon
+                      icon={faCheck}
+                      className={companyemail ? "valid" : "hide"}
+                    />
+                    <FontAwesomeIcon
+                      icon={faTimes}
+                      className={
+                        validCompanyEmail || !companyemail ? "hide" : "invalid"
+                      }
+                    />
                   </label>
                   <input
-                    type="text"
-                    className={`form-control ${
-                      isCompanyemailInvalid ||
-                      (!isCompanyemailValid && companyemailTouched)
-                        ? "is-invalid"
-                        : isCompanyemailValid
-                        ? "is-valid"
-                        : ""
-                    }`}
-                    id="companyemail"
+                    type="email"
+                    className="form-control"
+                    ref={userRef}
+                    autoComplete="on"
                     onChange={(e) => setcompanyemail(e.target.value)}
-                    onBlur={handleCompanyemailBlur}
                     value={companyemail}
+                    required
+                    aria-invalid={validCompanyEmail ? "false" : "true"}
+                    aria-describedby="uidnote"
+                    onFocus={() => setCompanyEmailFocus(true)}
+                    onBlur={() => setCompanyEmailFocus(false)}
+                    id="exampleInputEmail1"
                   />
-                  {(isCompanyemailInvalid ||
-                    (!isCompanyemailValid && companyemailTouched)) && (
-                    <div className="invalid-feedback">
-                      Please enter a valid Company email
-                    </div>
-                  )}{" "}
+                  <p
+                    id="uidnote"
+                    className={
+                      CompanyEmailFocus && companyemail && !validCompanyEmail
+                        ? "instructions"
+                        : "offscreen"
+                    }
+                  >
+                    <FontAwesomeIcon icon={faInfoCircle} />
+                    @ matches the @ symbol.
+                    <br />
+                    Must begin with a letter.
+                  </p>
                 </div>
 
                 <div className="mb-3">
-                  <label htmlFor="company key" className="form-label">
-                    Company key
-                  </label>
-                  <input
-                    type="password"
-                    className={`form-control ${
-                      isCompanykeyInvalid ||
-                      (!isCompanykeyValid && companykeyTouched)
-                        ? "is-invalid"
-                        : isCompanykeyValid
-                        ? "is-valid"
-                        : ""
-                    }`}
-                    id="companykey"
-                    onChange={(e) => setcompanykey(e.target.value)}
-                    onBlur={handleCompanykeyBlur}
-                    value={companykey}
-                  />
-                  {(isCompanykeyInvalid ||
-                    (!isCompanykeyValid && companykeyTouched)) && (
-                    <div className="invalid-feedback">
-                      Please enter a valid Company Key
-                    </div>
-                  )}{" "}
-                </div>
-                <div className="mb-3">
-                  <label htmlFor="contactnumber" className="form-label">
-                    Contact number
-                  </label>
-                  <input
-                    type=""
-                    className={`form-control ${
-                      isContactnumberInvalid ||
-                      (!isContactnumberValid && contactnumberTouched)
-                        ? "is-invalid"
-                        : isContactnumberValid
-                        ? "is-valid"
-                        : ""
-                    }`}
-                    id="password"
-                    onBlur={handlecontactnumberBlur}
-                    onChange={(e) => setcontactnumber(e.target.value)}
-                    value={contactnumber}
-                  />
-                  {(isContactnumberInvalid ||
-                    (!isContactnumberValid && contactnumberTouched)) && (
-                    <div className="invalid-feedback">
-                      Please enter a Contactnumber
-                    </div>
-                  )}{" "}
-                </div>
-
-                <div className="mb-3">
-                  <label htmlFor="companyaddress" className="form-label">
-                    Company Address
+                  <label htmlFor="email">
+                    Contact Number:
+                    <FontAwesomeIcon
+                      icon={faCheck}
+                      className={contactnumber ? "valid" : "hide"}
+                    />
+                    <FontAwesomeIcon
+                      icon={faTimes}
+                      className={
+                        validContactNumber || !contactnumber
+                          ? "hide"
+                          : "invalid"
+                      }
+                    />
                   </label>
                   <input
                     type="text"
-                    className={`form-control ${
-                      isCompanyaddressInvalid ||
-                      (!isCompanyaddressValid && companyaddressTouched)
-                        ? "is-invalid"
-                        : isCompanyaddressValid
-                        ? "is-valid"
-                        : ""
-                    }`}
-                    id="companyaddress"
-                    onChange={(e) => setcompanyaddress(e.target.value)}
-                    onBlur={handleCompanyaddressBlur}
-                    value={companyaddress}
+                    className="form-control"
+                    onChange={(e) => setcontactnumber(e.target.value)}
+                    id="contactnumber"
+                    required
+                    aria-invalid={validContactNumber ? "false" : "true"}
+                    aria-describedby="passwordnote"
+                    autoComplete="on"
+                    onFocus={() => setContactNumberFocus(true)}
+                    onBlur={() => setContactNumberFocus(false)}
                   />
-                  {(isCompanyaddressInvalid ||
-                    (!isCompanyaddressValid && companyaddressTouched)) && (
-                    <div className="invalid-feedback">
-                      Please enter company address
-                    </div>
-                  )}{" "}
+                  <p
+                    id="uidnote"
+                    className={
+                      ContactNumberFocus && contactnumber && !validContactNumber
+                        ? "instructions"
+                        : "offscreen"
+                    }
+                  >
+                    <FontAwesomeIcon icon={faInfoCircle} />
+                    must be 10 numbers
+                  </p>
                 </div>
 
-                <Button
+                <div className="mb-3">
+                  <label htmlFor="email">
+                    Company Address:
+                    <FontAwesomeIcon
+                      icon={faCheck}
+                      className={companyaddress ? "valid" : "hide"}
+                    />
+                    <FontAwesomeIcon
+                      icon={faTimes}
+                      className={
+                        validCompanyaddress || !companyaddress
+                          ? "hide"
+                          : "invalid"
+                      }
+                    />
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    ref={userRef}
+                    autoComplete="on"
+                    onChange={(e) => setcompanyaddress(e.target.value)}
+                    value={companyaddress}
+                    required
+                    aria-invalid={validCompanyaddress ? "false" : "true"}
+                    aria-describedby="uidnote"
+                    onFocus={() => setCompanyaddressFocus(true)}
+                    onBlur={() => setCompanyaddressFocus(false)}
+                  />
+                  <p
+                    className={
+                      CompanyaddressFocus &&
+                      companyaddress &&
+                      !validCompanyaddress
+                        ? "instructions"
+                        : "offscreen"
+                    }
+                  >
+                    <FontAwesomeIcon icon={faInfoCircle} />
+                    4 to 24 characters.
+                    <br />
+                    Must begin with a letter.
+                    <br />
+                    Letters, numbers, underscores, hyphens allowed.
+                    <br />
+                  </p>
+                </div>
+
+                <button
                   type="submit"
                   className="btn btn-outline-primary w-100 mt-4"
-                  block="true"
                 >
                   Submit
-                </Button>
+                </button>
                 <Modal show={showModal} onHide={handleClose}>
                   <Modal.Header closeButton>
-                    <Modal.Title>Welcome to {companyname}</Modal.Title>
+                    <Modal.Title>Success</Modal.Title>
                   </Modal.Header>
-
-                  <Modal.Body>Your company key is : {companykey}</Modal.Body>
-
+                  <Modal.Body>
+                    <p>Your company has been created successfully!</p>
+                    <p>Here is your company key:{companyKey}</p>
+                    <p className="fw-bold"></p>
+                  </Modal.Body>
                   <Modal.Footer>
-                    <Button variant="primary" onClick={handleModalClose}>
+                    <Button variant="success" onClick={handleModalClose}>
                       OK
                     </Button>
                   </Modal.Footer>
