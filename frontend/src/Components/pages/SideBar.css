@@ -47,8 +47,8 @@
 }
 
 .active {
-  color: rgb(255, 255, 255);
-  background: #075d88;
+  color: rgba(255, 255, 255, 0.581);
+  background: hwb(200 68% 11% / 0.41);
   padding: 10px 15px;
   gap: 15px;
   transition: all 0.5s;

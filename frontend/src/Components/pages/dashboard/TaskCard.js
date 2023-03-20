@@ -14,13 +14,13 @@ const TaskCard = (props) => {
   const [TaskDetailsModal, setTaskDetailsModal] = useState(false);
 
   let [backgroundColor, setBackgroundColor] = useState("white")
-  
+
   const toggleModal = () => {
     console.log(props.id)
     console.log(props.index)
 
-   
-    
+
+
 
     setTaskDetailsModal(!TaskDetailsModal);
   };
@@ -52,9 +52,9 @@ const TaskCard = (props) => {
     props.deleteTask(props.id, props.index)
     toggleModal();
 
-   
-  
-    
+
+
+
   }
   return (
     <Draggable draggableId={String(props.id)} index={props.index} isDragDisabled={false}>
@@ -65,7 +65,7 @@ const TaskCard = (props) => {
           {...provided.dragHandleProps}
         >
           {TaskDetailsModal && (
-            <TaskDetails toggleModal={toggleModal} card={props.card} clickedUpdateButton={clickedUpdateButton} clickedDeleteButton={clickedDeleteButton} />
+            <TaskDetails toggleModal={toggleModal} card={props.card} clickedUpdateButton={clickedUpdateButton} clickedDeleteButton={clickedDeleteButton}  />
           )}
           <div onClick={toggleModal}>
 
@@ -79,7 +79,7 @@ const TaskCard = (props) => {
               height: "50px",
               justifyContent: "space-between",
               overflow: "hidden",
-              
+
 
 
             }}>
@@ -87,12 +87,12 @@ const TaskCard = (props) => {
               {/* {props.card.flag !== "default" ? (
                 <div className="aa" style={{}}>{props.card.flag}</div>
               ) : null} */}
-              <img src="https://sampathnalaka.s3.amazonaws.com/uploads/2bc74bff-1f50-4c3c-a1e5-61e4fd0b51ea-3557.jpg" alt="svs"
+              <img src="https://sampathnalaka.s3.eu-north-1.amazonaws.com/uploads/aa8f3782-efe9-414b-93c4-d2278a26e224-3557.jpg" alt="svs"
                 width="38" height="38"
                 // style="border-radius: 50%; border: 1px solid black;
-                style={{borderRadius:"50%",border:"1px solid white"}}
-                >
-                </img>
+                style={{ borderRadius: "50%", border: "1px solid white" }}
+              >
+              </img>
 
 
             </div>

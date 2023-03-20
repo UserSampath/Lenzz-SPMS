@@ -13,6 +13,7 @@ import { addCard, updateOneTask, deleteCard, deleteList } from "../../../actions
 import { FaPlus, FaEllipsisH } from "react-icons/fa";
 import ThreeDoteMenu from "./ThreeDoteMenu"
 import RenameListModel from "./renameListModal/RenameListModel"
+import Attachment from "./attachmentModel/Attachment"
 
 const ListContainer = styled.div`
   background-color: #dfe3e6;
@@ -23,7 +24,7 @@ const ListContainer = styled.div`
   margin-right: 8px;
 `;
 
-const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, setExistingTasks }) => {
+const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, setExistingTasks, listsData }) => {
 
   const [taskName, setTaskName] = useState("");
   const [createTaskModal, setCreateTaskModal] = useState(false);
@@ -43,6 +44,9 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
   const [startDateError, setStartDateError] = useState("false");
   const [endDateError, setEndDateError] = useState("false");
 
+
+
+  const [showAttachment, setShowAttachment] = useState("false");
 
   const getTasks = async () => {
     try {
@@ -66,17 +70,24 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
     setDescription("")
   }
 
+
+  const clickedAddTask = async () => { 
+    setUpdatingTask(false)
+    toggleCreateTaskModal();
+  }
+
   const toggleCreateTaskModal = () => {
 
     setCreateTaskModal(!createTaskModal);
     // console.log(lists)
+    setShowAttachment(false)
   };
   if (createTaskModal) {
 
     getTasks()
 
   }
-  const formSubmissionHandler = (event) => {
+  const formSubmissionHandler = async (event) => {
     event.preventDefault();
     taskName.length === 0 ? setTaskNameError("true") : setTaskNameError("false");
     assign === "default" ? setAssignError("true") : setAssignError("false");
@@ -86,6 +97,13 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
     if (
       taskName.length !== 0 && assign !== "default" && startDate !== "" && endDate !== "" && updatingTask !== true
     ) {
+
+      const formData = new FormData();
+      const aArray = Object.values(selectedFile);
+      for (let i = 0; i < aArray.length; i++) {
+        formData.append("file", aArray[i]);
+      }
+
 
       const newTask = {
         progressStage_id: listID,
@@ -99,10 +117,19 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
         description,
         taskIndex: cards.length
       }
-      axios.post("http://localhost:4000/task/create", newTask).then((res) => {
+
+      formData.append('json', JSON.stringify(newTask));
+
+      axios.post("http://localhost:4000/task/create", formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data' // Use multipart/form-data instead of multipart/mixed
+        }
+      }).then((res) => {
         console.log("data sent to the database successfully")
         console.log("new", res.data);
-        dispatch(addCard(res.data));
+        dispatch(addCard(res.data.taskData));
+        setSelectedFile({})
+
         setAssign("default");
         setFlag("default");
         setReporter("default");
@@ -111,7 +138,6 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
         setEndDate("");
         setTaskName("");
         setDescription("")
-
 
         setExistingTasks(existingTasks.concat(res.data));
         console.log("existingTasks", existingTasks)
@@ -130,6 +156,14 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
       taskName.length !== 0 && assign !== "default" && startDate !== "" && endDate !== "" && updatingTask === true
     ) {
       // console.log("from submit", updatingTaskId)
+
+      const formData = new FormData();
+      const aArray = Object.values(selectedFile);
+      for (let i = 0; i < aArray.length; i++) {
+        formData.append("file", aArray[i]);
+      }
+
+
       const data = {
         id: updatingTaskId,
         name: taskName,
@@ -141,9 +175,31 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
         endDate,
         description,
       }
-      axios.put("http://localhost:4000/updateTaskDetails", data).then((res) => {
+
+      formData.append('json', JSON.stringify(data));
+
+      axios.put("http://localhost:4000/updateTaskDetails", formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data' // Use multipart/form-data instead of multipart/mixed
+        }
+      }).then(async (res) => {
         console.log("update to the database successfully")
+        console.log("newwwwwwwwwwwwwwwwwwwwwwwww", res.data.task);
+
         dispatch(updateOneTask(res.data.task));
+
+        // const formData = new FormData();
+        // const aArray = Object.values(selectedFile);
+
+        // for (let i = 0; i < aArray.length; i++) {
+        //   formData.append("file", aArray[i]);
+        // }
+        // const response = await axios.post("http://localhost:4000/upload", formData);
+        // console.log("success", response.data);
+
+        // reset the form to clear the input field
+        setSelectedFile({}); // clear the selectedFile state
+
 
         console.log("aa", res.data.task);
         setAssign("default");
@@ -192,12 +248,9 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
     setDescription(event.target.value);
   }
   const updateTask = (id) => {
-    console.log("updateTask from list", id)
     setUpdatingTaskId(id);
     setUpdatingTask(true)
     const task = cards.find(task => task._id === id)
-    console.log(task)
-
 
     setTaskName(task.name);
     setFlag(task.flag);
@@ -221,7 +274,7 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
       .catch(error => {
         console.error(error);
       });
-    console.log(id)
+
   }
   const flags = [{ name: "🟡", _id: "1" }, { name: "🟢", _id: "2" }, { name: "🔴", _id: "3" }];
   const member = [{ name: "sampath", _id: "1" }, { name: "sasa", _id: "2" }, { name: "kumara", _id: "3" }];
@@ -263,7 +316,25 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
         console.error(error);
       });
   }
+  const [selectedFile, setSelectedFile] = useState([]);
 
+  const handleFileChange = (event) => {
+    setSelectedFile(event.target.files);
+    console.log(event.target.files);
+  };
+
+
+
+
+
+
+
+
+
+
+  const attachmentButtonClicked = () => {
+    setShowAttachment(true);
+  }
   return (<>
     {isThreeDoteModelOpen && (<div
       style={{
@@ -287,10 +358,13 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
     {showRenameListModal && <RenameListModel toggleRenameListModal={toggleRenameListModal} title={title} listID={listID} dispatch={dispatch} />}
     {
       createTaskModal && (
+
         <div className={styles.modal}>
           <div onClick={toggleCreateTaskModal} className={styles.overlay}></div>
           <div className={styles.modalContent}>
-            <h1>Create Task</h1>
+
+            {showAttachment && <Attachment setShowAttachment={setShowAttachment} existingTasks={existingTasks} updatingTaskId={updatingTaskId} />}
+            <h1>Task</h1>
             <form onSubmit={formSubmissionHandler}>
               <div className={styles.formControl}>
                 <div className={styles.controlGroup}>
@@ -303,6 +377,7 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
                     type="text"
                     value={taskName}
                   />
+
                   <OptionButton text="Select a flag" options={flags} onChange={flagHandler} value={flag} />
                 </div>
                 <div className={styles.controlGroup}>
@@ -324,9 +399,31 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
                 </div>
               </div>
               <div className={styles.controlGroup}>
-                <div style={{ textAlign: 'center', marginTop: '15px', marginLeft: "150px", marginBottom: "10px" }}>
-                  <CTForm label="choose attachment"
-                    type="file" accept=".jpg, .jpeg, .png" />
+                <div style={{ textAlign: 'center', marginTop: '5px', marginLeft: "150px", marginBottom: "10px" }}>
+                  
+                  {updatingTask && <div
+                    onClick={attachmentButtonClicked}
+                    style={{
+                      backgroundColor: '#0877ae',
+                      color: 'white',
+                      padding: '1px 2px',
+                      borderRadius: '5px',
+                      cursor: 'pointer'
+                      , width: "100px",
+                      marginLeft: "50px"
+                    }}
+                  >
+                    attachments
+                  </div>}
+
+                  
+
+                  {/* <CTForm label="choose attachment"
+                    type="file" accept=".jpg, .jpeg, .png" /> */}
+                  <div style={{ marginTop: "5px" }}>
+
+                    <input type="file" multiple accept=".jpg, .jpeg, .png" onChange={handleFileChange} />
+                  </div>
                 </div>
               </div>
               <div className={styles.formActions}>
@@ -360,7 +457,7 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
                   <h5 style={{
                     textAlign: "center",
                     marginTop: "3px",
-                    overflow:"hidden",
+                    overflow: "hidden",
                     flex: 1, // this  make the h3 take up the remining spce
                     marginBottom: 0 // remove any margin  afect the alignment
                   }}>{title}</h5>
@@ -378,12 +475,13 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
                     card={card}
                     updateTask={updateTask}
                     deleteTask={deleteTask}
+                    
                   />
                 ))}
                 {provided.placeholder}
                 <button style={{
                   display: "flex",
-                  flexDirection: "row",
+                    
                   alignItems: "center",
                   cursor: "pointer",
                   border: "none",
@@ -393,7 +491,7 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
                   padding: "5px",
                   marginLeft: "120px",
                   backgroundColor: "#DEF3FD",
-                }} onClick={toggleCreateTaskModal} className="btn-modal">
+                }} onClick={clickedAddTask} className="btn-modal">
                   <p style={{ margin: "0 6px" }}>add card</p>
                   <FaPlus style={{ marginLeft: "10px" }} />
                 </button>

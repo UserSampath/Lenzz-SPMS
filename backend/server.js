@@ -36,6 +36,8 @@ const listRoute = require("./routes/listRoute")
 app.use(taskRoute)
 app.use(listRoute)
 // connect to db
+const fileRouter = require("./routes/file")
+app.use(fileRouter)
 
 mongoose
   .connect(MONGO_URI)
