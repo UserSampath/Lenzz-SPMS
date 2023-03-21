@@ -1,24 +1,93 @@
 const Task = require("../models/taskModel");
 const ProgressStage = require("../models/progressStageModel");
+const { uploadFile, find, deleteOne, downloadOne } = require("../util/s3Service");
 module.exports = {
     create: async (req, res) => {
+        const newTask = JSON.parse(req.body.json);
+        console.log(newTask.progressStage_id);
+        console.log("ddddddddddddddddddddddddd", req.body.fileType)
+        const results = await uploadFile(req.files);
+        console.log("resultsaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", results)
+        let file = [];
+        if (results.length !== 0) {
+            for (let i = 0; i < results.length; i++) {
+                let key = results[i].key;
+                let location = results[i].Location;
+                let f = {
+                    "fileName": key,
+                    "location": location
+                };
+                file.push(f);
+            }
+        }
+
+
         const task = await Task.create({
-            progressStage_id: req.body.progressStage_id,
-            name: req.body.name,
-            flag: req.body.flag,
-            assign: req.body.assign,
-            reporter: req.body.reporter,
-            link: req.body.link,
-            startDate: req.body.startDate,
-            endDate: req.body.endDate,
-            description: req.body.description,
-            taskIndex: req.body.taskIndex,
+            progressStage_id: newTask.progressStage_id,
+            name: newTask.name,
+            flag: newTask.flag,
+            assign: newTask.assign,
+            reporter: newTask.reporter,
+            link: newTask.link,
+            startDate: newTask.startDate,
+            endDate: newTask.endDate,
+            description: newTask.description,
+            taskIndex: newTask.taskIndex,
+            files: file
         });
         const taskData = await task.save();
-        return res.send(taskData);
+        return res.send({ "taskData": taskData, "results": results });
     },
     catch(err) {
         res.status(500).json(err)
+    },
+    updateTaskDetails: async (req, res) => {
+        const newTask = JSON.parse(req.body.json);
+
+        // console.log(req.body)
+        try {
+            const results = await uploadFile(req.files);
+            let file = [];
+            if (results.length !== 0) {
+                for (let i = 0; i < results.length; i++) {
+                    let key = results[i].key;
+                    let location = results[i].Location;
+                    let f = {
+                        "fileName": key,
+                        "location": location
+                    };
+                    file.push(f);
+                }
+            }
+            console.log("resultsaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", file)
+
+            const a = await Task.findById(newTask.id);
+            if (!a) {
+                return res.status(403).json({ message: 'Task not found' })
+            }
+            const task = await Task.findByIdAndUpdate(newTask.id,
+                {
+                    $set: {
+                        name: newTask.name,
+                        flag: newTask.flag,
+                        assign: newTask.assign,
+                        reporter: newTask.reporter,
+                        link: newTask.link,
+                        startDate: newTask.startDate,
+                        endDate: newTask.endDate,
+                        description: newTask.description,
+                        taskIndex: newTask.taskIndex,
+                    },
+                    $push: { files: { $each: file } } // push the new files 
+                }, { new: true });
+            if (!task) {
+                return res.status(405).json({ message: 'Task not found' })
+            }
+            res.status(200).json({ "task": task, "results": results });
+            console.log("xxxxzzzz", task)
+        } catch (error) {
+            res.status(500).json({ message: error.message });
+        }
     },
     getAll: async (req, res) => {
         // find all tasks and return the data
@@ -79,25 +148,7 @@ module.exports = {
             res.status(500).json({ message: 'Server error' })
         }
     },
-    updateTaskDetails: async (req, res) => {
-        const { name, flag, assign, reporter, link, startDate, endDate, description, taskIndex, id } = req.body
-        // console.log(req.body)
-        try {
-            const a = await Task.findById(id);
-            if (!a) {
-                console.log(id);
-                return res.status(403).json({ message: 'Task not found' })
-            }
-            const task = await Task.findByIdAndUpdate(id,
-                { name, flag, assign, reporter, link, startDate, endDate, description, taskIndex }, { new: true });
-            if (!task) {
-                return res.status(405).json({ message: 'Task not found' })
-            }
-            res.status(200).json({ task });
-        } catch (error) {
-            res.status(500).json({ message: error.message });
-        }
-    },
+
     getTaskById: async (req, res) => {
         try {
             // const taskId = req.body.id; // get the task ID from the URL parameter
@@ -109,7 +160,7 @@ module.exports = {
             res.status(500).json({ message: 'Server error' });
         }
     },
-     deleteOneTask : async (req, res) => {
+    deleteOneTask: async (req, res) => {
         const taskId = req.params.id;
         const { taskIndex, listID } = req.body;
         try {
@@ -117,6 +168,11 @@ module.exports = {
             if (!task) {
                 return res.status(404).json({ message: 'Task not found' });
             }
+            //TODO:
+            for (const file of task.files) {
+                await deleteOne(file.fileName);
+            }
+
 
             // update taskIndex values of remaining tasks in the list
             const tasks = await Task.find({ progressStage_id: listID });
@@ -163,5 +219,58 @@ module.exports = {
             console.error(err);
             return res.status(500).json({ message: 'Server error' });
         }
+    },
+    //  { $pull: { arrayField: { fileName: <file-name-to-remove> } } }
+    // deleteAttachment: async (req, res) => {
+    //     const taskId = req.body.taskId;
+    //     const fileName = req.body.fileName;
+    //     console.log(req.body.fileName);
+
+    //     try {
+    //         // const key = `uploads/${fileName}`
+    //         // const result = await deleteOne(key)
+
+    //         const r = await Task.updateOne({
+    //             _id: taskId
+    //         },
+    //             {
+    //                 $pull: {
+    //                     arrayField: { "fileName": fileName  }}})
+    //         console.log(r);
+    //     } catch (error) {
+    //         console.error(error);
+    //     }
+    // }
+
+
+
+
+    deleteAttachment: async (req, res) => {
+        const taskId = req.body.taskId;
+        const fileId = req.body.fileId;
+        console.log(req.body);
+
+        try {
+            const task = await Task.findById(taskId);
+            for (let i = 0; i < task.files.length; i++) {
+
+                if (task.files[i]._id.toString() === fileId) {
+                    console.log("matched")
+                    let t = task.files[i].fileName
+                    console.log(t)
+                    const result = await deleteOne(t)
+                    task.files.pull(task.files[i])
+
+
+                }
+            }
+            // task.files = task.files.filter(file => file._id.toString() !== fileId);
+            await task.save();
+            res.json(task);
+        } catch (error) {
+            console.error(error);
+            res.status(500).send('Internal server error');
+        }
     }
+
 }

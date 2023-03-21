@@ -7,6 +7,13 @@ export const addCard = (data) => {
   };
 };
 
+export const deleteAttachment = (data) => {
+  return {
+    type: CONSTANTS.DELETE_ATTACHMENT,
+    payload: { data }
+  }
+}
+
 export const deleteCard = (_id, listId) => {
   return {
     type: CONSTANTS.DELETE_CARD,

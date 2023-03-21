@@ -9,7 +9,7 @@ const DashboardProvider = () => {
         <SideBar>
             <div style={{
                 marginTop: "60px",
-                marginLeft: "5px",
+                marginLeft: "60px",
             }}>
                 <Provider store={store}>
                     <div><Dashboard /></div>

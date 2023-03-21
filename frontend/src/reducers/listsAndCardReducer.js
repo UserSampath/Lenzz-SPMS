@@ -23,6 +23,8 @@ const listsReducer = (state = initialState, action) => {
         startDate,
         endDate,
         description,
+        files,
+
       } = action.payload.data;
       const newCard = {
         _id,
@@ -34,6 +36,8 @@ const listsReducer = (state = initialState, action) => {
         startDate,
         endDate,
         description,
+        files
+
       };
       console.log("action received", action);
       const newState = state.map(list => {
@@ -46,8 +50,9 @@ const listsReducer = (state = initialState, action) => {
           return list;
         }
       });
-
+      console.log("console.log(newState)", newState)
       return newState;
+
     }
 
     case CONSTANTS.DELETE_CARD: {
@@ -68,6 +73,29 @@ const listsReducer = (state = initialState, action) => {
       console.log(newState);
       return newState;
     }
+
+    case CONSTANTS.DELETE_ATTACHMENT: {
+      const { listId, cardId, attachmentId } = action.payload.data;
+      const newState = state.map((list) => {
+        if (list._id === listId) {
+          return {
+            ...list,
+            cards: list.cards.map((card) => {
+              if (card._id === cardId) {
+                return {
+                  ...card,
+                  files: card.files.filter((file) => file._id !== attachmentId)
+                };
+              }
+              return card;
+            })
+          };
+        }
+        return list;
+      });
+      return newState
+    }
+
 
     case CONSTANTS.DELETE_LIST: {
       const listId = action.payload.listId;
@@ -104,9 +132,8 @@ const listsReducer = (state = initialState, action) => {
         startDate,
         endDate,
         description,
+        files
       } = action.payload.data;
-      console.log(_id)
-
       const newState = state.map(list => {
         if (list._id === progressStage_id) {
           const updatedCards = list.cards.map(card => {
@@ -121,6 +148,7 @@ const listsReducer = (state = initialState, action) => {
                 startDate,
                 endDate,
                 description,
+                files
               }
             } else {
               return card;
@@ -135,7 +163,7 @@ const listsReducer = (state = initialState, action) => {
           return list;
         }
       });
-      console.log("newState", newState)
+      console.log("newState111111111111111", newState)
       return newState;
     }
 
@@ -190,15 +218,10 @@ const listsReducer = (state = initialState, action) => {
         const listEnd = state.find(list => droppableIdEnd === list._id);
         // put the card in the new list
         listEnd.cards.splice(droppableIndexEnd, 0, ...card);
-        console.log("droppableIdStart", droppableIdStart, card[0]._id)
-        console.log("droppableIdEnd", droppableIdEnd)
-        console.log("droppableIndexStart", droppableIndexStart)
-        console.log("droppableIndexEnd", droppableIndexEnd)
-        console.log("card", card)
         const temp3 = { droppableIdStart, droppableIdEnd, droppableIndexStart, droppableIndexEnd, cardId: card[0]._id, }
         const fetchTasks = async () => {
           await axios.put("http://localhost:4000/moveCardsAcrossStages", temp3).then(res => {
-            console.log(res.data);
+            // console.log(res.data);
           }).catch(err => { console.log(err) })
         }
         fetchTasks();

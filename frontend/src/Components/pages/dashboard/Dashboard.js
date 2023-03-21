@@ -8,22 +8,19 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { initialValue } from "../../../actions";
 const Dashboard = (props) => {
+
   const [existingTasks, setExistingTasks] = useState([]);
   useEffect(() => {
     const getTaskWithPS = async () => {
-      await axios
-        .get("http://localhost:4000/progressStage/taskWithPS")
-        .then((res) => {
-          props.dispatch(initialValue(res.data));
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    };
+      await axios.get("http://localhost:4000/progressStage/taskWithPS").then(res => {
+        props.dispatch(initialValue(res.data));
+      }).catch(err => { console.log(err) })
+    }
     getTaskWithPS();
-  }, []);
 
-  const onDragEnd = (result) => {
+  }, [])
+
+  const onDragEnd = result => {
     const { destination, source, draggableId, type } = result;
     if (!destination) {
       return;
@@ -43,14 +40,11 @@ const Dashboard = (props) => {
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <Droppable droppableId="all-lists" direction="horizontal" type="list">
-        {(provided) => (
-          <div
-            {...provided.droppableProps}
-            ref={provided.innerRef}
-            style={{
-              display: "flex",
-              flexDirection: "row",
-            }}
+        {provided => (
+          <div {...provided.droppableProps} ref={provided.innerRef} style={{
+            display: "flex",
+            flexDirection: "row"
+          }}
           >
             {lists.map((list, index) => (
               <List
@@ -62,6 +56,7 @@ const Dashboard = (props) => {
                 listsData={lists}
                 existingTasks={existingTasks}
                 setExistingTasks={setExistingTasks}
+
               />
             ))}
             {provided.placeholder}
@@ -71,8 +66,8 @@ const Dashboard = (props) => {
       </Droppable>
     </DragDropContext>
   );
-};
-const mapStateToProps = (state) => ({
-  lists: state.lists,
+}
+const mapStateToProps = state => ({
+  lists: state.lists
 });
 export default connect(mapStateToProps)(Dashboard);

@@ -5,10 +5,6 @@ const TaskSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,  //
         ref: 'ProgressStage'
     },
-    // text: {
-    //     type: String,
-    //     required: true
-    // },
     name: {
         type: String,
         required: true
@@ -40,7 +36,17 @@ const TaskSchema = new mongoose.Schema({
     },
     taskIndex: {
         type: Number
-    }
+    },
+    files: [{
+        fileName: {
+            type: String,
+            
+        },
+        location: {
+            type: String,
+            
+        }
+    }]
 
 }
     , { timestamps: true });
