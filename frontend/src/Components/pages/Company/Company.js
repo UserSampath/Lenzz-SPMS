@@ -1,12 +1,21 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import SideBar from "../Sidebar";
 import "./Company.css";
 import { Button, Modal, Form } from "react-bootstrap";
 import { useProjectContext } from "../../../hooks/useProjectContext";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "./../../../hooks/useAuthContext";
+import {
+  faCheck,
+  faTimes,
+  faInfoCircle,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+const NAME_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 
 const Company = () => {
+  const userRef = useRef();
+  const errRef = useRef();
   const { dispatch } = useProjectContext();
   const { user } = useAuthContext();
   const [showModal, setShowModal] = useState(false);
@@ -14,17 +23,33 @@ const Company = () => {
   const handleShow = () => setShowModal(true);
   const history = useNavigate();
   const [projectname, setprojectname] = useState("");
+  const [validProjectName, setValidProjectName] = useState(false);
+  const [ProjectNameFocus, setProjectNameFocus] = useState(false); // initialize with false
   const [description, setdescription] = useState("");
+  const [validDescription, setValidDescription] = useState(false);
+  const [DescriptionFocus, setDescriptionFocus] = useState(false);
+
   const [startDate, setstartDate] = useState("");
   const [endDate, setendDate] = useState("");
-  const [projectnameTouched, setprojectnameTouched] = useState("");
-  const [descriptionTouched, setdescriptionTouched] = useState("");
+  const [errMsg, setErrMsg] = useState("");
   const [error, setError] = useState(null);
   const [showContent, setShowContent] = useState(false);
+
+  useEffect(() => {
+    setValidProjectName(NAME_REGEX.test(projectname));
+  }, [projectname]);
+  useEffect(() => {
+    setValidDescription(NAME_REGEX.test(description));
+  }, [description]);
+  useEffect(() => {
+    setErrMsg("");
+  }, [projectname, description]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!user) {
       setError("you must be logged in");
+      history("/login");
       return;
     }
     const project = { projectname, description, startDate, endDate };
@@ -56,17 +81,6 @@ const Company = () => {
   const handleTickClick = () => {
     setShowContent(!showContent);
   };
-  const handleProjectnameBlur = () => {
-    setprojectnameTouched(true);
-  };
-  const handledescriptionBlur = () => {
-    setdescriptionTouched(true);
-  };
-
-  const isProjectnameInvalid = !projectname && projectnameTouched;
-  const isProjectnameValid = projectname && !isProjectnameInvalid;
-  const isdescriptionInvalid = !description && descriptionTouched;
-  const isdescriptionValid = description && !isdescriptionInvalid;
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -128,6 +142,13 @@ const Company = () => {
                 Add project
               </Button>
               <Modal show={showModal} onHide={handleClose}>
+                <p
+                  ref={errRef}
+                  className={errMsg ? "errmsg" : "offscreen"}
+                  aria-live="assertive"
+                >
+                  {errMsg}
+                </p>
                 <Modal.Header closeButton>
                   <Modal.Title>Add Project Details</Modal.Title>
                   <br />
@@ -140,29 +161,47 @@ const Company = () => {
                     >
                       <Form.Label style={{ fontWeight: "bold" }}>
                         Project Name
+                        <FontAwesomeIcon
+                          icon={faCheck}
+                          className={validProjectName ? "valid" : "hide"}
+                        />
+                        <FontAwesomeIcon
+                          icon={faTimes}
+                          className={
+                            validProjectName || !projectname
+                              ? "hide"
+                              : "invalid"
+                          }
+                        />
                       </Form.Label>
                       <Form.Control
                         type="text"
-                        placeholder="Enter project name"
-                        className={`form-control ${
-                          isProjectnameInvalid ||
-                          (!isProjectnameValid && projectnameTouched)
-                            ? "is-invalid"
-                            : isProjectnameValid
-                            ? "is-valid"
-                            : ""
-                        }`}
-                        autoFocus
+                        className="form-control"
+                        ref={userRef}
+                        autoComplete="on"
                         onChange={(e) => setprojectname(e.target.value)}
-                        onBlur={handleProjectnameBlur}
+                        required
+                        aria-invalid={validProjectName ? "false" : "true"}
+                        aria-describedby="uidnote"
+                        onFocus={() => setProjectNameFocus(true)}
+                        onBlur={() => setProjectNameFocus(false)}
                         value={projectname}
+                        placeholder="Enter your project name..."
                       />
-                      {(isProjectnameInvalid ||
-                        (!isProjectnameValid && projectnameTouched)) && (
-                        <div className="invalid-feedback">
-                          Please enter a your project name
-                        </div>
-                      )}{" "}
+                      <p
+                        className={
+                          ProjectNameFocus && projectname && !validProjectName
+                            ? "instructions"
+                            : "offscreen"
+                        }
+                      >
+                        <FontAwesomeIcon icon={faInfoCircle} />
+                        4 to 24 characters.
+                        <br />
+                        Must begin with a letter.
+                        <br />
+                        Letters, numbers, underscores, hyphens allowed.
+                      </p>
                     </Form.Group>
                     <Form.Group
                       className="mb-3"
@@ -170,28 +209,47 @@ const Company = () => {
                     >
                       <Form.Label style={{ fontWeight: "bold" }}>
                         Description
+                        <FontAwesomeIcon
+                          icon={faCheck}
+                          className={validDescription ? "valid" : "hide"}
+                        />
+                        <FontAwesomeIcon
+                          icon={faTimes}
+                          className={
+                            validDescription || !description
+                              ? "hide"
+                              : "invalid"
+                          }
+                        />
                       </Form.Label>
                       <Form.Control
-                        as="textarea"
-                        rows={3}
-                        className={`form-control ${
-                          isdescriptionInvalid ||
-                          (!isdescriptionValid && descriptionTouched)
-                            ? "is-invalid"
-                            : isdescriptionValid
-                            ? "is-valid"
-                            : ""
-                        }`}
+                        type="text"
+                        className="form-control"
+                        ref={userRef}
+                        autoComplete="on"
                         onChange={(e) => setdescription(e.target.value)}
-                        onBlur={handledescriptionBlur}
+                        required
+                        aria-invalid={validDescription ? "false" : "true"}
+                        aria-describedby="uidnote"
+                        onFocus={() => setDescriptionFocus(true)}
+                        onBlur={() => setDescriptionFocus(false)}
                         value={description}
+                        placeholder="Enter your Description..."
                       />
-                      {(isdescriptionInvalid ||
-                        (!isdescriptionValid && descriptionTouched)) && (
-                        <div className="invalid-feedback">
-                          Please enter a description
-                        </div>
-                      )}{" "}
+                      <p
+                        className={
+                          DescriptionFocus && description && !validDescription
+                            ? "instructions"
+                            : "offscreen"
+                        }
+                      >
+                        <FontAwesomeIcon icon={faInfoCircle} />
+                        4 to 24 characters.
+                        <br />
+                        Must begin with a letter.
+                        <br />
+                        Letters, numbers, underscores, hyphens allowed.
+                      </p>
                     </Form.Group>
                     <div className="mb-6 form-check">
                       <input

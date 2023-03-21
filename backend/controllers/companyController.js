@@ -2,7 +2,7 @@ const Company = require("../models/companyModel");
 const User = require("../models/memberModel");
 const jwt = require("jsonwebtoken");
 const createToken = (_id) => {
-  return jwt.sign({ _id }, process.env.SECRET, { expiresIn: "3d" });
+  return jwt.sign({ _id }, process.env.SECRET, { expiresIn: "1d" });
 };
 
 const createCompany = async (req, res) => {
@@ -38,15 +38,18 @@ const createCompany = async (req, res) => {
 };
 
 const checkcompany = async (req, res) => {
-  const { companykey } = req.body;
+  const { companyKey } = req.body;
   const { id, selectedJob } = req;
   if (selectedJob === "SYSTEM ADMIN") {
     return res.status(401).json({ error: "User is not authorized" });
   }
   try {
-    const company = await Company.checkcompany(companykey);
-    const token = createToken(company._id);
-    res.status(200).json({ companykey, token });
+    const company = await Company.findOne({ companyKey });
+    if (!company) {
+      return res.status(404).json({ error: "Company not found" });
+    }
+    console.log(company.companyname);
+    res.status(200).json({ company });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

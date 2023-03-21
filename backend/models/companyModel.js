@@ -2,31 +2,34 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const validator = require("validator");
 const Schema = mongoose.Schema;
-const companySchema = new Schema({
-  companyname: {
-    type: String,
-    required: true,
+const companySchema = new Schema(
+  {
+    companyname: {
+      type: String,
+      required: true,
+    },
+    companyemail: {
+      type: String,
+      required: true,
+    },
+    contactnumber: {
+      type: Number,
+      required: true,
+    },
+    companyaddress: {
+      type: String,
+      required: true,
+    },
+    user_id: {
+      type: String,
+      required: true,
+    },
+    companyKey: {
+      type: String,
+    },
   },
-  companyemail: {
-    type: String,
-    required: true,
-  },
-  contactnumber: {
-    type: Number,
-    required: true,
-  },
-  companyaddress: {
-    type: String,
-    required: true,
-  },
-  user_id: {
-    type: String,
-    required: true,
-  },
-  companyKey: {
-    type: String,
-  },
-});
+  { timestamps: true }
+);
 
 companySchema.statics.createcompany = async function (
   companyname,

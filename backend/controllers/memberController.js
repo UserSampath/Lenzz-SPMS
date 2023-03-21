@@ -3,7 +3,6 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 var nodemailer = require("nodemailer");
 const express = require("express");
-const validator = require("validator");
 const asyncHandler = require("express-async-handler");
 const app = express();
 app.use(express.json());
@@ -41,8 +40,9 @@ const loginUser = async (req, res) => {
 };
 
 //Signup a user
-const signupUser = async (req, res) => {
+const signupUser = asyncHandler(async (req, res) => {
   const { firstName, lastName, email, password, selectedJob } = req.body;
+
   try {
     const user = await User.signup(
       firstName,
@@ -56,7 +56,7 @@ const signupUser = async (req, res) => {
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
-};
+});
 
 //Password Change
 const passwordlink = async (req, res) => {

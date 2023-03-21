@@ -4,40 +4,43 @@ const validator = require("validator");
 const { Jobes } = require("../util/Constants");
 const Schema = mongoose.Schema;
 
-const userSchema = new Schema({
-  email: {
-    type: String,
-    required: true,
-  },
-  password: {
-    type: String,
-    required: true,
-  },
-
-  firstName: {
-    type: String,
-    required: true,
-  },
-  lastName: {
-    type: String,
-    required: true,
-  },
-  selectedJob: {
-    type: String,
-    enum: [Jobes.SystemAdmin, Jobes.Projectmanager, Jobes.Developer],
-  },
-  tokens: [
-    {
-      token: {
-        type: String,
-        required: true,
-      },
+const userSchema = new Schema(
+  {
+    email: {
+      type: String,
+      required: true,
     },
-  ],
-  verifytoken: {
-    type: String,
+    password: {
+      type: String,
+      required: true,
+    },
+
+    firstName: {
+      type: String,
+      required: true,
+    },
+    lastName: {
+      type: String,
+      required: true,
+    },
+    selectedJob: {
+      type: String,
+      enum: [Jobes.SystemAdmin, Jobes.Projectmanager, Jobes.Developer],
+    },
+    tokens: [
+      {
+        token: {
+          type: String,
+          required: true,
+        },
+      },
+    ],
+    verifytoken: {
+      type: String,
+    },
   },
-});
+  { timestamps: true }
+);
 
 // static signup method
 userSchema.statics.signup = async function (
