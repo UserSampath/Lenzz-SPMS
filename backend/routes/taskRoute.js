@@ -11,7 +11,7 @@ router.put('/updateTaskDetails', upload.array("file"), Task.updateTaskDetails)
 router.get('/getTaskById', Task.getTaskById)
 router.delete('/deleteOneTask/:id', Task.deleteOneTask)
 router.put('/moveCardsAcrossStages', Task.moveCardsAcrossStages)
-router.delete('/deleteAttachment', Task.deleteAttachment)
+router.post('/deleteAttachment', Task.deleteAttachment)
 
 
 

@@ -1,5 +1,6 @@
 const ProgressStage = require("../models/progressStageModel");
 const Task = require("../models/taskModel");
+const { uploadFile, find, deleteOne, downloadOne } = require("../util/s3Service");
 
 
 module.exports = {
@@ -92,13 +93,21 @@ module.exports = {
             const lists = await ProgressStage.find();
             if (lists) {
                 console.log(lists)
-
                 lists.forEach(async list => {
                     if (list.listIndex > index) {
                         list.listIndex--;
                         await list.save(); // save the changes back to the database
                     }
                 })
+            }
+
+
+            const AllTasks = await Task.find({ progressStage_id: listID });
+            console.log("allllllllllllllllllllllllll", AllTasks)
+            for (const task of AllTasks) {
+                for (const file of task.files) {
+                    await deleteOne(file.fileName);
+                }
             }
 
             const result = await Task.deleteMany({ progressStage_id: listID });

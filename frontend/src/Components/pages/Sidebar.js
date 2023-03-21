@@ -63,16 +63,17 @@ const Sidebar = ({ children }) => {
     },
   ];
   return (
-    <div>
+    <div >
       <Navbar
         collapseOnSelect
         expand="lg"
         variant="dark"
-        style={{ backgroundColor: "#075d88", position: "fixed" }}
+        style={{ backgroundColor: "#075d88", position: "fixed", zIndex: 1 }}
         fixed="top"
 
+
       >
-        <Container >
+        <Container style={{ zIndex: 1 }} >
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto">
@@ -116,7 +117,7 @@ const Sidebar = ({ children }) => {
       </Navbar>
 
       <div className="sideBarContainer">
-        <div className="sidebar" style={{ width: open ? "230px" : "50px", position:"absolute" }}>
+        <div className="sidebar" style={{ width: open ? "230px" : "50px", position: "absolute" }}>
           <div className="topSection">
             <img
               style={{ display: open ? "block" : "none" }}

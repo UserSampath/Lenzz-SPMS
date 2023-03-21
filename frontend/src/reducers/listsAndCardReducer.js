@@ -74,6 +74,29 @@ const listsReducer = (state = initialState, action) => {
       return newState;
     }
 
+    case CONSTANTS.DELETE_ATTACHMENT: {
+      const { listId, cardId, attachmentId } = action.payload.data;
+      const newState = state.map((list) => {
+        if (list._id === listId) {
+          return {
+            ...list,
+            cards: list.cards.map((card) => {
+              if (card._id === cardId) {
+                return {
+                  ...card,
+                  files: card.files.filter((file) => file._id !== attachmentId)
+                };
+              }
+              return card;
+            })
+          };
+        }
+        return list;
+      });
+      return newState
+    }
+
+
     case CONSTANTS.DELETE_LIST: {
       const listId = action.payload.listId;
       const newState = state.filter(list => list._id !== listId);

@@ -120,7 +120,7 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
 
       formData.append('json', JSON.stringify(newTask));
 
-      axios.post("http://localhost:4000/task/create", formData, {
+      await axios.post("http://localhost:4000/task/create", formData, {
         headers: {
           'Content-Type': 'multipart/form-data' // Use multipart/form-data instead of multipart/mixed
         }
@@ -178,7 +178,7 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
 
       formData.append('json', JSON.stringify(data));
 
-      axios.put("http://localhost:4000/updateTaskDetails", formData, {
+     await axios.put("http://localhost:4000/updateTaskDetails", formData, {
         headers: {
           'Content-Type': 'multipart/form-data' // Use multipart/form-data instead of multipart/mixed
         }
@@ -264,9 +264,9 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
     toggleCreateTaskModal();
 
   }
-  const deleteTask = (id, index) => {
+  const deleteTask =async (id, index) => {
     const taskIndex = index;
-    axios.delete(`http://localhost:4000/deleteOneTask/${id}`, { data: { taskIndex, listID } })
+    await axios.delete(`http://localhost:4000/deleteOneTask/${id}`, { data: { taskIndex, listID } })
       .then(response => {
         console.log(response.data.message);
         dispatch(deleteCard(id, listID));
@@ -302,11 +302,11 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
     setIsThreeDoteModelOpen(!isThreeDoteModelOpen)
 
   }
-  const deleteListHandler = () => {
+  const deleteListHandler = async() => {
     setIsThreeDoteModelOpen(!isThreeDoteModelOpen)
     console.log(listID, index)
 
-    axios.delete(`http://localhost:4000/deleteList/${listID}`, { data: { index, listID } })
+    await axios.delete(`http://localhost:4000/deleteList/${listID}`, { data: { index, listID } })
       .then(response => {
         console.log(response.data.message);
         dispatch(deleteList(listID))
@@ -363,7 +363,8 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
           <div onClick={toggleCreateTaskModal} className={styles.overlay}></div>
           <div className={styles.modalContent}>
 
-            {showAttachment && <Attachment setShowAttachment={setShowAttachment} existingTasks={existingTasks} updatingTaskId={updatingTaskId} />}
+            
+            {showAttachment && <Attachment setShowAttachment={setShowAttachment} existingTasks={existingTasks} updatingTaskId={updatingTaskId} dispatch={dispatch} listID={listID} />}
             <h1>Task</h1>
             <form onSubmit={formSubmissionHandler}>
               <div className={styles.formControl}>

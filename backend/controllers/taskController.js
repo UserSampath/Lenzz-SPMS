@@ -168,6 +168,11 @@ module.exports = {
             if (!task) {
                 return res.status(404).json({ message: 'Task not found' });
             }
+            //TODO:
+            for (const file of task.files) {
+                await deleteOne(file.fileName);
+            }
+
 
             // update taskIndex values of remaining tasks in the list
             const tasks = await Task.find({ progressStage_id: listID });
@@ -243,6 +248,7 @@ module.exports = {
     deleteAttachment: async (req, res) => {
         const taskId = req.body.taskId;
         const fileId = req.body.fileId;
+        console.log(req.body);
 
         try {
             const task = await Task.findById(taskId);
@@ -250,7 +256,12 @@ module.exports = {
 
                 if (task.files[i]._id.toString() === fileId) {
                     console.log("matched")
+                    let t = task.files[i].fileName
+                    console.log(t)
+                    const result = await deleteOne(t)
                     task.files.pull(task.files[i])
+
+
                 }
             }
             // task.files = task.files.filter(file => file._id.toString() !== fileId);

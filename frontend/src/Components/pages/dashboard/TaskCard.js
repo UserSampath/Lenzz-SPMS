@@ -65,7 +65,7 @@ const TaskCard = (props) => {
           {...provided.dragHandleProps}
         >
           {TaskDetailsModal && (
-            <TaskDetails toggleModal={toggleModal} card={props.card} clickedUpdateButton={clickedUpdateButton} clickedDeleteButton={clickedDeleteButton}  />
+            <TaskDetails toggleModal={toggleModal} card={props.card} clickedUpdateButton={clickedUpdateButton} clickedDeleteButton={clickedDeleteButton} />
           )}
           <div onClick={toggleModal}>
 
@@ -87,7 +87,7 @@ const TaskCard = (props) => {
               {/* {props.card.flag !== "default" ? (
                 <div className="aa" style={{}}>{props.card.flag}</div>
               ) : null} */}
-              <img src="https://sampathnalaka.s3.eu-north-1.amazonaws.com/uploads/aa8f3782-efe9-414b-93c4-d2278a26e224-3557.jpg" alt="svs"
+              <img src="https://sampathnalaka.s3.eu-north-1.amazonaws.com/uploads/IMG_20210907_151753_997.jpg" alt="svs"
                 width="38" height="38"
                 // style="border-radius: 50%; border: 1px solid black;
                 style={{ borderRadius: "50%", border: "1px solid white" }}
