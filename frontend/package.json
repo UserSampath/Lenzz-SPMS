@@ -4,6 +4,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@chakra-ui/avatar": "^2.2.6",
+    "@chakra-ui/icons": "^2.0.17",
+    "@chakra-ui/layout": "^2.1.16",
+    "@chakra-ui/react": "^2.5.2",
     "@fontsource/roboto": "^4.5.8",
     "@fortawesome/fontawesome-svg-core": "^6.3.0",
     "@fortawesome/free-solid-svg-icons": "^6.3.0",

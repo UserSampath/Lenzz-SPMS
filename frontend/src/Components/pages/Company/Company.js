@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import SideBar from "../Sidebar";
 import "./Company.css";
 import { Button, Modal, Form } from "react-bootstrap";
+import axios from "axios";
 import { useProjectContext } from "../../../hooks/useProjectContext";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "./../../../hooks/useAuthContext";
@@ -11,6 +12,8 @@ import {
   faInfoCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Badge from "react-bootstrap/Badge";
+import { MdOutlineDeleteOutline } from "react-icons/md";
 const NAME_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 
 const Company = () => {
@@ -22,12 +25,17 @@ const Company = () => {
   const handleClose = () => setShowModal(false);
   const handleShow = () => setShowModal(true);
   const history = useNavigate();
+  const [searchResult, setSearchResult] = useState([]);
+  const [selectedUser, setSelectedUser] = useState(null);
   const [projectname, setprojectname] = useState("");
   const [validProjectName, setValidProjectName] = useState(false);
   const [ProjectNameFocus, setProjectNameFocus] = useState(false); // initialize with false
   const [description, setdescription] = useState("");
   const [validDescription, setValidDescription] = useState(false);
   const [DescriptionFocus, setDescriptionFocus] = useState(false);
+  const [selectedUsers, setSelectedUsers] = useState([]);
+  const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const [startDate, setstartDate] = useState("");
   const [endDate, setendDate] = useState("");
@@ -45,6 +53,15 @@ const Company = () => {
     setErrMsg("");
   }, [projectname, description]);
 
+  const handleSelectUser = (user) => {
+    setSelectedUsers([...selectedUsers, user]);
+    setSearchResult([]);
+    setSearch("");
+  };
+  const handleRemoveUser = (user) => {
+    const filteredUsers = selectedUsers.filter((u) => u.id !== user.id);
+    setSelectedUsers(filteredUsers);
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!user) {
@@ -99,6 +116,28 @@ const Company = () => {
       fetchProjects();
     }
   }, [dispatch, user]);
+
+  const handleSearch = async (query) => {
+    setSearch(query);
+    if (!query) {
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      const config = {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      };
+
+      const { data } = await axios.get(`/api/user?search=${search}`, config);
+      console.log(data);
+      setLoading(false);
+      setSearchResult(data);
+    } catch (error) {}
+  };
 
   return (
     <SideBar>
@@ -250,6 +289,118 @@ const Company = () => {
                         <br />
                         Letters, numbers, underscores, hyphens allowed.
                       </p>
+                    </Form.Group>
+                    <Form.Group>
+                      <Form.Label style={{ fontWeight: "bold" }}>
+                        Assigned members
+                      </Form.Label>
+                      <div style={{ display: "flex", paddingBottom: "2px" }}>
+                        <Form.Control
+                          style={{ marginRight: "10px", marginBottom: "1px" }}
+                          placeholder="Search by name or email"
+                          value={search}
+                          onChange={(e) => setSearch(e.target.value)}
+                        />
+                        <Button variant="primary" onClick={handleSearch}>
+                          Search
+                        </Button>
+                      </div>
+                      <div width="100%" display="flex">
+                        {searchResult.length > 0 && (
+                          <ul
+                            style={{
+                              padding: "10px",
+                              marginRight: "35px",
+                              overflow: "auto",
+                              maxHeight: "200px",
+                            }}
+                          >
+                            {searchResult.map((result) => (
+                              <Badge
+                                bg="primary"
+                                style={{
+                                  position: "relative",
+                                  width: "390px",
+                                  height: "50px",
+                                  marginBottom: "10px",
+                                  cursor: "pointer",
+                                  backgroundColor: "#00aff",
+                                }}
+                                key={result.id}
+                                onClick={() => handleSelectUser(result)}
+                              >
+                                <div>
+                                  <p
+                                    style={{
+                                      fontSize: "20px",
+                                      marginBottom: "3px",
+                                      marginRight: "500px",
+                                    }}
+                                  >
+                                    {result.firstName} {result.lastName}
+                                  </p>
+                                  <p
+                                    style={{
+                                      fontSize: "20px",
+                                      marginBottom: "3px",
+                                      marginRight: "500px",
+                                    }}
+                                  >
+                                    {result.selectedJob}
+                                  </p>
+                                </div>
+                              </Badge>
+                            ))}
+                          </ul>
+                        )}
+                      </div>
+                      <div style={{ marginTop: "6px" }}>
+                        {selectedUsers.map((user) => (
+                          <Badge
+                            key={user.id}
+                            bg="secondary"
+                            className="badge badge-info"
+                            style={{
+                              position: "relative",
+                              width: "210px",
+                              height: "50px",
+                              marginBottom: "10px",
+                              cursor: "pointer",
+                            }}
+                          >
+                            <div style={{ display: "flex" }}>
+                              <div>
+                                <p
+                                  style={{
+                                    marginBottom: "3px",
+                                    marginLeft: "0px",
+                                    fontSize: "20px",
+                                  }}
+                                >
+                                  {user.firstName} {user.lastName}
+                                </p>
+                                <p
+                                  style={{
+                                    marginBottom: "0px",
+                                    fontSize: "15px",
+                                  }}
+                                >
+                                  {user.selectedJob}
+                                </p>
+                              </div>
+                              <div>
+                                <MdOutlineDeleteOutline
+                                  style={{
+                                    fontSize: "45px",
+                                    marginLeft: "27px",
+                                  }}
+                                  onClick={() => handleRemoveUser(user)}
+                                />
+                              </div>
+                            </div>
+                          </Badge>
+                        ))}
+                      </div>
                     </Form.Group>
                     <div className="mb-6 form-check">
                       <input

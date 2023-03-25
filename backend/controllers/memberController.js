@@ -173,8 +173,45 @@ const allUsers = asyncHandler(async (req, res) => {
 
   const users = await User.find(keyword).find({ _id: { $ne: req.user._id } });
   res.send(users);
-  console.log(users);
 });
+
+//Email verification
+const SendEmail = async (req, res) => {
+  const { email } = req.body;
+  try {
+    const user = await User.forget(email);
+    const userfind = await User.findOne({ email: email, user });
+    const token = jwt.sign({ _id: userfind._id }, keysecret, {
+      expiresIn: "1d",
+    });
+    const setusertoken = await User.findByIdAndUpdate(
+      { _id: userfind._id },
+      { verifytoken: token },
+      { new: true }
+    );
+    if (setusertoken) {
+      const mailOptions = {
+        from: "lenzzhasthiyit@gmail.com",
+        to: email,
+        subject: "Sending Email for verification",
+        text: `This link is valid for 2 minutes `,
+      };
+      transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          console.log("error", error);
+          res.status(201).json({ status: 201, message: "Email not send" });
+        } else {
+          console.log("Email sent", info.response);
+          res
+            .status(201)
+            .json({ status: 201, message: "Email sent succsfully" });
+        }
+      });
+    }
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
 module.exports = {
   passwordlink,
   signupUser,
@@ -183,4 +220,5 @@ module.exports = {
   reset,
   updateUserProfile,
   allUsers,
+  SendEmail,
 };

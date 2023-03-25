@@ -36,7 +36,14 @@ const Register = () => {
   const [validConfirmPassword, setValidConfirmPassword] = useState(false);
   const [ConfirmpasswordFocus, setConfirmPasswordFocus] = useState(false);
 
-  const options = ["SYSTEM ADMIN", "DEVELOPER", "PROJECT MANAGER"];
+  const options = [
+    "SYSTEM ADMIN",
+    "DEVELOPER",
+    "PROJECT MANAGER",
+    "CLIENT",
+    "QUALITY ASSURANCE",
+    "TECHLEAD",
+  ];
   const [selectedJob, setSelectedJob] = useState("");
   const { signup, isLoading, error } = useSignup();
   const [errMsg, setErrMsg] = useState("");

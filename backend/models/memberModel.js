@@ -25,7 +25,14 @@ const userSchema = new Schema(
     },
     selectedJob: {
       type: String,
-      enum: [Jobes.SystemAdmin, Jobes.Projectmanager, Jobes.Developer],
+      enum: [
+        Jobes.SystemAdmin,
+        Jobes.Projectmanager,
+        Jobes.Developer,
+        Jobes.TechLead,
+        Jobes.Client,
+        Jobes.QualityAssurance,
+      ],
     },
     tokens: [
       {
@@ -148,19 +155,13 @@ userSchema.statics.reset = async function (password) {
   const hash = await bcrypt.hash(password, salt);
   return user;
 };
-userSchema.statics.update = async function (
-  firstName,
-  lastName,
-  email,
-  password
-) {
+userSchema.statics.verify = async function (email, selectedJob) {
   // validation
-
+  if (!email) {
+    throw Error("All fields must be filled");
+  }
   if (!validator.isEmail(email)) {
     throw Error("Email not valid");
-  }
-  if (!validator.isStrongPassword(password)) {
-    throw Error("Password not strong enough");
   }
 
   const exists = await this.findOne({ email });
@@ -169,14 +170,9 @@ userSchema.statics.update = async function (
     throw Error("Email already in use");
   }
 
-  const salt = await bcrypt.genSalt(10);
-  const hash = await bcrypt.hash(password, salt);
-
   const user = await this.create({
     email,
-    password: hash,
-    firstName,
-    lastName,
+    selectedJob,
   });
 
   return user;
