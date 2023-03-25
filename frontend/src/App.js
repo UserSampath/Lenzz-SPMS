@@ -37,8 +37,8 @@ function App() {
           <Route path="/Progress" element={<Progress />} />
           <Route path="/ChatRoom" element={<Chatroom />} />
           <Route path="/Settings" element={<Settings />} />
-          <Route path="/Company" element={<Company />} />
-          <Route path="/" element={<DashboardProvider />} />
+          <Route path="/" element={<Company />} />
+          <Route path="/Dashboard" element={<DashboardProvider />} />
           <Route path="/AccountSettings" element={<AccountSettings />} />
         </Routes>
       </BrowserRouter>

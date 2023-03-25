@@ -37,7 +37,7 @@ const Sidebar = ({ children }) => {
   };
   const menuItem = [
     {
-      path: "/Company",
+      path: "/",
       name: "Company",
       icon: <FaCity />,
     },
@@ -47,7 +47,7 @@ const Sidebar = ({ children }) => {
       icon: <FaRegChartBar />,
     },
     {
-      path: "/",
+      path: "/Dashboard",
       name: "Dashboard",
       icon: <FaThLarge />,
     },
