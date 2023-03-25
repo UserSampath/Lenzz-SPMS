@@ -1,16 +1,36 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import "./EnterCompany.css";
 import { useNavigate } from "react-router-dom";
 import { useCompanyContext } from "./../../../hooks/useCompanyContext";
 import { useAuthContext } from "./../../../hooks/useAuthContext";
+import {
+  faCheck,
+  faTimes,
+  faInfoCircle,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+const KEY = /^[a-zA-Z0-9]{8}$/;
 
 function EnterCompany() {
-  const [companykey, setCompanykey] = useState("");
-  const [companykeyTouched, setCompanykeyTouched] = useState("");
+  const userRef = useRef();
+  const errRef = useRef();
+  const [companyKey, setCompanyKey] = useState("");
+  const [validCompanyKey, setValidCompanyKey] = useState(false);
+  const [CompanyKeyFocus, setCompanyKeyFocus] = useState(false);
   const { user } = useAuthContext();
+  const [errMsg, setErrMsg] = useState("");
   const { dispatch } = useCompanyContext();
   const [error, setError] = useState(null);
   const history = useNavigate();
+  useEffect(() => {
+    userRef.current.focus();
+  }, []);
+  useEffect(() => {
+    setValidCompanyKey(KEY.test(companyKey));
+  }, [companyKey]);
+  useEffect(() => {
+    setErrMsg("");
+  }, [companyKey]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -18,7 +38,7 @@ function EnterCompany() {
       setError("you must be logged in");
       return;
     }
-    const key = { companykey };
+    const key = { companyKey };
     const response = await fetch("/api/company/checkcompany", {
       method: "POST",
       body: JSON.stringify(key),
@@ -28,25 +48,20 @@ function EnterCompany() {
       },
     });
     const json = await response.json();
+    console.log("ok");
+
     if (!response.ok) {
       setError(json.error);
     }
     if (response.ok) {
-      history("/DashboardProvider");
-
-      setCompanykey("");
-
+      history("/Company");
+      setCompanyKey("");
       setError(null);
       console.log("you add new company", json);
       dispatch({ type: "COMPANY_KEY", payload: json });
     }
   };
-  const handleCompanykeyBlur = () => {
-    setCompanykeyTouched(true);
-  };
 
-  const isCompanykeyInvalid = !companykey && companykeyTouched;
-  const isCompanykeyValid = companykey && !isCompanykeyInvalid;
   return (
     <div>
       <div className="container shadow my-5">
@@ -62,31 +77,55 @@ function EnterCompany() {
               style={{ marginLeft: "95px", marginTop: "125px" }}
             >
               <form className="mt-5 needs-validation" onSubmit={handleSubmit}>
+                <p
+                  ref={errRef}
+                  className={errMsg ? "errmsg" : "offscreen"}
+                  aria-live="assertive"
+                >
+                  {errMsg}
+                </p>
                 <div className="mb-4 w-75">
-                  <label htmlFor="exampleInputEmail1" className="form-label">
-                    Enter Company key
-                  </label>
+                  <label htmlFor="email">
+                    Company Key:
+                    <FontAwesomeIcon
+                      icon={faCheck}
+                      className={validCompanyKey ? "valid" : "hide"}
+                    />
+                    <FontAwesomeIcon
+                      icon={faTimes}
+                      className={
+                        validCompanyKey || !companyKey ? "hide" : "invalid"
+                      }
+                    />
+                  </label>{" "}
                   <input
                     type="text"
-                    className={`form-control ${
-                      isCompanykeyInvalid ||
-                      (!isCompanykeyValid && companykeyTouched)
-                        ? "is-invalid"
-                        : isCompanykeyValid
-                        ? "is-valid"
-                        : ""
-                    }`}
-                    id="exampleInputEmail1"
-                    onChange={(e) => setCompanykey(e.target.value)}
-                    onBlur={handleCompanykeyBlur}
-                    value={companykey}
+                    id="companykey"
+                    className="form-control"
+                    ref={userRef}
+                    autoComplete="on"
+                    onChange={(e) => setCompanyKey(e.target.value)}
+                    required
+                    aria-invalid={validCompanyKey ? "false" : "true"}
+                    onFocus={() => setCompanyKeyFocus(true)}
+                    onBlur={() => setCompanyKeyFocus(false)}
+                    value={companyKey}
+                    placeholder="Enter company name"
                   />
-                  {(isCompanykeyInvalid ||
-                    (!isCompanykeyValid && companykeyTouched)) && (
-                    <div className="invalid-feedback">
-                      Please enter a valid Company Key
-                    </div>
-                  )}{" "}
+                  <p
+                    className={
+                      CompanyKeyFocus && companyKey && !validCompanyKey
+                        ? "instructions"
+                        : "offscreen"
+                    }
+                  >
+                    <FontAwesomeIcon icon={faInfoCircle} />
+                    4 to 24 characters.
+                    <br />
+                    Must begin with a letter.
+                    <br />
+                    Letters, numbers, underscores, hyphens allowed.
+                  </p>
                 </div>
 
                 <button

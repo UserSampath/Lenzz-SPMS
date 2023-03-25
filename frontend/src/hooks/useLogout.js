@@ -9,6 +9,7 @@ export const useLogout = () => {
   const { dispatch } = useAuthContext();
   const { dispatch: projectDispatch } = useProjectContext();
   const { dispatch: companyDispatch } = useCompanyContext();
+
   const logout = () => {
     // remove user from local
     history("/login");

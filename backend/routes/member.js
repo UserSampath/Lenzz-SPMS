@@ -7,6 +7,7 @@ const {
   reset,
   updateUserProfile,
   allUsers,
+  SendEmail,
 } = require("../controllers/memberController");
 const requireAuth = require("../middleware/requireAuth");
 const router = express.Router();
@@ -14,6 +15,8 @@ const router = express.Router();
 router.post("/login", loginUser);
 router.post("/signup", signupUser);
 router.post("/sendpasswordlink", passwordlink);
+router.post("/verifyEmail", SendEmail);
+
 router.get("/forgotPassword/:id/:token", forgotpassword);
 router.post("/:id/:token", reset);
 router.post("/update", requireAuth, updateUserProfile);

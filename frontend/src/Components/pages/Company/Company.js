@@ -1,30 +1,72 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import SideBar from "../Sidebar";
 import "./Company.css";
 import { Button, Modal, Form } from "react-bootstrap";
+import axios from "axios";
 import { useProjectContext } from "../../../hooks/useProjectContext";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "./../../../hooks/useAuthContext";
+import {
+  faCheck,
+  faTimes,
+  faInfoCircle,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Badge from "react-bootstrap/Badge";
+import { MdOutlineDeleteOutline } from "react-icons/md";
+const NAME_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 
 const Company = () => {
+  const userRef = useRef();
+  const errRef = useRef();
   const { dispatch } = useProjectContext();
   const { user } = useAuthContext();
   const [showModal, setShowModal] = useState(false);
   const handleClose = () => setShowModal(false);
   const handleShow = () => setShowModal(true);
   const history = useNavigate();
+  const [searchResult, setSearchResult] = useState([]);
+  const [selectedUser, setSelectedUser] = useState(null);
   const [projectname, setprojectname] = useState("");
+  const [validProjectName, setValidProjectName] = useState(false);
+  const [ProjectNameFocus, setProjectNameFocus] = useState(false); // initialize with false
   const [description, setdescription] = useState("");
+  const [validDescription, setValidDescription] = useState(false);
+  const [DescriptionFocus, setDescriptionFocus] = useState(false);
+  const [selectedUsers, setSelectedUsers] = useState([]);
+  const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(false);
+
   const [startDate, setstartDate] = useState("");
   const [endDate, setendDate] = useState("");
-  const [projectnameTouched, setprojectnameTouched] = useState("");
-  const [descriptionTouched, setdescriptionTouched] = useState("");
+  const [errMsg, setErrMsg] = useState("");
   const [error, setError] = useState(null);
   const [showContent, setShowContent] = useState(false);
+
+  useEffect(() => {
+    setValidProjectName(NAME_REGEX.test(projectname));
+  }, [projectname]);
+  useEffect(() => {
+    setValidDescription(NAME_REGEX.test(description));
+  }, [description]);
+  useEffect(() => {
+    setErrMsg("");
+  }, [projectname, description]);
+
+  const handleSelectUser = (user) => {
+    setSelectedUsers([...selectedUsers, user]);
+    setSearchResult([]);
+    setSearch("");
+  };
+  const handleRemoveUser = (user) => {
+    const filteredUsers = selectedUsers.filter((u) => u.id !== user.id);
+    setSelectedUsers(filteredUsers);
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!user) {
       setError("you must be logged in");
+      history("/login");
       return;
     }
     const project = { projectname, description, startDate, endDate };
@@ -56,17 +98,6 @@ const Company = () => {
   const handleTickClick = () => {
     setShowContent(!showContent);
   };
-  const handleProjectnameBlur = () => {
-    setprojectnameTouched(true);
-  };
-  const handledescriptionBlur = () => {
-    setdescriptionTouched(true);
-  };
-
-  const isProjectnameInvalid = !projectname && projectnameTouched;
-  const isProjectnameValid = projectname && !isProjectnameInvalid;
-  const isdescriptionInvalid = !description && descriptionTouched;
-  const isdescriptionValid = description && !isdescriptionInvalid;
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -85,6 +116,28 @@ const Company = () => {
       fetchProjects();
     }
   }, [dispatch, user]);
+
+  const handleSearch = async (query) => {
+    setSearch(query);
+    if (!query) {
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      const config = {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      };
+
+      const { data } = await axios.get(`/api/user?search=${search}`, config);
+      console.log(data);
+      setLoading(false);
+      setSearchResult(data);
+    } catch (error) {}
+  };
 
   return (
     <SideBar>
@@ -128,6 +181,13 @@ const Company = () => {
                 Add project
               </Button>
               <Modal show={showModal} onHide={handleClose}>
+                <p
+                  ref={errRef}
+                  className={errMsg ? "errmsg" : "offscreen"}
+                  aria-live="assertive"
+                >
+                  {errMsg}
+                </p>
                 <Modal.Header closeButton>
                   <Modal.Title>Add Project Details</Modal.Title>
                   <br />
@@ -140,29 +200,47 @@ const Company = () => {
                     >
                       <Form.Label style={{ fontWeight: "bold" }}>
                         Project Name
+                        <FontAwesomeIcon
+                          icon={faCheck}
+                          className={validProjectName ? "valid" : "hide"}
+                        />
+                        <FontAwesomeIcon
+                          icon={faTimes}
+                          className={
+                            validProjectName || !projectname
+                              ? "hide"
+                              : "invalid"
+                          }
+                        />
                       </Form.Label>
                       <Form.Control
                         type="text"
-                        placeholder="Enter project name"
-                        className={`form-control ${
-                          isProjectnameInvalid ||
-                          (!isProjectnameValid && projectnameTouched)
-                            ? "is-invalid"
-                            : isProjectnameValid
-                            ? "is-valid"
-                            : ""
-                        }`}
-                        autoFocus
+                        className="form-control"
+                        ref={userRef}
+                        autoComplete="on"
                         onChange={(e) => setprojectname(e.target.value)}
-                        onBlur={handleProjectnameBlur}
+                        required
+                        aria-invalid={validProjectName ? "false" : "true"}
+                        aria-describedby="uidnote"
+                        onFocus={() => setProjectNameFocus(true)}
+                        onBlur={() => setProjectNameFocus(false)}
                         value={projectname}
+                        placeholder="Enter your project name..."
                       />
-                      {(isProjectnameInvalid ||
-                        (!isProjectnameValid && projectnameTouched)) && (
-                        <div className="invalid-feedback">
-                          Please enter a your project name
-                        </div>
-                      )}{" "}
+                      <p
+                        className={
+                          ProjectNameFocus && projectname && !validProjectName
+                            ? "instructions"
+                            : "offscreen"
+                        }
+                      >
+                        <FontAwesomeIcon icon={faInfoCircle} />
+                        4 to 24 characters.
+                        <br />
+                        Must begin with a letter.
+                        <br />
+                        Letters, numbers, underscores, hyphens allowed.
+                      </p>
                     </Form.Group>
                     <Form.Group
                       className="mb-3"
@@ -170,28 +248,159 @@ const Company = () => {
                     >
                       <Form.Label style={{ fontWeight: "bold" }}>
                         Description
+                        <FontAwesomeIcon
+                          icon={faCheck}
+                          className={validDescription ? "valid" : "hide"}
+                        />
+                        <FontAwesomeIcon
+                          icon={faTimes}
+                          className={
+                            validDescription || !description
+                              ? "hide"
+                              : "invalid"
+                          }
+                        />
                       </Form.Label>
                       <Form.Control
-                        as="textarea"
-                        rows={3}
-                        className={`form-control ${
-                          isdescriptionInvalid ||
-                          (!isdescriptionValid && descriptionTouched)
-                            ? "is-invalid"
-                            : isdescriptionValid
-                            ? "is-valid"
-                            : ""
-                        }`}
+                        type="text"
+                        className="form-control"
+                        ref={userRef}
+                        autoComplete="on"
                         onChange={(e) => setdescription(e.target.value)}
-                        onBlur={handledescriptionBlur}
+                        required
+                        aria-invalid={validDescription ? "false" : "true"}
+                        aria-describedby="uidnote"
+                        onFocus={() => setDescriptionFocus(true)}
+                        onBlur={() => setDescriptionFocus(false)}
                         value={description}
+                        placeholder="Enter your Description..."
                       />
-                      {(isdescriptionInvalid ||
-                        (!isdescriptionValid && descriptionTouched)) && (
-                        <div className="invalid-feedback">
-                          Please enter a description
-                        </div>
-                      )}{" "}
+                      <p
+                        className={
+                          DescriptionFocus && description && !validDescription
+                            ? "instructions"
+                            : "offscreen"
+                        }
+                      >
+                        <FontAwesomeIcon icon={faInfoCircle} />
+                        4 to 24 characters.
+                        <br />
+                        Must begin with a letter.
+                        <br />
+                        Letters, numbers, underscores, hyphens allowed.
+                      </p>
+                    </Form.Group>
+                    <Form.Group>
+                      <Form.Label style={{ fontWeight: "bold" }}>
+                        Assigned members
+                      </Form.Label>
+                      <div style={{ display: "flex", paddingBottom: "2px" }}>
+                        <Form.Control
+                          style={{ marginRight: "10px", marginBottom: "1px" }}
+                          placeholder="Search by name or email"
+                          value={search}
+                          onChange={(e) => setSearch(e.target.value)}
+                        />
+                        <Button variant="primary" onClick={handleSearch}>
+                          Search
+                        </Button>
+                      </div>
+                      <div width="100%" display="flex">
+                        {searchResult.length > 0 && (
+                          <ul
+                            style={{
+                              padding: "10px",
+                              marginRight: "35px",
+                              overflow: "auto",
+                              maxHeight: "200px",
+                            }}
+                          >
+                            {searchResult.map((result) => (
+                              <Badge
+                                bg="primary"
+                                style={{
+                                  position: "relative",
+                                  width: "390px",
+                                  height: "50px",
+                                  marginBottom: "10px",
+                                  cursor: "pointer",
+                                  backgroundColor: "#00aff",
+                                }}
+                                key={result.id}
+                                onClick={() => handleSelectUser(result)}
+                              >
+                                <div>
+                                  <p
+                                    style={{
+                                      fontSize: "20px",
+                                      marginBottom: "3px",
+                                      marginRight: "500px",
+                                    }}
+                                  >
+                                    {result.firstName} {result.lastName}
+                                  </p>
+                                  <p
+                                    style={{
+                                      fontSize: "20px",
+                                      marginBottom: "3px",
+                                      marginRight: "500px",
+                                    }}
+                                  >
+                                    {result.selectedJob}
+                                  </p>
+                                </div>
+                              </Badge>
+                            ))}
+                          </ul>
+                        )}
+                      </div>
+                      <div style={{ marginTop: "6px" }}>
+                        {selectedUsers.map((user) => (
+                          <Badge
+                            key={user.id}
+                            bg="secondary"
+                            className="badge badge-info"
+                            style={{
+                              position: "relative",
+                              width: "210px",
+                              height: "50px",
+                              marginBottom: "10px",
+                              cursor: "pointer",
+                            }}
+                          >
+                            <div style={{ display: "flex" }}>
+                              <div>
+                                <p
+                                  style={{
+                                    marginBottom: "3px",
+                                    marginLeft: "0px",
+                                    fontSize: "20px",
+                                  }}
+                                >
+                                  {user.firstName} {user.lastName}
+                                </p>
+                                <p
+                                  style={{
+                                    marginBottom: "0px",
+                                    fontSize: "15px",
+                                  }}
+                                >
+                                  {user.selectedJob}
+                                </p>
+                              </div>
+                              <div>
+                                <MdOutlineDeleteOutline
+                                  style={{
+                                    fontSize: "45px",
+                                    marginLeft: "27px",
+                                  }}
+                                  onClick={() => handleRemoveUser(user)}
+                                />
+                              </div>
+                            </div>
+                          </Badge>
+                        ))}
+                      </div>
                     </Form.Group>
                     <div className="mb-6 form-check">
                       <input
