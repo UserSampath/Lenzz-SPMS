@@ -8,8 +8,14 @@ const {
   updateUserProfile,
   allUsers,
   SendEmail,
+  generateOTP,
+  resetPassword,
+  getUsers,
+  checkOTP
+
 } = require("../controllers/memberController");
 const requireAuth = require("../middleware/requireAuth");
+const appUserAuthentication = require("../middleware/appUserAuthentication");
 const router = express.Router();
 
 router.post("/login", loginUser);
@@ -21,4 +27,12 @@ router.get("/forgotPassword/:id/:token", forgotpassword);
 router.post("/:id/:token", reset);
 router.post("/update", requireAuth, updateUserProfile);
 router.get("/", requireAuth, allUsers);
+
+//app
+router.post("/generateOTP", generateOTP);
+router.post("/resetPassword", resetPassword);
+router.get("/getUsers", appUserAuthentication, getUsers);
+router.post("/checkOTP", checkOTP);
+
+
 module.exports = router;

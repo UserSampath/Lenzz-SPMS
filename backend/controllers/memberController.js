@@ -11,7 +11,13 @@ app.use(express.urlencoded({ extended: false }));
 const createToken = (_id) => {
   return jwt.sign({ _id }, process.env.SECRET, { expiresIn: "1m" });
 };
-
+const otpGenerator = (otpLength) => {
+  let otp = ""
+  for (let i = 0; i < otpLength; i++) {
+    otp += Math.floor(Math.random() * 10);
+  }
+  return (Number(otp));
+}
 const keysecret = process.env.SECRET;
 const transporter = nodemailer.createTransport({
   service: "gmail",
@@ -212,6 +218,114 @@ const SendEmail = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
+///////////////////////////////////////////////////app/////////
+
+
+const generateOTP = async (req, res) => {
+  const { email } = req.body;
+
+  try {
+    // const user = await User.forget(email);
+    const otp = otpGenerator(6);
+
+    // console.log(otp)
+    const expirationTime = new Date(Date.now() + 5 * 60 * 1000);
+    const user = await User.findOne({ email });
+    const updateUserDetails = await User.updateOne({ email }, { $set: { otp, otpExpiration: expirationTime } });
+    // const userFind = await User.findOne({ email: email });
+
+    if (updateUserDetails.modifiedCount) {
+      console.log("otp is ", otp)
+      const mailOptions = {
+        from: "lenzzhasthiyit@gmail.com",
+        to: email,
+        subject: "sending Email for password Reset",
+        text: `your OTP is ${otp} , the OTP will expire within 5 minutes`,
+      };
+      transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          console.log("error", error);
+          res.status(201).json({ status: 201, message: "email not sent" });
+        } else {
+          console.log("Email sent", info.response);
+          res
+            .status(200)
+            .json({ message: "email sent successfully" });
+        }
+      });
+    } else if (!user) {
+      res.status(400).json({ error: "Can't find the user" });
+
+    } else {
+      res.status(400).json({ error: "Failed to update OTP" });
+    }
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+const checkOTP = async (req, res) => {
+  try {
+    const { email, otp } = req.body;
+    console.log("gdf")
+
+    const user = await User.findOne({ email });
+    if (user && user.otp === otp && user.otpExpiration > new Date()) {
+      res.status(200).json({ message: 'OTP is correct' });
+    } else {
+      res.status(400).json({ error: 'Invalid OTP or OTP expired' });
+    }
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+
+  }
+};
+
+const resetPassword = async (req, res) => {
+  try {
+    const { email, newPassword } = req.body;
+    console.log("gdf")
+
+    const user = await User.resetPassword(
+      email,
+      newPassword
+    );
+    const salt = await bcrypt.genSalt(10);
+    const hash = await bcrypt.hash(newPassword, salt);
+
+    if (user) {
+      user.password = hash;
+      await user.save();
+      await User.updateOne({ email }, { $unset: { otp: '', otpExpiration: '' } });
+      const token = createToken(user._id);
+
+      res.status(200).json({ message: 'Password reset successfully', token: token });
+    } else {
+      res.status(400).json({ error: "Can't find the user " });
+    }
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+
+  }
+};
+
+const getUsers = async (req, res) => {
+  try {
+    // const { userId } = req.body;
+    const userId = req.user._id;
+    console.log(userId.toString());
+
+    const users = await User.find();
+    if (users.length > 0) {
+      res.status(200).json(users);
+    } else {
+      res.status(404).json({ message: 'No users found' });
+    }
+  } catch (error) {
+    res.status(404).json({ message: 'No users found' });
+  }
+};
+
 module.exports = {
   passwordlink,
   signupUser,
@@ -221,4 +335,9 @@ module.exports = {
   updateUserProfile,
   allUsers,
   SendEmail,
+  generateOTP,
+  checkOTP,
+  resetPassword,
+  getUsers
+  
 };

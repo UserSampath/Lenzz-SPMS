@@ -14,14 +14,10 @@ app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: false }));
 var nodemailer = require("nodemailer");
 MONGO_URI =
-  "mongodb+srv://lenzz:lenzz@cluster0.wff0qit.mongodb.net/practise1?retryWrites=true&w=majority";
+  "mongodb://localhost:27017/";
 // express app
 
-app.use(
-  cors({
-    origin: "http://localhost:3000",
-  })
-);
+app.use(cors());
 // middleware
 app.use(express.json());
 

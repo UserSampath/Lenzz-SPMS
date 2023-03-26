@@ -45,6 +45,12 @@ const userSchema = new Schema(
     verifytoken: {
       type: String,
     },
+    otp: {
+      type: String
+    },
+    otpExpiration: {
+      type: Date
+    }
   },
   { timestamps: true }
 );
@@ -175,6 +181,27 @@ userSchema.statics.verify = async function (email, selectedJob) {
     selectedJob,
   });
 
+  return user;
+};
+
+//app 
+userSchema.statics.resetPassword = async function (
+  email,
+  newPassword
+) {
+  if (!email || !newPassword) {
+    throw Error("All fields must be filled");
+  }
+  if (!validator.isEmail(email)) {
+    throw Error("Email not valid")
+  }
+  if (!validator.isStrongPassword(newPassword)) {
+    throw Error("Password not strong enough");
+  }
+  const user = await this.findOne({ email });
+  if (!user) {
+    throw Error("Incorrect email");
+  }
   return user;
 };
 
