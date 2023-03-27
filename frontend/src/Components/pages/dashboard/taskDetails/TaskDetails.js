@@ -1,5 +1,5 @@
 import React from "react"
-import styles from "../taskModel/Modal.module.css"
+import styles from "./taskDetails.module.css"
 import { FaFileAlt } from "react-icons/fa";
 const TaskDetails = (props) => {
     return (

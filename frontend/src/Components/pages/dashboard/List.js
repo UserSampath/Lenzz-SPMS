@@ -1,8 +1,8 @@
 import React from "react";
 import TaskCard from "./TaskCard";
-import CTForm from "./taskModel/CTForm";
-import OptionButton from "./taskModel/OptionButton";
-import styles from "../dashboard/taskModel/Modal.module.css"
+import CTForm from "./createTaskModel/CTForm";
+import OptionButton from "./createTaskModel/OptionButton";
+import styles from "./List.module.css";
 import { useState } from "react";
 import { Droppable, Draggable } from "react-beautiful-dnd";
 import styled from "styled-components";
@@ -11,7 +11,7 @@ import TextareaAutosize from 'react-textarea-autosize';
 import { connect } from "react-redux";
 import { addCard, updateOneTask, deleteCard, deleteList } from "../../../actions";
 import { FaPlus, FaEllipsisH } from "react-icons/fa";
-import ThreeDoteMenu from "./ThreeDoteMenu"
+import ThreeDoteMenu from "./ThreeDoteMenu/ThreeDoteMenu"
 import RenameListModel from "./renameListModal/RenameListModel"
 import Attachment from "./attachmentModel/Attachment"
 
@@ -184,7 +184,7 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
         }
       }).then(async (res) => {
         console.log("update to the database successfully")
-        console.log("newwwwwwwwwwwwwwwwwwwwwwwww", res.data.task);
+        console.log( res.data.task);
 
         dispatch(updateOneTask(res.data.task));
 
@@ -322,14 +322,6 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
     setSelectedFile(event.target.files);
     console.log(event.target.files);
   };
-
-
-
-
-
-
-
-
 
 
   const attachmentButtonClicked = () => {

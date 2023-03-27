@@ -1,0 +1,59 @@
+.formControl input,
+.formControl label {
+  display: block;
+}
+
+.formControl label {
+  font-weight: bold;
+  margin-bottom: 3px;
+  margin-top: 5px;
+}
+
+.formControl input {
+  font: inherit;
+  border-radius: 2px;
+  border: 1px solid #ccc;
+  width: 15rem;
+  max-width: 100%;
+}
+.formControl select {
+  font: inherit;
+  border-radius: 2px;
+  border: 1px solid #ccc;
+  width: 15rem;
+  max-width: 100%;
+  height: 30px;
+}
+
+.formControl input:focus {
+  outline: none;
+  border-color: #618be0;
+}
+.formControl {
+  min-width: 15rem;
+  flex: 1;
+}
+
+.invalid input {
+  border: 1px solid #b40e0e;
+  background-color: #fddddd;
+}
+
+.invalid input:focus {
+  border-color: #ff8800;
+  background-color: #fbe8d2;
+}
+
+.formControl {
+  font-size: 15px;
+}
+
+.errSpan {
+  color: #b40e0e;
+  font-size: 10px;
+}
+
+.selectError {
+  background-color: #fddddd;
+  border-color: #b40e0e !important;
+}

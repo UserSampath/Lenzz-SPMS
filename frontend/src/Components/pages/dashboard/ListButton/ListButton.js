@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import Textarea from "react-textarea-autosize";
 import { connect } from "react-redux";
-import { addList } from "../../../actions";
+import { addList } from "../../../../actions";
 import axios from "axios";
 import { FaPlus } from "react-icons/fa";
 

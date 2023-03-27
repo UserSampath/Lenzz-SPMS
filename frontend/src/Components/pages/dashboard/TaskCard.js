@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { connect } from "react-redux";
 import TaskDetails from "./taskDetails/TaskDetails";
 import { useState } from "react";
+import Styles from "./TaskCard.module.css"
 // import Card from "react-bootstrap/Card";
 
 const CardContainer = styled.div`
@@ -56,7 +57,7 @@ const TaskCard = (props) => {
 
 
   }
-  return (
+  return (<>
     <Draggable draggableId={String(props.id)} index={props.index} isDragDisabled={false}>
       {provided => (
         <CardContainer
@@ -68,29 +69,13 @@ const TaskCard = (props) => {
             <TaskDetails toggleModal={toggleModal} card={props.card} clickedUpdateButton={clickedUpdateButton} clickedDeleteButton={clickedDeleteButton} />
           )}
           <div onClick={toggleModal}>
-
-            <div style={{
-              border: "1px solid black",
-              borderRadius: "3px",
-              padding: "0px 10px",
-              backgroundColor: backgroundColor,
-              display: "flex",
-              alignItems: "center",
-              height: "50px",
-              justifyContent: "space-between",
-              overflow: "hidden",
-
-
-
+            <div className={Styles.card} style={{
+              backgroundColor: backgroundColor
             }}>
-              <div style={{ marginRight: "5px", overflow: "hidden" }}>{props.text}</div>
-              {/* {props.card.flag !== "default" ? (
-                <div className="aa" style={{}}>{props.card.flag}</div>
-              ) : null} */}
+              <div className={Styles.imageContainer}>{props.text}</div>
               <img src="https://sampathnalaka.s3.eu-north-1.amazonaws.com/uploads/IMG_20210907_151753_997.jpg" alt="svs"
                 width="38" height="38"
-                // style="border-radius: 50%; border: 1px solid black;
-                style={{ borderRadius: "50%", border: "1px solid white" }}
+                className={Styles.img}
               >
               </img>
 
@@ -100,6 +85,7 @@ const TaskCard = (props) => {
         </CardContainer>
       )}
     </Draggable>
+    </>
   );
 };
 
