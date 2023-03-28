@@ -54,7 +54,7 @@ function EnterCompany() {
       setError(json.error);
     }
     if (response.ok) {
-      history("/Company");
+      history("/");
       setCompanyKey("");
       setError(null);
       console.log("you add new company", json);

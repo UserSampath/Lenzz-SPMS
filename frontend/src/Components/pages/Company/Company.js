@@ -4,7 +4,7 @@ import "./Company.css";
 import { Button, Modal, Form } from "react-bootstrap";
 import axios from "axios";
 import { useProjectContext } from "../../../hooks/useProjectContext";
-import { useNavigate } from "react-router-dom";
+import { Await, useNavigate } from "react-router-dom";
 import { useAuthContext } from "./../../../hooks/useAuthContext";
 import {
   faCheck,
@@ -42,6 +42,33 @@ const Company = () => {
   const [errMsg, setErrMsg] = useState("");
   const [error, setError] = useState(null);
   const [showContent, setShowContent] = useState(false);
+  const [companyUsers, setCompanyUsers] = useState([]);
+
+
+  //get users
+  const LocalUser = JSON.parse(localStorage.getItem("user"));
+  useEffect(() => {
+    const getUser = async () => {
+      const a = await user;
+      console.log("qqqqqqqqqqq", a)
+    }
+    getUser()
+
+    const getCompanyAllUsers = async () => {
+      await axios.get("http://localhost:4000/api/company/companyUsers", {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${LocalUser.token}`,
+        }
+      }).then(res => {
+        setCompanyUsers(res.data)
+        console.log(res)
+
+      }).catch(err => { console.log(err) })
+    }
+    getCompanyAllUsers();
+  }, [])
+
 
   useEffect(() => {
     setValidProjectName(NAME_REGEX.test(projectname));
@@ -75,7 +102,7 @@ const Company = () => {
       body: JSON.stringify(project),
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${user.token}`,
+        Authorization: `Bearer ${LocalUser.token}`,
       },
     });
     const json = await response.json();
@@ -84,7 +111,7 @@ const Company = () => {
       setError(json.error);
     }
     if (response.ok) {
-      history("/DashboardProvider");
+      history("/Dashboard");
       setprojectname("");
       setstartDate("");
       setendDate("");
@@ -136,7 +163,7 @@ const Company = () => {
       console.log(data);
       setLoading(false);
       setSearchResult(data);
-    } catch (error) {}
+    } catch (error) { }
   };
 
   return (
@@ -180,6 +207,8 @@ const Company = () => {
               >
                 Add project
               </Button>
+
+
               <Modal show={showModal} onHide={handleClose}>
                 <p
                   ref={errRef}
@@ -478,6 +507,10 @@ const Company = () => {
                 </Modal.Footer>
               </Modal>
             </div>
+
+//TODO:
+            <h1>gdfgdf</h1>
+
             <div
               style={{
                 display: "flex",
@@ -532,6 +565,10 @@ const Company = () => {
                 Add member
               </Button>
             </div>
+            //TODO:
+            {companyUsers.map((user, index) => {
+              return <div key={index}> <h2>{user.firstName}</h2></div>;
+            })}
           </div>
         </div>
       </div>

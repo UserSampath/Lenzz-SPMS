@@ -89,7 +89,7 @@ const CreateCompany = () => {
     if (response.ok) {
       if (redirectToCompany) {
         // If the user has closed the modal, redirect them to the company page
-        return history("/Company");
+        return history("/");
       }
       setcompanyname("");
       setcompanyemail("");

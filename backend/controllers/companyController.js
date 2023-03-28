@@ -34,12 +34,7 @@ const createCompany = async (req, res) => {
     const updatedUser = await User.findByIdAndUpdate(user_id, {
       companyId: company._id
     })
-
-    console.log('saaaaaaaaaaaaaaaaaaasasasaa',updatedUser)
-
-
-
-
+    console.log(updatedUser)
     const token = createToken(company._id);
 
     res.status(200).json({ company, companyname, token });
@@ -50,7 +45,7 @@ const createCompany = async (req, res) => {
 
 const checkcompany = async (req, res) => {
   const { companyKey } = req.body;
-  const { id, selectedJob } = req;
+  const { _id, selectedJob } = req;
   if (selectedJob === "SYSTEM ADMIN") {
     return res.status(401).json({ error: "User is not authorized" });
   }
@@ -60,6 +55,12 @@ const checkcompany = async (req, res) => {
       return res.status(404).json({ error: "Company not found" });
     }
     console.log(company.companyname);
+    console.log(_id);
+
+    const updatedUser = await User.findByIdAndUpdate(_id, {
+      companyId: company._id
+    })
+    console.log("updatedUser", updatedUser)
     res.status(200).json({ company });
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -91,8 +92,23 @@ const randomkey = async (req, res) => {
   }
 };
 
+const companyUsers = async (req, res) => {
+  try {
+    const { _id } = req;
+    const user = await User.findById(_id);
+    const allUsersInSameCompany = await User.find({ companyId: user.companyId });
+    if (user) {
+      console.log(user);
+      res.send(allUsersInSameCompany);
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
+
 module.exports = {
   createCompany,
   checkcompany,
   randomkey,
+  companyUsers
 };
