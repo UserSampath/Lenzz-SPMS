@@ -50,6 +50,10 @@ const userSchema = new Schema(
     },
     otpExpiration: {
       type: Date
+    },
+    companyId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Company'
     }
   },
   { timestamps: true }

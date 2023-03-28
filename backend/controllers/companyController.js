@@ -5,10 +5,10 @@ const createToken = (_id) => {
   return jwt.sign({ _id }, process.env.SECRET, { expiresIn: "1d" });
 };
 
+
 const createCompany = async (req, res) => {
   const {
     companyname,
-
     contactnumber,
     companyemail,
     companyaddress,
@@ -30,7 +30,18 @@ const createCompany = async (req, res) => {
       user_id,
       companyKey
     );
+
+    const updatedUser = await User.findByIdAndUpdate(user_id, {
+      companyId: company._id
+    })
+
+    console.log('saaaaaaaaaaaaaaaaaaasasasaa',updatedUser)
+
+
+
+
     const token = createToken(company._id);
+
     res.status(200).json({ company, companyname, token });
   } catch (error) {
     res.status(400).json({ error: error.message });
