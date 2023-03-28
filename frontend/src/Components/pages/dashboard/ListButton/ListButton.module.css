@@ -1,0 +1,47 @@
+.addListButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 3px;
+  height: 36px;
+  width: 262px;
+  min-width: 200px;
+  color: black;
+  background-color: #def3fd;
+}
+
+.plusIcon {
+  margin-right: 5px;
+}
+.addListButtonText {
+  margin: 0px;
+}
+.textareaBackground {
+  min-height: 40px;
+  min-width: 252px;
+  padding: 6px 8px 2px;
+  background-color: #dfe3e6;
+  border-radius: 5px;
+}
+
+.textArea {
+  resize: none;
+  width: 100%;
+  overflow: hidden;
+  outline: none;
+  border: none;
+}
+
+.addNewListListButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 3px;
+  height: 36px;
+  width: 262px;
+  min-width: 200px;
+  color: black;
+  background-color: #def3fd;
+}

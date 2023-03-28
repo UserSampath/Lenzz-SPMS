@@ -29,22 +29,13 @@ const TaskDetails = (props) => {
                 <p className={styles.text}>{props.card.description}</p>
                 <h5 className={styles.subheading}>Attachments:</h5>
                 <div >{props.card.files.map((att, index) => {
-                    return (<div key={index} style={{ display: "flex", alignItems: "center", justifyContent: "center", margin: "5px" }} >
-                        <FaFileAlt style={{
-                            marginRight: "10px"
-                        }} />
-                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
+                    return (<div key={index}
+                        className={styles.taskDetailsContainer}>
+                        <FaFileAlt className={styles.fileIcon} />
+                        <div className={styles.attContainer}>
                             <p style={{ margin: 0 }}>{att.location.split("-lenzz")[1]}</p>
-                            <a href={att.location} style={{ textDecoration: "none" }}>
-                                <div style={{
-                                    background: "#678908",
-                                    color: "#fff",
-                                    padding: "5px 10px",
-                                    borderRadius: "3px",
-                                    cursor: "pointer",
-                                    fontSize: "14px",
-                                    fontWeight: "bold",
-                                }}>
+                            <a href={att.location} className={styles.downloadATag}>
+                                <div className={styles.downloadButton}>
                                     Download
                                 </div>
                             </a>

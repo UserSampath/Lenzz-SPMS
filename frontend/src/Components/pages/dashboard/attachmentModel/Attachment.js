@@ -53,37 +53,18 @@ const Attachment = (props) => {
                 <div className={styles.modalContent}>
                     <h1>Attachments</h1>
                     {attachedFiles.map((att, index) => {
-                        return (<div key={index} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexDirection: "row", margin: 5 }} >
-                            <FaFileAlt style={{
-                                marginRight: "5px"
-                            }} />
-                            <p style={{ flex: 1, margin: 0 }}>{att.location.split("-lenzz")[1]}</p>
-                            <div style={{ display: "flex", justifyContent: "flex-end" }}>
-                                <a href={att.location} style={{ textDecoration: "none" }}>
-                                    <div style={{
-                                        margin: "5px",
-                                        background: "#38b000",
-                                        color: "#fff",
-                                        padding: "5px 10px",
-                                        borderRadius: "3px",
-                                        cursor: "pointer",
-                                        fontSize: "14px",
-                                        fontWeight: "bold",
-                                    }}>
+                        return (<div key={index}
+                            className={styles.oneAttachmentContainer} >
+                            <FaFileAlt className={styles.attachmentFileIcon} />
+                            <p className={styles.attachmentFileName}>{att.location.split("-lenzz")[1]}</p>
+                            <div className={styles.attachmentButtonsContainer}>
+                                <a href={att.location} className={styles.attDownloadLink}>
+                                    <div className={styles.attDownloadButton}>
                                         Download
                                     </div>
                                 </a>
                                 <div onClick={() => attachmentDeleteHandler(att._id)}
-                                    style={{
-                                        margin: "5px",
-                                        background: "red",
-                                        color: "#fff",
-                                        padding: "5px 10px",
-                                        borderRadius: "3px",
-                                        cursor: "pointer",
-                                        fontSize: "14px",
-                                        fontWeight: "bold",
-                                    }}>
+                                    className={styles.attDeleteButton}>
                                     <BsTrash />
                                 </div>
                             </div>
@@ -92,8 +73,11 @@ const Attachment = (props) => {
                         )
                     })}
                     {attachedFiles.length === 0 && <p>no attachments !</p>}
-                    <div style={{ display: "flex", justifyContent: "flex-end", marginTop: "20px" }}>
-                        <button onClick={handleCancelAttachment} style={{ padding: "10px 15px", fontSize: "16px", backgroundColor: "#0877ae", color: "#fff", border: "none", borderRadius: "3px", cursor: "pointer" }}>OK</button>
+                    <div className={styles.okButtonContainer}>
+                        <button onClick={handleCancelAttachment}
+                            
+                            className={styles.okButton}
+                        >OK</button>
                     </div>
                 </div>
             </div>

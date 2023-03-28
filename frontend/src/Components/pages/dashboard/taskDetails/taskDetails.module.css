@@ -69,3 +69,35 @@
   display: flex;
   justify-content: space-between;
 }
+
+.taskDetailsContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 5px;
+
+}
+
+.fileIcon{
+  margin-right: 10px;
+}
+
+.attContainer{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+
+}
+.downloadATag{
+  text-decoration: none;
+}
+.downloadButton{
+  background:#678908 ;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+}
