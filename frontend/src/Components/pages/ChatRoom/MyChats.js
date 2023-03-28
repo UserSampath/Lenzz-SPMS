@@ -7,12 +7,12 @@ import { Button } from "@chakra-ui/button";
 import { AddIcon } from "@chakra-ui/icons";
 import ChatLoading from "./ChatLoading";
 import { getSender } from "./config/ChatLogics";
-
+import { useAuthContext } from "../../../hooks/useAuthContext";
 import GroupChatModal from "./miscelleneous/GroupChatModal";
 const MyChats = ({ fetchAgain }) => {
   const [loggedUser, setLoggedUser] = useState();
-  const { user, selectedChat, setSelectedChat, chats, setChats } = ChatState();
-
+  const {  selectedChat, setSelectedChat, chats, setChats } = ChatState();
+  const { user } = useAuthContext();
   const toast = useToast();
   const fetchChats = async () => {
     try {
@@ -33,6 +33,7 @@ const MyChats = ({ fetchAgain }) => {
         position: "bottom-left",
       });
     }
+
   };
   useEffect(() => {
     setLoggedUser(JSON.parse(localStorage.getItem("user")));
@@ -81,12 +82,13 @@ const MyChats = ({ fetchAgain }) => {
       overflowY="hidden"
     >
       {chats ? (
-        <Stack overflowY="scroll">
-          {chats.map((chat) => (
-            <Box
+             <Stack overflowY="scroll">
+         {chats.map((chat) => {
+          console.log(user)
+            return (<Box
               onClick={() => setSelectedChat(chat)}
               cursor="pointer"
-              bg={selectedChat === chat ? "#075d88" : "#E8E8E8"}
+              bg={selectedChat === chat ? "#38B2AC" : "#E8E8E8"}
               color={selectedChat === chat ? "white" : "black"}
               px={3}
               py={2}
@@ -95,20 +97,21 @@ const MyChats = ({ fetchAgain }) => {
             >
               <Text>
                 {!chat.isGroupChat
-                  ? getSender(loggedUser, chat.users)
+                  ? getSender(user, chat.users)
                   : chat.chatName}
               </Text>
               {chat.latestMessage && (
                 <Text fontSize="xs">
-                  <b>{chat.latestMessage.sender.firstName} : </b>
+                  <b>{chat.latestMessage.sender.name} : </b>
                   {chat.latestMessage.content.length > 50
                     ? chat.latestMessage.content.substring(0, 51) + "..."
                     : chat.latestMessage.content}
                 </Text>
               )}
-            </Box>
-          ))}
-        </Stack>
+            </Box>);}
+          )}
+
+          </Stack>
       ) : (
         <ChatLoading />
       )}

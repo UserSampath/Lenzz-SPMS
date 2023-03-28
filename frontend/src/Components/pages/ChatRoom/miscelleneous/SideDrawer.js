@@ -126,7 +126,7 @@ const SideDrawer = () => {
             </MenuButton>
             <MenuList pl={2}>
               {!notification.length && "No New Messages"}
-               {notification.map((notif) => (
+              {notification.map((notif) => (
                 <MenuItem
                   key={notif._id}
                   onClick={() => {

@@ -118,7 +118,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
           },
           config
         );
-        console.log(data);
+        console.log(data); 
         socket.emit('new message', data);
         setMessages([...messages, data]);
       } catch (error) {
@@ -178,10 +178,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
           {messages &&
             (!selectedChat.isGroupChat ? (
               <>
-                {getSender(user, selectedChat.users)}
-                <ProfileModel
-                  user={getSenderFull(user, selectedChat.users)}
-                />
+                
               </>
             ) : (
               <>
