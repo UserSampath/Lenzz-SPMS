@@ -7,6 +7,7 @@ const userRoutes = require("./routes/member");
 const companyRoutes = require("./routes/company");
 const projectRoutes = require("./routes/project");
 const listRoute = require("./routes/listRoute");
+const projectUserRoute = require("./routes/projectUser");
 const app = express();
 const bodyParser = require("body-parser");
 
@@ -32,6 +33,10 @@ app.use("/api/list", listRoute);
 
 app.use(taskRoute);
 app.use(listRoute);
+app.use(projectUserRoute);
+
+
+
 // connect to db
 const fileRouter = require("./routes/file")
 app.use(fileRouter)

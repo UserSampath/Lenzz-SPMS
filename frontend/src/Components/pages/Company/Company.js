@@ -43,16 +43,24 @@ const Company = () => {
   const [error, setError] = useState(null);
   const [showContent, setShowContent] = useState(false);
   const [companyUsers, setCompanyUsers] = useState([]);
+  const [companyProjects, setCompanyProjects] = useState([]);
 
 
   //get users
   const LocalUser = JSON.parse(localStorage.getItem("user"));
   useEffect(() => {
-    const getUser = async () => {
-      const a = await user;
-      console.log("qqqqqqqqqqq", a)
+    const user = async () => {
+      await axios.get("http://localhost:4000/api/user/getUser", {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${LocalUser.token}`,
+        }
+      }).then(res => {
+        console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxx',res.data)
+
+      }).catch(err => { console.log(err) })
     }
-    getUser()
+    user();
 
     const getCompanyAllUsers = async () => {
       await axios.get("http://localhost:4000/api/company/companyUsers", {
@@ -67,7 +75,26 @@ const Company = () => {
       }).catch(err => { console.log(err) })
     }
     getCompanyAllUsers();
+
+    const getCompanyAllProjects = async () => {
+      await axios.get("http://localhost:4000/getProjectsForUser", {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${LocalUser.token}`,
+        }
+      }).then(res => {
+        setCompanyProjects(res.data.userProject)
+        console.log('bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb', res.data.userProject
+        )
+
+      }).catch(err => { console.log(err) })
+    }
+    getCompanyAllProjects();
   }, [])
+
+  const projectClicked = (data) => {
+    console.log(data);
+  }
 
 
   useEffect(() => {
@@ -111,6 +138,25 @@ const Company = () => {
       setError(json.error);
     }
     if (response.ok) {
+
+      console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", json)
+
+
+      const addSystemAdminToProject = async () => {
+        const data = {
+          "userId": json.user_id,
+          "projectId": json._id,
+          "role": "SYSTEM ADMIN"
+        }
+        try {
+          const res = await axios.post("http://localhost:4000/addUserToProject", data)
+          console.log("sssssssssssssssssssssssssssssss", res)
+        } catch (err) {
+
+        }
+      }
+      addSystemAdminToProject();
+
       history("/Dashboard");
       setprojectname("");
       setstartDate("");
@@ -509,8 +555,16 @@ const Company = () => {
             </div>
 
 //TODO:
-            <h1>gdfgdf</h1>
-
+            {companyProjects.map((project, index) => {
+              return <div
+                onClick={()=>projectClicked(project[0])}
+                key={index}
+                style={{
+                backgroundColor: "#abcdef",
+                width: "200px",
+                margin:"3px"
+              }}><div> <h5>{project[0].projectname}</h5></div></div>;
+            })}
             <div
               style={{
                 display: "flex",

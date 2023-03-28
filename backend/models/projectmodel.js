@@ -22,6 +22,10 @@ const projectSchema = new Schema(
       type: String,
       required: true,
     },
+    users: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'ProjectUser'
+    }]
   },
   { timestamps: true }
 );
@@ -61,7 +65,7 @@ projectSchema.statics.createproject = async function (
     endDate,
     user_id,
   });
-
+// console.log("ddddddddddddddddddddddd",project)
   return project;
 };
 

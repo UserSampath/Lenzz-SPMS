@@ -23,7 +23,8 @@ const project = async (req, res) => {
       endDate,
       user_id
     );
-    res.status(200).json({ project });
+    console.log(project);
+    res.status(200).json(project);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

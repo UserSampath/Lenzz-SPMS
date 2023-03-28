@@ -54,7 +54,11 @@ const userSchema = new Schema(
     companyId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Company'
-    }
+    },
+    projects: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'ProjectUser'
+    }]
   },
   { timestamps: true }
 );
