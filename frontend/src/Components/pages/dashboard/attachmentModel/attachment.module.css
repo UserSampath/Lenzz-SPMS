@@ -38,3 +38,64 @@
   right: 10px;
   padding: 5px 7px;
 }
+
+.oneAttachmentContainer{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+  margin: 5px;
+}
+.attachmentFileIcon{
+  margin-right: 5px;
+}
+.attachmentFileName{
+  flex: 1;
+  margin: 0;
+}
+
+.attachmentButtonsContainer{
+  display: flex;
+  justify-content: flex-end;
+
+}
+.attDownloadLink{
+  text-decoration: none;
+
+}
+.attDownloadButton{
+  margin: 5px;
+  background:#38b000 ;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.attDeleteButton{
+  margin: 5px;
+  background: red;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.okButtonContainer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+.okButton{
+  padding: 10px 15px;
+  font-size: 16px;
+  background-color:#0877ae ;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+} 

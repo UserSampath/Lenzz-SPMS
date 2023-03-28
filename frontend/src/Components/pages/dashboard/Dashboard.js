@@ -1,7 +1,7 @@
 import React from "react";
 import List from "./List";
 import { connect } from "react-redux";
-import ListButton from "./ListButton";
+import ListButton from "./ListButton/ListButton";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { sort } from "../../../actions";
 import axios from "axios";

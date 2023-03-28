@@ -53,17 +53,18 @@ const RenameListModel = (props) => {
             <div onClick={props.toggleRenameListModal} className={styles.overlay}></div>
             <div className={styles.modalContent}>
                 <div style={{ marginBottom: '10px' }}>
-                    <label style={{ display: 'block', marginBottom: '5px', fontSize: '16px', fontWeight: 'bold' }}>Progress stage name:</label>
-                    <input type="text" value={listTitle} onChange={listTitleHandler} ref={inputRef} style={{ padding: '10px', fontSize: '16px', borderRadius: '3px', border: '1px solid #ccc', width: '100%', boxSizing: 'border-box' }} />
-                    <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '5px' }}>
-                        <button onClick={handleRename} style={{ padding: '10px 15px', fontSize: '16px', backgroundColor: '#007bff', color: '#fff', border: 'none', borderRadius: '3px', cursor: 'pointer', marginRight: '10px' }}>Rename</button>
-                        <button onClick={handleCancel} style={{ padding: '10px 15px', fontSize: '16px', backgroundColor: '#dc3545', color: '#fff', border: 'none', borderRadius: '3px', cursor: 'pointer' }}>Cancel</button>
+                    <label className={styles.label}>Progress stage name:</label>
+                    <input type="text" value={listTitle} onChange={listTitleHandler} ref={inputRef}
+                        className={styles.input} />
+                    <div className={styles.buttonsContainer}>
+                        <button onClick={handleRename} className={styles.button} style={{ backgroundColor: '#007bff', marginRight: '10px' }}>Rename</button>
+                        <button onClick={handleCancel} className={styles.button} style={{ backgroundColor: '#dc3545' }}>Cancel</button>
 
                     </div >
                     {isEmpty && (
-                        <div className={styles.aa} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: '#f2dede', color: 'red', marginTop: '10px', padding: '10px', borderRadius: '3px', border: '1px solid #ebccd1' }}>
+                        <div className={styles.empty} >
 
-                            <p style={{ margin: '0', fontSize: '16px' }}>Progress stage can not be empty.</p>
+                            <p className={styles.errMsg}>Progress stage can not be empty.</p>
 
                         </div>)}
                 </div>

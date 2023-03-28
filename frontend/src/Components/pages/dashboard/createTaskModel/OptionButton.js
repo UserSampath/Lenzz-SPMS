@@ -1,5 +1,5 @@
 import React from 'react'
-import styles from './Modal.module.css'
+import styles from './createTaskModal.module.css'
 export const OptionButton = (props) => {
   return (
     <div>

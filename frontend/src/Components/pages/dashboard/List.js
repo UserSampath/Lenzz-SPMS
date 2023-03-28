@@ -1,8 +1,8 @@
 import React from "react";
 import TaskCard from "./TaskCard";
-import CTForm from "./taskModel/CTForm";
-import OptionButton from "./taskModel/OptionButton";
-import styles from "../dashboard/taskModel/Modal.module.css"
+import CTForm from "./createTaskModel/CTForm";
+import OptionButton from "./createTaskModel/OptionButton";
+import styles from "./List.module.css";
 import { useState } from "react";
 import { Droppable, Draggable } from "react-beautiful-dnd";
 import styled from "styled-components";
@@ -11,7 +11,7 @@ import TextareaAutosize from 'react-textarea-autosize';
 import { connect } from "react-redux";
 import { addCard, updateOneTask, deleteCard, deleteList } from "../../../actions";
 import { FaPlus, FaEllipsisH } from "react-icons/fa";
-import ThreeDoteMenu from "./ThreeDoteMenu"
+import ThreeDoteMenu from "./ThreeDoteMenu/ThreeDoteMenu"
 import RenameListModel from "./renameListModal/RenameListModel"
 import Attachment from "./attachmentModel/Attachment"
 
@@ -184,20 +184,9 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
         }
       }).then(async (res) => {
         console.log("update to the database successfully")
-        console.log("newwwwwwwwwwwwwwwwwwwwwwwww", res.data.task);
+        console.log( res.data.task);
 
         dispatch(updateOneTask(res.data.task));
-
-        // const formData = new FormData();
-        // const aArray = Object.values(selectedFile);
-
-        // for (let i = 0; i < aArray.length; i++) {
-        //   formData.append("file", aArray[i]);
-        // }
-        // const response = await axios.post("http://localhost:4000/upload", formData);
-        // console.log("success", response.data);
-
-        // reset the form to clear the input field
         setSelectedFile({}); // clear the selectedFile state
 
 
@@ -293,7 +282,6 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
   }
   const [showRenameListModal, SetShowRenameListModal] = useState(false);
   const toggleRenameListModal = () => {
-    console.log("vvvv")
     SetShowRenameListModal(!showRenameListModal);
   };
 
@@ -324,28 +312,12 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
   };
 
 
-
-
-
-
-
-
-
-
   const attachmentButtonClicked = () => {
     setShowAttachment(true);
   }
   return (<>
     {isThreeDoteModelOpen && (<div
-      style={{
-        position: "fixed",
-        top: 0,
-        bottom: 0,
-        left: 0,
-        right: 0,
-        background: "rgba(49, 49, 49, 0.4)",
-        zIndex: 1
-      }}
+      className={styles.threeDoteMenuModal}
       onClick={toggleThreeDoteOpen}
     ><ThreeDoteMenu
         modelPosition={threeDoteModelPosition}
@@ -404,26 +376,14 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
                   
                   {updatingTask && <div
                     onClick={attachmentButtonClicked}
-                    style={{
-                      backgroundColor: '#0877ae',
-                      color: 'white',
-                      padding: '1px 2px',
-                      borderRadius: '5px',
-                      cursor: 'pointer'
-                      , width: "100px",
-                      marginLeft: "50px"
-                    }}
+                    className={styles.attachmentButton}
                   >
                     attachments
                   </div>}
 
-                  
-
-                  {/* <CTForm label="choose attachment"
-                    type="file" accept=".jpg, .jpeg, .png" /> */}
                   <div style={{ marginTop: "5px" }}>
 
-                    <input type="file" multiple accept=".jpg, .jpeg, .png" onChange={handleFileChange} />
+                    <input type="file" multiple accept=".jpg, .jpeg, .png " onChange={handleFileChange} />
                   </div>
                 </div>
               </div>
@@ -449,21 +409,10 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
           <Droppable droppableId={String(listID)} type="card">
             {provided => (
               <div {...provided.droppableProps} ref={provided.innerRef}>
-                <div style={{
-                  display: "flex",
-                  alignItems: "center",
-                  width: "100%",
-                  marginBottom: 10
-                }}>
-                  <h5 style={{
-                    textAlign: "center",
-                    marginTop: "3px",
-                    overflow: "hidden",
-                    flex: 1, // this  make the h3 take up the remining spce
-                    marginBottom: 0 // remove any margin  afect the alignment
-                  }}>{title}</h5>
+                <div className={styles.listNameContainer}>
+                  <h5 className={styles.listName}>{title}</h5>
                   <div onClick={handleThreeDoteButtonClick}>
-                    <FaEllipsisH style={{ marginRight: "5px", marginLeft: 10, cursor: "pointer" }} />
+                    <FaEllipsisH className={styles.listPlusIcon} />
                   </div>
                 </div>
                 {cards.map((card, index) => (
@@ -480,21 +429,13 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
                   />
                 ))}
                 {provided.placeholder}
-                <button style={{
-                  display: "flex",
-                    
-                  alignItems: "center",
-                  cursor: "pointer",
-                  border: "none",
-                  borderRadius: "5px",
-                  height: "36px",
-                  width: "120px",
-                  padding: "5px",
-                  marginLeft: "120px",
-                  backgroundColor: "#DEF3FD",
-                }} onClick={clickedAddTask} className="btn-modal">
-                  <p style={{ margin: "0 6px" }}>add card</p>
-                  <FaPlus style={{ marginLeft: "10px" }} />
+                <button
+                  onClick={clickedAddTask}
+                  className={styles.addCardBtnContainer}
+                
+                >
+                  <p className={styles.addCardBtnText}>add card</p>
+                  <FaPlus className={styles.addCardBtnIcon} />
                 </button>
               </div>
             )}

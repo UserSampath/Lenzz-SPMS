@@ -38,3 +38,51 @@
     right: 10px;
     padding: 5px 7px;
 }
+
+.label{
+    display: block;
+    margin-bottom: 5px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.input{
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    width: 100%;
+    box-sizing: border-box;
+
+}
+.buttonsContainer{
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 5px;
+}
+.button{
+    padding: 10px 15px;
+    font-size: 16px;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+
+}
+
+.empty{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color:#f2dede ;
+    color: red;
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 3px;
+    border: 1px solid #ebccd1;
+}
+
+.errMsg{
+    margin: 0px;
+    font-size: 16px;
+}
