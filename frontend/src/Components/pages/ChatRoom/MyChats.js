@@ -49,16 +49,18 @@ const MyChats = ({ fetchAgain }) => {
     w={{ base: "100%", md: "31%" }}
     borderRadius="lg"
     borderWidth="1px"
+    backgroundColor="#e6f2ff"
   >
     <Box
       pb={3}
       px={3}
       fontSize={{ base: "28px", md: "30px" }}
-      fontFamily="Work sans"
       display="flex"
       w="100%"
       justifyContent="space-between"
       alignItems="center"
+  
+      style={{    fontFamily: 'Roboto, sans-serif'}}
     >
       My Chats
       <GroupChatModal>
@@ -84,11 +86,10 @@ const MyChats = ({ fetchAgain }) => {
       {chats ? (
              <Stack overflowY="scroll">
          {chats.map((chat) => {
-          console.log(user)
             return (<Box
               onClick={() => setSelectedChat(chat)}
               cursor="pointer"
-              bg={selectedChat === chat ? "#38B2AC" : "#E8E8E8"}
+              bg={selectedChat === chat ? " 	 #075d88" : "#E8E8E8"}
               color={selectedChat === chat ? "white" : "black"}
               px={3}
               py={2}
@@ -102,7 +103,7 @@ const MyChats = ({ fetchAgain }) => {
               </Text>
               {chat.latestMessage && (
                 <Text fontSize="xs">
-                  <b>{chat.latestMessage.sender.name} : </b>
+                  <b>{chat.latestMessage.sender.firstName} : </b>
                   {chat.latestMessage.content.length > 50
                     ? chat.latestMessage.content.substring(0, 51) + "..."
                     : chat.latestMessage.content}

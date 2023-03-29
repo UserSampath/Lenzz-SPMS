@@ -22,15 +22,16 @@ import { Spinner } from "@chakra-ui/spinner";
 import { getSender } from "../config/ChatLogics";
 import { Effect } from "react-notification-badge";
 import NotificationBadge from "react-notification-badge";
-
+import {useAuthContext} from "../../../../hooks/useAuthContext";
 const SideDrawer = () => {
-  const { user, setSelectedChat, chats, setChats ,notification, setNotification} = ChatState();
+  const {  setSelectedChat, chats, setChats ,notification, setNotification} = ChatState();
   const [search, setSearch] = useState("");
   const [searchResult, setSearchResult] = useState([]);
   const [loadingChat, setLoadingChat] = useState();
   const [loading, setLoading] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure("");
   const toast = useToast();
+  const{user}=useAuthContext();
   const handleSearch = async () => {
     if (!search) {
       toast({
@@ -100,9 +101,11 @@ const SideDrawer = () => {
         justifyContent="space-between"
         alignItems="center"
         bg="white"
-        w="212%"
+        w="198%"
         p="5px 10px 5px 10px"
-        borderWidth="5px"
+        borderWidth="2px"
+        borderRadius="10px"
+        marginLeft="7px"
       >
         <Tooltip label="Search Users to chat" hasArrow placement="bottom-end">
           <Button variant="ghost" onClick={onOpen}>
@@ -112,9 +115,10 @@ const SideDrawer = () => {
             </Text>
           </Button>
         </Tooltip>
-        <Text fontSize="2x1" fontFamily="Work sans">
+              <Text style={{fontFamily: 'Roboto, sans-serif', fontSize: '2x1'}}>
           Project Chat Box
         </Text>
+
         <div>
           <Menu>
             <MenuButton p={1}>
@@ -148,9 +152,10 @@ const SideDrawer = () => {
         <DrawerContent
           style={{
             width: "400px",
-            height: "900px",
-            marginTop: "110px",
-            marginLeft: "55px",
+            height: "700px",
+            marginTop: "125px",
+            marginLeft: "85px",
+            borderRadius:"10px"
           }}
         >
           <DrawerHeader borderBottomWidth="1px">Serach users</DrawerHeader>

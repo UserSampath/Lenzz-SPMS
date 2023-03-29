@@ -169,6 +169,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
           display="flex"
           justifyContent={{ base: "space-between" }}
           alignItems="center"
+          style={{    fontFamily: 'Roboto, sans-serif'}}
         >
           <IconButton
             display={{ base: "flex", md: "none" }}
@@ -178,7 +179,10 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
           {messages &&
             (!selectedChat.isGroupChat ? (
               <>
-                
+                 {getSender(user, selectedChat.users)}
+                  <ProfileModel
+                    user={getSenderFull(user, selectedChat.users)}
+                  />
               </>
             ) : (
               <>

@@ -6,11 +6,11 @@ import {
   isSameSenderMargin,
   isSameUser,
 } from "./config/ChatLogics";
-import { ChatState } from "../../../context/ChatProvider";
 import { Tooltip } from "@chakra-ui/tooltip";
 import { Avatar } from "@chakra-ui/avatar";
+import { useAuthContext } from "../../../hooks/useAuthContext";
 const  ScrollableChat = ({ messages }) => {
-  const { user } = ChatState();
+  const{user}=useAuthContext();
   return (
   <ScrollableFeed>
       {messages &&

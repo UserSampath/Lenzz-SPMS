@@ -1,22 +1,22 @@
 import React, { useState } from "react";
-import { ChatState } from "../../../context/ChatProvider";
 import { Box } from "@chakra-ui/layout";
 import SideDrawer from "./miscelleneous/SideDrawer";
 import MyChats from "./MyChats";
 import ChatBox from "./ChatBox";
+import { useAuthContext } from "../../../hooks/useAuthContext";
 const ChatPage = () => {
   const [fetchAgain, setFetchAgain] = useState(false);
-  const { user } = ChatState();
+  const { user } = useAuthContext();
 
   return (
-    <div style={{ width: "100%" }}>
+    <div style={{ width: "100%" ,marginLeft:"30px",marginTop:"70px"}}>
       {user  &&<SideDrawer />}
 
       <Box
         display="flex"
         justifyContent="space-between"
-        w="212%"
-        h="91.5vh"
+        w="200%"
+        h="84.5vh"
         p="10px"
       >
         {user &&<MyChats fetchAgain={fetchAgain} />}
