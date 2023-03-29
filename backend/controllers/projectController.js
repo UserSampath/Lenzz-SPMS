@@ -5,15 +5,14 @@ const moment = require("moment");
 const mongoose = require("mongoose");
 const User = require("../models/memberModel");
 const app = express();
-//create a new project
 
+//create a new project
 const project = async (req, res) => {
   const { projectname, description, startDate, endDate } = req.body;
   const { _id, selectedJob } = req;
   if (selectedJob !== "SYSTEM ADMIN") {
     return res.status(401).json({ error: "User is not authorized" });
   }
-  console.log(selectedJob);
   try {
     const user_id = req.user._id;
     const project = await Project.createproject(

@@ -15,7 +15,7 @@ import Company from "./Components/pages/Company/Company";
 import AccountSettings from "./Components/pages/AccountSettings";
 import { useAuthContext } from "./hooks/useAuthContext";
 import DashboardProvider from "./Components/pages/dashboard/DashboardProvider";
-
+import TimeLine from "./Components/pages/TimeLine/TimeLine";
 function App() {
   const { user } = useAuthContext();
   return (
@@ -34,35 +34,19 @@ function App() {
             path="/Methods"
             element={user ? <Methods /> : <Navigate to="/login" />}
           />
-          <Route
-            path="/EnterCompany"
-            element={user ? <EnterCompany /> : <Navigate to="/login" />}
-          />
+          <Route path="/EnterCompany" element={<EnterCompany />} />
           <Route path="/CreateCompany" element={<CreateCompany />} />
-          <Route
-            path="/Progress"
-            element={user ? <Progress /> : <Navigate to="/login" />}
-          />
-          <Route
-            path="/ChatRoom"
-            element={user ? <Chatroom /> : <Navigate to="/login" />}
-          />
+          <Route path="/Progress" element={<Progress />} />
+          <Route path="/ChatRoom" element={<Chatroom />} />
           <Route
             path="/Settings"
             element={user ? <Settings /> : <Navigate to="/login" />}
           />
-          <Route
-            path="/Company"
-            element={user ? <Company /> : <Navigate to="/login" />}
-          />
-          <Route
-            path="/"
-            element={user ? <DashboardProvider /> : <Navigate to="/login" />}
-          />
-          <Route
-            path="/AccountSettings"
-            element={user ? <AccountSettings /> : <Navigate to="/login" />}
-          />
+          <Route path="/" element={<Company />} />
+          <Route path="/DashBoardProvider" element={<DashboardProvider />} />
+          <Route path="/AccountSettings" element={<AccountSettings />} />
+          <Route path="/AccountSettings" element={<AccountSettings />} />
+          <Route path="/TimeLine" element={<TimeLine />} />
         </Routes>
       </BrowserRouter>
     </div>

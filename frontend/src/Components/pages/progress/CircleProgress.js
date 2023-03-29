@@ -84,7 +84,7 @@ function CircleProgress() {
     fetchData();
   }, []);
   return (
-    <div>
+    <div className="progressMain">
       <div style={{ display: "flex", justifyContent: "center" }}>
         <div
           className="card shadow"
@@ -93,6 +93,7 @@ function CircleProgress() {
             height: " 350px",
             marginLeft: "75px",
             marginTop: "120px",
+            zIndex: "1",
           }}
         >
           <div className="circle1">

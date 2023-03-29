@@ -6,6 +6,7 @@ import {
   FaCog,
   FaCity,
   FaThLarge,
+  FaThList,
 } from "react-icons/fa";
 import { CgProfile } from "react-icons/cg";
 import { AiOutlineLogout } from "react-icons/ai";
@@ -37,9 +38,15 @@ const Sidebar = ({ children }) => {
   };
   const menuItem = [
     {
-      path: "/Company",
+      path: "/",
       name: "Company",
       icon: <FaCity />,
+    },
+
+    {
+      path: "/DashboardProvider",
+      name: "Dashboard",
+      icon: <FaThLarge />,
     },
     {
       path: "/Progress",
@@ -47,9 +54,9 @@ const Sidebar = ({ children }) => {
       icon: <FaRegChartBar />,
     },
     {
-      path: "/",
-      name: "Dashboard",
-      icon: <FaThLarge />,
+      path: "/Timeline",
+      name: "Timeline",
+      icon: <FaThList />,
     },
     {
       path: "/ChatRoom",
@@ -63,30 +70,17 @@ const Sidebar = ({ children }) => {
     },
   ];
   return (
-    <div >
+    <div>
       <Navbar
         collapseOnSelect
         expand="lg"
         variant="dark"
         style={{ backgroundColor: "#075d88", position: "fixed", zIndex: 1 }}
         fixed="top"
-
-
       >
-        <Container style={{ zIndex: 1 }} >
+        <Container style={{ zIndex: 1 }}>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
-            <Nav className="me-auto">
-              <NavDropdown title="Members" id="collasible-nav-dropdown">
-                <NavDropdown.Item href="#action/3.1">member 1</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.3">member 2</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.3">member 3</NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item href="#action/3.4">
-                  Add Member
-                </NavDropdown.Item>
-              </NavDropdown>
-            </Nav>
             <div>
               <MdSettingsSuggest className="set-pic" onClick={toggleMenu} />
             </div>
@@ -117,7 +111,10 @@ const Sidebar = ({ children }) => {
       </Navbar>
 
       <div className="sideBarContainer">
-        <div className="sidebar" style={{ width: open ? "230px" : "50px", position: "absolute" }}>
+        <div
+          className="sidebar"
+          style={{ width: open ? "230px" : "50px", position: "absolute" }}
+        >
           <div className="topSection">
             <img
               style={{ display: open ? "block" : "none" }}
