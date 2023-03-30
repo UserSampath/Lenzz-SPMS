@@ -30,14 +30,14 @@ export const useLogin = () => {
     if (response.ok) {
       localStorage.setItem("user", JSON.stringify(json));
       if (json.selectedJob === "SYSTEM ADMIN") {
-        history("/Company");
+        history("/");
       }
       if (
         json.selectedJob === "DEVELOPER" ||
         json.selectedJob === "TEAM LEAD" ||
         json.selectedJob === "PROJECT MANAGER"
       ) {
-        history("/Company");
+        history("/");
       }
       dispatch({ type: "LOGIN", payload: json });
 

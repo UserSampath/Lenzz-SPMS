@@ -3,10 +3,17 @@ import Dashboard from "./Dashboard";
 import { Provider } from "react-redux";
 import store from "../../../store";
 import SideBar from "../Sidebar";
+import { useLocation } from "react-router-dom";
+
+
 
 const DashboardProvider = () => {
+
+    const location = useLocation();
+    const roomName = location.state ? location.state.projectId : null;
+
     return (
-        <SideBar>
+        <SideBar>{console.log('cc',roomName)}
             <div style={{
                 marginTop: "60px",
                 marginLeft: "60px",

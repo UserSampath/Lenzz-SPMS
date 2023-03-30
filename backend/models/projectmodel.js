@@ -25,7 +25,11 @@ const projectSchema = new Schema(
     users: [{
       type: mongoose.Schema.Types.ObjectId,
       ref: 'ProjectUser'
-    }]
+    }],
+    company_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Company'
+    }
   },
   { timestamps: true }
 );
@@ -35,7 +39,8 @@ projectSchema.statics.createproject = async function (
   description,
   startDate,
   endDate,
-  user_id
+  user_id,
+  companyId
 ) {
   if (!projectname || !description) {
     throw Error("All Field is required");
@@ -64,6 +69,7 @@ projectSchema.statics.createproject = async function (
     startDate,
     endDate,
     user_id,
+    company_id: companyId
   });
 // console.log("ddddddddddddddddddddddd",project)
   return project;

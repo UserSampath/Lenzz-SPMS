@@ -9,6 +9,13 @@ const ProgressStageSchema = new mongoose.Schema(
     listIndex: {
       type: Number,
     },
+    // projectId: {
+    //   type: mongoose.Schema.Types.ObjectId,
+    //   ref: 'Project'
+    // }
+    projectId: {
+      type: String
+    }
   },
   { timestamps: true }
 );

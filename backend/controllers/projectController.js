@@ -8,7 +8,7 @@ const app = express();
 //create a new project
 
 const project = async (req, res) => {
-  const { projectname, description, startDate, endDate } = req.body;
+  const { projectname, description, startDate, endDate, companyId } = req.body;
   const { _id, selectedJob } = req;
   if (selectedJob !== "SYSTEM ADMIN") {
     return res.status(401).json({ error: "User is not authorized" });
@@ -21,7 +21,8 @@ const project = async (req, res) => {
       description,
       startDate,
       endDate,
-      user_id
+      user_id,
+      companyId
     );
     console.log(project);
     res.status(200).json(project);
@@ -39,7 +40,7 @@ const getProjects = async (req, res) => {
 //get single project
 
 const getProject = async (req, res) => {
-  const { id } = req.params;
+  const { id } = req.body;
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(404).json({ error: "No such project" });
   }

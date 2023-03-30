@@ -23,13 +23,14 @@ const ListButton = (props) => {
     if (text) {
       const newProgressStage = {
         title: text,
-        listIndex: props.lists.length
+        listIndex: props.lists.length,
+        projectId: props.projectId
       }
       axios.post("http://localhost:4000/progressStage/create", newProgressStage).then((response) => {
         console.log("ProgressStage added success 😊");
         console.log(props.lists);
 
-        props.dispatch(addList(text, response.data._id));
+        props.dispatch(addList(text, response.data._id)); //project id is not stored in local
         setText("");
 
       }).catch((err) => {

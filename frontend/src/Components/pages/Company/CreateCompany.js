@@ -108,7 +108,7 @@ const CreateCompany = () => {
   const handleModalClose = () => {
     setRedirectToCompany(true);
     handleClose();
-    history("/Company");
+    history("/");
   };
 
   return (
@@ -299,8 +299,8 @@ const CreateCompany = () => {
                   <p
                     className={
                       CompanyaddressFocus &&
-                      companyaddress &&
-                      !validCompanyaddress
+                        companyaddress &&
+                        !validCompanyaddress
                         ? "instructions"
                         : "offscreen"
                     }

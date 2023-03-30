@@ -44,6 +44,7 @@ const Company = () => {
   const [showContent, setShowContent] = useState(false);
   const [companyUsers, setCompanyUsers] = useState([]);
   const [companyProjects, setCompanyProjects] = useState([]);
+  const [userData, setUserData] = useState({});
 
 
   //get users
@@ -56,7 +57,8 @@ const Company = () => {
           Authorization: `Bearer ${LocalUser.token}`,
         }
       }).then(res => {
-        console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxx',res.data)
+        console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxx', res.data)
+        setUserData(res.data)
 
       }).catch(err => { console.log(err) })
     }
@@ -92,8 +94,13 @@ const Company = () => {
     getCompanyAllProjects();
   }, [])
 
+  //TODO:
   const projectClicked = (data) => {
     console.log(data);
+    localStorage.setItem("last access project", JSON.stringify({ projectId: data._id, userId: userData._id }));
+    history('/Dashboard', { state: { projectId: data._id } });
+
+
   }
 
 
@@ -123,7 +130,9 @@ const Company = () => {
       history("/login");
       return;
     }
-    const project = { projectname, description, startDate, endDate };
+    const project = {
+      projectname, description, startDate, endDate, companyId: userData.companyId
+    };
     const response = await fetch("/api/project/creatproject", {
       method: "POST",
       body: JSON.stringify(project),
@@ -156,6 +165,9 @@ const Company = () => {
         }
       }
       addSystemAdminToProject();
+
+      localStorage.setItem("last access project", JSON.stringify({ projectId: json._id, userId: userData._id }));
+
 
       history("/Dashboard");
       setprojectname("");
@@ -213,7 +225,7 @@ const Company = () => {
   };
 
   return (
-    <SideBar>
+    <SideBar >
       <div>
         <div
           className="card shadow"
@@ -555,15 +567,15 @@ const Company = () => {
             </div>
 
 //TODO:
-            {companyProjects.map((project, index) => {
+            {companyProjects && companyProjects.map((project, index) => {
               return <div
-                onClick={()=>projectClicked(project[0])}
+                onClick={() => projectClicked(project[0])}
                 key={index}
                 style={{
-                backgroundColor: "#abcdef",
-                width: "200px",
-                margin:"3px"
-              }}><div> <h5>{project[0].projectname}</h5></div></div>;
+                  backgroundColor: "#abcdef",
+                  width: "200px",
+                  margin: "3px"
+                }}><div> <h5>{project[0] && project[0].projectname}</h5></div></div>;
             })}
             <div
               style={{

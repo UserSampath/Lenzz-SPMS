@@ -7,18 +7,57 @@ import { sort } from "../../../actions";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { initialValue } from "../../../actions";
+
 const Dashboard = (props) => {
 
+  const [projectDetails, SetProjectDetails] = useState({})
   const [existingTasks, setExistingTasks] = useState([]);
+  const [localProject, SetLocalProject] = useState({});
+
+
   useEffect(() => {
     const getTaskWithPS = async () => {
-      await axios.get("http://localhost:4000/progressStage/taskWithPS").then(res => {
+      const data = { id: projectDetails._id }
+      console.log("data", data)
+      await axios.post("http://localhost:4000/progressStage/taskWithPS", data).then(res => {
         props.dispatch(initialValue(res.data));
+        console.log("cccccccccc", res.data)
       }).catch(err => { console.log(err) })
     }
-    getTaskWithPS();
 
+    const getProject = async () => {
+      const data = {
+        id: localProject.projectId
+      }
+      await axios.post('http://localhost:4000/api/project/getProject', data)
+        .then(res => {
+          console.log(res.data.project)
+          SetProjectDetails(res.data.project)
+        }).catch(err => {
+          console.log(err)
+        })
+    }
+
+    if (projectDetails._id && localProject.projectId) {
+      getTaskWithPS();
+    }
+
+    if (localProject.projectId) {
+      getProject();
+    }
+
+  }, [projectDetails._id, localProject.projectId])
+
+  useEffect(() => {
+    const getLocalStorageProject = async () => {
+      const localPro = await JSON.parse(localStorage.getItem("last access project"));
+      console.log("localPro", localPro)
+      SetLocalProject(localPro)
+    }
+
+    getLocalStorageProject();
   }, [])
+
 
   const onDragEnd = result => {
     const { destination, source, draggableId, type } = result;
@@ -38,33 +77,37 @@ const Dashboard = (props) => {
   };
   const lists = props.lists;
   return (
-    <DragDropContext onDragEnd={onDragEnd}>
-      <Droppable droppableId="all-lists" direction="horizontal" type="list">
-        {provided => (
-          <div {...provided.droppableProps} ref={provided.innerRef} style={{
-            display: "flex",
-            flexDirection: "row"
-          }}
-          >
-            {lists.map((list, index) => (
-              <List
-                listID={list._id}
-                key={list._id}
-                title={list.title}
-                cards={list.cards}
-                index={index}
-                listsData={lists}
-                existingTasks={existingTasks}
-                setExistingTasks={setExistingTasks}
+    <div>
+      {/* {console.log(localProject.projectId)} */}
+      {projectDetails && <h1>project: {projectDetails.projectname}</h1>}
+      <DragDropContext onDragEnd={onDragEnd}>
+        <Droppable droppableId="all-lists" direction="horizontal" type="list">
+          {provided => (
+            <div {...provided.droppableProps} ref={provided.innerRef} style={{
+              display: "flex",
+              flexDirection: "row"
+            }}
+            >
+              {lists.map((list, index) => (
+                <List
+                  listID={list._id}
+                  key={list._id}
+                  title={list.title}
+                  cards={list.cards}
+                  index={index}
+                  listsData={lists}
+                  existingTasks={existingTasks}
+                  setExistingTasks={setExistingTasks}
 
-              />
-            ))}
-            {provided.placeholder}
-            <ListButton lists={lists} />
-          </div>
-        )}
-      </Droppable>
-    </DragDropContext>
+                />
+              ))}
+              {provided.placeholder}
+              <ListButton lists={lists} projectId={projectDetails._id} />
+            </div>
+          )}
+        </Droppable>
+      </DragDropContext>
+    </div>
   );
 }
 const mapStateToProps = state => ({

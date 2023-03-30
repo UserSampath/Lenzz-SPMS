@@ -28,7 +28,7 @@ const createCompany = async (req, res) => {
       companyaddress,
       companyemail,
       user_id,
-      companyKey
+      companyKey,
     );
 
     const updatedUser = await User.findByIdAndUpdate(user_id, {
