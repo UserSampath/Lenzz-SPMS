@@ -9,7 +9,7 @@ const accesChat = asyncHandler(async (req, res) => {
       console.log("UserId param not sent with request");
       return res.sendStatus(400);
     }
-  
+  //one to one chat
     var isChat = await Chat.find({
       isGroupChat: false,
       $and: [
@@ -20,9 +20,10 @@ const accesChat = asyncHandler(async (req, res) => {
       .populate("users", "-password")  //if chat found
       .populate("latestMessage");
   
+      //sender fields
     isChat = await User.populate(isChat, {
       path: "latestMessage.sender",
-      select: "firstName pic email",
+      select: "firstName email",
     });
   
     if (isChat.length > 0) {
@@ -58,7 +59,7 @@ const accesChat = asyncHandler(async (req, res) => {
         .then(async (results) => {
           results = await User.populate(results, {
             path: "latestMessage.sender",
-            select: "firstName pic email",
+            select: "firstName email",
           });
           res.status(200).send(results);
         });
@@ -127,7 +128,6 @@ const accesChat = asyncHandler(async (req, res) => {
 
   const addToGroup = asyncHandler(async (req, res) => {
     const { chatId, userId } = req.body;
-  
     // check if the requester is admin
     const added = await Chat.findByIdAndUpdate(
       chatId,
@@ -148,23 +148,20 @@ const accesChat = asyncHandler(async (req, res) => {
       res.json(added);
     }
   });
+  
 const removeFromGroup = asyncHandler(async (req, res) => {
   const { chatId, userId } = req.body;
-
   // Get the chat
   const chat = await Chat.findById(chatId);
-
   if (!chat) {
     res.status(404);
     throw new Error("Chat Not Found");
   }
-
   // Check if the requester is the group admin
   if (chat.groupAdmin.toString() !== req.user._id.toString()) {
     res.status(401);
     throw new Error("You are not authorized to perform this action");
   }
-
   // Remove the user from the group
   const removed = await Chat.findByIdAndUpdate(
     chatId,
@@ -181,4 +178,4 @@ const removeFromGroup = asyncHandler(async (req, res) => {
   res.json(removed);
 });
 
-module.exports= {removeFromGroup,accesChat,fetchChats,createGroupChat,renameGroup,addToGroup}; //}
+module.exports= {removeFromGroup,accesChat,fetchChats,createGroupChat,renameGroup,addToGroup}; 

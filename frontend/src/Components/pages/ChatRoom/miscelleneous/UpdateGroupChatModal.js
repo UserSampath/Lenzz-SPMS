@@ -11,7 +11,7 @@ import {
   ModalCloseButton,
 } from "@chakra-ui/react";
 import { ViewIcon } from "@chakra-ui/icons";
-import { Text, Box } from "@chakra-ui/layout";
+import { Box } from "@chakra-ui/layout";
 import { useToast } from "@chakra-ui/toast";
 import { ChatState } from "../../../../context/ChatProvider";
 import UserBadgeItem from "../UserDetails/UserBadgeItem";
@@ -30,7 +30,7 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
   const [loading, setLoading] = useState(false);
   const [renameLoading, setRenameLoading] = useState(false);
   const toast = useToast();
-  
+
   const handleRemove = async (user) => {
     if (selectedChat.groupAdmin._id !== user._id && user._id !== user._id) {
       toast({

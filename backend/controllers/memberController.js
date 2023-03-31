@@ -29,7 +29,7 @@ const loginUser = async (req, res) => {
     // create a token
     const token = createToken(user._id);
 
-    res.status(200).json({ email, token, selectedJob: user.selectedJob });
+    res.status(200).json({ email, token, selectedJob: user.selectedJob ,_id: user._id});
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -46,12 +46,13 @@ const signupUser = async (req, res) => {
       email,
       password,
       selectedJob
+
     );
 
     // create a token
     const token = createToken(user._id);
 
-    res.status(200).json({ email, token, selectedJob: user.selectedJob });
+    res.status(200).json({ email, token, selectedJob: user.selectedJob,_id: user._id });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
