@@ -16,10 +16,10 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
-import { useLogout } from "../../hooks/useLogout";
+import { useLogout } from "../../../hooks/useLogout";
 import "./SideBar.css";
-import { useAuthContext } from "../../hooks/useAuthContext";
-import { useCompanyContext } from "../../hooks/useCompanyContext";
+import { useAuthContext } from "../../../hooks/useAuthContext";
+import { useCompanyContext } from "../../../hooks/useCompanyContext";
 
 const Sidebar = ({ children }) => {
   const [open, SetOpen] = useState(false);

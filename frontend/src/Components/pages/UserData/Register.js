@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import React, { useState, useEffect, useRef } from "react";
 import "./Register.css";
-import useSignup from "../../hooks/useSignup";
+import useSignup from "../../../hooks/useSignup";
 import { Dropdown } from "react-bootstrap";
 import {
   faCheck,
@@ -9,37 +9,42 @@ import {
   faInfoCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 const EMAIL_REGEX = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 const NAME_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
+
 const Register = () => {
   const userRef = useRef();
   const errRef = useRef();
-
   const [firstName, setFirstName] = useState("");
   const [validFirstName, setValidFirstName] = useState(false);
   const [FirstNameFocus, setFirstNameFocus] = useState(false);
-
   const [lastName, setLastName] = useState("");
   const [validLastName, setValidLastName] = useState(false);
   const [LastNameFocus, setLastNameFocus] = useState(false);
-
   const [email, setEmail] = useState("");
   const [validEmail, setValidEmail] = useState(false);
   const [EmailFocus, setEmailFocus] = useState(false);
-
   const [password, setPassword] = useState("");
   const [validPassword, setValidPassword] = useState(false);
   const [passwordFocus, setPasswordFocus] = useState(false);
-
   const [confirmPassword, setConfirmPassword] = useState("");
   const [validConfirmPassword, setValidConfirmPassword] = useState(false);
   const [ConfirmpasswordFocus, setConfirmPasswordFocus] = useState(false);
-
-  const options = ["SYSTEM ADMIN", "DEVELOPER", "PROJECT MANAGER"];
+  const [errMsg, setErrMsg] = useState("");
   const [selectedJob, setSelectedJob] = useState("");
   const { signup, isLoading, error } = useSignup();
-  const [errMsg, setErrMsg] = useState("");
+
+  const options = [
+    "SYSTEM ADMIN",
+    "DEVELOPER",
+    "PROJECT MANAGER",
+    "TECH LEAD",
+    "CLIENT",
+    "QUALITY ASSURANCE ENGINNER",
+    "OTHER PROJECT WORK",
+  ];
 
   useEffect(() => {
     userRef.current.focus();
@@ -85,6 +90,7 @@ const Register = () => {
           </div>
           <div className="col-md-6 p-5 ">
             <h1 className="display-6 fw-bolder mb-5">REGISTER</h1>
+
             <div
               className="mform"
               style={{ width: "450px", marginLeft: "50px" }}
@@ -126,7 +132,6 @@ const Register = () => {
                     value={firstName}
                     placeholder="Enter your first name..."
                   />
-
                   <p
                     id="uidnote"
                     className={
@@ -140,7 +145,6 @@ const Register = () => {
                     <br />
                     Must begin with a letter.
                     <br />
-                    Letters, numbers, underscores, hyphens allowed.
                   </p>
                 </div>
 
@@ -185,8 +189,6 @@ const Register = () => {
                     4 to 24 characters.
                     <br />
                     Must begin with a letter.
-                    <br />
-                    Letters, numbers, underscores, hyphens allowed.
                   </p>
                 </div>
                 <div className="mb-3">
@@ -356,6 +358,7 @@ const Register = () => {
                 >
                   Submit
                 </button>
+
                 {error && <div className="error">{error}</div>}
               </form>
             </div>

@@ -1,16 +1,19 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const TimeLineSchema = new Schema({
-  Topic: {
-    type: String,
-    required: true,
+const TimeLineSchema = new Schema(
+  {
+    Topic: {
+      type: String,
+      required: true,
+    },
+    Description: {
+      type: String,
+      required: true,
+    },
   },
-  Description: {
-    type: String,
-    required: true,
-  },
-});
+  { timestamps: true }
+);
 
 TimeLineSchema.statics.addTimeLine = async function (Topic, Description) {
   if (!Topic || !Description) {

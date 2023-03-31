@@ -1,5 +1,5 @@
-import SideBar from "./Sidebar";
-import CircleProgress from "./progress/CircleProgress";
+import SideBar from "../mainComponents/Sidebar";
+import CircleProgress from "./CircleProgress";
 const Progress = () => {
   return (
     <div>

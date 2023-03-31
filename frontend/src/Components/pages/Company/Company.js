@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import SideBar from "../Sidebar";
+import SideBar from "../mainComponents/Sidebar";
 import "./Company.css";
 import { Button, Modal, Form } from "react-bootstrap";
 import axios from "axios";
@@ -35,7 +35,6 @@ const Company = () => {
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(false);
-  const [redirectToCompany, setRedirectToCompany] = useState(false);
   const [startDate, setstartDate] = useState("");
   const [endDate, setendDate] = useState("");
   const [errMsg, setErrMsg] = useState("");
@@ -43,7 +42,6 @@ const Company = () => {
   const [showContent, setShowContent] = useState(false);
 
   const handleModalClose = () => {
-    setRedirectToCompany(true);
     handleClose();
     history("/");
   };

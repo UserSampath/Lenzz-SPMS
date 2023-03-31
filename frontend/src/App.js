@@ -1,18 +1,17 @@
 import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import Login from "./Components/pages/Login";
-import PasswordChange from "./Components/pages/PasswordChange";
-import Register from "./Components/pages/Register";
-import Methods from "./Components/pages/Methods";
+import Login from "./Components/pages/UserData/Login";
+import PasswordChange from "./Components/pages/UserData/PasswordChange";
+import Register from "./Components/pages/UserData/Register";
+import Methods from "./Components/pages/UserData/Methods";
 import EnterCompany from "./Components/pages/Company/EnterCompany";
-import Home from "./Components/pages/Home";
+import Home from "./Components/pages/UserData/Home";
 import CreateCompany from "./Components/pages/Company/CreateCompany";
-import ForgotPassword from "./Components/pages/ForgotPassword";
-import Progress from "./Components/pages/Progress";
+import ForgotPassword from "./Components/pages/UserData/ForgotPassword";
+import Progress from "./Components/pages/progress/Progress";
 import Settings from "./Components/pages/Settings";
 import Chatroom from "./Components/pages/Chatroom";
 import Company from "./Components/pages/Company/Company";
-import AccountSettings from "./Components/pages/AccountSettings";
 import { useAuthContext } from "./hooks/useAuthContext";
 import DashboardProvider from "./Components/pages/dashboard/DashboardProvider";
 import TimeLine from "./Components/pages/TimeLine/TimeLine";
@@ -44,8 +43,6 @@ function App() {
           />
           <Route path="/" element={<Company />} />
           <Route path="/DashBoardProvider" element={<DashboardProvider />} />
-          <Route path="/AccountSettings" element={<AccountSettings />} />
-          <Route path="/AccountSettings" element={<AccountSettings />} />
           <Route path="/TimeLine" element={<TimeLine />} />
         </Routes>
       </BrowserRouter>

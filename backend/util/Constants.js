@@ -3,5 +3,9 @@ module.exports = {
     SystemAdmin: "SYSTEM ADMIN",
     Projectmanager: "PROJECT MANAGER",
     Developer: "DEVELOPER",
+    TechLead: "TECH LEAD",
+    Client: "CLIENT",
+    Quality_Assurance_Enginner: "QUALITY ASSURANCE ENGINNER",
+    Other_Project_Workers: "OTHER PROJECT WORK",
   },
 };

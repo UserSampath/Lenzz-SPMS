@@ -2,7 +2,7 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import "./Login.css";
 import { useState, useEffect, useRef } from "react";
-import { useLogin } from "../../hooks/useLogin";
+import { useLogin } from "../../../hooks/useLogin";
 import {
   faCheck,
   faTimes,
@@ -12,17 +12,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const EMAIL_REGEX = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
+
 function Login() {
   const userRef = useRef();
   const errRef = useRef();
   const [email, setEmail] = useState("");
   const [validEmail, setValidEmail] = useState(false);
   const [EmailFocus, setEmailFocus] = useState(false);
-
   const [password, setPassword] = useState("");
   const [validPassword, setValidPassword] = useState(false);
   const [passwordFocus, setPasswordFocus] = useState(false);
-
   const [errMsg, setErrMsg] = useState("");
 
   useEffect(() => {
@@ -73,11 +72,7 @@ function Login() {
             <div className="lg" style={{ marginLeft: "95px" }}>
               <form className="mt-5 needs-validation " onSubmit={handleSubmit}>
                 <div className="mb-4 w-75">
-                  <p
-                    ref={errRef}
-                    className={errMsg ? "errmsg" : "offscreen"}
-                    aria-live="assertive"
-                  >
+                  <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"}>
                     {errMsg}
                   </p>
                   <label htmlFor="email">
@@ -100,11 +95,9 @@ function Login() {
                     value={email}
                     required
                     aria-invalid={validEmail ? "false" : "true"}
-                    aria-describedby="uidnote"
                     onFocus={() => setEmailFocus(true)}
                     onBlur={() => setEmailFocus(false)}
-                    id="exampleInputEmail1"
-                    placeholder="example@gmail.com"
+                    placeholder="Enter your email address"
                   />
                   <p
                     id="uidnote"
@@ -145,7 +138,7 @@ function Login() {
                     aria-describedby="pwdnote"
                     onFocus={() => setPasswordFocus(true)}
                     onBlur={() => setPasswordFocus(false)}
-                    placeholder="password"
+                    placeholder="Enter your password"
                   />
                   <p
                     id="passwordnote"
@@ -170,20 +163,6 @@ function Login() {
                   </p>
                 </div>
 
-                <div className="mb-6 form-check">
-                  <input
-                    type="checkbox"
-                    className="form-check-input"
-                    id="exampleCheck1"
-                  />
-                  <label
-                    className="form-check-label"
-                    htmlFor="exampleCheck1"
-                    style={{ color: "blue" }}
-                  >
-                    Remember me
-                  </label>
-                </div>
                 <NavLink to="/passwordChange">
                   <div>
                     <button
@@ -195,6 +174,7 @@ function Login() {
                     </button>
                   </div>
                 </NavLink>
+
                 <button
                   type="submit"
                   className="btn btn-primary w-75  mt-5 h-25 p-20"
@@ -202,6 +182,7 @@ function Login() {
                 >
                   Submit
                 </button>
+
                 {error && <div className="errors">{error}</div>}
               </form>
             </div>

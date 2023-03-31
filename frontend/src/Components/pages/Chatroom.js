@@ -1,5 +1,5 @@
 import React from "react";
-import SideBar from "./Sidebar";
+import SideBar from "./mainComponents/Sidebar";
 function Chatroom() {
   return (
     <SideBar>

@@ -1,4 +1,4 @@
-import SideBar from "./Sidebar";
+import SideBar from "./mainComponents/Sidebar";
 
 const Settings = () => {
   return (

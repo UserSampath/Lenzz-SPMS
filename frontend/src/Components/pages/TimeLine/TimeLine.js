@@ -1,12 +1,12 @@
 import React, { useState, useRef, useEffect } from "react";
-import Sidebar from "../Sidebar";
+import Sidebar from "../mainComponents/Sidebar";
 import { Button, Modal, Form } from "react-bootstrap";
 import {
   MdOutlineDomainVerification,
   MdOutlineDeleteOutline,
   MdOutlineModeEditOutline,
 } from "react-icons/md";
-import { GiTimeDynamite } from "react-icons/gi";
+import { MdFormatListNumbered } from "react-icons/md";
 import {
   faCheck,
   faTimes,
@@ -18,36 +18,33 @@ import axios from "axios";
 import { useAuthContext } from "./../../../hooks/useAuthContext";
 import { useNavigate } from "react-router-dom";
 
-const TimeLine = ({ timelineId }) => {
+const TimeLine = ({ Id }) => {
   const { user } = useAuthContext();
   const history = useNavigate();
   const userRef = useRef();
   const errRef = useRef();
   const [showModal, setShowModal] = useState(false);
-  const [showEditModal, setEditShowModal] = useState(false);
-
-  const handleEditShow = () => setEditShowModal(true);
-  const handleEditClose = () => setEditShowModal(false);
-
+  const [icon, setIcon] = useState("");
   const handleShow = () => setShowModal(true);
-  const handleClose = () => setShowModal(false);
+  const handleClose = () => {
+    setShowModal(false);
+    setTopic("");
+    setDescription("");
+  };
   const [errMsg, setErrMsg] = useState("");
   const [error, setError] = useState(null);
   const [Topic, setTopic] = useState("");
   const [Description, setDescription] = useState("");
-  const [timelines, setTimelines] = useState([]); //
-  const [timeline, setTimeline] = useState([]);
-  ///create timeline
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!user) {
-      setError("you must be logged in");
-      return;
-    }
-    const TimeLine = { Topic, Description };
+  const [timelines, setTimelines] = useState([]);
+  const [updateTimeline, setUpdateTimeline] = useState(false);
+  const [updatingTimeLineId, setUpdatingTimeLineId] = useState("");
 
-    const response = await fetch("/api/TimeLine/createTimeLine", {
-      method: "POST",
+  //Delete timeline
+  const handelDeleteOutline = async (timeline) => {
+    const TimeLine = { id: timeline._id };
+
+    const response = await fetch("/api/TimeLine/DeleteTimeline", {
+      method: "DELETE",
       body: JSON.stringify(TimeLine),
       headers: {
         "Content-Type": "application/json",
@@ -55,21 +52,103 @@ const TimeLine = ({ timelineId }) => {
       },
     });
     const json = await response.json();
+
     if (!response.ok) {
       setError(json.error);
-    }
-    if (response.ok) {
-      setTimelines([...timelines, TimeLine]);
-      history("/TimeLine");
-      setTopic("");
-      setDescription("");
-      setError(null);
-      handleClose();
+    } else if (response.ok) {
+      const updatedTimeLines = timelines.filter(
+        (tl) => tl._id !== json.deletedTimeLine._id
+      );
+      setTimelines(updatedTimeLines);
     }
   };
+
+  //Update timeline
+
+  const handeleditoutline = (timeline) => {
+    setUpdateTimeline(true);
+    setUpdatingTimeLineId(timeline._id);
+    setTopic(timeline.Topic);
+    setDescription(timeline.Description);
+
+    setShowModal(true);
+  };
+
+  //create timeline
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!user) {
+      setError("you must be logged in");
+      return;
+    }
+    if (!updateTimeline) {
+      const TimeLine = { Topic, Description };
+
+      const response = await fetch("/api/TimeLine/createTimeLine", {
+        method: "POST",
+        body: JSON.stringify(TimeLine),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
+      const json = await response.json();
+      if (!response.ok) {
+        setError(json.error);
+      }
+      if (response.ok) {
+        console.log(json);
+        const newTimeLine = {
+          _id: json._id,
+          Topic: json.Topic,
+          Description: json.Description,
+        };
+        setTimelines([...timelines, newTimeLine]);
+        history("/TimeLine");
+        setTopic("");
+        setDescription("");
+        setError(null);
+        handleClose();
+      }
+    } else if (updateTimeline) {
+      const TimeLine = { Topic, Description, id: updatingTimeLineId };
+
+      const response = await fetch("/api/TimeLine/updateTimeline", {
+        method: "PUT",
+        body: JSON.stringify(TimeLine),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
+      const json = await response.json();
+      if (!response.ok) {
+        setError(json.error);
+      }
+      if (response.ok) {
+        console.log("fff", TimeLine);
+
+        timelines.map((tl) => {
+          if (tl._id === TimeLine.id) {
+            tl.Topic = TimeLine.Topic;
+            tl.Description = TimeLine.Description;
+          }
+        });
+        history("/TimeLine");
+        setTopic("");
+        setDescription("");
+        setError(null);
+        handleClose();
+        updateTimeline(false);
+      }
+    }
+  };
+  //show the timelines
+
   useEffect(() => {
     const getTimelines = async () => {
-      const response = await axios.get("/api/TimeLine/getTimelines");
+      const response = await axios.get("/api/TimeLine/getAllTimelines");
       const { data } = response;
       if (Array.isArray(data)) {
         setTimelines(data);
@@ -78,33 +157,6 @@ const TimeLine = ({ timelineId }) => {
     getTimelines();
   }, []);
 
-  useEffect(() => {
-    const fetchTimeline = async () => {
-      if (timelineId) {
-        const { data } = await axios.get(`/api/TimeLine/${timelineId}`);
-        setTimeline(data);
-      }
-    };
-    fetchTimeline();
-  }, [timelineId]);
-
-  const handleEditSubmit = async (e) => {
-    e.preventDefault();
-    if (timelineId) {
-      const response = await axios.put(`/api/TimeLine/${timelineId}`, {
-        timeline,
-      });
-      if (response.ok) {
-        setTimeline(response.data);
-      } else {
-        setErrMsg("Failed to update timeline.");
-      }
-    }
-    handleEditClose();
-  };
-  const handleChange = (e) => {
-    setTimeline(e.target.value);
-  };
   return (
     <Sidebar>
       <div>
@@ -118,7 +170,7 @@ const TimeLine = ({ timelineId }) => {
           }}
         >
           <div style={{ display: "flex" }}>
-            <GiTimeDynamite
+            <MdFormatListNumbered
               style={{
                 marginTop: "25px",
                 fontSize: "35px",
@@ -199,7 +251,7 @@ const TimeLine = ({ timelineId }) => {
                   Close
                 </Button>
                 <Button variant="primary" onClick={handleSubmit}>
-                  Add requirement
+                  Save Changes
                 </Button>
                 {error && (
                   <div
@@ -227,7 +279,6 @@ const TimeLine = ({ timelineId }) => {
             <div style={{ maxHeight: "470px", overflowY: "scroll" }}>
               {Array.isArray(timelines) &&
                 timelines.map((timeline, index) => (
-                  // render timeline items
                   <div
                     className="card shadow"
                     style={{
@@ -252,7 +303,7 @@ const TimeLine = ({ timelineId }) => {
                     </div>
                     <p
                       style={{
-                        marginLeft: "25px",
+                        marginLeft: "55px",
                         marginTop: "5px",
                         marginRight: "100px",
                       }}
@@ -260,73 +311,26 @@ const TimeLine = ({ timelineId }) => {
                       {timeline.Description}
                     </p>
                     <div style={{ marginLeft: "90%", marginBottom: "10px" }}>
-                      <Button>
+                      <Button
+                        onClick={() => handelDeleteOutline(timeline)}
+                        variant="danger"
+                      >
                         <MdOutlineDeleteOutline
                           style={{
                             fontSize: "25px",
                           }}
                         />
                       </Button>
-                      <Button style={{ marginLeft: "15px" }}>
+                      <Button
+                        style={{ marginLeft: "15px" }}
+                        onClick={() => handeleditoutline(timeline)}
+                      >
                         <MdOutlineModeEditOutline
                           style={{
                             fontSize: "25px",
                           }}
-                          onClick={handleEditShow}
                         />
                       </Button>
-                      <Modal show={showEditModal} onHide={handleClose}>
-                        <Modal.Header closeButton>
-                          <Modal.Title>Edit Timeline</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                          <Form className="needs-validation">
-                            <Form.Group
-                              className="mb-3"
-                              controlId="exampleForm.ControlInput1"
-                            >
-                              <Form.Label style={{ fontWeight: "bold" }}>
-                                Topic
-                              </Form.Label>
-                              <Form.Control
-                                type="text"
-                                className="form-control"
-                                autoComplete="on"
-                                placeholder="Enter your requiement..."
-                                onChange={handleChange}
-                                defaultValue={timelines.Topic}
-                              />
-                            </Form.Group>
-                            <Form.Group
-                              className="mb-3"
-                              controlId="exampleForm.ControlInput1"
-                            >
-                              <Form.Label style={{ fontWeight: "bold" }}>
-                                Topic
-                              </Form.Label>
-                              <Form.Control
-                                type="textarea"
-                                className="form-control"
-                                autoComplete="on"
-                                placeholder="Enter your requiement..."
-                                value={Description}
-                              />
-                            </Form.Group>
-                          </Form>
-                        </Modal.Body>
-                        <Modal.Footer>
-                          <Button variant="secondary" onClick={handleEditClose}>
-                            Close
-                          </Button>
-                          <Button
-                            variant="primary"
-                            type="submit"
-                            onClick={handleEditSubmit}
-                          >
-                            Save Changes
-                          </Button>
-                        </Modal.Footer>
-                      </Modal>
                     </div>
                   </div>
                 ))}

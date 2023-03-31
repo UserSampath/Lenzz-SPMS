@@ -10,6 +10,7 @@ import {
   faInfoCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 const EMAIL_REGEX = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 const TEXT_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const CONTECTNUMBER_REGEX = /^\d{10}$/;
@@ -88,7 +89,6 @@ const CreateCompany = () => {
     }
     if (response.ok) {
       if (redirectToCompany) {
-        // If the user has closed the modal, redirect them to the company page
         return history("/Company");
       }
       setcompanyname("");
@@ -98,7 +98,6 @@ const CreateCompany = () => {
       setError(null);
 
       console.log("New company created", json);
-      console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", json.company.companyKey);
       setcompanyKey(json.company.companyKey);
       setShowModal(true);
       dispatch({ type: "COMPANY_CREATE", payload: json });
@@ -178,8 +177,6 @@ const CreateCompany = () => {
                     4 to 24 characters.
                     <br />
                     Must begin with a letter.
-                    <br />
-                    Letters, numbers, underscores, hyphens allowed.
                   </p>
                 </div>
                 <div className="mb-3">
@@ -309,9 +306,6 @@ const CreateCompany = () => {
                     4 to 24 characters.
                     <br />
                     Must begin with a letter.
-                    <br />
-                    Letters, numbers, underscores, hyphens allowed.
-                    <br />
                   </p>
                 </div>
 
