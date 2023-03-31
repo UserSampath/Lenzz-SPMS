@@ -3,13 +3,11 @@ import ProgressBar from "react-bootstrap/ProgressBar";
 import Bar from "./Bar";
 import "./Circleprogress.css";
 import { useAuthContext } from "./../../../hooks/useAuthContext";
-import { useProjectContext } from "../../../hooks/useProjectContext";
 function CircleProgress() {
   const [percentage, setPercentage] = useState("");
   const [progress, setProgress] = useState("");
   const [overallprogress, setOverallProgress] = useState("");
   const { user } = useAuthContext();
-  const { projects, dispatch } = useProjectContext();
 
   useEffect(() => {
     const createDate = async () => {
@@ -22,17 +20,14 @@ function CircleProgress() {
         body: JSON.stringify({}),
       });
       const data = await res.json();
-      console.log(res);
       if (res.status === 200) {
         setPercentage(data.percentage);
-        console.log(data.percentage);
-        console.log(percentage);
       }
     };
     if (user) {
       createDate();
     }
-  }, [dispatch, user]);
+  }, [user]);
   const now = 80;
 
   let variant;

@@ -22,6 +22,10 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
+  ContactNumber: {
+    type: String,
+    required: true,
+  },
   selectedJob: {
     type: String,
     enum: [
@@ -53,10 +57,18 @@ userSchema.statics.signup = async function (
   password,
   firstName,
   lastName,
-  selectedJob
+  selectedJob,
+  ContactNumber
 ) {
   // validation
-  if (!email || !password || !firstName || !lastName || !selectedJob) {
+  if (
+    !email ||
+    !password ||
+    !firstName ||
+    !lastName ||
+    !selectedJob ||
+    !ContactNumber
+  ) {
     throw Error("All fields must be filled");
   }
   if (!validator.isEmail(email)) {
@@ -66,16 +78,12 @@ userSchema.statics.signup = async function (
     throw Error("Password not strong enough");
   }
   if (password && !validator.isLength(password, { min: 8 })) {
-    res.status(400);
-    throw new Error("Password must be at least 6 characters long");
+    throw new Error("Password must be at least 8 characters long");
   }
   if (!validator.isLength(firstName, { min: 2, max: 255 })) {
-    res.status(400);
     throw new Error("First name must be between 2 and 255 characters");
   }
-
   if (!validator.isLength(lastName, { min: 2, max: 255 })) {
-    res.status(400);
     throw new Error("Last name must be between 2 and 255 characters");
   }
 
@@ -94,6 +102,7 @@ userSchema.statics.signup = async function (
     firstName,
     lastName,
     selectedJob,
+    ContactNumber,
   });
 
   return user;
@@ -130,7 +139,7 @@ userSchema.statics.forget = async function (email) {
     throw Error("Email must be filled");
   }
 
-  if (!validator.isEmail(email)) {
+  if (validator.isEmail(email)) {
     throw Error("Email not valid");
   }
   const user = await this.findOne({ email });
@@ -145,45 +154,12 @@ userSchema.statics.reset = async function (password) {
     throw Error("password is required");
   }
 
-  if (!validator.isStrongPassword(password)) {
+  if (validator.isStrongPassword(password)) {
     throw Error("Password not strong enough");
   }
 
   const salt = await bcrypt.genSalt(12);
   const hash = await bcrypt.hash(password, salt);
-  return user;
-};
-userSchema.statics.update = async function (
-  firstName,
-  lastName,
-  email,
-  password
-) {
-  // validation
-
-  if (!validator.isEmail(email)) {
-    throw Error("Email not valid");
-  }
-  if (!validator.isStrongPassword(password)) {
-    throw Error("Password not strong enough");
-  }
-
-  const exists = await this.findOne({ email });
-
-  if (exists) {
-    throw Error("Email already in use");
-  }
-
-  const salt = await bcrypt.genSalt(10);
-  const hash = await bcrypt.hash(password, salt);
-
-  const user = await this.create({
-    email,
-    password: hash,
-    firstName,
-    lastName,
-  });
-
   return user;
 };
 

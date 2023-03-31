@@ -13,6 +13,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const EMAIL_REGEX = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 const NAME_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
+const CONTECTNUMBER_REGEX = /^\d{10}$/;
 
 const Register = () => {
   const userRef = useRef();
@@ -32,6 +33,9 @@ const Register = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [validConfirmPassword, setValidConfirmPassword] = useState(false);
   const [ConfirmpasswordFocus, setConfirmPasswordFocus] = useState(false);
+  const [ContactNumber, setContactNumber] = useState("");
+  const [validContactNumber, setValidContactNumber] = useState(false);
+  const [ContactNumberFocus, setContactNumberFocus] = useState(false);
   const [errMsg, setErrMsg] = useState("");
   const [selectedJob, setSelectedJob] = useState("");
   const { signup, isLoading, error } = useSignup();
@@ -56,6 +60,9 @@ const Register = () => {
     setValidLastName(NAME_REGEX.test(lastName));
   }, [lastName]);
   useEffect(() => {
+    setValidContactNumber(CONTECTNUMBER_REGEX.test(ContactNumber));
+  }, [ContactNumber]);
+  useEffect(() => {
     setValidEmail(EMAIL_REGEX.test(email));
   }, [email]);
   useEffect(() => {
@@ -69,7 +76,14 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    await signup(email, password, firstName, lastName, selectedJob);
+    await signup(
+      email,
+      password,
+      firstName,
+      lastName,
+      selectedJob,
+      ContactNumber
+    );
   };
 
   const handleOptionChange = (eventKey) => {
@@ -326,7 +340,47 @@ const Register = () => {
                     Must match the first password input field.
                   </p>
                 </div>
-
+                <div className="mb-3">
+                  <label htmlFor="email">
+                    Contact Number:
+                    <FontAwesomeIcon
+                      icon={faCheck}
+                      className={ContactNumber ? "valid" : "hide"}
+                    />
+                    <FontAwesomeIcon
+                      icon={faTimes}
+                      className={
+                        validContactNumber || !ContactNumber
+                          ? "hide"
+                          : "invalid"
+                      }
+                    />
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    onChange={(e) => setContactNumber(e.target.value)}
+                    id="contactnumber"
+                    required
+                    aria-invalid={validContactNumber ? "false" : "true"}
+                    aria-describedby="passwordnote"
+                    autoComplete="on"
+                    onFocus={() => setContactNumberFocus(true)}
+                    onBlur={() => setContactNumberFocus(false)}
+                    placeholder="Enter your Contact Number"
+                  />
+                  <p
+                    id="uidnote"
+                    className={
+                      ContactNumberFocus && ContactNumber && !validContactNumber
+                        ? "instructions"
+                        : "offscreen"
+                    }
+                  >
+                    <FontAwesomeIcon icon={faInfoCircle} />
+                    must be 10 numbers
+                  </p>
+                </div>
                 <div className="mb-3">
                   <label htmlFor="jobtitle" className="form-label">
                     Jobtitle

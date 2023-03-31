@@ -42,14 +42,16 @@ const loginUser = async (req, res) => {
 
 //Signup a user
 const signupUser = async (req, res) => {
-  const { firstName, lastName, email, password, selectedJob } = req.body;
+  const { firstName, lastName, email, password, selectedJob, ContactNumber } =
+    req.body;
   try {
     const user = await User.signup(
       firstName,
       lastName,
       email,
       password,
-      selectedJob
+      selectedJob,
+      ContactNumber
     );
     const token = createToken(user._id);
     res.status(200).json({ email, token, selectedJob: user.selectedJob });

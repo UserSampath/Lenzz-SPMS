@@ -18,13 +18,15 @@ import axios from "axios";
 import { useAuthContext } from "./../../../hooks/useAuthContext";
 import { useNavigate } from "react-router-dom";
 
-const TimeLine = ({ Id }) => {
-  const { user } = useAuthContext();
-  const history = useNavigate();
+const TOPIC = /^[A-Za-z0-9\s\-_,.!?:;'"()]{5,25}$/;
+
+const DESCRIPTION = /^[A-Za-z0-9\s\-_,.!?:;'"()]{5,}$/;
+const TimeLine = () => {
   const userRef = useRef();
   const errRef = useRef();
+  const { user } = useAuthContext();
+  const history = useNavigate();
   const [showModal, setShowModal] = useState(false);
-  const [icon, setIcon] = useState("");
   const handleShow = () => setShowModal(true);
   const handleClose = () => {
     setShowModal(false);
@@ -34,11 +36,26 @@ const TimeLine = ({ Id }) => {
   const [errMsg, setErrMsg] = useState("");
   const [error, setError] = useState(null);
   const [Topic, setTopic] = useState("");
+  const [validTopic, setValidTopic] = useState("");
+  const [TopicFocus, setTopicFocus] = useState("");
   const [Description, setDescription] = useState("");
+  const [DescriptionFocus, setDescriptionFocus] = useState("");
+  const [validDescription, setValidDescription] = useState("");
   const [timelines, setTimelines] = useState([]);
   const [updateTimeline, setUpdateTimeline] = useState(false);
   const [updatingTimeLineId, setUpdatingTimeLineId] = useState("");
 
+  useEffect(() => {
+    setValidTopic(TOPIC.test(Topic));
+  }, [Topic]);
+
+  useEffect(() => {
+    setValidDescription(DESCRIPTION.test(Description));
+  }, [Description]);
+
+  useEffect(() => {
+    setErrMsg("");
+  }, [Topic, Description]);
   //Delete timeline
   const handelDeleteOutline = async (timeline) => {
     const TimeLine = { id: timeline._id };
@@ -214,35 +231,89 @@ const TimeLine = ({ Id }) => {
                     className="mb-3"
                     controlId="exampleForm.ControlInput1"
                   >
+                    <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"}>
+                      {errMsg}
+                    </p>
                     <Form.Label style={{ fontWeight: "bold" }}>
                       Topic
+                      <FontAwesomeIcon
+                        icon={faCheck}
+                        className={validTopic ? "valid" : "hide"}
+                      />
+                      <FontAwesomeIcon
+                        icon={faTimes}
+                        className={validTopic || !Topic ? "hide" : "invalid"}
+                      />
                     </Form.Label>
                     <Form.Control
                       type="text"
                       className="form-control"
                       ref={userRef}
+                      required
+                      aria-invalid={validTopic ? "false" : "true"}
+                      onFocus={() => setTopicFocus(true)}
+                      onBlur={() => setTopicFocus(false)}
                       onChange={(e) => setTopic(e.target.value)}
                       autoComplete="on"
                       placeholder="Enter your requiement..."
                       value={Topic}
                     />
+                    <p
+                      id="uidnote"
+                      className={
+                        TopicFocus && Topic && !validTopic
+                          ? "instructions"
+                          : "offscreen"
+                      }
+                    >
+                      <FontAwesomeIcon icon={faInfoCircle} />
+                      at least 5 letters
+                      <br />
+                      Must begin with a letter.
+                    </p>
                   </Form.Group>
                   <Form.Group
                     className="mb-3"
                     controlId="exampleForm.ControlInput1"
                   >
                     <Form.Label style={{ fontWeight: "bold" }}>
-                      Description
+                      Description:
+                      <FontAwesomeIcon
+                        icon={faCheck}
+                        className={validDescription ? "valid" : "hide"}
+                      />
+                      <FontAwesomeIcon
+                        icon={faTimes}
+                        className={
+                          validDescription || !Description ? "hide" : "invalid"
+                        }
+                      />
                     </Form.Label>
                     <Form.Control
                       as="textarea"
                       className="form-control"
                       ref={userRef}
                       autoComplete="on"
+                      aria-invalid={validTopic ? "false" : "true"}
+                      onFocus={() => setDescriptionFocus(true)}
+                      onBlur={() => setDescriptionFocus(false)}
                       placeholder="Enter your Description..."
                       value={Description}
                       onChange={(e) => setDescription(e.target.value)}
                     />
+                    <p
+                      id="uidnote"
+                      className={
+                        DescriptionFocus && Description && !validDescription
+                          ? "instructions"
+                          : "offscreen"
+                      }
+                    >
+                      <FontAwesomeIcon icon={faInfoCircle} />
+                      at least 5 letters
+                      <br />
+                      Must begin with a letter.
+                    </p>
                   </Form.Group>
                 </Form>
               </Modal.Body>
