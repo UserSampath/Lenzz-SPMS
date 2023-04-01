@@ -1,10 +1,8 @@
-# Lenzz-SPMS
-
 # Software Project Management System
 
 Software project management systems have become a vital part of the IT industry due to their ability to handle and manage complex software development projects effectively. The software project management system aims to provide a solution to the issues of cost, facilities, and communication among project members that earlier management systems had limitations with.
 
-## Problem Addressed
+## Problem
 
 The complexity of the software development process involves planning, designing, analyzing, development, and maintenance. Manual project management is inefficient and lacks clarity, leading to problems in communication, understanding of tasks, and wasted time. The software project management system addresses these issues and ensures effective task allocation, monitoring, and timely completion.
 
@@ -22,7 +20,5 @@ The proposed solution is an effective and efficient framework for the software p
 * Project Progress: A feature that allows project managers to view and monitor project progress, ensuring timely completion of tasks.
 * Kanban Board: A tool that enables the team to visualize the workflow, manage tasks, and track progress.
 * Chat Room: A communication tool that allows team members to communicate with each other and discuss project-related issues.
-
-## Conclusion
 
 The software project management system aims to provide a user-friendly work environment to project managers and team members, enabling them to manage their tasks efficiently and effectively. This system is the solution to the complexity of the software development process, enabling efficient project management for the IT industry.
