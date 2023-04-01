@@ -101,7 +101,7 @@ const SideDrawer = () => {
         justifyContent="space-between"
         alignItems="center"
         bg="white"
-        w="198%"
+        w="173%"
         p="5px 10px 5px 10px"
         borderWidth="2px"
         borderRadius="10px"
@@ -110,15 +110,12 @@ const SideDrawer = () => {
         <Tooltip label="Search Users to chat" hasArrow placement="bottom-end">
           <Button variant="ghost" onClick={onOpen}>
             <i className="fa fa-search"></i> 
-            <Text display={{ base: "none", md: "flex" }} px="4">
-              Search User
-            </Text>
+            <Text display={{ base: "none", md: "flex" }} px="4">Search User</Text>
           </Button>
         </Tooltip>
-              <Text style={{fontFamily: 'Roboto, sans-serif', fontSize: '2x1'}}>
+        <Text style={{fontFamily: 'Roboto, sans-serif', fontSize: '2x1'}}>
           Project Chat Box
         </Text>
-
         <div>
           <Menu>
             <MenuButton p={1}>

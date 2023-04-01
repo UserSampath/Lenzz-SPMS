@@ -46,7 +46,7 @@ const MyChats = ({ fetchAgain }) => {
     alignItems="center"
     p={3}
     bg="white"
-    w={{ base: "100%", md: "31%" }}
+    width={{ base: "100%", md: "31%" }}
     borderRadius="lg"
     borderWidth="1px"
     backgroundColor="#e6f2ff"

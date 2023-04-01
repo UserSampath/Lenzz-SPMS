@@ -11,8 +11,9 @@ import { ModalContent, Modal,
     ModalCloseButton, } from '@chakra-ui/modal';
     import { Image} from "@chakra-ui/image";
 import { Avatar } from '@chakra-ui/avatar';
-    const ProfileModel = ({ user, children }) => {
-    const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const ProfileModel = ({ user, children }) => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <>
@@ -42,22 +43,16 @@ import { Avatar } from '@chakra-ui/avatar';
           alignItems="center"
           justifyContent="space-between"
         >
-          {/* <Image
-            borderRadius="full"
-            boxSize="150px"
-            src={user.pic}
-            alt={user.name}
-          /> */}
-          <Avatar
+        <Avatar
           size="xl"
           name={user.firstName}
           src={user.pic}/>
-          <Text
+        <Text
             fontSize={{ base: "28px", md: "30px" }}
             fontFamily="Work sans"
-          >
+        >
             Email: {user.email}
-          </Text>
+        </Text>
         </ModalBody>
         <ModalFooter>
           <Button onClick={onClose}>Close</Button>

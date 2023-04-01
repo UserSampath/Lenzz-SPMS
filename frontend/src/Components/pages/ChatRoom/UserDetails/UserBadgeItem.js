@@ -4,8 +4,8 @@ import { CloseIcon } from "@chakra-ui/icons";
 const UserBadgeItem = ({ user, handleFunction }) => {
   return (
     <Box
-      px={2}
-      py={1}
+      px={2} //horizontal
+      py={1} //vertical
       borderRadius="lg"
       m={1}
       mb={2}
