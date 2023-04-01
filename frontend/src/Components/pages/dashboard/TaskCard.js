@@ -13,14 +13,11 @@ const CardContainer = styled.div`
 const TaskCard = (props) => {
   const [TaskDetailsModal, setTaskDetailsModal] = useState(false);
 
-  let [backgroundColor, setBackgroundColor] = useState("white")
+  let [backgroundColor, setBackgroundColor] = useState("white");
 
   const toggleModal = () => {
-    console.log(props.id)
-    console.log(props.index)
-
-
-
+    console.log(props.id);
+    console.log(props.index);
 
     setTaskDetailsModal(!TaskDetailsModal);
   };
@@ -45,56 +42,61 @@ const TaskCard = (props) => {
   }, [props.card.flag]);
   const clickedUpdateButton = () => {
     setTaskDetailsModal(!TaskDetailsModal);
-    props.updateTask(props.id)
-  }
+    props.updateTask(props.id);
+  };
 
   const clickedDeleteButton = () => {
-    props.deleteTask(props.id, props.index)
+    props.deleteTask(props.id, props.index);
     toggleModal();
-
-
-
-
-  }
+  };
   return (
-    <Draggable draggableId={String(props.id)} index={props.index} isDragDisabled={false}>
-      {provided => (
+    <Draggable
+      draggableId={String(props.id)}
+      index={props.index}
+      isDragDisabled={false}
+    >
+      {(provided) => (
         <CardContainer
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
         >
           {TaskDetailsModal && (
-            <TaskDetails toggleModal={toggleModal} card={props.card} clickedUpdateButton={clickedUpdateButton} clickedDeleteButton={clickedDeleteButton} />
+            <TaskDetails
+              toggleModal={toggleModal}
+              card={props.card}
+              clickedUpdateButton={clickedUpdateButton}
+              clickedDeleteButton={clickedDeleteButton}
+            />
           )}
           <div onClick={toggleModal}>
-
-            <div style={{
-              border: "1px solid black",
-              borderRadius: "3px",
-              padding: "0px 10px",
-              backgroundColor: backgroundColor,
-              display: "flex",
-              alignItems: "center",
-              height: "50px",
-              justifyContent: "space-between",
-              overflow: "hidden",
-
-
-
-            }}>
-              <div style={{ marginRight: "5px", overflow: "hidden" }}>{props.text}</div>
+            <div
+              style={{
+                border: "1px solid black",
+                borderRadius: "3px",
+                padding: "0px 10px",
+                backgroundColor: backgroundColor,
+                display: "flex",
+                alignItems: "center",
+                height: "50px",
+                justifyContent: "space-between",
+                overflow: "hidden",
+              }}
+            >
+              <div style={{ marginRight: "5px", overflow: "hidden" }}>
+                {props.text}
+              </div>
               {/* {props.card.flag !== "default" ? (
                 <div className="aa" style={{}}>{props.card.flag}</div>
               ) : null} */}
-              <img src="https://sampathnalaka.s3.eu-north-1.amazonaws.com/uploads/IMG_20210907_151753_997.jpg" alt="svs"
-                width="38" height="38"
+              <img
+                src="https://sampathnalaka.s3.eu-north-1.amazonaws.com/uploads/IMG_20210907_151753_997.jpg"
+                alt="svs"
+                width="38"
+                height="38"
                 // style="border-radius: 50%; border: 1px solid black;
                 style={{ borderRadius: "50%", border: "1px solid white" }}
-              >
-              </img>
-
-
+              ></img>
             </div>
           </div>
         </CardContainer>

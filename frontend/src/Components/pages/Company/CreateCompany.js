@@ -10,6 +10,7 @@ import {
   faInfoCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Swal from "sweetalert2";
 
 const EMAIL_REGEX = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 const TEXT_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
@@ -88,6 +89,14 @@ const CreateCompany = () => {
       setError(json.error);
     }
     if (response.ok) {
+      const showAlert = () => {
+        Swal.fire({
+          title: "Success",
+          text: " successfully Login",
+          icon: "success",
+          confirmButtonText: "OK",
+        });
+      };
       if (redirectToCompany) {
         return history("/Company");
       }
@@ -101,13 +110,14 @@ const CreateCompany = () => {
       setcompanyKey(json.company.companyKey);
       setShowModal(true);
       dispatch({ type: "COMPANY_CREATE", payload: json });
+      showAlert("");
     }
   };
 
   const handleModalClose = () => {
     setRedirectToCompany(true);
     handleClose();
-    history("/Company");
+    history("/");
   };
 
   return (

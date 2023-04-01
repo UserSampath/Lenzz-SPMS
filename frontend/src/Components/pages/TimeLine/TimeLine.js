@@ -17,6 +17,8 @@ import "./TimeLine.css";
 import axios from "axios";
 import { useAuthContext } from "./../../../hooks/useAuthContext";
 import { useNavigate } from "react-router-dom";
+import { Dropdown } from "react-bootstrap";
+import Swal from "sweetalert2";
 
 const TOPIC = /^[A-Za-z0-9\s\-_,.!?:;'"()]{5,25}$/;
 
@@ -44,6 +46,12 @@ const TimeLine = () => {
   const [timelines, setTimelines] = useState([]);
   const [updateTimeline, setUpdateTimeline] = useState(false);
   const [updatingTimeLineId, setUpdatingTimeLineId] = useState("");
+  const [FlagMethod, setFlagMethod] = useState("");
+
+  const options = ["TODO", "INPROGRESS", "DONE"];
+  const handleOptionChange = (eventKey) => {
+    setFlagMethod(options[eventKey]);
+  };
 
   useEffect(() => {
     setValidTopic(TOPIC.test(Topic));
@@ -56,6 +64,7 @@ const TimeLine = () => {
   useEffect(() => {
     setErrMsg("");
   }, [Topic, Description]);
+
   //Delete timeline
   const handelDeleteOutline = async (timeline) => {
     const TimeLine = { id: timeline._id };
@@ -116,6 +125,14 @@ const TimeLine = () => {
       }
       if (response.ok) {
         console.log(json);
+        const showAlert = () => {
+          Swal.fire({
+            title: "Success",
+            text: " successfully created",
+            icon: "success",
+            confirmButtonText: "OK",
+          });
+        };
         const newTimeLine = {
           _id: json._id,
           Topic: json.Topic,
@@ -127,6 +144,7 @@ const TimeLine = () => {
         setDescription("");
         setError(null);
         handleClose();
+        showAlert();
       }
     } else if (updateTimeline) {
       const TimeLine = { Topic, Description, id: updatingTimeLineId };
@@ -144,7 +162,7 @@ const TimeLine = () => {
         setError(json.error);
       }
       if (response.ok) {
-        console.log("fff", TimeLine);
+        console.log("new", TimeLine);
 
         timelines.map((tl) => {
           if (tl._id === TimeLine.id) {
@@ -152,6 +170,7 @@ const TimeLine = () => {
             tl.Description = TimeLine.Description;
           }
         });
+
         history("/TimeLine");
         setTopic("");
         setDescription("");
@@ -314,6 +333,24 @@ const TimeLine = () => {
                       <br />
                       Must begin with a letter.
                     </p>
+                  </Form.Group>
+                  <Form.Group
+                    className="mb-3"
+                    controlId="exampleForm.ControlInput1"
+                  >
+                    <Form.Label>Stage</Form.Label>
+                    <Dropdown onSelect={handleOptionChange}>
+                      <Dropdown.Toggle variant="primary" id="dropdown-basic">
+                        Select an option
+                      </Dropdown.Toggle>
+                      <Dropdown.Menu>
+                        {options.map((option, index) => (
+                          <Dropdown.Item eventKey={index} key={option} required>
+                            {option}
+                          </Dropdown.Item>
+                        ))}
+                      </Dropdown.Menu>
+                    </Dropdown>
                   </Form.Group>
                 </Form>
               </Modal.Body>

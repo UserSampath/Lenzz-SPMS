@@ -51,7 +51,6 @@ function CircleProgress() {
         const data = await response.json();
         const percentage = data.percentage;
         setProgress(percentage);
-        console.log(percentage);
       } catch (error) {
         console.error(error);
       }
@@ -71,7 +70,6 @@ function CircleProgress() {
         const data = await response.json();
         const percentage = data.percentage;
         setOverallProgress(percentage);
-        console.log(percentage);
       } catch (error) {
         console.error(error);
       }
@@ -88,7 +86,6 @@ function CircleProgress() {
             height: " 350px",
             marginLeft: "75px",
             marginTop: "120px",
-            zIndex: "1",
           }}
         >
           <div className="circle1">

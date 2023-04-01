@@ -394,9 +394,6 @@ const Register = () => {
                       {options.map((option, index) => (
                         <Dropdown.Item eventKey={index} key={option} required>
                           {option}
-                          <div className="invalid-feedback">
-                            Please Enter Your Job title
-                          </div>{" "}
                         </Dropdown.Item>
                       ))}
                     </Dropdown.Menu>

@@ -1,57 +1,56 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-const TaskSchema = new mongoose.Schema({
+const TaskSchema = new mongoose.Schema(
+  {
     progressStage_id: {
-        type: mongoose.Schema.Types.ObjectId,  //
-        ref: 'ProgressStage'
+      type: mongoose.Schema.Types.ObjectId, //
+      ref: "ProgressStage",
     },
     name: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
     flag: {
-        type: String
+      type: String,
     },
     assign: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
     reporter: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
     link: {
-        type: String,
+      type: String,
     },
     startDate: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
     endDate: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
     description: {
-        type: String,
+      type: String,
     },
     taskIndex: {
-        type: Number
+      type: Number,
     },
-    files: [{
+    files: [
+      {
         fileName: {
-            type: String,
-            
+          type: String,
         },
         location: {
-            type: String,
-            
-        }
-    }]
+          type: String,
+        },
+      },
+    ],
+  },
+  { timestamps: true }
+);
 
-}
-    , { timestamps: true });
-
-module.exports = mongoose.model('Task', TaskSchema)
+module.exports = mongoose.model("Task", TaskSchema);
 // module.exports = mongoose.model('Staff', StaffSchema);
-
-

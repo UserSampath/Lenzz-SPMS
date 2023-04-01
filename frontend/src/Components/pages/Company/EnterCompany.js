@@ -1,17 +1,37 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import "./EnterCompany.css";
 import { useNavigate } from "react-router-dom";
 import { useCompanyContext } from "./../../../hooks/useCompanyContext";
 import { useAuthContext } from "./../../../hooks/useAuthContext";
+import {
+  faCheck,
+  faTimes,
+  faInfoCircle,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+const KEY = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8}$/;
 
 function EnterCompany() {
+  const userRef = useRef();
+  const errRef = useRef();
   const [companykey, setCompanykey] = useState("");
-  const [companykeyTouched, setCompanykeyTouched] = useState("");
+  const [validCompanyKey, setvalidCompanyKey] = useState("");
+  const [CompanyKeyFocus, setCompanyKeyFocus] = useState("");
+  const [errMsg, setErrMsg] = useState("");
   const { user } = useAuthContext();
   const { dispatch } = useCompanyContext();
   const [error, setError] = useState(null);
   const history = useNavigate();
 
+  useEffect(() => {
+    userRef.current.focus();
+  }, []);
+  useEffect(() => {
+    setvalidCompanyKey(KEY.test(companykey));
+  }, [companykey]);
+  useEffect(() => {
+    setErrMsg("");
+  }, []);
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!user) {
@@ -32,7 +52,7 @@ function EnterCompany() {
       setError(json.error);
     }
     if (response.ok) {
-      history("/DashboardProvider");
+      history("/");
 
       setCompanykey("");
 
@@ -41,12 +61,7 @@ function EnterCompany() {
       dispatch({ type: "COMPANY_KEY", payload: json });
     }
   };
-  const handleCompanykeyBlur = () => {
-    setCompanykeyTouched(true);
-  };
 
-  const isCompanykeyInvalid = !companykey && companykeyTouched;
-  const isCompanykeyValid = companykey && !isCompanykeyInvalid;
   return (
     <div>
       <div className="container shadow my-5">
@@ -63,30 +78,52 @@ function EnterCompany() {
             >
               <form className="mt-5 needs-validation" onSubmit={handleSubmit}>
                 <div className="mb-4 w-75">
+                  <p
+                    ref={errRef}
+                    className={errMsg ? "errmsg" : "offscreen"}
+                    aria-live="assertive"
+                  >
+                    {errMsg}
+                  </p>
                   <label htmlFor="exampleInputEmail1" className="form-label">
-                    Enter Company key
+                    Company key :
+                    <FontAwesomeIcon
+                      icon={faCheck}
+                      className={validCompanyKey ? "valid" : "hide"}
+                    />
+                    <FontAwesomeIcon
+                      icon={faTimes}
+                      className={
+                        validCompanyKey || !companykey ? "hide" : "invalid"
+                      }
+                    />
                   </label>
                   <input
                     type="text"
-                    className={`form-control ${
-                      isCompanykeyInvalid ||
-                      (!isCompanykeyValid && companykeyTouched)
-                        ? "is-invalid"
-                        : isCompanykeyValid
-                        ? "is-valid"
-                        : ""
-                    }`}
-                    id="exampleInputEmail1"
+                    className="form-control"
+                    ref={userRef}
+                    autoComplete="on"
+                    onFocus={(e) => setCompanyKeyFocus(true)}
+                    onBlur={() => setCompanyKeyFocus(false)}
                     onChange={(e) => setCompanykey(e.target.value)}
-                    onBlur={handleCompanykeyBlur}
                     value={companykey}
+                    required
+                    aria-invalid={validCompanyKey ? "false" : "true"}
+                    placeholder="Enter your Company key"
                   />
-                  {(isCompanykeyInvalid ||
-                    (!isCompanykeyValid && companykeyTouched)) && (
-                    <div className="invalid-feedback">
-                      Please enter a valid Company Key
-                    </div>
-                  )}{" "}
+                  <p
+                    id="uidnote"
+                    className={
+                      CompanyKeyFocus && companykey && !validCompanyKey
+                        ? "instructions"
+                        : "offscreen"
+                    }
+                  >
+                    <FontAwesomeIcon icon={faInfoCircle} />
+                    need 8 characters
+                    <br />
+                    Must begin with a letter.
+                  </p>
                 </div>
 
                 <button
