@@ -25,10 +25,10 @@
   height: 30px;
 }
 
-.formControl input:focus {
+/* .formControl input:focus {
   outline: none;
   border-color: #618be0;
-}
+} */
 .formControl {
   min-width: 15rem;
   flex: 1;
@@ -37,11 +37,6 @@
 .invalid input {
   border: 1px solid #b40e0e;
   background-color: #fddddd;
-}
-
-.invalid input:focus {
-  border-color: #ff8800;
-  background-color: #fbe8d2;
 }
 
 .formControl {

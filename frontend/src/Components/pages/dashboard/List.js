@@ -112,8 +112,11 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
     reporter === "default" ? setReporterError("true") : setReporterError("false");
     startDate === "" ? setStartDateError("true") : setStartDateError("false");
     endDate === "" ? setEndDateError("true") : setEndDateError("false");
+    if(endDate &&startDate &&startDate>endDate){
+      setEndDateError("sDateLessThaneDate");
+    }
     if (
-      taskName.length !== 0 && assign !== "default" && startDate !== "" && endDate !== "" && updatingTask !== true
+      taskName.length !== 0 && assign !== "default" && startDate !== "" && endDate !== "" && startDate<endDate && updatingTask !== true
     ) {
 
       const formData = new FormData();
@@ -155,16 +158,13 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
         // const allCards = lists.flatMap(list => list.cards);
         // console.log("res.data", allCards)
 
-
-
-
       }).catch((err) => {
         console.log(err)
       })
       setCreateTaskModal(!createTaskModal);
     }
     if (
-      taskName.length !== 0 && assign !== "default" && startDate !== "" && endDate !== "" && updatingTask === true
+      taskName.length !== 0 && assign !== "default" && startDate !== "" && endDate !== "" && startDate<endDate &&  updatingTask === true
     ) {
       // console.log("from submit", updatingTaskId)
 

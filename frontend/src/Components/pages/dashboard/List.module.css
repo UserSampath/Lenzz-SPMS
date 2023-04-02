@@ -23,7 +23,7 @@
 
 .modalContent {
   position: relative;
-  background-color: white;
+  /* background-color: white; */
   padding: 20px;
   border-radius: 8px;
   z-index: 5;
@@ -34,7 +34,7 @@
   white-space: pre-wrap; /* add this line to wrap long lines of text */
   word-wrap: break-word;
   background: #DEF3FD;
-}
+} 
 
 .formControl input,
 .formControl label {
@@ -63,10 +63,10 @@
   height: 30px;
 }
 
-.formControl input:focus {
+/* .formControl input:focus {
   outline: none;
   border-color: #618be0;
-}
+} */
 
 .controlGroup {
   display: flex;
@@ -81,7 +81,7 @@
 
 .formActions button:hover,
 .formActions button:active {
-  background-color: #33059e !important;
+  background-color: #411d96 !important;
   border-color: #33059e !important;
 }
 
