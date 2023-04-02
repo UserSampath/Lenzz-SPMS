@@ -388,7 +388,7 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
 
                   <div style={{ marginTop: "5px" }}>
 
-                    <input type="file" multiple accept=".jpg, .jpeg, .png " onChange={handleFileChange} />
+                    <input type="file" multiple accept=".jpg, .jpeg, .png, .pdf, .zip"   onChange={handleFileChange} />
                   </div>
                 </div>
               </div>
