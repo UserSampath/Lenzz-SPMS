@@ -6,6 +6,7 @@ import {
   FaCog,
   FaCity,
   FaThLarge,
+  FaThList,
 } from "react-icons/fa";
 import { CgProfile } from "react-icons/cg";
 import { AiOutlineLogout } from "react-icons/ai";
@@ -41,15 +42,21 @@ const Sidebar = ({ children }) => {
       name: "Company",
       icon: <FaCity />,
     },
+
+    {
+      path: "/Dashboard",
+      name: "Dashboard",
+      icon: <FaThLarge />,
+    },
     {
       path: "/Progress",
       name: "Progress",
       icon: <FaRegChartBar />,
     },
     {
-      path: "/Dashboard",
-      name: "Dashboard",
-      icon: <FaThLarge />,
+      path: "/Timeline",
+      name: "Timeline",
+      icon: <FaThList />,
     },
     {
       path: "/ChatRoom",
@@ -63,17 +70,15 @@ const Sidebar = ({ children }) => {
     },
   ];
   return (
-    <div >
+    <div>
       <Navbar
         collapseOnSelect
         expand="lg"
         variant="dark"
         style={{ backgroundColor: "#075d88", position: "fixed", zIndex: 1 }}
         fixed="top"
-
-
       >
-        <Container style={{ zIndex: 1 }} >
+        <Container style={{ zIndex: 1 }}>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto">
@@ -117,7 +122,10 @@ const Sidebar = ({ children }) => {
       </Navbar>
 
       <div className="sideBarContainer">
-        <div className="sidebar" style={{ width: open ? "230px" : "50px", position: "absolute" }}>
+        <div
+          className="sidebar"
+          style={{ width: open ? "230px" : "50px", position: "absolute" }}
+        >
           <div className="topSection">
             <img
               style={{ display: open ? "block" : "none" }}

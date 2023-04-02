@@ -34,6 +34,7 @@
     "redux": "^4.2.1",
     "stream-browserify": "^3.0.0",
     "styled-components": "^5.3.8",
+    "sweetalert2": "^11.7.3",
     "web-vitals": "^2.1.4",
     "zxcvbn": "^4.4.2"
   },
