@@ -60,6 +60,17 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
 
   const clickedCancelButton = () => {
     toggleCreateTaskModal();
+    setTaskDetailsToDefault()
+
+  }
+  const clickedModal=()=>{
+    toggleCreateTaskModal();
+    setTaskDetailsToDefault()
+
+  }
+
+
+  const setTaskDetailsToDefault=()=>{
     setAssign("default");
     setFlag("default");
     setReporter("default");
@@ -68,6 +79,12 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
     setEndDate("");
     setTaskName("");
     setDescription("")
+
+  setTaskNameError("false");
+  setAssignError("false");
+  setReporterError("false");
+  setStartDateError("false");
+  setEndDateError("false")
   }
 
 
@@ -79,6 +96,7 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
   const toggleCreateTaskModal = () => {
 
     setCreateTaskModal(!createTaskModal);
+
     // console.log(lists)
     setShowAttachment(false)
   };
@@ -130,14 +148,7 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
         dispatch(addCard(res.data.taskData));
         setSelectedFile({})
 
-        setAssign("default");
-        setFlag("default");
-        setReporter("default");
-        setLinkedTask("default");
-        setStartDate("");
-        setEndDate("");
-        setTaskName("");
-        setDescription("")
+        setTaskDetailsToDefault()
 
         setExistingTasks(existingTasks.concat(res.data));
         console.log("existingTasks", existingTasks)
@@ -190,16 +201,8 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
         setSelectedFile({}); // clear the selectedFile state
 
 
-        console.log("aa", res.data.task);
-        setAssign("default");
-        setFlag("default");
-        setReporter("default");
-        setLinkedTask("default");
-        setStartDate("");
-        setEndDate("");
-        setTaskName("");
-        setDescription("")
-
+        setTaskDetailsToDefault()
+        
         setExistingTasks(existingTasks.concat(res.data))
       }).catch((err) => {
         console.log(err)
@@ -332,7 +335,9 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
       createTaskModal && (
 
         <div className={styles.modal}>
-          <div onClick={toggleCreateTaskModal} className={styles.overlay}></div>
+          {/* <div onClick={toggleCreateTaskModal} className={styles.overlay}></div> */}
+          <div onClick={clickedModal} className={styles.overlay}></div>
+
           <div className={styles.modalContent}>
 
             
