@@ -2,7 +2,7 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import "./Login.css";
 import { useState, useEffect, useRef } from "react";
-import { useLogin } from "../../hooks/useLogin";
+import { useLogin } from "../../../hooks/useLogin";
 import {
   faCheck,
   faTimes,
@@ -170,20 +170,6 @@ function Login() {
                   </p>
                 </div>
 
-                <div className="mb-6 form-check">
-                  <input
-                    type="checkbox"
-                    className="form-check-input"
-                    id="exampleCheck1"
-                  />
-                  <label
-                    className="form-check-label"
-                    htmlFor="exampleCheck1"
-                    style={{ color: "blue" }}
-                  >
-                    Remember me
-                  </label>
-                </div>
                 <NavLink to="/passwordChange">
                   <div>
                     <button

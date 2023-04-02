@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import Sidebar from "./Sidebar";
-import { useAuthContext } from "./../../hooks/useAuthContext";
+import Sidebar from "./../Sidebar";
+import { useAuthContext } from "./../../../hooks/useAuthContext";
 import "./AccountSetting.css";
 const AccountSettings = () => {
   const { user, dispatch } = useAuthContext();

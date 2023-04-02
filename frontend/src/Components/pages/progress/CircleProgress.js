@@ -9,7 +9,7 @@ function CircleProgress() {
   const [progress, setProgress] = useState("");
   const [overallprogress, setOverallProgress] = useState("");
   const { user } = useAuthContext();
-  const { projects, dispatch } = useProjectContext();
+  const {dispatch } = useProjectContext();
 
   useEffect(() => {
     const createDate = async () => {

@@ -81,18 +81,8 @@ const Sidebar = ({ children }) => {
         <Container style={{ zIndex: 1 }}>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
-            <Nav className="me-auto">
-              <NavDropdown title="Members" id="collasible-nav-dropdown">
-                <NavDropdown.Item href="#action/3.1">member 1</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.3">member 2</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.3">member 3</NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item href="#action/3.4">
-                  Add Member
-                </NavDropdown.Item>
-              </NavDropdown>
-            </Nav>
-            <div>
+
+            <div style={{ marginLeft: '1150px' }}>
               <MdSettingsSuggest className="set-pic" onClick={toggleMenu} />
             </div>
             <div className="sub-menu-wrap" id="subMenu">

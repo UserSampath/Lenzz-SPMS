@@ -1,6 +1,5 @@
 
 import { useEffect, useState } from "react";
-import { connect } from "react-redux";
 import styles from "./attachment.module.css";
 import { FaFileAlt } from "react-icons/fa";
 import { BsTrash } from "react-icons/bs";

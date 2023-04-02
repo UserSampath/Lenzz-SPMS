@@ -9,7 +9,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 const createToken = (_id) => {
-  return jwt.sign({ _id }, process.env.SECRET, { expiresIn: "1m" });
+  return jwt.sign({ _id }, process.env.SECRET, { expiresIn: "1d" });
 };
 const otpGenerator = (otpLength) => {
   let otp = ""
