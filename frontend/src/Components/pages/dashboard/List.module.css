@@ -33,6 +33,7 @@
   overflow-y: auto;
   white-space: pre-wrap; /* add this line to wrap long lines of text */
   word-wrap: break-word;
+  background: #DEF3FD;
 }
 
 .formControl input,

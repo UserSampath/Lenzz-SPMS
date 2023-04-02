@@ -14,7 +14,7 @@ app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: false }));
 var nodemailer = require("nodemailer");
 MONGO_URI =
-  "mongodb://localhost:27017/";
+  "mongodb+srv://sasadari23:sasadari23@cluster0.ri6im97.mongodb.net/lenzz?retryWrites=true&w=majority";
 // express app
 
 app.use(cors());
