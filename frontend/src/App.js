@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./Components/pages/userPages/Login";
 import PasswordChange from "./Components/pages/userPages/PasswordChange";
 import Register from "./Components/pages/userPages/Register";
@@ -17,8 +17,6 @@ import DashboardProvider from "./Components/pages/dashboard/DashboardProvider";
 import TimeLine from "./Components/pages/TimeLine/TimeLine";
 
 function App() {
-  const { user } = useAuthContext();
-
   return (
     <div className="App">
       <BrowserRouter>

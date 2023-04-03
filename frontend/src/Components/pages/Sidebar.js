@@ -13,9 +13,7 @@ import { AiOutlineLogout } from "react-icons/ai";
 import { MdSettingsSuggest } from "react-icons/md";
 import { NavLink } from "react-router-dom";
 import Container from "react-bootstrap/Container";
-import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import NavDropdown from "react-bootstrap/NavDropdown";
 import { useLogout } from "../../hooks/useLogout";
 import "./SideBar.css";
 import { useAuthContext } from "../../hooks/useAuthContext";
@@ -27,7 +25,6 @@ const Sidebar = ({ children }) => {
   const toggle = () => SetOpen(!open);
   const { logout } = useLogout();
   const { user } = useAuthContext();
-  const { company } = useCompanyContext;
   const handleClick = () => {
     logout();
   };

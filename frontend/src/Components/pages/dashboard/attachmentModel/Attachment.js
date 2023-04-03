@@ -5,8 +5,13 @@ import { FaFileAlt } from "react-icons/fa";
 import { BsTrash } from "react-icons/bs";
 import axios from "axios";
 import { deleteAttachment } from "../../../../actions/cardsActions"
+import { LoadingModal } from "../loadingModal/LoadingModal";
+
 //existingTasks,updatingTaskId
 const Attachment = (props) => {
+
+
+    const [showLoadingModal, setShowLoadingModal] = useState(false);
     const [attachedFiles, setAttachedFiles] = useState([])
     useEffect(() => {
         const findAttachments = () => {
@@ -28,6 +33,7 @@ const Attachment = (props) => {
             taskId: props.updatingTaskId,
             fileId: attachmentId
         }
+        setShowLoadingModal(true)
         await axios.post(`http://localhost:4000/deleteAttachment`, data)
             .then(response => {
                 // console.log("res ssssssssssssssssssssssss", response);
@@ -44,12 +50,14 @@ const Attachment = (props) => {
             .catch(error => {
                 console.error(error);
             });
+        setShowLoadingModal(false)
     }
     return (
         <div className={styles.modal} >
             <div
                 className={styles.overlay}>
                 <div className={styles.modalContent}>
+                    {showLoadingModal&& <LoadingModal/>}
                     <h1>Attachments</h1>
                     {attachedFiles.map((att, index) => {
                         return (<div key={index}
