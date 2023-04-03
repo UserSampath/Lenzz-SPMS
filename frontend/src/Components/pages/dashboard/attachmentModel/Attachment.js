@@ -36,7 +36,6 @@ const Attachment = (props) => {
         setShowLoadingModal(true)
         await axios.post(`http://localhost:4000/deleteAttachment`, data)
             .then(response => {
-                // console.log("res ssssssssssssssssssssssss", response);
                 if (response.status === 200) {
                     const data = {
                         listId: props.listID,

@@ -5,24 +5,16 @@ import { connect } from "react-redux";
 import TaskDetails from "./taskDetails/TaskDetails";
 import { useState } from "react";
 import Styles from "./TaskCard.module.css"
-// import Card from "react-bootstrap/Card";
 
 const CardContainer = styled.div`
   margin-bottom: 8px;
 `;
-
 const TaskCard = (props) => {
   const [TaskDetailsModal, setTaskDetailsModal] = useState(false);
 
   let [backgroundColor, setBackgroundColor] = useState("white")
 
   const toggleModal = () => {
-    console.log(props.id)
-    console.log(props.index)
-
-
-
-
     setTaskDetailsModal(!TaskDetailsModal);
   };
 
@@ -42,6 +34,7 @@ const TaskCard = (props) => {
           setBackgroundColor("white");
       }
     };
+
     changeColorOfCard(props.card.flag);
   }, [props.card.flag]);
   const clickedUpdateButton = () => {
@@ -52,9 +45,6 @@ const TaskCard = (props) => {
   const clickedDeleteButton = () => {
     props.deleteTask(props.id, props.index)
     toggleModal();
-
-
-
 
   }
   return (<>
@@ -78,8 +68,6 @@ const TaskCard = (props) => {
                 className={Styles.img}
               >
               </img>
-
-
             </div>
           </div>
         </CardContainer>

@@ -27,8 +27,6 @@ const ListButton = (props) => {
       }
       axios.post("http://localhost:4000/progressStage/create", newProgressStage).then((response) => {
         console.log("ProgressStage added success 😊");
-        console.log(props.lists);
-
         props.dispatch(addList(text, response.data._id));
         setText("");
 

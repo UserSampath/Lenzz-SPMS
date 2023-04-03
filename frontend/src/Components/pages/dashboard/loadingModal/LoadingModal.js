@@ -15,7 +15,6 @@ export const LoadingModal = () => {
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    // backdropFilter: 'blur(10px)',
                     zIndex: 200,
                 }}
             >
@@ -27,8 +26,8 @@ export const LoadingModal = () => {
                         width: '250px',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        display: 'flex', // set the display to flex
-                        flexDirection: 'column', // align children vertically
+                        display: 'flex',
+                        flexDirection: 'column',
                     }}
                 >
                     <MoonLoader
