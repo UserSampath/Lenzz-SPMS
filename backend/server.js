@@ -6,6 +6,7 @@ const cors = require("cors");
 const userRoutes = require("./routes/member");
 const companyRoutes = require("./routes/company");
 const projectRoutes = require("./routes/project");
+const taskRoute = require("./routes/taskRoute");
 const listRoute = require("./routes/listRoute");
 const TimeLineRoute = require("./routes/TimeLineRoute");
 
@@ -27,7 +28,6 @@ mongoose.set("strictQuery", true);
 app.use("/api/user", userRoutes);
 app.use("/api/company", companyRoutes);
 app.use("/api/project", projectRoutes);
-const taskRoute = require("./routes/taskRoute");
 app.use("/api/list", listRoute);
 app.use("/api/TimeLine", TimeLineRoute);
 

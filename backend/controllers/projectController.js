@@ -32,7 +32,6 @@ const project = async (req, res) => {
 //get all projects
 const getProjects = async (req, res) => {
   const projects = await Project.find({}).sort({ createdAt: -1 });
-  const token = createToken(project._id);
   res.status(200).json({ projects, projectname: projects.projectname });
 };
 //get single project

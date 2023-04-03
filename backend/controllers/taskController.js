@@ -38,6 +38,7 @@ module.exports = {
     catch(err) {
         res.status(500).json(err)
     },
+    
     updateTaskDetails: async (req, res) => {
         const newTask = JSON.parse(req.body.json);
         try {
