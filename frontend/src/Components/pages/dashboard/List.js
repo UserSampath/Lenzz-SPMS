@@ -14,6 +14,8 @@ import { FaPlus, FaEllipsisH } from "react-icons/fa";
 import ThreeDoteMenu from "./ThreeDoteMenu/ThreeDoteMenu"
 import RenameListModel from "./renameListModal/RenameListModel"
 import Attachment from "./attachmentModel/Attachment"
+import { LoadingModal } from "./loadingModal/LoadingModal";
+import Swal from 'sweetalert2'
 
 const ListContainer = styled.div`
   background-color: #dfe3e6;
@@ -47,6 +49,18 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
 
 
   const [showAttachment, setShowAttachment] = useState("false");
+  const [showLoadingModal, setShowLoadingModal] = useState(false);
+
+  const showSuccessAlert = () => {
+    Swal.fire({
+      position: 'center',
+      icon: 'success',
+      text: 'Your data has been saved',
+      showConfirmButton: false,
+      timer: 900,
+      width: '250px'
+    })
+  };
 
   const getTasks = async () => {
     try {
@@ -63,14 +77,14 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
     setTaskDetailsToDefault()
 
   }
-  const clickedModal=()=>{
+  const clickedModal = () => {
     toggleCreateTaskModal();
     setTaskDetailsToDefault()
 
   }
 
 
-  const setTaskDetailsToDefault=()=>{
+  const setTaskDetailsToDefault = () => {
     setAssign("default");
     setFlag("default");
     setReporter("default");
@@ -80,15 +94,15 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
     setTaskName("");
     setDescription("")
 
-  setTaskNameError("false");
-  setAssignError("false");
-  setReporterError("false");
-  setStartDateError("false");
-  setEndDateError("false")
+    setTaskNameError("false");
+    setAssignError("false");
+    setReporterError("false");
+    setStartDateError("false");
+    setEndDateError("false")
   }
 
 
-  const clickedAddTask = async () => { 
+  const clickedAddTask = async () => {
     setUpdatingTask(false)
     toggleCreateTaskModal();
   }
@@ -112,11 +126,11 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
     reporter === "default" ? setReporterError("true") : setReporterError("false");
     startDate === "" ? setStartDateError("true") : setStartDateError("false");
     endDate === "" ? setEndDateError("true") : setEndDateError("false");
-    if(endDate &&startDate &&startDate>endDate){
+    if (endDate && startDate && startDate > endDate) {
       setEndDateError("sDateLessThaneDate");
     }
     if (
-      taskName.length !== 0 && assign !== "default" && startDate !== "" && endDate !== "" && startDate<endDate && updatingTask !== true
+      taskName.length !== 0 && assign !== "default" && startDate !== "" && endDate !== "" && startDate < endDate && updatingTask !== true
     ) {
 
       const formData = new FormData();
@@ -140,13 +154,15 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
       }
 
       formData.append('json', JSON.stringify(newTask));
-
+      setShowLoadingModal(true);
+      setCreateTaskModal(!createTaskModal);
       await axios.post("http://localhost:4000/task/create", formData, {
         headers: {
           'Content-Type': 'multipart/form-data' // Use multipart/form-data instead of multipart/mixed
         }
       }).then((res) => {
         console.log("data sent to the database successfully")
+        showSuccessAlert()
         console.log("new", res.data);
         dispatch(addCard(res.data.taskData));
         setSelectedFile({})
@@ -161,10 +177,12 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
       }).catch((err) => {
         console.log(err)
       })
-      setCreateTaskModal(!createTaskModal);
+      setShowLoadingModal(false);
+
+
     }
     if (
-      taskName.length !== 0 && assign !== "default" && startDate !== "" && endDate !== "" && startDate<endDate &&  updatingTask === true
+      taskName.length !== 0 && assign !== "default" && startDate !== "" && endDate !== "" && startDate < endDate && updatingTask === true
     ) {
       // console.log("from submit", updatingTaskId)
 
@@ -188,26 +206,31 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
       }
 
       formData.append('json', JSON.stringify(data));
+      setCreateTaskModal(!createTaskModal);
+      setShowLoadingModal(true);
 
-     await axios.put("http://localhost:4000/updateTaskDetails", formData, {
+      await axios.put("http://localhost:4000/updateTaskDetails", formData, {
         headers: {
           'Content-Type': 'multipart/form-data' // Use multipart/form-data instead of multipart/mixed
         }
       }).then(async (res) => {
+        showSuccessAlert()
         console.log("update to the database successfully")
-        console.log( res.data.task);
+        console.log(res.data.task);
 
         dispatch(updateOneTask(res.data.task));
         setSelectedFile({}); // clear the selectedFile state
 
 
         setTaskDetailsToDefault()
-        
+
         setExistingTasks(existingTasks.concat(res.data))
       }).catch((err) => {
         console.log(err)
       })
-      setCreateTaskModal(!createTaskModal);
+      setShowLoadingModal(false);
+
+
     }
   };
   const TaskNameHandler = (event) => {
@@ -256,16 +279,19 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
     toggleCreateTaskModal();
 
   }
-  const deleteTask =async (id, index) => {
+  const deleteTask = async (id, index) => {
     const taskIndex = index;
+    setShowLoadingModal(true)
     await axios.delete(`http://localhost:4000/deleteOneTask/${id}`, { data: { taskIndex, listID } })
       .then(response => {
+        showSuccessAlert()
         console.log(response.data.message);
         dispatch(deleteCard(id, listID));
       })
       .catch(error => {
         console.error(error);
       });
+    setShowLoadingModal(false)
 
   }
   const flags = [{ name: "🟡", _id: "1" }, { name: "🟢", _id: "2" }, { name: "🔴", _id: "3" }];
@@ -293,12 +319,13 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
     setIsThreeDoteModelOpen(!isThreeDoteModelOpen)
 
   }
-  const deleteListHandler = async() => {
+  const deleteListHandler = async () => {
     setIsThreeDoteModelOpen(!isThreeDoteModelOpen)
     console.log(listID, index)
-
+    setShowLoadingModal(true)
     await axios.delete(`http://localhost:4000/deleteList/${listID}`, { data: { index, listID } })
       .then(response => {
+        showSuccessAlert()
         console.log(response.data.message);
         dispatch(deleteList(listID))
 
@@ -306,6 +333,8 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
       .catch(error => {
         console.error(error);
       });
+    setShowLoadingModal(false)
+
   }
   const [selectedFile, setSelectedFile] = useState([]);
 
@@ -330,6 +359,7 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
 
       />
     </div>)}
+    {showLoadingModal && <LoadingModal />}
     {showRenameListModal && <RenameListModel toggleRenameListModal={toggleRenameListModal} title={title} listID={listID} dispatch={dispatch} />}
     {
       createTaskModal && (
@@ -340,7 +370,7 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
 
           <div className={styles.modalContent}>
 
-            
+
             {showAttachment && <Attachment setShowAttachment={setShowAttachment} existingTasks={existingTasks} updatingTaskId={updatingTaskId} dispatch={dispatch} listID={listID} />}
             <h1>Task</h1>
             <form onSubmit={formSubmissionHandler}>
@@ -378,7 +408,7 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
               </div>
               <div className={styles.controlGroup}>
                 <div style={{ textAlign: 'center', marginTop: '5px', marginLeft: "150px", marginBottom: "10px" }}>
-                  
+
                   {updatingTask && <div
                     onClick={attachmentButtonClicked}
                     className={styles.attachmentButton}
@@ -388,7 +418,7 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
 
                   <div style={{ marginTop: "5px" }}>
 
-                    <input type="file" multiple accept=".jpg, .jpeg, .png, .pdf, .zip"   onChange={handleFileChange} />
+                    <input type="file" multiple accept=".jpg, .jpeg, .png, .pdf, .zip" onChange={handleFileChange} />
                   </div>
                 </div>
               </div>
@@ -430,14 +460,14 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
                     card={card}
                     updateTask={updateTask}
                     deleteTask={deleteTask}
-                    
+
                   />
                 ))}
                 {provided.placeholder}
                 <button
                   onClick={clickedAddTask}
                   className={styles.addCardBtnContainer}
-                
+
                 >
                   <p className={styles.addCardBtnText}>add card</p>
                   <FaPlus className={styles.addCardBtnIcon} />
