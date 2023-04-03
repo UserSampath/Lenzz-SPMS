@@ -29,8 +29,6 @@ export const CompanyContextProvider = ({ children }) => {
       dispatch({ type: "COMPANY_KEY", payload: company });
     }
   }, []);
-  console.log("company state:", state);
-
   return (
     <CompanyContext.Provider value={{ ...state, dispatch }}>
       {children}

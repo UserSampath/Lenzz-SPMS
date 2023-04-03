@@ -39,7 +39,6 @@ const listsReducer = (state = initialState, action) => {
         files
 
       };
-      console.log("action received", action);
       const newState = state.map(list => {
         if (list._id === progressStage_id) {
           return {
@@ -50,11 +49,8 @@ const listsReducer = (state = initialState, action) => {
           return list;
         }
       });
-      console.log("console.log(newState)", newState)
       return newState;
-
     }
-
     case CONSTANTS.DELETE_CARD: {
       const idInfo = {
         _id: action.payload._id,
@@ -70,7 +66,6 @@ const listsReducer = (state = initialState, action) => {
           return list;
         }
       });
-      console.log(newState);
       return newState;
     }
 
@@ -100,19 +95,16 @@ const listsReducer = (state = initialState, action) => {
     case CONSTANTS.DELETE_LIST: {
       const listId = action.payload.listId;
       const newState = state.filter(list => list._id !== listId);
-      console.log(newState);
       return newState;
     }
     case CONSTANTS.RENAME_LIST: {
       const { listId, listTitle } = action.payload.data;
-      console.log("listId=", listId)
       const newState = state.map(list => {
         if (list._id === listId) {
           list.title = listTitle;
         }
         return list;
       })
-      console.log("RENAME_LIST", newState);
       return newState;
     }
 
@@ -163,7 +155,6 @@ const listsReducer = (state = initialState, action) => {
           return list;
         }
       });
-      console.log("newState111111111111111", newState)
       return newState;
     }
 
@@ -178,20 +169,16 @@ const listsReducer = (state = initialState, action) => {
       } = action.payload;
       const newState = [...state];
       console.log(type);
-      // dragging lists 
       if (type === "list") {
         const list = newState.splice(droppableIndexStart, 1);
         newState.splice(droppableIndexEnd, 0, ...list);
-        console.log("dragging lists around ", droppableIndexStart, droppableIndexEnd);
         const temp2 = { droppableIndexStart, droppableIndexEnd }
         const fetchTasks = async () => {
           await axios.put("http://localhost:4000/moveList", temp2).then(res => {
-            console.log(res.data);
           }).catch(err => { console.log(err) })
         }
         fetchTasks();
         return newState;
-
       }
       //  same list
       if (droppableIdStart === droppableIdEnd) {
@@ -221,7 +208,6 @@ const listsReducer = (state = initialState, action) => {
         const temp3 = { droppableIdStart, droppableIdEnd, droppableIndexStart, droppableIndexEnd, cardId: card[0]._id, }
         const fetchTasks = async () => {
           await axios.put("http://localhost:4000/moveCardsAcrossStages", temp3).then(res => {
-            // console.log(res.data);
           }).catch(err => { console.log(err) })
         }
         fetchTasks();

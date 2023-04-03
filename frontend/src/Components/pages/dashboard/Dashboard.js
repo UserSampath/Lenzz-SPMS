@@ -14,10 +14,11 @@ const Dashboard = (props) => {
     const getTaskWithPS = async () => {
       await axios.get("http://localhost:4000/progressStage/taskWithPS").then(res => {
         props.dispatch(initialValue(res.data));
-      }).catch(err => { console.log(err) })
+      }).catch(err => {
+        console.log(err)
+      })
     }
     getTaskWithPS();
-
   }, [])
 
   const onDragEnd = result => {

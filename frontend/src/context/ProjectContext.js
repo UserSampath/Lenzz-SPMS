@@ -28,7 +28,6 @@ export const ProjectContextProvider = ({ children }) => {
       dispatch({ type: "SHOW_PROJECT", payload: projects });
     }
   }, []);
-  console.log("project state:", state);
   return (
     <ProjectContext.Provider value={{ ...state, dispatch }}>
       {children}
