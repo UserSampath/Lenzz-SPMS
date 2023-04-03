@@ -3,7 +3,6 @@ const multer = require("multer");
 const storage = multer.memoryStorage();
 
 const fileFilter = (req, file, cb) => {
-    console.log(file.mimetype)
     req.body.fileType = file.mimetype;
     if (file.mimetype.split("/")[0] === "image" || file.mimetype === "application/pdf" || file.mimetype === "application/zip" ||file.mimetype === "application/x-zip-compressed" ) {
         req.middleware = file.mimetype;
@@ -16,8 +15,7 @@ const fileFilter = (req, file, cb) => {
 const upload = multer({
     storage,
     fileFilter,
-    limits: { fileSize: 1000000000, files: 10 },
+    limits: { fileSize: 100000000, files: 10 },
 });
-
 
 module.exports = upload;

@@ -189,7 +189,6 @@ const listsReducer = (state = initialState, action) => {
         const temp = { droppableIndexStart, droppableIndexEnd, list }
         const fetchTasks = async () => {
           await axios.put("http://localhost:4000/moveCardSameList", temp).then(res => {
-            console.log(res.data);
           }).catch(err => { console.log(err) })
         }
         fetchTasks();
