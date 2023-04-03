@@ -30,7 +30,7 @@ const companySchema = new Schema(
   },
   { timestamps: true }
 );
-
+//Company validation
 companySchema.statics.createcompany = async function (
   companyname,
   contactnumber,

@@ -14,7 +14,7 @@ const TimeLineSchema = new Schema(
   },
   { timestamps: true }
 );
-
+//Time line validation
 TimeLineSchema.statics.addTimeLine = async function (Topic, Description) {
   if (!Topic || !Description) {
     throw new Error("All fields must be field");

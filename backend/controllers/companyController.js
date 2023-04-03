@@ -1,10 +1,9 @@
 const Company = require("../models/companyModel");
-const User = require("../models/memberModel");
 const jwt = require("jsonwebtoken");
 const createToken = (_id) => {
   return jwt.sign({ _id }, process.env.SECRET, { expiresIn: "1d" });
 };
-
+//create company
 const createCompany = async (req, res) => {
   const {
     companyname,
@@ -54,7 +53,7 @@ const checkcompany = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
-
+//generate company  random key
 const generateRandomString = (myLength) => {
   try {
     const chars =

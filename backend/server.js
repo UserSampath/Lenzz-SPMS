@@ -16,8 +16,7 @@ app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: false }));
 var nodemailer = require("nodemailer");
 MONGO_URI =
-  "mongodb+srv://sasadari23:sasadari23@cluster0.ri6im97.mongodb.net/lenzz?retryWrites=true&w=majority";
-// express app
+  "mongodb+srv://lenzz:lenzz@cluster0.wff0qit.mongodb.net/practise1?retryWrites=true&w=majority"; // express app
 app.use(cors());
 // middleware
 app.use(express.json());

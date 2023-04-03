@@ -3,8 +3,14 @@ module.exports = {
     SystemAdmin: "SYSTEM ADMIN",
     Projectmanager: "PROJECT MANAGER",
     Developer: "DEVELOPER",
-    TechLead: "TECHLEAD",
+    TechLead: "TECH LEAD",
     Client: "CLIENT",
-    QualityAssurance: "QUALITY ASSURANCE",
+    Quality_Assurance_Enginner: "QUALITY ASSURANCE ENGINNER",
+    Other_Project_Workers: "OTHER PROJECT WORKERS",
+  },
+  Stage: {
+    Todo: "TODO",
+    Inprogress: "INPROGRESS",
+    Done: "DONE",
   },
 };

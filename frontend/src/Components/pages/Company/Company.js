@@ -136,7 +136,7 @@ const Company = () => {
       console.log(data);
       setLoading(false);
       setSearchResult(data);
-    } catch (error) { }
+    } catch (error) {}
   };
 
   return (
@@ -149,13 +149,10 @@ const Company = () => {
             height: " 315px",
             marginLeft: "150px",
             marginTop: "80px",
-
           }}
         >
           <div className="projectpart" style={{ display: "flex" }}>
-            <h1 style={{ marginLeft: "25px", marginTop: "10px" }}>
-              Projects
-            </h1>
+            <h1 style={{ marginLeft: "25px", marginTop: "10px" }}>Projects</h1>
             <Button
               variant="info"
               style={{
@@ -199,9 +196,7 @@ const Company = () => {
                       <FontAwesomeIcon
                         icon={faTimes}
                         className={
-                          validProjectName || !projectname
-                            ? "hide"
-                            : "invalid"
+                          validProjectName || !projectname ? "hide" : "invalid"
                         }
                       />
                     </Form.Label>
@@ -247,9 +242,7 @@ const Company = () => {
                       <FontAwesomeIcon
                         icon={faTimes}
                         className={
-                          validDescription || !description
-                            ? "hide"
-                            : "invalid"
+                          validDescription || !description ? "hide" : "invalid"
                         }
                       />
                     </Form.Label>
@@ -289,10 +282,7 @@ const Company = () => {
                       id="exampleCheck1"
                       onClick={handleTickClick}
                     />
-                    <label
-                      className="form-check-label"
-                      htmlFor="exampleCheck1"
-                    >
+                    <label className="form-check-label" htmlFor="exampleCheck1">
                       If you need to add date
                     </label>
                   </div>
