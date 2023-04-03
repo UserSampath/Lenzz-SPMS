@@ -4,6 +4,7 @@ import SideDrawer from "./miscelleneous/SideDrawer";
 import MyChats from "./MyChats";
 import ChatBox from "./ChatBox";
 import { useAuthContext } from "../../../hooks/useAuthContext";
+
 const ChatPage = () => {
   const [fetchAgain, setFetchAgain] = useState(false);
   const { user } = useAuthContext();
@@ -11,7 +12,6 @@ const ChatPage = () => {
   return (
     <div style={{ width: "100%" ,marginLeft:"30px",marginTop:"70px"}}>
       {user  &&<SideDrawer />}
-
       <Box
         display="flex"
         justifyContent="space-between"

@@ -20,7 +20,9 @@ import { Input } from "@chakra-ui/input";
 import axios from "axios";
 import { Spinner } from "@chakra-ui/spinner";
 import UserListItem from "../UserDetails/UserListItem";
+
 const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
+  
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { selectedChat, setSelectedChat, user } = ChatState();
   const [groupChatName, setGroupChatName] = useState();

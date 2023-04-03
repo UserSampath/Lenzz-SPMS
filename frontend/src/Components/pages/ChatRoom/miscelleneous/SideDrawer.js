@@ -23,7 +23,9 @@ import { getSender } from "../config/ChatLogics";
 import { Effect } from "react-notification-badge";
 import NotificationBadge from "react-notification-badge";
 import {useAuthContext} from "../../../../hooks/useAuthContext";
+
 const SideDrawer = () => {
+
   const {  setSelectedChat, chats, setChats ,notification, setNotification} = ChatState();
   const [search, setSearch] = useState("");
   const [searchResult, setSearchResult] = useState([]);
@@ -32,6 +34,7 @@ const SideDrawer = () => {
   const { isOpen, onOpen, onClose } = useDisclosure("");
   const toast = useToast();
   const{user}=useAuthContext();
+
   const handleSearch = async () => {
     if (!search) {
       toast({
@@ -50,9 +53,7 @@ const SideDrawer = () => {
           Authorization: `Bearer ${user.token}`,
         },
       };
-
       const { data } = await axios.get(`/api/user?search=${search}`, config);
-
       setLoadingChat(false);
       setSearchResult(data);
     } catch (error) {
@@ -79,7 +80,6 @@ const SideDrawer = () => {
       //api request
       const { data } = await axios.post("/api/chat", { userId }, config);
       if (!chats.find((c) => c._id === data._id)) setChats([data, ...chats]);
-
       setSelectedChat(data);
       setLoading(false);
       onClose();
@@ -94,6 +94,7 @@ const SideDrawer = () => {
       });
     }
   };
+
   return (
     <div>
       <Box

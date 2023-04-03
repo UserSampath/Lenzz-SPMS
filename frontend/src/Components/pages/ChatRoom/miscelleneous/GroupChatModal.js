@@ -12,15 +12,15 @@ import {
 } from "@chakra-ui/react";
 import { useToast } from "@chakra-ui/toast";
 import { Box } from "@chakra-ui/layout";
-
 import { ChatState } from "../../../../context/ChatProvider";
 import { FormControl } from "@chakra-ui/form-control";
 import { Input } from "@chakra-ui/input";
 import axios from "axios";
 import UserListItem from "../UserDetails/UserListItem";
 import UserBadgeItem from "../UserDetails/UserBadgeItem";
-
+import {useAuthContext} from "../../../../hooks/useAuthContext";
 const GroupChatModal = ({ children }) => {
+
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [groupChatName, setGroupChatName] = useState();
   const [selectedUsers, setSelectedUsers] = useState([]);
@@ -28,9 +28,8 @@ const GroupChatModal = ({ children }) => {
   const [searchResult, setSearchResult] = useState([]);
   const [loading, setLoading] = useState(false);
   const toast = useToast();
-
-  const { user, chats, setChats } = ChatState();
-
+  const {  chats, setChats } = ChatState();
+  const{user} =useAuthContext();
   const handleGroup = (userToAdd) => {
     if (selectedUsers.includes(userToAdd)) {
       toast({
@@ -42,7 +41,6 @@ const GroupChatModal = ({ children }) => {
       });
       return;
     }
-
     setSelectedUsers([...selectedUsers, userToAdd]);
   };
 
@@ -60,7 +58,6 @@ const GroupChatModal = ({ children }) => {
         },
       };
       const { data } = await axios.get(`/api/user?search=${search}`, config);
-      
       setLoading(false);
       setSearchResult(data);
     } catch (error) {
@@ -129,7 +126,6 @@ const GroupChatModal = ({ children }) => {
   return (
     <>
       <span onClick={onOpen}>{children}</span>
-
       <Modal onClose={onClose} isOpen={isOpen} isCentered>
         <ModalOverlay />
         <ModalContent  >
@@ -160,14 +156,13 @@ const GroupChatModal = ({ children }) => {
             <Box w="100%" display="flex" flexWrap="wrap">
               {selectedUsers.map((u) => (
                 <UserBadgeItem
-                  key={user._id}
-                  user={user}
+                  key={u._id}
+                  user={u}
                   handleFunction={() => handleDelete(u)}
                 />
               ))}
             </Box>
             {loading ? (
-              // <ChatLoading />
               <div>Loading...</div>
             ) : (
               searchResult

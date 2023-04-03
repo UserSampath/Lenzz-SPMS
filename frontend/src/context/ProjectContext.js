@@ -4,10 +4,6 @@ export const ProjectContext = createContext();
 
 export const projectReducer = (state, action) => {
   switch (action.type) {
-    case " SHOW_PROJECT":
-      return {
-        projects: action.payload,
-      };
     case "CREATE_PROJECT":
       return {
         projects: [action.payload],
@@ -24,9 +20,6 @@ export const ProjectContextProvider = ({ children }) => {
   useEffect(() => {
     const projects = JSON.parse(localStorage.getItem("Projects"));
 
-    if (projects) {
-      dispatch({ type: "SHOW_PROJECT", payload: projects });
-    }
   }, []);
   console.log("project state:", state);
   return (

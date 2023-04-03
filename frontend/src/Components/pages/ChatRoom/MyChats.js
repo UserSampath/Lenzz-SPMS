@@ -9,11 +9,14 @@ import ChatLoading from "./ChatLoading";
 import { getSender } from "./config/ChatLogics";
 import { useAuthContext } from "../../../hooks/useAuthContext";
 import GroupChatModal from "./miscelleneous/GroupChatModal";
+
 const MyChats = ({ fetchAgain }) => {
+
   const [loggedUser, setLoggedUser] = useState();
   const {  selectedChat, setSelectedChat, chats, setChats } = ChatState();
   const { user } = useAuthContext();
   const toast = useToast();
+
   const fetchChats = async () => {
     try {
       const config = {
@@ -33,12 +36,12 @@ const MyChats = ({ fetchAgain }) => {
         position: "bottom-left",
       });
     }
-
   };
   useEffect(() => {
     setLoggedUser(JSON.parse(localStorage.getItem("user")));
     fetchChats();
   }, [fetchAgain]);
+
   return (
     <Box
     display={{ base: selectedChat ? "none" : "flex", md: "flex" }}
@@ -59,15 +62,14 @@ const MyChats = ({ fetchAgain }) => {
       w="100%"
       justifyContent="space-between"
       alignItems="center"
-  
-      style={{    fontFamily: 'Roboto, sans-serif'}}
+      style={{fontFamily: 'Roboto, sans-serif'}}
     >
       My Chats
       <GroupChatModal>
         <Button
           display="flex"
           fontSize={{ base: "17px", md: "10px", lg: "17px" }}
-          rightIcon={<AddIcon />}
+          rightIcon={<AddIcon/>}
         >
           New Group Chat
         </Button>
@@ -86,10 +88,11 @@ const MyChats = ({ fetchAgain }) => {
       {chats ? (
              <Stack overflowY="scroll">
          {chats.map((chat) => {
-            return (<Box
+            return (
+            <Box
               onClick={() => setSelectedChat(chat)}
               cursor="pointer"
-              bg={selectedChat === chat ? " 	 #075d88" : "#E8E8E8"}
+              bg={selectedChat === chat ? "#075d88" : "#E8E8E8"}
               color={selectedChat === chat ? "white" : "black"}
               px={3}
               py={2}
@@ -111,7 +114,6 @@ const MyChats = ({ fetchAgain }) => {
               )}
             </Box>);}
           )}
-
           </Stack>
       ) : (
         <ChatLoading />

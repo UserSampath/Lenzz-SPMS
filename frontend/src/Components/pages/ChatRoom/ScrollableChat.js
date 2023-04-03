@@ -9,8 +9,8 @@ import {
 import { Tooltip } from "@chakra-ui/tooltip";
 import { Avatar } from "@chakra-ui/avatar";
 import { useAuthContext } from "../../../hooks/useAuthContext";
-const  ScrollableChat = ({ messages }) => {
 
+const  ScrollableChat = ({ messages }) => {
   const{user}=useAuthContext();
   
   return (
