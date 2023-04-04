@@ -206,7 +206,7 @@ const TimeLine = () => {
               }}
             />
             <h2 style={{ marginTop: "21px", marginLeft: "10px" }}>
-              TimeLine:Project 1
+              Requirments:Project 1
             </h2>
             <Button
               variant="info"
