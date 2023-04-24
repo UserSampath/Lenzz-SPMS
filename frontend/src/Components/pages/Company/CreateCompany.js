@@ -89,7 +89,7 @@ const CreateCompany = () => {
     if (response.ok) {
       if (redirectToCompany) {
         // If the user has closed the modal, redirect them to the company page
-        return history("/Company");
+        return history("/");
       }
       setcompanyname("");
       setcompanyemail("");
@@ -108,7 +108,7 @@ const CreateCompany = () => {
   const handleModalClose = () => {
     setRedirectToCompany(true);
     handleClose();
-    history("/Company");
+    history("/");
   };
 
   return (
@@ -299,8 +299,8 @@ const CreateCompany = () => {
                   <p
                     className={
                       CompanyaddressFocus &&
-                      companyaddress &&
-                      !validCompanyaddress
+                        companyaddress &&
+                        !validCompanyaddress
                         ? "instructions"
                         : "offscreen"
                     }

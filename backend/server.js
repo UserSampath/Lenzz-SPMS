@@ -10,6 +10,7 @@ const taskRoute = require("./routes/taskRoute");
 const listRoute = require("./routes/listRoute");
 const TimeLineRoute = require("./routes/TimeLineRoute");
 
+const projectUserRoute = require("./routes/projectUser");
 const app = express();
 const bodyParser = require("body-parser");
 
@@ -33,6 +34,10 @@ app.use("/api/TimeLine", TimeLineRoute);
 
 app.use(taskRoute);
 app.use(listRoute);
+app.use(projectUserRoute);
+
+
+
 // connect to db
 const fileRouter = require("./routes/file");
 app.use(fileRouter);

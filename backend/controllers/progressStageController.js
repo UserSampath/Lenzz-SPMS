@@ -6,10 +6,11 @@ const { uploadFile, find, deleteOne, downloadOne } = require("../util/s3Service"
 module.exports = {
   create: async (req, res) => {
     try {
-      const { title, listIndex } = req.body
+      const { title, listIndex, projectId } = req.body
       const progressStage = await ProgressStage.create({
         title,
-        listIndex
+        listIndex,
+        projectId
       })
       return res.send(progressStage)
     }
@@ -18,8 +19,13 @@ module.exports = {
     }
   },
   taskWithPS: async (req, res) => {
+    const projectId = req.body.id
+    console.log(projectId)
     try {
       const progressStageData = await ProgressStage.aggregate([
+        {
+          $match: { projectId: projectId } // Only consider progress stages with the given projectId
+        },
         {
           $lookup: {
             from: "tasks",
@@ -42,8 +48,11 @@ module.exports = {
         return obj;
       });
       res.status(200).send(sortedCards);
+      console.log("22");
+
     }
     catch (err) {
+
       res.status(500).json(err)
     }
   },

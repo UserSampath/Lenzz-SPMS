@@ -19,12 +19,20 @@ import "./SideBar.css";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { useCompanyContext } from "../../hooks/useCompanyContext";
 
-const Sidebar = ({ children }) => {
+const Sidebar = ({ children, SetSelectedProjectController}) => {
   const [open, SetOpen] = useState(false);
 
   const toggle = () => SetOpen(!open);
   const { logout } = useLogout();
   const { user } = useAuthContext();
+  const { company } = useCompanyContext;
+
+  const [selectedProject, SetSelectedProject] = useState();
+
+
+
+
+
   const handleClick = () => {
     logout();
   };

@@ -9,7 +9,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 const createToken = (_id) => {
-  return jwt.sign({ _id }, process.env.SECRET, { expiresIn: "1d" });
+  return jwt.sign({ _id }, process.env.SECRET, { expiresIn: "3d" });
 };
 const otpGenerator = (otpLength) => {
   let otp = ""
@@ -326,6 +326,20 @@ const getUsers = async (req, res) => {
   }
 };
 
+const getUser = async (req, res) => {
+  try {
+    const { _id, selectedJob } = req;
+    const user = await User.findById(_id);
+    if (user) {
+      res.status(200).json(user);
+    } else {
+      res.status(404).json({ message: 'No user found' });
+    }
+  } catch (error) {
+    res.status(404).json({ message: 'No users found' });
+  }
+};
+
 module.exports = {
   passwordlink,
   signupUser,
@@ -338,6 +352,7 @@ module.exports = {
   generateOTP,
   checkOTP,
   resetPassword,
-  getUsers
+  getUsers,
+  getUser
 
 };

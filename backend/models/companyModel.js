@@ -20,7 +20,7 @@ const companySchema = new Schema(
       type: String,
       required: true,
     },
-    user_id: {
+    systemAdminId: {
       type: String,
       required: true,
     },
@@ -58,7 +58,7 @@ companySchema.statics.createcompany = async function (
     companyemail,
     contactnumber,
     companyaddress,
-    user_id,
+    systemAdminId :user_id,
     companyKey,
   });
   return company;
