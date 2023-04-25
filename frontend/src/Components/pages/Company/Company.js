@@ -231,7 +231,7 @@ const Company = () => {
           className="card shadow"
           style={{
             width: " 1300px",
-            height: " 315px",
+            height: " 100%",
             marginLeft: "150px",
             marginTop: "80px",
 
@@ -538,32 +538,7 @@ const Company = () => {
                     ) : null}
                   </Form>
                 </Modal.Body>
-                <Modal.Footer>
-                  <Button variant="secondary" onClick={handleClose}>
-                    Close
-                  </Button>
-                  <Button variant="primary" onClick={handleSubmit}>
-                    Create Project
-                  </Button>
-                  {error && (
-                    <div
-                      className="error"
-                      style={{
-                        padding: " 10px",
-                        paddingLeft: "65px",
-                        background: " #ffefef",
-                        border: " 1px solid var(--error)",
-                        color: "red",
-                        borderRadius: "15px",
-                        margin: " 10px 0",
-                        marginRight: "55px",
-                        width: " 340px",
-                      }}
-                    >
-                      {error}
-                    </div>
-                  )}
-                </Modal.Footer>
+                
               </Modal>
             </div>
 

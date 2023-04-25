@@ -119,7 +119,7 @@ const Sidebar = ({ children, SetSelectedProjectController}) => {
       <div className="sideBarContainer">
         <div
           className="sidebar"
-          style={{ width: open ? "230px" : "50px", position: "absolute" }}
+          style={{ width: open ? "230px" : "50px", position: "fixed" }}
         >
           <div className="topSection">
             <img
@@ -153,7 +153,11 @@ const Sidebar = ({ children, SetSelectedProjectController}) => {
             ))}
           </div>
         </div>
-        <main>{children}</main>
+        <div className="content"
+        // style={{ marginLeft: open ? "180px" : "1px" }}
+        >
+          {children}
+        </div>
       </div>
     </div>
   );
