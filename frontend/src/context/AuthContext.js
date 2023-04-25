@@ -1,5 +1,5 @@
 import { createContext, useReducer, useEffect } from "react";
-
+import { Navigate } from "react-router-dom";
 export const AuthContext = createContext();
 
 export const authReducer = (state, action) => {
@@ -22,7 +22,9 @@ export const AuthContextProvider = ({ children }) => {
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"));
-
+    if (!user) {
+      return <Navigate to="/login" />;
+    }
     if (user) {
       dispatch({ type: "LOGIN", payload: user });
     }

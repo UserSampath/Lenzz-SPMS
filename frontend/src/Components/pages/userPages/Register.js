@@ -18,6 +18,7 @@ const CONTECTNUMBER_REGEX = /^\d{10}$/;
 const Register = () => {
   const userRef = useRef();
   const errRef = useRef();
+  const [index, setIndex] = useState(-1);
   const [firstName, setFirstName] = useState("");
   const [validFirstName, setValidFirstName] = useState(false);
   const [FirstNameFocus, setFirstNameFocus] = useState(false);
@@ -89,7 +90,11 @@ const Register = () => {
   const handleOptionChange = (eventKey) => {
     setSelectedJob(options[eventKey]);
   };
-
+  useEffect(() => {
+    /*return () => {
+    effect
+  };*/
+  }, [index]);
   return (
     <div>
       <div className="container shadow my-5">
@@ -99,7 +104,7 @@ const Register = () => {
             <p className="lead text-center">Enter your Details to register</p>
             <h5 className="mb-4">OR</h5>
             <NavLink to="/login" className="btn btn-outline-light pb-2 w-50">
-              Login
+              {index}
             </NavLink>
           </div>
           <div className="col-md-6 p-5 ">

@@ -154,8 +154,6 @@ const TimeLine = () => {
         setError(json.error);
       }
       if (response.ok) {
-        console.log("new", TimeLine);
-
         timelines.map((tl) => {
           if (tl._id === TimeLine.id) {
             tl.Topic = TimeLine.Topic;
@@ -205,7 +203,13 @@ const TimeLine = () => {
                 marginLeft: "20px",
               }}
             />
-            <h2 style={{ marginTop: "21px", marginLeft: "10px" }}>
+            <h2
+              style={{
+                marginTop: "24px",
+                marginLeft: "10px",
+                fontSize: "25px",
+              }}
+            >
               Requirments:Project 1
             </h2>
             <Button

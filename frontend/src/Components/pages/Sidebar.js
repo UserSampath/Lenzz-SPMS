@@ -81,8 +81,7 @@ const Sidebar = ({ children }) => {
         <Container style={{ zIndex: 1 }}>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
-
-            <div style={{ marginLeft: '1150px' }}>
+            <div style={{ marginLeft: "1150px" }}>
               <MdSettingsSuggest className="set-pic" onClick={toggleMenu} />
             </div>
             <div className="sub-menu-wrap" id="subMenu">

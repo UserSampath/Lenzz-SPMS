@@ -13,7 +13,7 @@ const getAllTimelines = async (req, res) => {
     res.status(404).json({ message: "Timelines not found" });
   }
 };
-//create timeline
+//create timelines
 const createTimeline = asyncHandler(async (req, res) => {
   const { Topic, Description } = req.body;
   const { _id, selectedJob } = req;

@@ -5,13 +5,7 @@ const createToken = (_id) => {
 };
 //create company
 const createCompany = async (req, res) => {
-  const {
-    companyname,
-
-    contactnumber,
-    companyemail,
-    companyaddress,
-  } = req.body;
+  const { companyname, contactnumber, companyemail, companyaddress } = req.body;
   const { id, selectedJob } = req;
   if (selectedJob != "SYSTEM ADMIN") {
     return res.status(401).json({ error: "User is not authorized" });
@@ -72,6 +66,7 @@ const generateRandomString = (myLength) => {
 
 const randomkey = async (req, res) => {
   try {
+    // key length 8 character
     const key = generateRandomString(8);
     res.send(key);
   } catch (error) {

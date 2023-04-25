@@ -12,8 +12,6 @@ import {
   faInfoCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Badge from "react-bootstrap/Badge";
-import { MdOutlineDeleteOutline } from "react-icons/md";
 const NAME_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 
 const Company = () => {
@@ -26,7 +24,6 @@ const Company = () => {
   const handleShow = () => setShowModal(true);
   const history = useNavigate();
   const [searchResult, setSearchResult] = useState([]);
-  const [selectedUser, setSelectedUser] = useState(null);
   const [projectname, setprojectname] = useState("");
   const [validProjectName, setValidProjectName] = useState(false);
   const [ProjectNameFocus, setProjectNameFocus] = useState(false); // initialize with false
