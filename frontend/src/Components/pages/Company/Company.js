@@ -227,23 +227,16 @@ const Company = () => {
   return (
     <SideBar>
       <div style={{ marginLeft: "50px" }}>
-        <div
-          className="card shadow"
-          style={{
-            width: " 1300px",
-            height: " 100%",
-            marginLeft: "150px",
-            marginTop: "80px",
-
-          }}
-        >
           <div
-            className="card shadow"
+            className="BoxCard"
+
             style={{
-              width: " 1395px",
-              height: " 315px",
+              width: " 93vw",
+              height: " 100%",
               marginLeft: "25px",
-              marginTop: "10px",
+            marginTop: "50px",
+              border: "1px solid",
+              borderRadius:"10px"
             }}
           >
             <div className="projectpart" style={{ display: "flex" }}>
@@ -758,7 +751,22 @@ const Company = () => {
             style={{
               display: "flex",
               marginTop: "20px",
-              marginRight: "15px",
+              // marginRight: "15px",
+            }}
+        >
+      
+          <div
+            className="BoxCard"
+
+            style={{
+              width: " 93vw",
+              height: " 100%",
+              marginLeft: "25px",
+              marginTop: "10px",
+              border: "1px solid",
+              borderRadius: "10px",
+              marginBottom:"20px",
+            
             }}
           >
             <div className="projectpart" style={{ display: "flex" }}>
@@ -785,7 +793,7 @@ const Company = () => {
               return <div key={index}> <h2>{user.firstName}</h2></div>;
             })}
           </div>
-        </div>
+          </div>
       </div>
     </SideBar>
   );
