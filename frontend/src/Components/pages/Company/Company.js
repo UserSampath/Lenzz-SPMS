@@ -592,7 +592,7 @@ const Company = () => {
               onClick={handleShow}
             >
               Add project
-            </Button>
+            </div>
             <Modal show={showModal} onHide={handleClose}>
               <p
                 ref={errRef}
