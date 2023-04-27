@@ -31,6 +31,29 @@ const project = async (req, res) => {
   }
 };
 
+const updateProjectData = async (req, res) => {
+  const { projectname, description, startDate, endDate, id } = req.body;
+  const { _id, selectedJob } = req;
+  if (selectedJob !== "SYSTEM ADMIN") {
+    return res.status(401).json({ error: "User is not authorized" });
+  }
+
+  try {
+    const project = await Project.updateProject(
+      projectname,
+      description,
+      startDate,
+      endDate,
+      id
+    );
+    console.log(project);
+    res.status(200).json(project);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+
+}
+
 //get all projects
 const getProjects = async (req, res) => {
   const projects = await Project.find({}).sort({ createdAt: -1 });
@@ -91,6 +114,41 @@ const changepersentage = async (req, res) => {
   res.status(200).json({ percentage });
 };
 
+
+
+const usersOfTheProject = async (req, res) => {
+  const { id } = req.body;
+
+  try {
+    const project = await Project.findById(id).populate('users');
+    if (!project) {
+      return res.status(404).json({ error: 'Project not found' });
+    }
+
+    const projectUsers = project.users;
+
+    const members = await Promise.all(projectUsers.map(async user => {
+      const member = await User.findById(user.user_id);
+      const ProjectUserObj = {
+        "projectUserRole": user.role,
+        "projectUserId":user._id
+      };
+
+      console.log(user);
+      const memberObj = member.toObject();
+      const concatenatedObj = Object.assign({}, memberObj, ProjectUserObj);
+
+
+      return concatenatedObj;
+    }));
+
+    res.status(200).json(members);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Server error' });
+  }
+};
+
 module.exports = {
   project,
   getProjects,
@@ -98,4 +156,6 @@ module.exports = {
   changepersentage,
   deleteProject,
   updateProject,
+  updateProjectData,
+  usersOfTheProject
 };

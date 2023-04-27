@@ -1,5 +1,6 @@
-.settingsContainer{
-    margin-left: 50px;
+
+.settings{
+ margin-left: 50px;
     margin-top: 50px;
 }
 .dropDown{
@@ -21,6 +22,7 @@
 .dropDownButtonContainer{
     display: flex;
     justify-content: center;
+    
 }
 .dropDownTextContainer{
     width: 280px;
@@ -30,6 +32,25 @@
     width: 40px;
     right: 100px;
 }
-.settingsContainer{
-    /* margin-left: 100px; */
+
+
+.settingsPart{
+
+}
+
+.settingsContainer {
+   margin-top: 10px;
+   /* margin-left: auto; */
+   margin-right: auto;
+   width: 60%;
+   margin-left: 25%;
+    
+
+}
+.img{
+    margin-top: 4px;
+    border-radius: 50%;
+    border: 1px solid white;
+    margin-right: 10px;
+    margin-left: 5px;
 }
