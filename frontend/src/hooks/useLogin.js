@@ -40,7 +40,6 @@ export const useLogin = () => {
         history("/");
       }
       dispatch({ type: "LOGIN", payload: json });
-
       setIsloading(false);
     }
   };

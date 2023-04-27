@@ -1,18 +1,10 @@
 const Company = require("../models/companyModel");
 const User = require("../models/memberModel");
 const jwt = require("jsonwebtoken");
-const createToken = (_id) => {
-  return jwt.sign({ _id }, process.env.SECRET, { expiresIn: "1d" });
-};
-
+const asyncHandler = require("express-async-handler");
 
 const createCompany = async (req, res) => {
-  const {
-    companyname,
-    contactnumber,
-    companyemail,
-    companyaddress,
-  } = req.body;
+  const { companyname, contactnumber, companyemail, companyaddress } = req.body;
   const { id, selectedJob } = req;
   if (selectedJob != "SYSTEM ADMIN") {
     return res.status(401).json({ error: "User is not authorized" });
@@ -28,13 +20,13 @@ const createCompany = async (req, res) => {
       companyaddress,
       companyemail,
       user_id,
-      companyKey,
+      companyKey
     );
 
     const updatedUser = await User.findByIdAndUpdate(user_id, {
-      companyId: company._id
-    })
-    console.log(updatedUser)
+      companyId: company._id,
+    });
+    console.log(updatedUser);
     const token = createToken(company._id);
 
     res.status(200).json({ company, companyname, token });
@@ -58,9 +50,9 @@ const checkcompany = async (req, res) => {
     console.log(_id);
 
     const updatedUser = await User.findByIdAndUpdate(_id, {
-      companyId: company._id
-    })
-    console.log("updatedUser", updatedUser)
+      companyId: company._id,
+    });
+    console.log("updatedUser", updatedUser);
     res.status(200).json({ company });
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -96,7 +88,9 @@ const companyUsers = async (req, res) => {
   try {
     const { _id } = req;
     const user = await User.findById(_id);
-    const allUsersInSameCompany = await User.find({ companyId: user.companyId });
+    const allUsersInSameCompany = await User.find({
+      companyId: user.companyId,
+    });
     if (user) {
       console.log(user);
       res.send(allUsersInSameCompany);
@@ -104,11 +98,56 @@ const companyUsers = async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-}
+};
+
+const getCompanyById = asyncHandler(async (req, res) => {
+  const company = await Company.findById(req.params.id);
+  if (company) {
+    res.json(company);
+  } else {
+    res.status(404).json({ error: error.message });
+    res.status(404).json({ message: "company not found" });
+  }
+});
+const updateCompany = asyncHandler(async (req, res) => {
+  const {
+    companyname,
+    companyKey,
+    companyaddress,
+    contactnumber,
+    companyemail,
+    _id,
+  } = req.body;
+
+  if (
+    !companyname ||
+    !companyKey ||
+    !companyaddress ||
+    !contactnumber ||
+    !companyemail
+  ) {
+    res.status(400).json({ error: "Can't find the user " });
+  }
+
+  const company = await Company.findById(_id);
+  if (company) {
+    company.companyname = companyname;
+    company.companyemail = companyemail;
+    company.companyKey = companyKey;
+    company.companyaddress = companyaddress;
+    company.contactnumber = contactnumber;
+    const updatedCompany = await company.save();
+    res.json(updatedCompany);
+  } else {
+    throw new Error("Company not found");
+  }
+});
 
 module.exports = {
   createCompany,
   checkcompany,
   randomkey,
-  companyUsers
+  companyUsers,
+  updateCompany,
+  getCompanyById,
 };

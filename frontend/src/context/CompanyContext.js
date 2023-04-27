@@ -10,6 +10,8 @@ export const companyReducer = (state, action) => {
       return { company: [action.payload] };
     case "SHOW_COMPANY":
       return { company: action.payload };
+    case "UPDATE_COMPANY":
+      return { company: action.payload };
     default:
       return state;
   }
@@ -27,6 +29,9 @@ export const CompanyContextProvider = ({ children }) => {
     }
     if (company) {
       dispatch({ type: "COMPANY_KEY", payload: company });
+    }
+    if (company) {
+      dispatch({ type: "COMPANY_UPDATE", payload: company });
     }
   }, []);
   return (

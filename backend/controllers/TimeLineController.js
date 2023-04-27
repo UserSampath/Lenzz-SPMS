@@ -49,8 +49,9 @@ const getTimelineById = asyncHandler(async (req, res) => {
 });
 
 const updateTimeline = asyncHandler(async (req, res) => {
-  const { Topic, Description, id } = req.body;
-  const { _id, selectedJob } = req;
+  const { Topic, Description, _id } = req.body;
+  console.log(req.body);
+  const { selectedJob } = req;
   if (
     selectedJob !== "SYSTEM ADMIN" &&
     selectedJob !== "PROJECT MANAGER" &&
@@ -58,14 +59,13 @@ const updateTimeline = asyncHandler(async (req, res) => {
   ) {
     return res.status(401).json({ error: "You are not authorized" });
   }
-  const timeline = await TimeLine.findById(id);
+  const timeline = await TimeLine.findById(_id);
   if (timeline) {
     timeline.Topic = Topic;
     timeline.Description = Description;
     const updatedTimeline = await timeline.save();
     res.json(updatedTimeline);
   } else {
-    res.status(404).json({ error: error.message });
     throw new Error("Timeline not found");
   }
 });

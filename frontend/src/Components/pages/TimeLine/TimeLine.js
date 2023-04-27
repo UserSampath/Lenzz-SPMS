@@ -191,7 +191,7 @@ const TimeLine = () => {
     <Sidebar>
       <div>
         <div
-          className="card shadow"
+          className="card"
           style={{
             width: "1300px",
             height: "600px",

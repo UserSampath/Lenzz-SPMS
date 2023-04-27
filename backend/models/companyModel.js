@@ -40,16 +40,16 @@ companySchema.statics.createcompany = async function (
   companyKey
 ) {
   if (!companyname || !contactnumber || !companyaddress || !companyemail) {
-    const coname = await this.findOne({ companyname });
-
-    if (coname) {
-      throw new Error("Company name is already taken");
-    }
-
-    if (!validator.isEmail(companyemail)) {
-      throw Error("company Email not valid");
-    }
     throw Error("All fields must be filled ");
+  }
+  const coname = await this.findOne({ companyname });
+
+  if (coname) {
+    throw new Error("Company name is already taken");
+  }
+
+  if (!validator.isEmail(companyemail)) {
+    throw Error("company Email not valid");
   }
 
   const company = await this.create({
@@ -58,7 +58,7 @@ companySchema.statics.createcompany = async function (
     companyemail,
     contactnumber,
     companyaddress,
-    systemAdminId :user_id,
+    systemAdminId: user_id,
     companyKey,
   });
   return company;
