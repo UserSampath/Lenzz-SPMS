@@ -1,6 +1,6 @@
 import React from 'react'
 import styles from "./MemberSearchItem.module.css"
-const MemberSearchItem = () => {
+const MemberSearchItem = (props) => {
     return (
         <div>
             <div style={{ background: "#ddd", margin: "0px", height: "50px", display: "flex", alignItems: "center", fontSize: "16px", color: "#333333", borderBottom: "1px solid #e1e1e1", overflow: "hidden", borderRadius: "10px", margin: "5px" }}>
@@ -9,8 +9,8 @@ const MemberSearchItem = () => {
                     className={styles.img}
                 />
                 <div style={{ marginRight: "5px", padding: "0" }}>
-                    <h6 style={{ margin: "0", padding: "0" }}>nalaka Sampath</h6>
-                    <p style={{ margin: "0", padding: "0" }}>nalakasampathsmp@gmail.com </p>
+                    <h6 style={{ margin: "0", padding: "0" }}>{props.user.firstName + " " + props.user.lastName}</h6>
+                    <p style={{ margin: "0", padding: "0" }}>{props.user.email} </p>
                 </div>
             </div>
         </div>

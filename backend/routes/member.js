@@ -12,7 +12,8 @@ const {
   resetPassword,
   getUsers,
   checkOTP,
-  getUser
+  getUser,
+  getUserFromCompany
 
 } = require("../controllers/memberController");
 const requireAuth = require("../middleware/requireAuth");
@@ -35,6 +36,7 @@ router.post("/resetPassword", resetPassword);
 router.get("/getUsers", appUserAuthentication, getUsers);
 router.post("/checkOTP", checkOTP);
 router.get("/getUser",requireAuth, getUser);
+router.post("/getUserFromCompany", getUserFromCompany);
 
 
 module.exports = router;

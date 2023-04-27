@@ -23,13 +23,13 @@ const Settings = () => {
   const [projectDetails, SetProjectDetails] = useState({})
 
   const [projectMembersData, SetProjectMembersData] = useState([])
-  const [companyMembersData, SetCompanyMembersData] = useState([{ "first_name": "fsSfdfsd", "last_name": "ddf", "email": "sfsdf" }, { "first_name": "sssssss", "last_name": "ddf", "email": "sfsdf" }])
+  const [companyMembersData, SetCompanyMembersData] = useState([])
   const [searchResultsData, SetSearchResultsData] = useState([])
   const [error, setError] = useState(null);
   const [query, setQuery] = useState("");
   const [searchEmpty, setSearchEmpty] = useState(false);
 
-  const keys = ["first_name", "last_name", "email"];
+  const keys = ["firstName", "lastName", "email"];
 
 
 
@@ -75,11 +75,30 @@ const Settings = () => {
         })
     }
 
+    
+
     if (localProject.projectId) {
       getProject();
     }
 
   }, [projectDetails._id, localProject.projectId])
+
+  useEffect(() => {
+    const getCompanyUsers = async () => {
+      const data = {
+        companyId: projectDetails.company_id
+      }
+      await axios.post('http://localhost:4000/api/user/getUserFromCompany', data)
+        .then(res => {
+          console.log(",,,,,,,,,,,,,,,,,,,,", res.data)
+          SetCompanyMembersData(res.data)
+
+        }).catch(err => {
+          console.log(err)
+        })
+    }
+    getCompanyUsers();
+  }, [projectDetails])
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -311,7 +330,7 @@ const Settings = () => {
                   }}>
 
                     {searchResultsData&& !searchEmpty && searchResultsData.map((user, index) => {
-                     return <MemberSearchItem key={index} />
+                      return <MemberSearchItem key={index} user={user} />
                     })}
 
                   </div>
