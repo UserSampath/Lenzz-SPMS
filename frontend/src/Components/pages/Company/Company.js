@@ -12,6 +12,8 @@ import {
   faInfoCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Badge from "react-bootstrap/Badge";
+import { MdOutlineDeleteOutline } from "react-icons/md";
 const NAME_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 
 const Company = () => {
@@ -24,6 +26,7 @@ const Company = () => {
   const handleShow = () => setShowModal(true);
   const history = useNavigate();
   const [searchResult, setSearchResult] = useState([]);
+  const [selectedUser, setSelectedUser] = useState(null);
   const [projectname, setprojectname] = useState("");
   const [validProjectName, setValidProjectName] = useState(false);
   const [ProjectNameFocus, setProjectNameFocus] = useState(false); // initialize with false
@@ -218,7 +221,7 @@ const Company = () => {
       console.log(data);
       setLoading(false);
       setSearchResult(data);
-    } catch (error) {}
+    } catch (error) { }
   };
 
   return (
@@ -585,7 +588,9 @@ const Company = () => {
                       <FontAwesomeIcon
                         icon={faTimes}
                         className={
-                          validProjectName || !projectname ? "hide" : "invalid"
+                          validProjectName || !projectname
+                            ? "hide"
+                            : "invalid"
                         }
                       />
                     </Form.Label>
@@ -631,7 +636,9 @@ const Company = () => {
                       <FontAwesomeIcon
                         icon={faTimes}
                         className={
-                          validDescription || !description ? "hide" : "invalid"
+                          validDescription || !description
+                            ? "hide"
+                            : "invalid"
                         }
                       />
                     </Form.Label>
@@ -671,7 +678,10 @@ const Company = () => {
                       id="exampleCheck1"
                       onClick={handleTickClick}
                     />
-                    <label className="form-check-label" htmlFor="exampleCheck1">
+                    <label
+                      className="form-check-label"
+                      htmlFor="exampleCheck1"
+                    >
                       If you need to add date
                     </label>
                   </div>

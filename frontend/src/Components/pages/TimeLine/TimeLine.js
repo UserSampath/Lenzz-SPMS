@@ -17,9 +17,11 @@ import "./TimeLine.css";
 import axios from "axios";
 import { useAuthContext } from "./../../../hooks/useAuthContext";
 import { useNavigate } from "react-router-dom";
+import { Dropdown } from "react-bootstrap";
 import Swal from "sweetalert2";
 
 const TOPIC = /^[A-Za-z0-9\s\-_,.!?:;'"()]{5,25}$/;
+
 const DESCRIPTION = /^[A-Za-z0-9\s\-_,.!?:;'"()]{5,}$/;
 const TimeLine = () => {
   const userRef = useRef();
@@ -154,6 +156,8 @@ const TimeLine = () => {
         setError(json.error);
       }
       if (response.ok) {
+        console.log("new", TimeLine);
+
         timelines.map((tl) => {
           if (tl._id === TimeLine.id) {
             tl.Topic = TimeLine.Topic;
@@ -203,14 +207,8 @@ const TimeLine = () => {
                 marginLeft: "20px",
               }}
             />
-            <h2
-              style={{
-                marginTop: "24px",
-                marginLeft: "10px",
-                fontSize: "25px",
-              }}
-            >
-              Requirments:Project 1
+            <h2 style={{ marginTop: "21px", marginLeft: "10px" }}>
+              TimeLine:Project 1
             </h2>
             <Button
               variant="info"

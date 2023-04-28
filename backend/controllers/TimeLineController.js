@@ -4,7 +4,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 const asyncHandler = require("express-async-handler");
-//get all timelines
+
 const getAllTimelines = async (req, res) => {
   try {
     const timelines = await TimeLine.find();
@@ -13,7 +13,7 @@ const getAllTimelines = async (req, res) => {
     res.status(404).json({ message: "Timelines not found" });
   }
 };
-//create timelines
+
 const createTimeline = asyncHandler(async (req, res) => {
   const { Topic, Description } = req.body;
   const { _id, selectedJob } = req;
@@ -37,7 +37,7 @@ const createTimeline = asyncHandler(async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 });
-//get timeline one by id
+
 const getTimelineById = asyncHandler(async (req, res) => {
   const timeline = await TimeLine.findById(req.params.id);
   if (timeline) {
@@ -47,7 +47,7 @@ const getTimelineById = asyncHandler(async (req, res) => {
     res.status(404).json({ message: "time line not found" });
   }
 });
-// update TimeLine
+
 const updateTimeline = asyncHandler(async (req, res) => {
   const { Topic, Description, id } = req.body;
   const { _id, selectedJob } = req;
@@ -69,7 +69,7 @@ const updateTimeline = asyncHandler(async (req, res) => {
     throw new Error("Timeline not found");
   }
 });
-// delete the timeline
+
 const DeleteTimeline = asyncHandler(async (req, res) => {
   const timeline = await TimeLine.findById(req.body.id);
   const { _id, selectedJob } = req;

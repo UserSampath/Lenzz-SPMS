@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
 import ProgressBar from "react-bootstrap/ProgressBar";
 import Bar from "./Bar";
-import styles from "./Circleprogress.module.css";
+import "./Circleprogress.css";
 import { useAuthContext } from "./../../../hooks/useAuthContext";
+import { useProjectContext } from "../../../hooks/useProjectContext";
 function CircleProgress() {
   const [percentage, setPercentage] = useState("");
   const [progress, setProgress] = useState("");
   const [overallprogress, setOverallProgress] = useState("");
   const { user } = useAuthContext();
+  const {dispatch } = useProjectContext();
 
   useEffect(() => {
     const createDate = async () => {
@@ -20,14 +22,17 @@ function CircleProgress() {
         body: JSON.stringify({}),
       });
       const data = await res.json();
+      console.log(res);
       if (res.status === 200) {
         setPercentage(data.percentage);
+        console.log(data.percentage);
+        console.log(percentage);
       }
     };
     if (user) {
       createDate();
     }
-  }, [user]);
+  }, [dispatch, user]);
   const now = 80;
 
   let variant;
@@ -51,6 +56,7 @@ function CircleProgress() {
         const data = await response.json();
         const percentage = data.percentage;
         setProgress(percentage);
+        console.log(percentage);
       } catch (error) {
         console.error(error);
       }
@@ -70,6 +76,7 @@ function CircleProgress() {
         const data = await response.json();
         const percentage = data.percentage;
         setOverallProgress(percentage);
+        console.log(percentage);
       } catch (error) {
         console.error(error);
       }
@@ -77,8 +84,8 @@ function CircleProgress() {
     fetchData();
   }, []);
   return (
-    <div className={styles.progressMain}>
-      <div className={styles.progressMain2}>
+    <div>
+      <div style={{ display: "flex", justifyContent: "center" }}>
         <div
           className="card shadow"
           style={{
@@ -88,8 +95,8 @@ function CircleProgress() {
             marginTop: "120px",
           }}
         >
-          <div className={styles.circle1}>
-            <label className={styles.pname}>ToDo</label>
+          <div className="circle1">
+            <label className="pname">ToDo</label>
             <Bar progress={progress} />
           </div>
         </div>
@@ -102,8 +109,8 @@ function CircleProgress() {
             marginTop: "120px",
           }}
         >
-          <div className={styles.circle2}>
-            <label className={styles.pname2}>OverallProgress</label>
+          <div className="circle2">
+            <label className="pname2">OverallProgress</label>
             <Bar progress={overallprogress} />
           </div>
         </div>
@@ -116,8 +123,8 @@ function CircleProgress() {
             marginTop: "120px",
           }}
         >
-          <div className={styles.circle3}>
-            <label className={styles.pname3}>DeadlineRemaing</label>
+          <div className="circle3">
+            <label className="pname3">DeadlineRemaing</label>
             <Bar progress={percentage} />
           </div>
         </div>
@@ -132,8 +139,17 @@ function CircleProgress() {
           fontFamily: "Signika Negative",
         }}
       >
-        <h3 className={styles.memberhead}>Member Contribution</h3>
-        <div className={styles.barlist}>
+        <h3 style={{ marginTop: "10px", marginLeft: "10px" }}>
+          Member Contribution
+        </h3>
+        <div
+          className="barlist"
+          style={{
+            marginTop: "30px",
+            width: "1075px",
+            marginLeft: "40px",
+          }}
+        >
           <h5>
             Member 1 <span style={{ marginLeft: "1000px" }}>{`${now}%`}</span>
           </h5>

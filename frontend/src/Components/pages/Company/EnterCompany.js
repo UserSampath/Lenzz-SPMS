@@ -9,7 +9,6 @@ import {
   faInfoCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-//check the entered company key is valid
 const KEY = /^[a-zA-Z0-9]{8}$/;
 
 function EnterCompany() {
@@ -35,7 +34,6 @@ function EnterCompany() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    //check the user is logged in
     if (!user) {
       setError("you must be logged in");
       return;

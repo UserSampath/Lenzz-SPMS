@@ -1,21 +1,13 @@
 import { useState } from "react";
 import { useAuthContext } from "./useAuthContext";
 import { useNavigate } from "react-router-dom";
-import Swal from "sweetalert2";
 
 export const useSignup = () => {
   const [error, setError] = useState(null);
   const [isLoading, setIsloading] = useState(null);
   const { dispatch } = useAuthContext();
   const history = useNavigate();
-  const signup = async (
-    firstName,
-    lastName,
-    email,
-    password,
-    selectedJob,
-    ContactNumber
-  ) => {
+  const signup = async (firstName, lastName, email, password, selectedJob) => {
     setIsloading(true);
     setError(null);
 
@@ -27,7 +19,7 @@ export const useSignup = () => {
         lastName,
         email,
         password,
-        ContactNumber,
+
         selectedJob,
       }),
     });
@@ -38,34 +30,22 @@ export const useSignup = () => {
       setError(json.error);
     }
     if (response.ok) {
-      const showAlert = () => {
-        Swal.fire({
-          title: "Success",
-          text: " Successfully Registered",
-          icon: "success",
-          confirmButtonText: "OK",
-        });
-      };
       localStorage.setItem("user", JSON.stringify(json));
       if (json.selectedJob === "SYSTEM ADMIN") {
         history("/CreateCompany");
-        showAlert("");
       }
       if (
         json.selectedJob === "DEVELOPER" ||
-        json.selectedJob === "TECH LEAD" ||
-        json.selectedJob === "PROJECT MANAGER" ||
-        json.selectedJob === "CLIENT" ||
-        json.selectedJob === "QUALITY ASSURANCE ENGINNER" ||
-        json.selectedJob === "OTHER PROJECT WORKERS"
+        json.selectedJob === "TEAM LEAD" ||
+        json.selectedJob === "PROJECT MANAGER"
       ) {
         history("/EnterCompany");
-        showAlert("");
       }
       console.log(json.selectedJob);
 
       dispatch({ type: "LOGIN", payload: json });
-      showAlert("");
+      window.alert("Register success");
+
       setIsloading(false);
     }
   };
