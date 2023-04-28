@@ -12,7 +12,6 @@ import Settings from "./Components/pages/Settings";
 import Chatroom from "./Components/pages/Chatroom";
 import Company from "./Components/pages/Company/Company";
 import AccountSettings from "./Components/pages/userPages/AccountSettings";
-import { useAuthContext } from "./hooks/useAuthContext";
 import DashboardProvider from "./Components/pages/dashboard/DashboardProvider";
 import TimeLine from "./Components/pages/TimeLine/TimeLine";
 import CompanySetting from "./Components/pages/Company/CompanySetting";

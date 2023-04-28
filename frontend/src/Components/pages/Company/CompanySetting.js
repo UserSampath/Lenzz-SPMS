@@ -17,6 +17,8 @@ const EMAIL_REGEX = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 const TEXT_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const CONTECTNUMBER_REGEX = /^\d{10}$/;
 const ADDRESS = /^[A-z][A-z0-9-_]{3,23}$/;
+const KEY = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8}$/;
+
 const CompanySetting = () => {
   const userRef = useRef();
   const errRef = useRef();
@@ -36,6 +38,8 @@ const CompanySetting = () => {
   const [validCompanyEmail, setValidCompanyEmail] = useState(false);
   const [CompanyEmailFocus, setCompanyEmailFocus] = useState(false);
   const [companyKey, setCompanyKey] = useState("");
+  const [validCompanyKey, setValidCompanyKey] = useState(false);
+  const [CompanyKeyFocus, setCompanyKeyFocus] = useState(false);
   const [isMountUserData, setIsMountUserData] = useState(false);
   const [error, setError] = useState(null);
   const [errMsg, setErrMsg] = useState("");
@@ -62,6 +66,9 @@ const CompanySetting = () => {
   useEffect(() => {
     setValidCompanyaddress(ADDRESS.test(companyAddress));
   }, [companyAddress]);
+  useEffect(() => {
+    setValidCompanyKey(KEY.test(companyKey));
+  }, [companyKey]);
   useEffect(() => {
     setErrMsg("");
   }, []);
@@ -242,6 +249,18 @@ const CompanySetting = () => {
               <div className="mb-3">
                 <label htmlFor="Company address" className="form-label">
                   Company address :
+                  <FontAwesomeIcon
+                    icon={faCheck}
+                    className={companyAddress ? "valid" : "hide"}
+                  />
+                  <FontAwesomeIcon
+                    icon={faTimes}
+                    className={
+                      validCompanyaddress || !companyAddress
+                        ? "hide"
+                        : "invalid"
+                    }
+                  />
                 </label>
                 <input
                   type="text"
@@ -251,43 +270,146 @@ const CompanySetting = () => {
                   value={companyAddress}
                   onChange={companyAddressHandler}
                 />
+                <p
+                  className={
+                    CompanyaddressFocus &&
+                    companyAddress &&
+                    !validCompanyaddress
+                      ? "instructions"
+                      : "offscreen"
+                  }
+                >
+                  <FontAwesomeIcon icon={faInfoCircle} />
+                  4 to 24 characters.
+                  <br />
+                  Must begin with a letter.
+                  <br />
+                  Letters, numbers, underscores, hyphens allowed.
+                  <br />
+                </p>
               </div>
               <div className="mb-3">
                 <label htmlFor="Contact number" className="form-label">
                   Contact number
+                  <FontAwesomeIcon
+                    icon={faCheck}
+                    className={companyNumber ? "valid" : "hide"}
+                  />
+                  <FontAwesomeIcon
+                    icon={faTimes}
+                    className={
+                      validContactNumber || !companyNumber ? "hide" : "invalid"
+                    }
+                  />
                 </label>
                 <input
-                  type="number"
+                  type="text"
                   className="form-control"
-                  placeholder="Contact number"
+                  required
+                  aria-invalid={validContactNumber ? "false" : "true"}
                   id="contactnumber"
                   value={companyNumber}
+                  autoComplete="on"
                   onChange={companyNumberHandler}
-                />
+                  onFocus={() => setContactNumberFocus(true)}
+                  onBlur={() => setContactNumberFocus(false)}
+                  placeholder="Enter your Contact Number"
+                />{" "}
+                <p
+                  id="uidnote"
+                  className={
+                    ContactNumberFocus && companyNumber && !validContactNumber
+                      ? "instructions"
+                      : "offscreen"
+                  }
+                >
+                  <FontAwesomeIcon icon={faInfoCircle} />
+                  must be 10 numbers
+                </p>
               </div>
               <div className="mb-3">
                 <label htmlFor="exampleInputEmail1" className="form-label">
-                  Company Email address
+                  Company Email:
+                  <FontAwesomeIcon
+                    icon={faCheck}
+                    className={companyEmail ? "valid" : "hide"}
+                  />
+                  <FontAwesomeIcon
+                    icon={faTimes}
+                    className={
+                      validCompanyEmail || !companyEmail ? "hide" : "invalid"
+                    }
+                  />
                 </label>
                 <input
                   type="email"
+                  ref={userRef}
+                  autoComplete="on"
+                  required
                   className="form-control"
                   placeholder="Email address"
                   value={companyEmail}
                   onChange={companyEmailHandler}
+                  aria-invalid={validCompanyEmail ? "false" : "true"}
+                  onFocus={() => setCompanyEmailFocus(true)}
+                  onBlur={() => setCompanyEmailFocus(false)}
                 />
+                <p
+                  id="uidnote"
+                  className={
+                    CompanyEmailFocus && companyEmail && !validCompanyEmail
+                      ? "instructions"
+                      : "offscreen"
+                  }
+                >
+                  <FontAwesomeIcon icon={faInfoCircle} />
+                  @ matches the @ symbol.
+                  <br />
+                  Must begin with a letter.
+                </p>
               </div>
               <div className="mb-3">
                 <label htmlFor="companykey" className="form-label">
-                  Company Key
+                  Company Key:
+                  <FontAwesomeIcon
+                    icon={faCheck}
+                    className={validCompanyKey ? "valid" : "hide"}
+                  />
+                  <FontAwesomeIcon
+                    icon={faTimes}
+                    className={
+                      validCompanyKey || !companyKey ? "hide" : "invalid"
+                    }
+                  />
                 </label>
                 <input
                   type="text"
                   className="form-control"
                   placeholder="Company Key"
+                  autoComplete="on"
+                  aria-invalid={validCompanyKey ? "false" : "true"}
+                  ref={userRef}
+                  required
                   value={companyKey}
+                  id="companyName"
                   onChange={companyKeyHandler}
+                  onFocus={() => setCompanyKeyFocus(true)}
+                  onBlur={() => setCompanyKeyFocus(false)}
                 />
+                <p
+                  className={
+                    CompanyKeyFocus && companyKey && !validCompanyKey
+                      ? "instructions"
+                      : "offscreen"
+                  }
+                >
+                  <FontAwesomeIcon icon={faInfoCircle} />
+                  4 to 24 characters.
+                  <br />
+                  Must begin with a letter.
+                  <br />
+                  Letters, numbers, underscores, hyphens allowed.
+                </p>
               </div>
               <button
                 type="submit"

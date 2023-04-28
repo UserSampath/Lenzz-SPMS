@@ -43,6 +43,7 @@ const Company = () => {
   const [isMountUserData, setIsMountUserData] = useState(false);
   //get users
   const LocalUser = JSON.parse(localStorage.getItem("user"));
+
   useEffect(() => {
     const user = async () => {
       await axios
@@ -54,7 +55,6 @@ const Company = () => {
         })
         .then((res) => {
           console.log("userdata", res.data);
-          setUserData(res.data);
         })
         .catch((err) => {
           console.log(err);
@@ -233,7 +233,7 @@ const Company = () => {
   return (
     <SideBar>
       <div style={{ marginLeft: "50px" }}>
-        <p style={{ marginLeft: "595px", marginTop: "55px", fontSize: "20px" }}>
+        <p style={{ marginLeft: "695px", marginTop: "55px", fontSize: "20px" }}>
           {company.companyname}
         </p>
         <div
@@ -434,8 +434,8 @@ const Company = () => {
                         onClick={() => projectClicked(project[0])}
                         style={{
                           backgroundColor: "#f2f2f2",
-                          width: "230px",
-                          height: "50px",
+                          width: "250px",
+                          height: "60px",
                           paddingLeft: "20px",
                           paddingTop: "10px",
                         }}
@@ -445,7 +445,7 @@ const Company = () => {
                             <FaProjectDiagram />
                           </div>
                           <p style={{ fontSize: "19px" }}>
-                            Project :{project[0] && project[0].projectname}
+                            {project[0] && project[0].projectname}
                           </p>
                         </div>
                       </div>

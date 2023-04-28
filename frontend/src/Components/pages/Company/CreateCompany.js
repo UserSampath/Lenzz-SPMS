@@ -74,14 +74,17 @@ const CreateCompany = () => {
       contactnumber,
       companyaddress,
     };
-    const response = await fetch("/api/company/createcompany", {
-      method: "POST",
-      body: JSON.stringify(company),
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${user.token}`,
-      },
-    });
+    const response = await fetch(
+      "http://localhost:4000/api/company/createcompany",
+      {
+        method: "POST",
+        body: JSON.stringify(company),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+      }
+    );
     const json = await response.json();
     if (!response.ok) {
       setError(json.error);
@@ -98,7 +101,6 @@ const CreateCompany = () => {
       setError(null);
 
       console.log("New company created", json);
-      console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", json.company.companyKey);
       setcompanyKey(json.company.companyKey);
       setShowModal(true);
       dispatch({ type: "COMPANY_CREATE", payload: json });
@@ -205,10 +207,8 @@ const CreateCompany = () => {
                     value={companyemail}
                     required
                     aria-invalid={validCompanyEmail ? "false" : "true"}
-                    aria-describedby="uidnote"
                     onFocus={() => setCompanyEmailFocus(true)}
                     onBlur={() => setCompanyEmailFocus(false)}
-                    id="exampleInputEmail1"
                   />
                   <p
                     id="uidnote"
@@ -245,7 +245,7 @@ const CreateCompany = () => {
                     type="text"
                     className="form-control"
                     onChange={(e) => setcontactnumber(e.target.value)}
-                    id="contactnumber"
+                    id="coumber"
                     required
                     aria-invalid={validContactNumber ? "false" : "true"}
                     autoComplete="on"

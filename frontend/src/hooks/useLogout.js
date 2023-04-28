@@ -12,8 +12,8 @@ export const useLogout = () => {
 
   const logout = () => {
     // remove user from local
-    history("/login");
     localStorage.removeItem("user");
+    history("/login");
 
     dispatch({ type: "LOGOUT" });
     projectDispatch({ type: "SHOW_PROJECT", payload: null });

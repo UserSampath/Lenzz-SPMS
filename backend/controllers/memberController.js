@@ -7,10 +7,10 @@ const asyncHandler = require("express-async-handler");
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-
 const createToken = (_id) => {
-  return jwt.sign({ _id }, process.env.SECRET, { expiresIn: "3d" });
+  return jwt.sign({ _id }, process.env.SECRET, { expiresIn: 3000 });
 };
+
 const otpGenerator = (otpLength) => {
   let otp = "";
   for (let i = 0; i < otpLength; i++) {
@@ -127,7 +127,6 @@ const reset = async (req, res) => {
     const verifyToken = jwt.verify(token, keysecret);
     if (validuser && verifyToken._id) {
       const newpassword = await bcrypt.hash(password, 12);
-
       const setnewuserpass = await User.findByIdAndUpdate(
         { _id: id },
         { password: newpassword }
@@ -144,6 +143,7 @@ const reset = async (req, res) => {
 
 const updateUserProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
+
   if (user) {
     user.firstName = req.body.firstName || user.firstName;
     user.lastName = req.body.lastName || user.lastName;
@@ -326,6 +326,8 @@ const getUsers = async (req, res) => {
 };
 
 const getUser = async (req, res) => {
+  const { token } = req.body;
+
   try {
     const { _id, selectedJob } = req;
     const user = await User.findById(_id);

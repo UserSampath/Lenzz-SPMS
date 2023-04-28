@@ -15,21 +15,17 @@ const createCompany = async (req, res) => {
     const user_id = req.user._id;
     const company = await Company.createcompany(
       companyname,
-
       contactnumber,
       companyaddress,
       companyemail,
       user_id,
       companyKey
     );
-
+    console.log("dsss", company);
     const updatedUser = await User.findByIdAndUpdate(user_id, {
       companyId: company._id,
     });
-    console.log(updatedUser);
-    const token = createToken(company._id);
-
-    res.status(200).json({ company, companyname, token });
+    res.status(200).json({ company, companyname });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

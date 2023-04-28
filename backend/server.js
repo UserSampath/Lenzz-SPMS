@@ -1,5 +1,4 @@
 require("dotenv").config();
-
 const mongoose = require("mongoose");
 const express = require("express");
 const cors = require("cors");
@@ -9,14 +8,12 @@ const projectRoutes = require("./routes/project");
 const taskRoute = require("./routes/taskRoute");
 const listRoute = require("./routes/listRoute");
 const TimeLineRoute = require("./routes/TimeLineRoute");
-
 const projectUserRoute = require("./routes/projectUser");
 const app = express();
 const bodyParser = require("body-parser");
 
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: false }));
-var nodemailer = require("nodemailer");
 
 // express app
 app.use(cors());

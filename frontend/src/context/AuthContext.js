@@ -16,6 +16,8 @@ export const authReducer = (state, action) => {
   }
 };
 export const AuthContextProvider = ({ children }) => {
+  // const location = useLocation();
+
   const [state, dispatch] = useReducer(authReducer, {
     user: null,
   });
