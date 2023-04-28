@@ -13,10 +13,10 @@ const projectSchema = new Schema(
       type: String,
     },
     startDate: {
-      type: Date,
+      type: String,
     },
     endDate: {
-      type: Date,
+      type: String,
     },
     user_id: {
       type: String,
@@ -72,6 +72,39 @@ projectSchema.statics.createproject = async function (
     company_id: companyId
   });
 // console.log("ddddddddddddddddddddddd",project)
+  return project;
+};
+
+projectSchema.statics.updateProject = async function (
+  projectname,
+  description,
+  startDate,
+  endDate,
+  id
+) {
+  if (!projectname || !description) {
+    throw Error("All Field is required");
+  }
+
+  const currentDate = new Date().toISOString().slice(0, 10);
+
+  const parsedStartDate = parseISO(startDate);
+  const parsedCurrentDate = parseISO(currentDate);
+  // check if the start date is before the current date
+  if (isBefore(parsedStartDate, parsedCurrentDate)) {
+    // start date is before current date, so it's invalid
+    throw Error("Start date cannot be before the current date");
+  } else {
+    // start date is valid
+    console.log("Start date is valid");
+  }
+  const project = await this.findByIdAndUpdate(id,{
+    projectname,
+    description,
+    startDate,
+    endDate
+  }, { new: true });
+  // console.log("ddddddddddddddddddddddd",project)
   return project;
 };
 

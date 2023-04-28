@@ -1,0 +1,56 @@
+
+.settings{
+ margin-left: 50px;
+    margin-top: 50px;
+}
+.dropDown{
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+
+}
+.dropDownButton{
+    background: #abcdef;
+    width: 90vw;
+    border-radius: 10px;
+    cursor: pointer;
+    height: 40px;
+    margin-left: 3%;
+    margin-right: 3%;
+    margin-top: 10px;
+}
+.dropDownButtonContainer{
+    display: flex;
+    justify-content: center;
+    
+}
+.dropDownTextContainer{
+    width: 280px;
+}
+.icon{
+    height: 40px;
+    width: 40px;
+    right: 100px;
+}
+
+
+.settingsPart{
+
+}
+
+.settingsContainer {
+   margin-top: 10px;
+   /* margin-left: auto; */
+   margin-right: auto;
+   width: 60%;
+   margin-left: 25%;
+    
+
+}
+.img{
+    margin-top: 4px;
+    border-radius: 50%;
+    border: 1px solid white;
+    margin-right: 10px;
+    margin-left: 5px;
+}

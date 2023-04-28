@@ -4,6 +4,7 @@ const projectUser = require('../models/projectUserModel')
 
 exports.addUserToProject = async (req, res) => {
     const { userId, projectId, role } = req.body;
+    console.log(role);
     try {
         const existingRecord = await projectUser.findOne({ user_id: userId, project_id: projectId });
         if (existingRecord) {
@@ -31,17 +32,41 @@ exports.addUserToProject = async (req, res) => {
         res.status(500).json({ message: err.message });
     }
 };
-
 exports.removeUserFromProject = async (req, res) => {
-    const { userId, projectId } = req.params;
-
+    const { userId, projectId } = req.body;
     try {
-        await ProjectUser.findOneAndDelete({ user_id: userId, project_id: projectId });
-        res.json({ message: 'User removed from project' });
+        // Find the projectUser record
+        const projectUserData = await projectUser.findOne({ user_id: userId, project_id: projectId });
+        if (!projectUserData) {
+            return res.status(400).json({ message: "User is not assigned to this project." });
+        }
+
+        // Find the number of system admins in the project
+        const systemAdminsCount = await projectUser.countDocuments({ project_id: projectId, role: "SYSTEM ADMIN" });
+        if (systemAdminsCount <= 1 && projectUserData.role === "SYSTEM ADMIN") {
+            return res.status(400).json({ message: "Member cannot be deleted. At least one system admin is required in the project." });
+        }
+
+        // Remove the projectUser record
+        await projectUser.deleteOne({ user_id: userId, project_id: projectId });
+
+        // Remove the projectUser reference from User model
+        const user = await User.findById(userId);
+        user.projects.pull(projectUserData._id);
+        await user.save();
+
+        // Remove the projectUser reference from Project model
+        const project = await Project.findById(projectId);
+        project.users.pull(projectUserData._id);
+        await project.save();
+
+        res.json({ message: "User removed from project successfully." });
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
 };
+
+
 
 exports.getProjectsForUser = async (req, res) => {
     // const { userId } = req.body;

@@ -340,6 +340,17 @@ const getUser = async (req, res) => {
   }
 };
 
+const getUserFromCompany = async (req, res) => {
+  const companyId = req.body.companyId;
+  try {
+    const users = await User.find({ companyId: companyId });
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(404).json({ message: 'No users found' });
+  }
+};
+
+
 module.exports = {
   passwordlink,
   signupUser,
@@ -353,6 +364,7 @@ module.exports = {
   checkOTP,
   resetPassword,
   getUsers,
-  getUser
+  getUser,
+  getUserFromCompany
 
 };
