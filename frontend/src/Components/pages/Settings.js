@@ -28,6 +28,9 @@ const Settings = () => {
   const [error, setError] = useState(null);
   const [query, setQuery] = useState("");
   const [searchEmpty, setSearchEmpty] = useState(false);
+  const [mouseInItems, setMouseInItems] = useState(false);
+  const [membersCount, setMembersCount] = useState(0);
+
 
   const keys = ["firstName", "lastName", "email"];
 
@@ -75,7 +78,7 @@ const Settings = () => {
         })
     }
 
-    
+
 
     if (localProject.projectId) {
       getProject();
@@ -135,29 +138,44 @@ const Settings = () => {
       width: '250px'
     })
   };
+
+  const deleteErrorAlert = () => {
+    Swal.fire({
+      position: 'center',
+      icon: 'error',
+      text: 'cant delete data',
+      showConfirmButton: true,
+      timer: 1200,
+      width: '250px'
+    })
+  };
   useEffect(() => {
     const getAllUsers = async () => {
       const data = {
-        id: localProject.projectId
-      }
-      await axios.post('http://localhost:4000/api/project/usersOfTheProject', data)
-        .then(res => {
-          console.log("bbbbbbbbbbbbbbbbbbbbbb", res.data)
+        id: localProject.projectId,
+      };
+      await axios
+        .post("http://localhost:4000/api/project/usersOfTheProject", data)
+        .then((res) => {
+          console.log("bbbbbbbbbbbbbbbbbbbbbb", res.data);
           SetProjectMembersData(res.data);
-        }).catch(err => {
-          console.log(err)
+          setMembersCount(res.data.length);
         })
-    }
+        .catch((err) => {
+          console.log(err);
+        });
+    };
     if (localProject.projectId) {
       getAllUsers();
     }
-  }, [localProject.projectId, SetProjectMembersData])
-  useEffect(() => { 
-    if(query.length>0){
-    const a = companyMembersData.filter((item) =>
-      keys.some((key) => item[key].toLowerCase().includes(query))
-    );
-    SetSearchResultsData(a);
+  }, [localProject.projectId, SetProjectMembersData, searchEmpty, membersCount]);
+
+  useEffect(() => {
+    if (query.length > 0) {
+      const a = companyMembersData.filter((item) =>
+        keys.some((key) => item[key].toLowerCase().includes(query))
+      );
+      SetSearchResultsData(a);
       console.log(a)
     }
 
@@ -171,7 +189,7 @@ const Settings = () => {
     }
     setQuery(e.target.value.toLowerCase());
   }
-  const searchOnFocusHandler = (e) =>{
+  const searchOnFocusHandler = (e) => {
     console.log("searchOnFocusHandler", e.target.value)
     if (e.target.value.length > 0) {
       setSearchEmpty(false)
@@ -180,8 +198,16 @@ const Settings = () => {
     }
   }
   const searchOnBlurHandler = (e) => {
-    setSearchEmpty(true);
-    e.target.value = "";
+    if (!mouseInItems) {
+      setTimeout(() => {
+        setSearchEmpty(true);
+      }, 100);
+      e.target.value = "";
+    }
+  }
+
+  const toggleSearchItem = () => {
+    setSearchEmpty(!searchEmpty);
   }
 
   return (
@@ -303,15 +329,15 @@ const Settings = () => {
           {showAddMemberSettingContent && (
             <div className={styles.settingsContainer}>
               <div className={styles.settingsPart}>
-
-                <div style={{ display: "flex", justifyContent: "flex-end", marginRight: "5%", marginBottom: "10px" }}>
+                <div style={{ display: "flex", justifyContent: "flex-end", marginRight: "5%", marginBottom: "10px" }}
+                >
                   <div style={{ marginTop: "10px", marginRight: "5px" }}><h6>Add New Members : </h6></div>
                   <span style={{ position: "relative" }}>
                     <input
                       type="text"
                       placeholder="Search..."
-                      onFocus={(e) =>searchOnFocusHandler(e) }
-                      onBlur={(e) => searchOnBlurHandler(e) }
+                      onFocus={(e) => searchOnFocusHandler(e)}
+                      onBlur={(e) => searchOnBlurHandler(e)}
                       onChange={(e) => searchFunction(e)}
                       style={{ padding: "10px 30px 10px 10px", border: "1px solid #CCCCCC", borderRadius: "10px", fontSize: "1rem", width: "40%", minWidth: "200px", height: "40px" }}
                     />
@@ -327,10 +353,12 @@ const Settings = () => {
                     overflowY: "auto",
                     border: "1px solid #000",
                     borderRadius: "10px"
-                  }}>
-
-                    {searchResultsData&& !searchEmpty && searchResultsData.map((user, index) => {
-                      return <MemberSearchItem key={index} user={user} />
+                  }}
+                    onMouseOver={() => { setMouseInItems(true) }}
+                    onMouseLeave={() => { setMouseInItems(false) }}
+                  >
+                    {searchResultsData && !searchEmpty && searchResultsData.map((user, index) => {
+                      return <MemberSearchItem key={index} user={user} toggleSearchItem={toggleSearchItem} projectId={projectDetails._id} />
                     })}
 
                   </div>
@@ -342,7 +370,7 @@ const Settings = () => {
 
 
                 {projectMembersData && projectMembersData.map((member, index) => {
-                  return <MemberCard key={index} member={member} />
+                  return <MemberCard key={index} member={member} projectId={projectDetails._id} setMembersCount={setMembersCount} />
                 })}
               </div>
             </div>
