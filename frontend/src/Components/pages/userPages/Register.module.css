@@ -1,4 +1,4 @@
-div.error {
+.error {
   padding: 10px;
   padding-left: 85px;
   background: #ffefef;
@@ -22,4 +22,8 @@ input.error {
   margin-top: 0.25rem;
   font-size: 80%;
   color: #dc3545;
+}
+.mform {
+  width: 450px;
+  margin-left: 50px;
 }

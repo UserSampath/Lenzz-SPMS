@@ -10,6 +10,7 @@ import {
   faInfoCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+//validation regex
 const EMAIL_REGEX = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 const TEXT_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const CONTECTNUMBER_REGEX = /^\d{10}$/;
@@ -98,7 +99,6 @@ const CreateCompany = () => {
       setError(null);
 
       console.log("New company created", json);
-      console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", json.company.companyKey);
       setcompanyKey(json.company.companyKey);
       setShowModal(true);
       dispatch({ type: "COMPANY_CREATE", payload: json });
@@ -165,7 +165,7 @@ const CreateCompany = () => {
                     onFocus={() => setCompanyNameFocus(true)}
                     onBlur={() => setCompanyNameFocus(false)}
                     value={companyname}
-                    placeholder="Enter company name"
+                    placeholder="Enter company Name"
                   />
                   <p
                     className={
@@ -208,7 +208,7 @@ const CreateCompany = () => {
                     aria-describedby="uidnote"
                     onFocus={() => setCompanyEmailFocus(true)}
                     onBlur={() => setCompanyEmailFocus(false)}
-                    id="exampleInputEmail1"
+                    placeholder="Enter company Email"
                   />
                   <p
                     id="uidnote"
@@ -295,6 +295,7 @@ const CreateCompany = () => {
                     aria-describedby="uidnote"
                     onFocus={() => setCompanyaddressFocus(true)}
                     onBlur={() => setCompanyaddressFocus(false)}
+                    placeholder="Enter company address"
                   />
                   <p
                     className={

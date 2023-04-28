@@ -1,0 +1,5 @@
+.navLogo {
+  width: 80px;
+  -webkit-filter: invert(50%);
+  filter: invert(50%);
+}
