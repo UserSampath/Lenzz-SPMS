@@ -7,17 +7,15 @@ const asyncHandler = require("express-async-handler");
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+const createToken = require("../util/createToken");
 
-const createToken = (_id) => {
-  return jwt.sign({ _id }, process.env.SECRET, { expiresIn: "3d" });
-};
 const otpGenerator = (otpLength) => {
-  let otp = ""
+  let otp = "";
   for (let i = 0; i < otpLength; i++) {
     otp += Math.floor(Math.random() * 10);
   }
-  return (Number(otp));
-}
+  return Number(otp);
+};
 const keysecret = process.env.SECRET;
 const transporter = nodemailer.createTransport({
   service: "gmail",
@@ -170,11 +168,11 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 const allUsers = asyncHandler(async (req, res) => {
   const keyword = req.query.search
     ? {
-      $or: [
-        { firstName: { $regex: req.query.search, $options: "i" } },
-        { email: { $regex: req.query.search, $options: "i" } },
-      ],
-    }
+        $or: [
+          { firstName: { $regex: req.query.search, $options: "i" } },
+          { email: { $regex: req.query.search, $options: "i" } },
+        ],
+      }
     : {};
 
   const users = await User.find(keyword).find({ _id: { $ne: req.user._id } });
@@ -220,7 +218,6 @@ const SendEmail = async (req, res) => {
 };
 ///////////////////////////////////////////////////app/////////
 
-
 const generateOTP = async (req, res) => {
   const { email } = req.body;
 
@@ -231,11 +228,14 @@ const generateOTP = async (req, res) => {
     // console.log(otp)
     const expirationTime = new Date(Date.now() + 5 * 60 * 1000);
     const user = await User.findOne({ email });
-    const updateUserDetails = await User.updateOne({ email }, { $set: { otp, otpExpiration: expirationTime } });
+    const updateUserDetails = await User.updateOne(
+      { email },
+      { $set: { otp, otpExpiration: expirationTime } }
+    );
     // const userFind = await User.findOne({ email: email });
 
     if (updateUserDetails.modifiedCount) {
-      console.log("otp is ", otp)
+      console.log("otp is ", otp);
       const mailOptions = {
         from: "lenzzhasthiyit@gmail.com",
         to: email,
@@ -248,14 +248,11 @@ const generateOTP = async (req, res) => {
           res.status(201).json({ status: 201, message: "email not sent" });
         } else {
           console.log("Email sent", info.response);
-          res
-            .status(200)
-            .json({ message: "email sent successfully" });
+          res.status(200).json({ message: "email sent successfully" });
         }
       });
     } else if (!user) {
       res.status(400).json({ error: "Can't find the user" });
-
     } else {
       res.status(400).json({ error: "Failed to update OTP" });
     }
@@ -267,45 +264,45 @@ const generateOTP = async (req, res) => {
 const checkOTP = async (req, res) => {
   try {
     const { email, otp } = req.body;
-    console.log("gdf")
+    console.log("gdf");
 
     const user = await User.findOne({ email });
     if (user && user.otp === otp && user.otpExpiration > new Date()) {
-      res.status(200).json({ message: 'OTP is correct' });
+      res.status(200).json({ message: "OTP is correct" });
     } else {
-      res.status(400).json({ error: 'Invalid OTP or OTP expired' });
+      res.status(400).json({ error: "Invalid OTP or OTP expired" });
     }
   } catch (error) {
     res.status(400).json({ error: error.message });
-
   }
 };
 
 const resetPassword = async (req, res) => {
   try {
     const { email, newPassword } = req.body;
-    console.log("gdf")
+    console.log("gdf");
 
-    const user = await User.resetPassword(
-      email,
-      newPassword
-    );
+    const user = await User.resetPassword(email, newPassword);
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(newPassword, salt);
 
     if (user) {
       user.password = hash;
       await user.save();
-      await User.updateOne({ email }, { $unset: { otp: '', otpExpiration: '' } });
+      await User.updateOne(
+        { email },
+        { $unset: { otp: "", otpExpiration: "" } }
+      );
       const token = createToken(user._id);
 
-      res.status(200).json({ message: 'Password reset successfully', token: token });
+      res
+        .status(200)
+        .json({ message: "Password reset successfully", token: token });
     } else {
       res.status(400).json({ error: "Can't find the user " });
     }
   } catch (error) {
     res.status(400).json({ error: error.message });
-
   }
 };
 
@@ -319,10 +316,10 @@ const getUsers = async (req, res) => {
     if (users.length > 0) {
       res.status(200).json(users);
     } else {
-      res.status(404).json({ message: 'No users found' });
+      res.status(404).json({ message: "No users found" });
     }
   } catch (error) {
-    res.status(404).json({ message: 'No users found' });
+    res.status(404).json({ message: "No users found" });
   }
 };
 
@@ -333,10 +330,10 @@ const getUser = async (req, res) => {
     if (user) {
       res.status(200).json(user);
     } else {
-      res.status(404).json({ message: 'No user found' });
+      res.status(404).json({ message: "No user found" });
     }
   } catch (error) {
-    res.status(404).json({ message: 'No users found' });
+    res.status(404).json({ message: "No users found" });
   }
 };
 
@@ -346,10 +343,9 @@ const getUserFromCompany = async (req, res) => {
     const users = await User.find({ companyId: companyId });
     res.status(200).json(users);
   } catch (error) {
-    res.status(404).json({ message: 'No users found' });
+    res.status(404).json({ message: "No users found" });
   }
 };
-
 
 module.exports = {
   passwordlink,
@@ -365,6 +361,5 @@ module.exports = {
   resetPassword,
   getUsers,
   getUser,
-  getUserFromCompany
-
+  getUserFromCompany,
 };
