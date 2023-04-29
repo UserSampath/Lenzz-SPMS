@@ -97,3 +97,37 @@ exports.getUsersForProject = async (req, res) => {
         res.status(500).json({ message: err.message });
     }
 };
+
+exports.updateUserProject = async (req, res) => {
+    const { userId, projectId, role } = req.body;
+    try {
+        const projectUsersData = await projectUser.find({ project_id: projectId });
+        const projectUserData = await projectUser.findOne({ user_id: userId, project_id: projectId });
+        if (projectUserData.role == "SYSTEM ADMIN") {
+            if (role == "SYSTEM ADMIN") {
+                const result = await projectUser.findByIdAndUpdate(projectUserData._id, { role: role }, { new: true })
+                res.json(result);
+            } else {
+                const filteredProjectUsersData = projectUsersData.filter((projectUser) => {
+                    return projectUser.role === "SYSTEM ADMIN" && projectUser._id.toString() !== projectUserData._id.toString();
+                });
+                console.log(filteredProjectUsersData);
+
+                if (filteredProjectUsersData.length > 0) {
+                    const result = await projectUser.findByIdAndUpdate(projectUserData._id, { role: role }, { new: true })
+                    res.json(result);
+                } else {
+                    return res.status(400).json({ message: "At least one system admin is required for the project." });
+
+                }
+            }
+        } else {
+            const result = await projectUser.findByIdAndUpdate(projectUserData._id, { role: role }, { new: true })
+            res.json(result);
+        }
+
+
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+};

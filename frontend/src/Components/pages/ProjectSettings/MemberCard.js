@@ -9,10 +9,32 @@ import axios from 'axios';
 const MemberCard = (props) => {
 
   const [selectedOption, setSelectedOption] = useState(props.member.projectUserRole);
-  const [errorMessage, setErrorMessage] = useState("Member cannot be deleted. At least one system admin is required for the project.");
+  const [errorMessage, setErrorMessage] = useState(" At least one system admin is required for the project.");
 
-  const handleOptionChange = (event) => {
+  const handleOptionChange = async (event) => {
     setSelectedOption(event.target.value);
+    console.log(event.target.value)
+
+    const data = {
+      "userId": props.member._id,
+      "projectId": props.projectId,
+      "role": event.target.value
+    }
+    console.log(data)
+    try {
+      const res = await axios.put("http://localhost:4000/updateUserProject", data)
+      console.log("sssssssssssssssssssssssssssssss", res)
+
+
+    } catch (err) {
+      setErrorMessage(err.response.data.message);
+      console.log(err.response.data.message)
+      setTimeout(() => {
+        deleteErrorAlert();
+        event.target.value = "SYSTEM ADMIN";
+
+      }, 1000);
+    }
   };
   console.log("removeMemberHandler");
   console.log("zzzzzzzzzzzzzzzzzzzzzzzzzzzzz", props.member)
@@ -35,6 +57,7 @@ const MemberCard = (props) => {
     } catch (err) {
       if (err.response && err.response.data) {
         setErrorMessage(err.response.data.message);
+        setSelectedOption("SYSTEM ADMIN")
         setTimeout(() => {
           deleteErrorAlert();
         }, 500);
