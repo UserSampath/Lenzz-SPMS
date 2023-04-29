@@ -7,8 +7,10 @@ import { sort } from "../../../actions";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { initialValue } from "../../../actions";
-
+import { useNavigate } from "react-router-dom";
+import Swal from 'sweetalert2'
 const Dashboard = (props) => {
+  const history = useNavigate();
 
   const [projectDetails, SetProjectDetails] = useState({})
   const [existingTasks, setExistingTasks] = useState([]);
@@ -52,11 +54,30 @@ const Dashboard = (props) => {
     const getLocalStorageProject = async () => {
       const localPro = await JSON.parse(localStorage.getItem("last access project"));
       console.log("localPro", localPro)
-      SetLocalProject(localPro)
+      if (localPro == null) {
+        redirectCompanyAlert()
+        setTimeout(() => {
+          history('/');
+        }, 2000);
+      } else {
+        SetLocalProject(localPro)
+      }
     }
 
     getLocalStorageProject();
-  }, [])
+  }, []);
+
+  const redirectCompanyAlert = () => {
+    Swal.fire({
+      position: 'center',
+      icon: 'question',
+      text: 'Please select a Project',
+      showConfirmButton: false,
+      timer: 1800,
+      width: '300px'
+    })
+  };
+
 
 
   const onDragEnd = result => {

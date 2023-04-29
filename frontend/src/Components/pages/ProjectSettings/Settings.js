@@ -1,16 +1,19 @@
 import { useState } from "react";
-import SideBar from "./Sidebar";
+import SideBar from "../Sidebar";
 import { FaAngleDown, FaAngleUp, FaPencilAlt } from "react-icons/fa";
 import styles from "./Settings.module.css";
 import { useEffect } from "react";
 import axios from "axios";
 import Swal from 'sweetalert2'
-import MemberCard from "./ProjectSettings/MemberCard"
-import MemberSearchItem from "./ProjectSettings/MemberSearchItem"
+import MemberCard from "./MemberCard"
+import MemberSearchItem from "./MemberSearchItem"
+import { useNavigate } from "react-router-dom";
+
 
 // import "./Settings.css"
 
 const Settings = () => {
+  const history = useNavigate();
   const [showBasicSettingContent, setShowBasicSettingContent] = useState(false);
   const [showAddMemberSettingContent, setShowAddMemberSettingContent] = useState(true);
   const [showNotificationSettingContent, setShowNotificationSettingContent] = useState(false);
@@ -53,11 +56,29 @@ const Settings = () => {
     const getLocalStorageProject = async () => {
       const localPro = await JSON.parse(localStorage.getItem("last access project"));
       console.log("localPro", localPro)
-      SetLocalProject(localPro)
+      if (localPro == null) {
+        redirectCompanyAlert()
+        setTimeout(() => {
+          history('/');
+        }, 2000);
+      } else {
+        SetLocalProject(localPro)
+      }
     }
 
     getLocalStorageProject();
   }, []);
+
+  const redirectCompanyAlert = () => {
+    Swal.fire({
+      position: 'center',
+      icon: 'question',
+      text: 'Please select a Project',
+      showConfirmButton: false,
+      timer: 1800,
+      width: '300px'
+    })
+  };
 
 
   useEffect(() => {
@@ -138,6 +159,8 @@ const Settings = () => {
       width: '250px'
     })
   };
+
+
 
   const deleteErrorAlert = () => {
     Swal.fire({

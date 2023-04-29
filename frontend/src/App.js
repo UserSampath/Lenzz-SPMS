@@ -8,7 +8,7 @@ import Home from "./Components/pages/userPages/Home";
 import CreateCompany from "./Components/pages/Company/CreateCompany";
 import ForgotPassword from "./Components/pages/userPages/ForgotPassword";
 import Progress from "./Components/pages/progress/Progress";
-import Settings from "./Components/pages/Settings";
+import Settings from "./Components/pages/ProjectSettings/Settings";
 import Chatroom from "./Components/pages/Chatroom";
 import Company from "./Components/pages/Company/Company";
 import AccountSettings from "./Components/pages/userPages/AccountSettings";
