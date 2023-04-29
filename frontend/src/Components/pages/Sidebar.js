@@ -19,7 +19,7 @@ import "./SideBar.css";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { useCompanyContext } from "../../hooks/useCompanyContext";
 
-const Sidebar = ({ children, SetSelectedProjectController}) => {
+const Sidebar = ({ children, SetSelectedProjectController, display }) => {
   const [open, SetOpen] = useState(false);
 
   const toggle = () => SetOpen(!open);
@@ -87,10 +87,17 @@ const Sidebar = ({ children, SetSelectedProjectController}) => {
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
 
-            <div style={{ marginLeft: '1150px' }}>
-              <MdSettingsSuggest className="set-pic" onClick={toggleMenu} />
+            
+            {/* <div style={{display:"flex" , marginLeft:"35%"}}><p style={{width:"400px" , background:"#abcdef"}} >{display }</p>
+              <MdSettingsSuggest className="set-pic" onClick={toggleMenu} style={{marginLeft:"50%"}} />
+            </div> */}
+            <div style={{ display: "flex" ,  width:"95%"}}>
+              <h2 style={{ fontSize: "25px", fontStyle: "", color: "white", fontFamily: "monospace", }} >{display}{ }</h2>
             </div>
+            <MdSettingsSuggest className="set-pic" onClick={toggleMenu} style={{ right: "0" }} />
+
             <div className="sub-menu-wrap" id="subMenu">
+              
               {user && (
                 <div className="sub-menu">
                   <div>

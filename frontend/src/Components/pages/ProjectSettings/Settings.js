@@ -1,6 +1,6 @@
 import { useState } from "react";
 import SideBar from "../Sidebar";
-import { FaAngleDown, FaAngleUp, FaPencilAlt } from "react-icons/fa";
+import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 import styles from "./Settings.module.css";
 import { useEffect } from "react";
 import axios from "axios";
@@ -161,17 +161,6 @@ const Settings = () => {
   };
 
 
-
-  const deleteErrorAlert = () => {
-    Swal.fire({
-      position: 'center',
-      icon: 'error',
-      text: 'cant delete data',
-      showConfirmButton: true,
-      timer: 1200,
-      width: '250px'
-    })
-  };
   useEffect(() => {
     const getAllUsers = async () => {
       const data = {
@@ -201,7 +190,6 @@ const Settings = () => {
       SetSearchResultsData(a);
       console.log(a)
     }
-
   }, [query])
 
   const searchFunction = (e) => {
@@ -234,7 +222,7 @@ const Settings = () => {
   }
 
   return (
-    <SideBar>
+    <SideBar display={"Project : "+name}>
       <div className={styles.settings}>
 
         <div className={styles.dropDown}>
@@ -243,7 +231,7 @@ const Settings = () => {
               <div
                 className={styles.dropDownTextContainer}
               >
-                <h3 >basic Settings</h3>
+                <h3 style={{ fontFamily: "monospace", fontSize: "23px",fontWeight:"bold",fontStyle:"oblique", marginTop:"4px"}} >Basic Settings</h3>
               </div>
               <div>
                 {showBasicSettingContent ? <FaAngleUp className={styles.icon} /> : <FaAngleDown className={styles.icon} />}
@@ -325,24 +313,17 @@ const Settings = () => {
                     {error}
                   </div>
                 )}</div>
-
-
-
-
               </div>
             </div>
           )}
         </div>
-
-
-
         <div className={styles.dropDown}>
           <div onClick={toggleAddMemberSettingContent} className={styles.dropDownButton} >
             <div className={styles.dropDownButtonContainer}>
               <div
                 className={styles.dropDownTextContainer}
               >
-                <h3 >Members Settings</h3>
+                <h3 style={{ fontFamily: "monospace", fontSize: "23px", fontWeight: "bold", fontStyle: "oblique", marginTop: "4px" }} >Members Settings</h3>
               </div>
               <div>
                 {showAddMemberSettingContent ? <FaAngleUp className={styles.icon} /> : <FaAngleDown className={styles.icon} />}
@@ -388,10 +369,6 @@ const Settings = () => {
                 </div>
 
 
-
-
-
-
                 {projectMembersData && projectMembersData.map((member, index) => {
                   return <MemberCard key={index} member={member} projectId={projectDetails._id} setMembersCount={setMembersCount} />
                 })}
@@ -406,7 +383,7 @@ const Settings = () => {
               <div
                 className={styles.dropDownTextContainer}
               >
-                <h3 >Notification settings</h3>
+                <h3 style={{ fontFamily: "monospace", fontSize: "23px", fontWeight: "bold", fontStyle: "oblique", marginTop: "4px" }} >Notification settings</h3>
               </div>
               <div>
                 {showNotificationSettingContent ? <FaAngleUp className={styles.icon} /> : <FaAngleDown className={styles.icon} />}

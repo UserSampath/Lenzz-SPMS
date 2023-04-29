@@ -44,7 +44,7 @@ exports.removeUserFromProject = async (req, res) => {
         // Find the number of system admins in the project
         const systemAdminsCount = await projectUser.countDocuments({ project_id: projectId, role: "SYSTEM ADMIN" });
         if (systemAdminsCount <= 1 && projectUserData.role === "SYSTEM ADMIN") {
-            return res.status(400).json({ message: "Member cannot be deleted. At least one system admin is required in the project." });
+            return res.status(400).json({ message: "Member cannot be deleted. At least one system admin is required for the project." });
         }
 
         // Remove the projectUser record

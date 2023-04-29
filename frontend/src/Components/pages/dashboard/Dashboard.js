@@ -50,6 +50,7 @@ const Dashboard = (props) => {
 
   }, [projectDetails._id, localProject.projectId])
 
+
   useEffect(() => {
     const getLocalStorageProject = async () => {
       const localPro = await JSON.parse(localStorage.getItem("last access project"));
@@ -61,6 +62,7 @@ const Dashboard = (props) => {
         }, 2000);
       } else {
         SetLocalProject(localPro)
+        console.log('a');
       }
     }
 
@@ -99,8 +101,6 @@ const Dashboard = (props) => {
   const lists = props.lists;
   return (
     <div>
-      {/* {console.log(localProject.projectId)} */}
-      {projectDetails && <h1>project: {projectDetails.projectname}</h1>}
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId="all-lists" direction="horizontal" type="list">
           {provided => (

@@ -12,13 +12,16 @@
 .dropDownButton{
     background: #abcdef;
     width: 90vw;
-    border-radius: 10px;
+    border-radius: 20px;
     cursor: pointer;
-    height: 40px;
+    height: 35px;
     margin-left: 3%;
     margin-right: 3%;
     margin-top: 10px;
+
+    border: 1px solid rgb(148, 148, 148);
 }
+
 .dropDownButtonContainer{
     display: flex;
     justify-content: center;
@@ -28,9 +31,11 @@
     width: 280px;
 }
 .icon{
-    height: 40px;
+    height: 35px;
     width: 40px;
-    right: 100px;
+    right: 200px;
+    margin-top: 3px;
+    
 }
 
 
