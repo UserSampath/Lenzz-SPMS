@@ -12,13 +12,12 @@ import {
   faInfoCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Badge from "react-bootstrap/Badge";
-import { MdOutlineDeleteOutline } from "react-icons/md";
 import jwt from "jwt-decode";
 import { useLogout } from "../../../hooks/useLogout";
 import Swal from "sweetalert2";
-
-const NAME_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
+import { GrProjects } from "react-icons/gr";
+import { FcSettings } from "react-icons/fc";
+const NAME_REGEX = /^[A-Za-z0-9\s\-_,.!?:;'"()]{5,}$/;
 
 const Company = () => {
   const { logout } = useLogout();
@@ -57,17 +56,12 @@ const Company = () => {
   const handleClose = () => setShowModal(false);
   const handleShow = () => setShowModal(true);
   const history = useNavigate();
-  const [searchResult, setSearchResult] = useState([]);
-  const [selectedUser, setSelectedUser] = useState(null);
   const [projectname, setprojectname] = useState("");
   const [validProjectName, setValidProjectName] = useState(false);
   const [ProjectNameFocus, setProjectNameFocus] = useState(false); // initialize with false
   const [description, setdescription] = useState("");
   const [validDescription, setValidDescription] = useState(false);
   const [DescriptionFocus, setDescriptionFocus] = useState(false);
-  const [selectedUsers, setSelectedUsers] = useState([]);
-  const [search, setSearch] = useState("");
-  const [loading, setLoading] = useState(false);
 
   const [startDate, setstartDate] = useState("");
   const [endDate, setendDate] = useState("");
@@ -77,6 +71,8 @@ const Company = () => {
   const [companyUsers, setCompanyUsers] = useState([]);
   const [companyProjects, setCompanyProjects] = useState([]);
   const [userData, setUserData] = useState({});
+  const [isMountUserData, setIsMountUserData] = useState(false);
+  const [company, setCompany] = useState({});
 
   //get users
   const LocalUser = JSON.parse(localStorage.getItem("user"));
@@ -90,7 +86,7 @@ const Company = () => {
           },
         })
         .then((res) => {
-          console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxx", res.data);
+          console.log("userdata", res.data);
           setUserData(res.data);
         })
         .catch((err) => {
@@ -138,7 +134,29 @@ const Company = () => {
     };
     getCompanyAllProjects();
   }, []);
-
+  useEffect(() => {
+    if (isMountUserData) {
+      const getCompany = async () => {
+        await axios
+          .get(`http://localhost:4000/api/company/${userData.companyId}`, {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${LocalUser.token}`,
+            },
+          })
+          .then((res) => {
+            setCompany(res.data);
+            console.log("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq", res.data);
+          })
+          .catch((err) => {
+            console.log(err, userData);
+          });
+      };
+      getCompany();
+    } else {
+      setIsMountUserData(true);
+    }
+  }, [userData]);
   //TODO:
   const projectClicked = (data) => {
     console.log(data);
@@ -159,15 +177,6 @@ const Company = () => {
     setErrMsg("");
   }, [projectname, description]);
 
-  const handleSelectUser = (user) => {
-    setSelectedUsers([...selectedUsers, user]);
-    setSearchResult([]);
-    setSearch("");
-  };
-  const handleRemoveUser = (user) => {
-    const filteredUsers = selectedUsers.filter((u) => u.id !== user.id);
-    setSelectedUsers(filteredUsers);
-  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!user) {
@@ -252,31 +261,9 @@ const Company = () => {
     }
   }, [dispatch, user]);
 
-  const handleSearch = async (query) => {
-    setSearch(query);
-    if (!query) {
-      return;
-    }
-
-    try {
-      setLoading(true);
-
-      const config = {
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
-      };
-
-      const { data } = await axios.get(`/api/user?search=${search}`, config);
-      console.log(data);
-      setLoading(false);
-      setSearchResult(data);
-    } catch (error) {}
-  };
-
   return (
-    <SideBar>
-      <div style={{ marginLeft: "50px" }}>
+    <SideBar display={"Company : " + company.companyname}>
+      <div style={{ marginLeft: "55px", marginTop: "80px" }}>
         <div
           className="BoxCard"
           style={{
@@ -286,20 +273,39 @@ const Company = () => {
             marginTop: "50px",
             border: "1px solid",
             borderRadius: "10px",
+            borderColor: "#ABAAAA",
+            cursor: "Arrow",
+            paddingBottom: "20px",
+            minHeight: "200px",
           }}
         >
           <div className="projectpart" style={{ display: "flex" }}>
-            <h1 style={{ marginLeft: "25px", marginTop: "10px" }}>Projects</h1>
+            <h1
+              style={{
+                marginLeft: "25px",
+                marginTop: "10px",
+                fontFamily: "monospace",
+                fontSize: "23px",
+                fontWeight: "bold",
+                fontStyle: "oblique",
+              }}
+            >
+              Projects
+            </h1>
             <Button
               variant="info"
               style={{
                 width: "200px",
-                height: "50px",
-                marginTop: "15px",
+                height: "40px",
+                marginTop: "5px",
                 marginLeft: "25px",
-                padding: "10px",
                 fontSize: "20px",
-                color: "white",
+                padding: "0.3rem 1rem",
+                backgroundColor: "#0077cc",
+                color: "#fff",
+                border: "none",
+                borderRadius: "0.25rem",
+                fontFamily: "Roboto",
               }}
               block="true"
               onClick={handleShow}
@@ -413,118 +419,7 @@ const Company = () => {
                       Letters, numbers, underscores, hyphens allowed.
                     </p>
                   </Form.Group>
-                  <Form.Group>
-                    <Form.Label style={{ fontWeight: "bold" }}>
-                      Assigned members
-                    </Form.Label>
-                    <div style={{ display: "flex", paddingBottom: "2px" }}>
-                      <Form.Control
-                        style={{ marginRight: "10px", marginBottom: "1px" }}
-                        placeholder="Search by name or email"
-                        value={search}
-                        onChange={(e) => setSearch(e.target.value)}
-                      />
-                      <Button variant="primary" onClick={handleSearch}>
-                        Search
-                      </Button>
-                    </div>
-                    <div width="100%" display="flex">
-                      {searchResult.length > 0 && (
-                        <ul
-                          style={{
-                            padding: "10px",
-                            marginRight: "35px",
-                            overflow: "auto",
-                            maxHeight: "200px",
-                          }}
-                        >
-                          {searchResult.map((result) => (
-                            <Badge
-                              bg="primary"
-                              style={{
-                                position: "relative",
-                                width: "390px",
-                                height: "50px",
-                                marginBottom: "10px",
-                                cursor: "pointer",
-                                backgroundColor: "#00aff",
-                              }}
-                              key={result.id}
-                              onClick={() => handleSelectUser(result)}
-                            >
-                              <div>
-                                <p
-                                  style={{
-                                    fontSize: "20px",
-                                    marginBottom: "3px",
-                                    marginRight: "500px",
-                                  }}
-                                >
-                                  {result.firstName} {result.lastName}
-                                </p>
-                                <p
-                                  style={{
-                                    fontSize: "20px",
-                                    marginBottom: "3px",
-                                    marginRight: "500px",
-                                  }}
-                                >
-                                  {result.selectedJob}
-                                </p>
-                              </div>
-                            </Badge>
-                          ))}
-                        </ul>
-                      )}
-                    </div>
-                    <div style={{ marginTop: "6px" }}>
-                      {selectedUsers.map((user) => (
-                        <Badge
-                          key={user.id}
-                          bg="secondary"
-                          className="badge badge-info"
-                          style={{
-                            position: "relative",
-                            width: "210px",
-                            height: "50px",
-                            marginBottom: "10px",
-                            cursor: "pointer",
-                          }}
-                        >
-                          <div style={{ display: "flex" }}>
-                            <div>
-                              <p
-                                style={{
-                                  marginBottom: "3px",
-                                  marginLeft: "0px",
-                                  fontSize: "20px",
-                                }}
-                              >
-                                {user.firstName} {user.lastName}
-                              </p>
-                              <p
-                                style={{
-                                  marginBottom: "0px",
-                                  fontSize: "15px",
-                                }}
-                              >
-                                {user.selectedJob}
-                              </p>
-                            </div>
-                            <div>
-                              <MdOutlineDeleteOutline
-                                style={{
-                                  fontSize: "45px",
-                                  marginLeft: "27px",
-                                }}
-                                onClick={() => handleRemoveUser(user)}
-                              />
-                            </div>
-                          </div>
-                        </Badge>
-                      ))}
-                    </div>
-                  </Form.Group>
+
                   <div className="mb-6 form-check">
                     <input
                       type="checkbox"
@@ -570,221 +465,91 @@ const Company = () => {
                   ) : null}
                 </Form>
               </Modal.Body>
+              <Modal.Footer>
+                <Button variant="secondary" onClick={handleClose}>
+                  Close
+                </Button>
+                <Button variant="primary" onClick={handleSubmit}>
+                  Create Project
+                </Button>
+                {error && (
+                  <div
+                    className="error"
+                    style={{
+                      padding: " 10px",
+                      paddingLeft: "65px",
+                      background: " #ffefef",
+                      border: " 1px solid var(--error)",
+                      color: "red",
+                      borderRadius: "15px",
+                      margin: " 10px 0",
+                      marginRight: "55px",
+                      width: " 340px",
+                    }}
+                  >
+                    {error}
+                  </div>
+                )}
+              </Modal.Footer>
             </Modal>
           </div>
-          //TODO:
-          {companyProjects &&
-            companyProjects.map((project, index) => {
-              return (
-                <div
-                  onClick={() => projectClicked(project[0])}
-                  key={index}
-                  style={{
-                    backgroundColor: "#abcdef",
-                    width: "200px",
-                    margin: "3px",
-                  }}
-                >
-                  <div>
-                    {" "}
-                    <h5>{project[0] && project[0].projectname}</h5>
-                  </div>
-                </div>
-              );
-            })}
-          <div
-            style={{
-              width: "200px",
-              height: "50px",
-              marginTop: "15px",
-              marginLeft: "25px",
-              padding: "10px",
-              fontSize: "20px",
-              color: "white",
-            }}
-            block="true"
-            onClick={handleShow}
-          >
-            Add project
+          <div className="container">
+            <div className="row">
+              {companyProjects &&
+                companyProjects.map((project, index) => {
+                  return (
+                    <div
+                      className="col-md-3"
+                      key={index}
+                      style={{
+                        marginBottom: "10px",
+                        display: "flex",
+                        flex: "wrap",
+                      }}
+                    >
+                      <div
+                        onClick={() => projectClicked(project[0])}
+                        className="BoxCard"
+                        style={{
+                          width: " 250px",
+                          height: " 45px",
+                          marginLeft: "25px",
+                          marginTop: "20px",
+                          border: "1px solid",
+                          borderRadius: "10px",
+                          paddingTop: "10px",
+                          borderColor: "#ABAAAA",
+                          overflow: "hidden",
+                          background: "#CEEAF4",
+                          // justifyContent: "center"
+                          display: "flex",
+                          cursor: "pointer",
+                        }}
+                      >
+                        <div style={{ display: "flex", flex: "wrap" }}>
+                          <div>
+                            <GrProjects />
+                          </div>
+                          <div style={{ marginLeft: "13px" }}>
+                            {" "}
+                            <p
+                              style={{
+                                fontSize: "18px",
+                                fontFamily: "monospace",
+                                fontWeight: "bold",
+                                fontStyle: "oblique",
+                              }}
+                            >
+                              {project[0] && project[0].projectname}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+            </div>
           </div>
-          <Modal show={showModal} onHide={handleClose}>
-            <p
-              ref={errRef}
-              className={errMsg ? "errmsg" : "offscreen"}
-              aria-live="assertive"
-            >
-              {errMsg}
-            </p>
-            <Modal.Header closeButton>
-              <Modal.Title>Add Project Details</Modal.Title>
-              <br />
-            </Modal.Header>
-            <Modal.Body>
-              <Form className="needs-validation">
-                <Form.Group
-                  className="mb-3"
-                  controlId="exampleForm.ControlInput1"
-                >
-                  <Form.Label style={{ fontWeight: "bold" }}>
-                    Project Name
-                    <FontAwesomeIcon
-                      icon={faCheck}
-                      className={validProjectName ? "valid" : "hide"}
-                    />
-                    <FontAwesomeIcon
-                      icon={faTimes}
-                      className={
-                        validProjectName || !projectname ? "hide" : "invalid"
-                      }
-                    />
-                  </Form.Label>
-                  <Form.Control
-                    type="text"
-                    className="form-control"
-                    ref={userRef}
-                    autoComplete="on"
-                    onChange={(e) => setprojectname(e.target.value)}
-                    required
-                    aria-invalid={validProjectName ? "false" : "true"}
-                    aria-describedby="uidnote"
-                    onFocus={() => setProjectNameFocus(true)}
-                    onBlur={() => setProjectNameFocus(false)}
-                    value={projectname}
-                    placeholder="Enter your project name..."
-                  />
-                  <p
-                    className={
-                      ProjectNameFocus && projectname && !validProjectName
-                        ? "instructions"
-                        : "offscreen"
-                    }
-                  >
-                    <FontAwesomeIcon icon={faInfoCircle} />
-                    4 to 24 characters.
-                    <br />
-                    Must begin with a letter.
-                    <br />
-                    Letters, numbers, underscores, hyphens allowed.
-                  </p>
-                </Form.Group>
-                <Form.Group
-                  className="mb-3"
-                  controlId="exampleForm.ControlTextarea1"
-                >
-                  <Form.Label style={{ fontWeight: "bold" }}>
-                    Description
-                    <FontAwesomeIcon
-                      icon={faCheck}
-                      className={validDescription ? "valid" : "hide"}
-                    />
-                    <FontAwesomeIcon
-                      icon={faTimes}
-                      className={
-                        validDescription || !description ? "hide" : "invalid"
-                      }
-                    />
-                  </Form.Label>
-                  <Form.Control
-                    type="text"
-                    className="form-control"
-                    ref={userRef}
-                    autoComplete="on"
-                    onChange={(e) => setdescription(e.target.value)}
-                    required
-                    aria-invalid={validDescription ? "false" : "true"}
-                    aria-describedby="uidnote"
-                    onFocus={() => setDescriptionFocus(true)}
-                    onBlur={() => setDescriptionFocus(false)}
-                    value={description}
-                    placeholder="Enter your Description..."
-                  />
-                  <p
-                    className={
-                      DescriptionFocus && description && !validDescription
-                        ? "instructions"
-                        : "offscreen"
-                    }
-                  >
-                    <FontAwesomeIcon icon={faInfoCircle} />
-                    4 to 24 characters.
-                    <br />
-                    Must begin with a letter.
-                    <br />
-                    Letters, numbers, underscores, hyphens allowed.
-                  </p>
-                </Form.Group>
-                <div className="mb-6 form-check">
-                  <input
-                    type="checkbox"
-                    className="form-check-input"
-                    id="exampleCheck1"
-                    onClick={handleTickClick}
-                  />
-                  <label className="form-check-label" htmlFor="exampleCheck1">
-                    If you need to add date
-                  </label>
-                </div>
-                {showContent ? (
-                  <div>
-                    <Form.Group
-                      className="mb-3"
-                      controlId="exampleForm.ControlInput1"
-                    >
-                      <Form.Label style={{ fontWeight: "bold" }}>
-                        Start Date
-                      </Form.Label>
-                      <Form.Control
-                        type="date"
-                        autoFocus
-                        onChange={(e) => setstartDate(e.target.value)}
-                        value={startDate}
-                      />
-                    </Form.Group>
-                    <Form.Group
-                      className="mb-3"
-                      controlId="exampleForm.ControlInput1"
-                    >
-                      <Form.Label style={{ fontWeight: "bold" }}>
-                        End Date
-                      </Form.Label>
-                      <Form.Control
-                        type="date"
-                        autoFocus
-                        onChange={(e) => setendDate(e.target.value)}
-                        value={endDate}
-                      />
-                    </Form.Group>
-                  </div>
-                ) : null}
-              </Form>
-            </Modal.Body>
-            <Modal.Footer>
-              <Button variant="secondary" onClick={handleClose}>
-                Close
-              </Button>
-              <Button variant="primary" onClick={handleSubmit}>
-                Create Project
-              </Button>
-              {error && (
-                <div
-                  className="error"
-                  style={{
-                    padding: " 10px",
-                    paddingLeft: "65px",
-                    background: " #ffefef",
-                    border: " 1px solid var(--error)",
-                    color: "red",
-                    borderRadius: "15px",
-                    margin: " 10px 0",
-                    marginRight: "55px",
-                    width: " 340px",
-                  }}
-                >
-                  {error}
-                </div>
-              )}
-            </Modal.Footer>
-          </Modal>
         </div>
         <div
           style={{
@@ -802,21 +567,39 @@ const Company = () => {
               marginTop: "10px",
               border: "1px solid",
               borderRadius: "10px",
-              marginBottom: "20px",
+              borderColor: "#ABAAAA",
+              cursor: "Arrow",
+              paddingBottom: "20px",
+              minHeight: "200px",
             }}
           >
             <div className="projectpart" style={{ display: "flex" }}>
-              <h1 style={{ marginLeft: "25px", marginTop: "10px" }}>Members</h1>
+              <h1
+                style={{
+                  marginLeft: "25px",
+                  marginTop: "10px",
+                  fontFamily: "monospace",
+                  fontSize: "23px",
+                  fontWeight: "bold",
+                  fontStyle: "oblique",
+                }}
+              >
+                Members
+              </h1>
               <Button
                 variant="info"
                 style={{
                   width: "200px",
-                  height: "50px",
-                  marginTop: "15px",
+                  height: "40px",
+                  marginTop: "5px",
                   marginLeft: "25px",
-                  padding: "10px",
                   fontSize: "20px",
-                  color: "white",
+                  padding: "0.3rem 1rem",
+                  backgroundColor: "#0077cc",
+                  color: "#fff",
+                  border: "none",
+                  borderRadius: "0.25rem",
+                  fontFamily: "Roboto",
                 }}
                 block="true"
                 href="./Createproject"
@@ -824,16 +607,86 @@ const Company = () => {
                 Add member
               </Button>
             </div>
-            //TODO:
-            {companyUsers.map((user, index) => {
-              return (
-                <div key={index}>
-                  {" "}
-                  <h2>{user.firstName}</h2>
-                </div>
-              );
-            })}
+            <div className="container">
+              <div className="row">
+                {companyUsers.map((user, index) => {
+                  return (
+                    <div
+                      className="col-md-3"
+                      key={index}
+                      style={{
+                        marginBottom: "10px",
+                        display: "flex",
+                        flex: "wrap",
+                      }}
+                    >
+                      <div
+                        className="BoxCard"
+                        style={{
+                          width: " 250px",
+                          height: " 45px",
+                          marginLeft: "25px",
+                          marginTop: "20px",
+                          border: "1px solid",
+                          borderRadius: "10px",
+                          paddingTop: "7px",
+                          borderColor: "#ABAAAA",
+                          overflow: "hidden",
+                          background: "#D1F4F4",
+                          // justifyContent: "center"
+                          display: "flex",
+                          cursor: "pointer",
+                        }}
+                      >
+                        <div style={{ display: "flex", flex: "wrap" }}>
+                          <div>
+                            <img
+                              src="https://sampathnalaka.s3.eu-north-1.amazonaws.com/uploads/IMG_20210907_151753_997.jpg"
+                              alt="svs"
+                              width="30"
+                              height="30"
+                              style={{
+                                border: "1px solid",
+                                borderRadius: "50%", // border radius of 50% makes the image circular
+                              }}
+                            />
+                          </div>
+                          <div style={{ marginLeft: "13px" }}>
+                            <p
+                              style={{
+                                fontSize: "18px",
+                                fontFamily: "monospace",
+                                fontWeight: "bold",
+                                fontStyle: "oblique",
+                              }}
+                            >
+                              {user.firstName} {user.lastName}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
           </div>
+        </div>
+        <div
+          className="Boxcard"
+          style={{
+            position: "absolute",
+            right: "35px",
+            marginTop: "15px",
+            padding: "5px",
+            background: "#CCE4F8",
+            borderRadius: "5px",
+            border: "1px solid",
+            borderColor: "#ABAAAA",
+            cursor: "pointer",
+          }}
+        >
+          <FcSettings className="rotate" style={{ fontSize: "45px" }} />
         </div>
       </div>
     </SideBar>
