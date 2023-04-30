@@ -1,0 +1,13 @@
+div.error {
+  padding: 10px;
+  padding-left: 85px;
+  background: #ffefef;
+  border: 1px solid var(--error);
+  color: red;
+  border-radius: 4px;
+  margin: 30px 0;
+  width: 350px;
+}
+input.error {
+  border: 1px solid var(--error);
+}

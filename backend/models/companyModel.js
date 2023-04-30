@@ -54,11 +54,10 @@ companySchema.statics.createcompany = async function (
 
   const company = await this.create({
     companyname,
-
     companyemail,
     contactnumber,
     companyaddress,
-    systemAdminId :user_id,
+    systemAdminId: user_id,
     companyKey,
   });
   return company;
@@ -74,5 +73,41 @@ companySchema.statics.checkcompany = async function (companykey) {
   }
   return key;
 };
+companySchema.statics.updateCompany = async function (
+  companyname,
+  companyKey,
+  companyaddress,
+  contactnumber,
+  companyemail,
+  _id
+) {
+  if (
+    !companyname ||
+    !contactnumber ||
+    !companyaddress ||
+    !companyemail ||
+    !companyKey
+  ) {
+    throw new Error("All field must be field");
+  }
 
+  if (!validator.isEmail(companyemail)) {
+    throw Error("company Email not valid");
+  }
+
+  console.log("data", companyname);
+
+  const company = await this.findByIdAndUpdate(
+    _id,
+    {
+      companyname,
+      companyKey,
+      companyaddress,
+      contactnumber,
+      companyemail,
+    },
+    { new: true }
+  );
+  return company;
+};
 module.exports = mongoose.model("Company", companySchema);

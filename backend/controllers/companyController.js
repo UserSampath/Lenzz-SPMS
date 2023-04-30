@@ -112,10 +112,37 @@ const getCompanyById = asyncHandler(async (req, res) => {
     res.status(404).json({ message: "company not found" });
   }
 });
+const updateCompanyData = async (req, res) => {
+  const {
+    companyname,
+    companyKey,
+    companyaddress,
+    contactnumber,
+    companyemail,
+    _id,
+  } = req.body;
+
+  try {
+    const company = await Company.updateCompany(
+      companyname,
+      companyKey,
+      companyaddress,
+      contactnumber,
+      companyemail,
+      _id
+    );
+    console.log(company);
+    res.status(200).json(company);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
 module.exports = {
   createCompany,
   checkcompany,
   randomkey,
   companyUsers,
+  updateCompanyData,
   getCompanyById,
 };

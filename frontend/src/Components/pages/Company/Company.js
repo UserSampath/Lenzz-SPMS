@@ -4,7 +4,7 @@ import "./Company.css";
 import { Button, Modal, Form } from "react-bootstrap";
 import axios from "axios";
 import { useProjectContext } from "../../../hooks/useProjectContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useAuthContext } from "./../../../hooks/useAuthContext";
 import {
   faCheck,
@@ -672,22 +672,24 @@ const Company = () => {
             </div>
           </div>
         </div>
-        <div
-          className="Boxcard"
-          style={{
-            position: "absolute",
-            right: "35px",
-            marginTop: "15px",
-            padding: "5px",
-            background: "#CCE4F8",
-            borderRadius: "5px",
-            border: "1px solid",
-            borderColor: "#ABAAAA",
-            cursor: "pointer",
-          }}
-        >
-          <FcSettings className="rotate" style={{ fontSize: "45px" }} />
-        </div>
+        <Link to="/CompanySetting">
+          <div
+            className="Boxcard"
+            style={{
+              position: "absolute",
+              right: "35px",
+              marginTop: "15px",
+              padding: "5px",
+              background: "#CCE4F8",
+              borderRadius: "5px",
+              border: "1px solid",
+              borderColor: "#ABAAAA",
+              cursor: "pointer",
+            }}
+          >
+            <FcSettings className="rotate" style={{ fontSize: "45px" }} />
+          </div>
+        </Link>
       </div>
     </SideBar>
   );

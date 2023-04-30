@@ -248,7 +248,6 @@ const CreateCompany = () => {
                     id="contactnumber"
                     required
                     aria-invalid={validContactNumber ? "false" : "true"}
-                    aria-describedby="passwordnote"
                     autoComplete="on"
                     onFocus={() => setContactNumberFocus(true)}
                     onBlur={() => setContactNumberFocus(false)}
@@ -298,9 +297,7 @@ const CreateCompany = () => {
                   />
                   <p
                     className={
-                      CompanyaddressFocus &&
-                        companyaddress &&
-                        !validCompanyaddress
+                      CompanyaddressFocus && !validCompanyaddress
                         ? "instructions"
                         : "offscreen"
                     }

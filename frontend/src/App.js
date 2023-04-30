@@ -12,10 +12,9 @@ import Settings from "./Components/pages/ProjectSettings/Settings";
 import Chatroom from "./Components/pages/Chatroom";
 import Company from "./Components/pages/Company/Company";
 import AccountSettings from "./Components/pages/userPages/AccountSettings";
-import { useAuthContext } from "./hooks/useAuthContext";
 import DashboardProvider from "./Components/pages/dashboard/DashboardProvider";
 import TimeLine from "./Components/pages/TimeLine/TimeLine";
-
+import CompanySetting from "./Components/pages/Company/CompanySetting";
 function App() {
   return (
     <div className="App">
@@ -38,6 +37,7 @@ function App() {
           <Route path="/Dashboard" element={<DashboardProvider />} />
           <Route path="/AccountSettings" element={<AccountSettings />} />
           <Route path="/TimeLine" element={<TimeLine />} />
+          <Route path="/CompanySetting" element={<CompanySetting />} />
         </Routes>
       </BrowserRouter>
     </div>
