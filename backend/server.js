@@ -36,8 +36,6 @@ app.use(taskRoute);
 app.use(listRoute);
 app.use(projectUserRoute);
 
-
-
 // connect to db
 const fileRouter = require("./routes/file");
 app.use(fileRouter);
