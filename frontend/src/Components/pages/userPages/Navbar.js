@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-
+import "./Navbar.css";
 const Navbar = () => {
   const history = useNavigate();
   const sendl = () => {
@@ -27,7 +27,8 @@ const Navbar = () => {
           </button>
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <h1 className="navbar-brand  fs-1 ">HASTHIYA</h1>
-            <div style={{ marginLeft: "850px" }}>
+            <img className="logon" src="images/logo.png" alt="logo" />
+            <div style={{ marginLeft: "650px" }}>
               <button
                 onClick={sendl}
                 className="btn btn-outline-primary ms-auto px-4 "

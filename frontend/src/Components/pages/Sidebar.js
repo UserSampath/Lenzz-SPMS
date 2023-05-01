@@ -27,12 +27,6 @@ const Sidebar = ({ children, SetSelectedProjectController, display }) => {
   const { user } = useAuthContext();
   const { company } = useCompanyContext;
 
-  const [selectedProject, SetSelectedProject] = useState();
-
-
-
-
-
   const handleClick = () => {
     logout();
   };
@@ -86,18 +80,29 @@ const Sidebar = ({ children, SetSelectedProjectController, display }) => {
         <Container style={{ zIndex: 1 }}>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
-
-            
             {/* <div style={{display:"flex" , marginLeft:"35%"}}><p style={{width:"400px" , background:"#abcdef"}} >{display }</p>
               <MdSettingsSuggest className="set-pic" onClick={toggleMenu} style={{marginLeft:"50%"}} />
             </div> */}
-            <div style={{ display: "flex" ,  width:"95%"}}>
-              <h2 style={{ fontSize: "25px", fontStyle: "", color: "white", fontFamily: "monospace", }} >{display}{ }</h2>
+            <div style={{ display: "flex", width: "95%" }}>
+              <h2
+                style={{
+                  fontSize: "25px",
+                  fontStyle: "",
+                  color: "white",
+                  fontFamily: "monospace",
+                }}
+              >
+                {display}
+                {}
+              </h2>
             </div>
-            <MdSettingsSuggest className="set-pic" onClick={toggleMenu} style={{ right: "0" }} />
+            <MdSettingsSuggest
+              className="set-pic"
+              onClick={toggleMenu}
+              style={{ right: "0" }}
+            />
 
             <div className="sub-menu-wrap" id="subMenu">
-              
               {user && (
                 <div className="sub-menu">
                   <div>
@@ -160,8 +165,9 @@ const Sidebar = ({ children, SetSelectedProjectController, display }) => {
             ))}
           </div>
         </div>
-        <div className="content"
-        // style={{ marginLeft: open ? "180px" : "1px" }}
+        <div
+          className="content"
+          // style={{ marginLeft: open ? "180px" : "1px" }}
         >
           {children}
         </div>

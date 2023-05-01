@@ -1,0 +1,5 @@
+.logon {
+  width: 80px;
+  -webkit-filter: invert(100%);
+  filter: invert(10%);
+}
