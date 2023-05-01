@@ -1,12 +1,10 @@
 .sideBarContainer {
   display: flex;
-
 }
 
 .main {
   width: 100%;
   padding: 20px;
-  
 }
 
 .sidebar {
@@ -15,8 +13,6 @@
   height: 100vh;
   width: 220px;
   transition: all 0.2s;
-  
-  
 }
 
 .topSection {
@@ -25,7 +21,6 @@
   padding: 20px, 15px;
   height: 90px;
   margin-bottom: 20px;
-  
 }
 
 .logo {

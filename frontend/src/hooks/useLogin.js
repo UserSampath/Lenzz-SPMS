@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useAuthContext } from "./useAuthContext";
 import { useNavigate } from "react-router-dom";
-
+import Swal from "sweetalert2";
 export const useLogin = () => {
   const history = useNavigate();
 
@@ -28,17 +28,30 @@ export const useLogin = () => {
       setError(json.error);
     }
     if (response.ok) {
+      const showAlert = () => {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          text: "Login Successfully",
+          showConfirmButton: false,
+          timer: 1200,
+          width: "250px",
+        });
+      };
       localStorage.setItem("user", JSON.stringify(json));
-      if (json.selectedJob === "SYSTEM ADMIN") {
-        history("/");
-      }
       if (
+        json.selectedJob === "SYSTEM ADMIN" ||
         json.selectedJob === "DEVELOPER" ||
-        json.selectedJob === "TEAM LEAD" ||
-        json.selectedJob === "PROJECT MANAGER"
+        json.selectedJob === "TECH LEAD" ||
+        json.selectedJob === "PROJECT MANAGER" ||
+        json.selectedJob === "CLIENT" ||
+        json.selectedJob === "QUALITY ASSURANCE ENGINNER" ||
+        json.selectedJob === "CLIENT"
       ) {
         history("/");
+        showAlert("");
       }
+
       dispatch({ type: "LOGIN", payload: json });
 
       setIsloading(false);

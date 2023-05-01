@@ -9,6 +9,9 @@ import {
   faInfoCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Swal from "sweetalert2";
+import axios from "axios";
+
 const KEY = /^[a-zA-Z0-9]{8}$/;
 
 function EnterCompany() {
@@ -17,10 +20,15 @@ function EnterCompany() {
   const [companyKey, setCompanyKey] = useState("");
   const [validCompanyKey, setValidCompanyKey] = useState(false);
   const [CompanyKeyFocus, setCompanyKeyFocus] = useState(false);
+  const [company, setCompany] = useState({});
+  const [userData, setUserData] = useState({});
+  const [isMountUserData, setIsMountUserData] = useState(false);
   const { user } = useAuthContext();
   const [errMsg, setErrMsg] = useState("");
   const { dispatch } = useCompanyContext();
   const [error, setError] = useState(null);
+  const LocalUser = JSON.parse(localStorage.getItem("user"));
+
   const history = useNavigate();
   useEffect(() => {
     userRef.current.focus();
@@ -31,6 +39,50 @@ function EnterCompany() {
   useEffect(() => {
     setErrMsg("");
   }, [companyKey]);
+
+  useEffect(() => {
+    const user = async () => {
+      await axios
+        .get("http://localhost:4000/api/user/getUser", {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${LocalUser.token}`,
+          },
+        })
+        .then((res) => {
+          console.log("userdata", res.data);
+          setUserData(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+    user();
+  }, []);
+
+  useEffect(() => {
+    if (isMountUserData) {
+      const getCompany = async () => {
+        await axios
+          .get(`http://localhost:4000/api/company/${userData.companyId}`, {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${LocalUser.token}`,
+            },
+          })
+          .then((res) => {
+            setCompany(res.data);
+            console.log("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq", res.data);
+          })
+          .catch((err) => {
+            console.log(err, userData);
+          });
+      };
+      getCompany();
+    } else {
+      setIsMountUserData(true);
+    }
+  }, [userData]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -54,10 +106,20 @@ function EnterCompany() {
       setError(json.error);
     }
     if (response.ok) {
+      const showAlert = () => {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          text: `You Joined with ${company.companyname}`,
+          showConfirmButton: false,
+          timer: 1200,
+          width: "250px",
+        });
+      };
       history("/");
+      showAlert();
       setCompanyKey("");
       setError(null);
-      console.log("you add new company", json);
       dispatch({ type: "COMPANY_KEY", payload: json });
     }
   };
