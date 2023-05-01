@@ -624,9 +624,9 @@ const Company = () => {
                         className="BoxCard"
                         style={{
                           width: " 250px",
-                          height: " 45px",
+                          height: " 50px",
                           marginLeft: "25px",
-                          marginTop: "20px",
+                          // marginTop: "20px",
                           border: "1px solid",
                           borderRadius: "10px",
                           paddingTop: "7px",
@@ -658,9 +658,20 @@ const Company = () => {
                                 fontFamily: "monospace",
                                 fontWeight: "bold",
                                 fontStyle: "oblique",
+                                marginBottom:"0"
                               }}
                             >
                               {user.firstName} {user.lastName}
+                            </p>
+                            <p
+                              style={{
+                                fontSize: "10px",
+                                fontFamily: "monospace",
+                                fontWeight: "bold",
+                                fontStyle: "oblique",
+                              }}
+                            >
+                              {user.selectedJob}
                             </p>
                           </div>
                         </div>

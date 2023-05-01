@@ -62,6 +62,8 @@ const MemberCard = (props) => {
           deleteErrorAlert();
         }, 500);
         console.log(err.response.data.message)
+      } else if (err.message) {
+        console.log(err.message);
       } else {
         console.log(err);
       }
