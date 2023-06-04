@@ -2,8 +2,9 @@ import React from "react";
 import TaskCard from "./TaskCard";
 import CTForm from "./createTaskModel/CTForm";
 import OptionButton from "./createTaskModel/OptionButton";
+import OptionButtonForFlag from "./createTaskModel/OptionButtonForFlag"
 import styles from "./List.module.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Droppable, Draggable } from "react-beautiful-dnd";
 import styled from "styled-components";
 import axios from "axios";
@@ -26,7 +27,7 @@ const ListContainer = styled.div`
   margin-right: 8px;
 `;
 
-const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, setExistingTasks, listsData }) => {
+const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, setExistingTasks, listsData, localProject }) => {
 
   const [taskName, setTaskName] = useState("");
   const [createTaskModal, setCreateTaskModal] = useState(false);
@@ -52,6 +53,11 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
   const [showAttachment, setShowAttachment] = useState("false");
   const [showLoadingModal, setShowLoadingModal] = useState(false);
 
+  const [projectMembers, setProjectMembers] = useState([]);
+  const [projectTopLevelMembers, setProjectTopLevelMembers] = useState([]);
+
+
+
   const showSuccessAlert = () => {
     Swal.fire({
       position: 'center',
@@ -66,7 +72,7 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
   const getTasks = async () => {
     try {
       const res = await axios.get("http://localhost:4000/task");
-
+      // console.log(res.data);:::::::::::::::::::::::::::::::::::::::::::repeat
       setExistingTasks(res.data);
     } catch (err) {
       console.log(err);
@@ -264,7 +270,44 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
     setShowLoadingModal(false)
 
   }
-  const flags = [{ name: "🟡", _id: "1" }, { name: "🟢", _id: "2" }, { name: "🔴", _id: "3" }];
+
+
+  //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+  useEffect(() => {
+    const getProject = async () => {
+      const data = {
+        id: localProject.projectId
+      }
+      await axios.post('http://localhost:4000/api/project/usersOfTheProject', data)
+        .then(res => {
+          console.log("ssssss", res.data)
+          setProjectMembers(res.data)
+          const filteredData = res.data.filter(data => data.projectUserRole === "SYSTEM ADMIN" || data.projectUserRole === "PROJECT MANAGER");
+          console.log("ssss", filteredData);
+          setProjectTopLevelMembers(filteredData);
+        }).catch(err => {
+          console.log(err)
+        })
+    }
+    if (localProject.projectId) {
+      getProject();
+    }
+
+  }, [localProject.projectId])
+
+
+
+
+
+
+
+
+  const flags = [
+    { name: "🟡", _id: "1", color: "#ebf0c5", priority: "Low Priority", fontColor: "#8B8000" },
+    { name: "🟢", _id: "2", color: "#c5f0d1", priority: "Medium Priority", fontColor: "green" },
+    { name: "🔴", _id: "3", color: "#f0c5c5", priority: "High Priority",  fontColor: "red" }];
+  
   const member = [{ name: "sampath", _id: "1" }, { name: "sasa", _id: "2" }, { name: "kumara", _id: "3" }];
 
   const [threeDoteModelPosition, setThreeDoteModelPosition] = useState({ x: 0, y: 0 });
@@ -351,15 +394,15 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
                     value={taskName}
                   />
 
-                  <OptionButton text="Select a flag" options={flags} onChange={flagHandler} value={flag} />
+                  <OptionButtonForFlag text="Select a flag" options={flags} onChange={flagHandler} value={flag} />
                 </div>
                 <div className={styles.controlGroup}>
-                  <OptionButton text="Assign" options={member} onChange={assignHandler} value={assign} err={assignError} />
-                  <OptionButton text="Reporter" options={member} onChange={reporterHandler} value={reporter} err={reporterError} />
+                  <OptionButton text="Assign" options={projectMembers} onChange={assignHandler} value={assign} err={assignError} />
+                  <OptionButton text="Reporter" options={projectTopLevelMembers} onChange={reporterHandler} value={reporter} err={reporterError} />
                 </div>
                 <div className={styles.controlGroup}>
                   <div style={{ textAlign: 'center', marginTop: '15px', marginLeft: '150px' }}>
-                    <OptionButton text="Link To" options={existingTasks} onChange={linkedTaskHandler} value={linkedTask} />
+                    <OptionButtonForFlag text="Link To" options={existingTasks} onChange={linkedTaskHandler} value={linkedTask} />
                   </div>
                 </div>
                 <div className={styles.controlGroup}>

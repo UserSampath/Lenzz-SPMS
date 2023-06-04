@@ -101,3 +101,9 @@
   font-size: 14px;
   font-weight: bold;
 }
+
+.details{
+  color: rgb(74, 74, 74);
+  display: inline;
+  font-weight: normal;
+}

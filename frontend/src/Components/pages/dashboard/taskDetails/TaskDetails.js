@@ -6,23 +6,24 @@ const TaskDetails = (props) => {
         <div><div className={styles.modal}>
             <div onClick={props.toggleModal} className={styles.overlay}></div>
             <div className={styles.modalContent}>
-                <h2 className={styles.heading}>Task Name: {props.card.name}</h2>
+                <h2 className={styles.heading}>Task Name: <div className={styles.details}>{props.card.name}</div></h2>
                 {props.card.flag !== "default" ? <h5 className={styles.subheading}>Flag: {props.card.flag}</h5> : null}
-                <h5 className={styles.subheading} style={{ maxWidth: 250 }} >link to :{props.card.link} </h5>
+                {props.card.link !== "default" ? <h5 className={styles.subheading} style={{ maxWidth: 250 }} >link to : <div className={styles.details}> {props.card.link} </div> </h5>:null }
+               
                 <div className={styles.sameLine}>
                     <div>
-                        <h5 className={styles.subheading} style={{ maxWidth: 250 }} >Assign to :{props.card.assign} </h5>
+                        <h5 className={styles.subheading} style={{ maxWidth: 250 }} >Assign to : <div className={styles.details}>{props.card.assign} </div> </h5>
                     </div>
                     <div>
-                        <h5 className={styles.subheading}>Report to :{props.card.reporter} </h5>
+                        <h5 className={styles.subheading}>Report to : <div className={styles.details}>{props.card.reporter}</div>  </h5>
                     </div>
                 </div>
                 <div className={styles.sameLine}>
                     <div>
-                        <h5 className={styles.subheading}>Start Date: {props.card.startDate}</h5>
+                        <h5 className={styles.subheading}>Start Date:<div className={styles.details}>  {props.card.startDate}</div></h5>
                     </div>
                     <div>
-                        <h5 className={styles.subheading}>End date: {props.card.endDate}</h5>
+                        <h5 className={styles.subheading}>End date:<div className={styles.details}>  {props.card.endDate}</div> </h5>
                     </div>
                 </div>
                 <h5 className={styles.subheading}>Description:</h5>
