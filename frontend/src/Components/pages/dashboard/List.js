@@ -3,6 +3,7 @@ import TaskCard from "./TaskCard";
 import CTForm from "./createTaskModel/CTForm";
 import OptionButton from "./createTaskModel/OptionButton";
 import OptionButtonForFlag from "./createTaskModel/OptionButtonForFlag"
+import OptionButtonForLink from "./createTaskModel/OptionButtonForLink"
 import styles from "./List.module.css";
 import { useState, useEffect } from "react";
 import { Droppable, Draggable } from "react-beautiful-dnd";
@@ -71,8 +72,10 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
 
   const getTasks = async () => {
     try {
-      const res = await axios.get("http://localhost:4000/task");
-      // console.log(res.data);:::::::::::::::::::::::::::::::::::::::::::repeat
+      const res = await axios.post("http://localhost:4000/api/list/progressStage/tasksOfProject", {
+        projectId: localProject.projectId
+      });
+      console.log(res.data, "SSSSSSSSSSSSSSSSSSSSSSSSSSSSSS");
       setExistingTasks(res.data);
     } catch (err) {
       console.log(err);
@@ -108,6 +111,7 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
   }
 
   const clickedAddTask = async () => {
+    getTasks()
     setUpdatingTask(false)
     toggleCreateTaskModal();
   }
@@ -116,9 +120,6 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
     setCreateTaskModal(!createTaskModal);
     setShowAttachment(false)
   };
-  if (createTaskModal) {
-    getTasks()
-  }
   const formSubmissionHandler = async (event) => {
     event.preventDefault();
     taskName.length === 0 ? setTaskNameError("true") : setTaskNameError("false");
@@ -306,8 +307,8 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
   const flags = [
     { name: "🟡", _id: "1", color: "#ebf0c5", priority: "Low Priority", fontColor: "#8B8000" },
     { name: "🟢", _id: "2", color: "#c5f0d1", priority: "Medium Priority", fontColor: "green" },
-    { name: "🔴", _id: "3", color: "#f0c5c5", priority: "High Priority",  fontColor: "red" }];
-  
+    { name: "🔴", _id: "3", color: "#f0c5c5", priority: "High Priority", fontColor: "red" }];
+
   const member = [{ name: "sampath", _id: "1" }, { name: "sasa", _id: "2" }, { name: "kumara", _id: "3" }];
 
   const [threeDoteModelPosition, setThreeDoteModelPosition] = useState({ x: 0, y: 0 });
@@ -402,7 +403,7 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
                 </div>
                 <div className={styles.controlGroup}>
                   <div style={{ textAlign: 'center', marginTop: '15px', marginLeft: '150px' }}>
-                    <OptionButtonForFlag text="Link To" options={existingTasks} onChange={linkedTaskHandler} value={linkedTask} />
+                    <OptionButtonForLink text="Link To" options={existingTasks} onChange={linkedTaskHandler} value={linkedTask} />
                   </div>
                 </div>
                 <div className={styles.controlGroup}>

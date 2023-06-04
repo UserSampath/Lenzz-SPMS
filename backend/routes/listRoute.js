@@ -9,4 +9,6 @@ router.put("/moveList", ProgressStage.moveList);
 router.put("/renameProgressStage/:id", ProgressStage.update);
 router.post("/todo", ProgressStage.progress);
 router.post("/overall", ProgressStage.overallprogres);
+router.post("/progressStage/tasksOfProject", ProgressStage.tasksOfProject);
+
 module.exports = router;

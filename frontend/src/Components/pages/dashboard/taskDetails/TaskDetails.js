@@ -9,7 +9,6 @@ const TaskDetails = (props) => {
                 <h2 className={styles.heading}>Task Name: <div className={styles.details}>{props.card.name}</div></h2>
                 {props.card.flag !== "default" ? <h5 className={styles.subheading}>Flag: {props.card.flag}</h5> : null}
                 {props.card.link !== "default" ? <h5 className={styles.subheading} style={{ maxWidth: 250 }} >link to : <div className={styles.details}> {props.card.link} </div> </h5>:null }
-               
                 <div className={styles.sameLine}>
                     <div>
                         <h5 className={styles.subheading} style={{ maxWidth: 250 }} >Assign to : <div className={styles.details}>{props.card.assign} </div> </h5>
