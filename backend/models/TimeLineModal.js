@@ -11,21 +11,24 @@ const TimeLineSchema = new Schema(
       type: String,
       required: true,
     },
+    projectId: {
+      type: String,
+      required: true,
+    },
   },
   { timestamps: true }
 );
 
-TimeLineSchema.statics.addTimeLine = async function (Topic, Description) {
+TimeLineSchema.statics.addTimeLine = async function (
+  Topic,
+  Description,
+  projectId
+) {
   if (!Topic || !Description) {
     throw new Error("All fields must be field");
   }
 
-  const topic = await this.findOne({ Topic });
-  if (topic) {
-    throw new Error("Topic is already taken");
-  }
-
-  const timeline = await this.create({ Topic, Description });
+  const timeline = await this.create({ Topic, Description, projectId });
   return timeline;
 };
 module.exports = mongoose.model("TimeLine", TimeLineSchema);

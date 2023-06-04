@@ -3,7 +3,6 @@ import Sidebar from "../Sidebar";
 import { Button, Modal, Form } from "react-bootstrap";
 import {
   MdOutlineDomainVerification,
-  MdOutlineDeleteOutline,
   MdOutlineModeEditOutline,
 } from "react-icons/md";
 import { MdFormatListNumbered } from "react-icons/md";
@@ -17,7 +16,6 @@ import "./TimeLine.css";
 import axios from "axios";
 import { useAuthContext } from "./../../../hooks/useAuthContext";
 import { useNavigate } from "react-router-dom";
-import { Dropdown } from "react-bootstrap";
 import Swal from "sweetalert2";
 import { IoMdRemoveCircleOutline } from "react-icons/io";
 
@@ -143,8 +141,11 @@ const TimeLine = () => {
       return;
     }
     if (!updateTimeline) {
-      const TimeLine = { Topic, Description };
-
+      const TimeLine = {
+        Topic,
+        Description,
+        projectId: localProject.projectId,
+      };
       const response = await fetch("/api/TimeLine/createTimeLine", {
         method: "POST",
         body: JSON.stringify(TimeLine),
@@ -182,7 +183,7 @@ const TimeLine = () => {
       }
     } else if (updateTimeline) {
       const TimeLine = { Topic, Description, id: updatingTimeLineId };
-
+      console.log("timeline update");
       const response = await fetch("/api/TimeLine/updateTimeline", {
         method: "PUT",
         body: JSON.stringify(TimeLine),
@@ -197,6 +198,13 @@ const TimeLine = () => {
       }
       if (response.ok) {
         console.log("new", TimeLine);
+
+        Swal.fire({
+          title: "Success",
+          text: " Successfully Updated",
+          icon: "success",
+          confirmButtonText: "OK",
+        });
 
         timelines.map((tl) => {
           if (tl._id === TimeLine.id) {
@@ -218,14 +226,18 @@ const TimeLine = () => {
 
   useEffect(() => {
     const getTimelines = async () => {
-      const response = await axios.get("/api/TimeLine/getAllTimelines");
+      console.log("sdssssd");
+      const response = await axios.post("/api/TimeLine/ProjectTimelines", {
+        projectId: localProject.projectId,
+      });
       const { data } = response;
+      console.log("dssss", data);
       if (Array.isArray(data)) {
         setTimelines(data);
       }
     };
     getTimelines();
-  }, []);
+  }, [localProject.projectId]);
 
   return (
     <Sidebar display={"Project : " + name}>
@@ -408,7 +420,7 @@ const TimeLine = () => {
               </Modal.Footer>
             </Modal>
           </div>
-          <hr />
+          <div className="hr"></div>
           <div>
             <div style={{}}>
               {Array.isArray(timelines) &&
