@@ -3,6 +3,7 @@ import Sidebar from "../Sidebar";
 import { Button, Modal, Form } from "react-bootstrap";
 import {
   MdOutlineDomainVerification,
+  MdOutlineDeleteOutline,
   MdOutlineModeEditOutline,
 } from "react-icons/md";
 import { MdFormatListNumbered } from "react-icons/md";
@@ -465,7 +466,10 @@ const TimeLine = () => {
                     >
                       {timeline.Description}
                     </p>
-                    <div style={{ marginLeft: "85%", marginBottom: "10px" }}>
+                    <div
+                      className="button-container"
+                      style={{ marginRight: "50px" }}
+                    >
                       <Button
                         onClick={() => handelDeleteOutline(timeline)}
                         variant="danger"
