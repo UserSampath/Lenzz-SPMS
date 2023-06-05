@@ -175,5 +175,20 @@ module.exports = {
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
+  },
+
+  tasksOfProject: async (req, res) => {
+    try {
+      const { projectId } = req.body;
+      const lists = await ProgressStage.find({ projectId });
+      const progressStageIds = lists.map(stage => stage._id);
+      const tasks = await Task.find({ progressStage_id: { $in: progressStageIds } });
+      res.json(tasks);
+    }
+    catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal server error' });
+    }
   }
+
 }

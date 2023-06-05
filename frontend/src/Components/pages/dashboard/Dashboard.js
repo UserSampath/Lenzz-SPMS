@@ -20,10 +20,9 @@ const Dashboard = (props) => {
   useEffect(() => {
     const getTaskWithPS = async () => {
       const data = { id: projectDetails._id }
-      console.log("data", data)
       await axios.post("http://localhost:4000/progressStage/taskWithPS", data).then(res => {
         props.dispatch(initialValue(res.data));
-        console.log("cccccccccc", res.data)
+        console.log("TaskWithPS", res.data)
       }).catch(err => { console.log(err) })
     }
 
@@ -33,7 +32,6 @@ const Dashboard = (props) => {
       }
       await axios.post('http://localhost:4000/api/project/getProject', data)
         .then(res => {
-          console.log(res.data.project)
           SetProjectDetails(res.data.project)
         }).catch(err => {
           console.log(err)
@@ -62,7 +60,6 @@ const Dashboard = (props) => {
         }, 2000);
       } else {
         SetLocalProject(localPro)
-        console.log('a');
       }
     }
 
@@ -119,6 +116,7 @@ const Dashboard = (props) => {
                   listsData={lists}
                   existingTasks={existingTasks}
                   setExistingTasks={setExistingTasks}
+                  localProject={localProject}
 
                 />
               ))}
