@@ -59,6 +59,10 @@ const userSchema = new Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'ProjectUser'
     }]
+    ,
+    profilePicture: {
+      type: String
+    }
   },
   { timestamps: true }
 );
