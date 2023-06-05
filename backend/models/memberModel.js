@@ -46,11 +46,11 @@ const userSchema = new Schema(
       type: String,
     },
     otp: {
-      type: String
+      type: String,
     },
     otpExpiration: {
-      type: Date
-    }
+      type: Date,
+    },
   },
   { timestamps: true }
 );
@@ -67,13 +67,13 @@ userSchema.statics.signup = async function (
   if (!email || !password || !firstName || !lastName || !selectedJob) {
     throw Error("All fields must be filled");
   }
-  if (validator.isEmail(email)) {
+  if (!validator.isEmail(email)) {
     throw Error("Email not valid");
   }
-  if (validator.isStrongPassword(password)) {
+  if (!validator.isStrongPassword(password)) {
     throw Error("Password not strong enough");
   }
- 
+
   const exists = await this.findOne({ email });
 
   if (exists) {
@@ -171,16 +171,13 @@ userSchema.statics.verify = async function (email, selectedJob) {
   return user;
 };
 
-//app 
-userSchema.statics.resetPassword = async function (
-  email,
-  newPassword
-) {
+//app
+userSchema.statics.resetPassword = async function (email, newPassword) {
   if (!email || !newPassword) {
     throw Error("All fields must be filled");
   }
   if (!validator.isEmail(email)) {
-    throw Error("Email not valid")
+    throw Error("Email not valid");
   }
   if (!validator.isStrongPassword(newPassword)) {
     throw Error("Password not strong enough");
