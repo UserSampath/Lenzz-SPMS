@@ -6,6 +6,7 @@ const {
   forgotpassword,
   reset,
   updateUserProfile,
+  profilePictureUpdate,
   allUsers,
   SendEmail,
   generateOTP,
@@ -28,6 +29,9 @@ router.post("/verifyEmail", SendEmail);
 router.get("/forgotPassword/:id/:token", forgotpassword);
 router.post("/:id/:token", reset);
 router.post("/update", requireAuth, updateUserProfile);
+router.post("/profilePictureUpdate", requireAuth, profilePictureUpdate);
+
+
 router.get("/", requireAuth, allUsers);
 
 //app

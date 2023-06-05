@@ -8,6 +8,8 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 const createToken = require("../util/createToken");
+const validator = require("validator");
+
 
 const otpGenerator = (otpLength) => {
   let otp = "";
@@ -145,36 +147,54 @@ const reset = async (req, res) => {
 const updateUserProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
   if (user) {
-    user.firstName = req.body.firstName || user.firstName;
-    user.lastName = req.body.lastName || user.lastName;
-    user.email = req.body.email || user.email;
-    user.selectedJob = req.body.selectedJob || user.selectedJob;
-    if (req.body.password) {
-      user.password = await bcrypt.hash(req.body.password, 10);
+    if (!req.body.firstName) {
+      res.status(400).json({ error: "First name is required" });
+      return;
     }
+    if (!req.body.lastName) {
+      res.status(400).json({ error: "Last name is required" });
+      return;
+    }
+    if (!validator.isEmail(req.body.email)) {
+      res.status(400).json({ error: "Email not valid" });
+      return;
+    }
+    if (!validator.isLength(req.body.firstName, { max: 255 })) {
+      res.status(400).json({ error: "First name must be between 2 and 255 characters" });
+      return;
+    }
+    user.firstName = req.body.firstName;
+    user.lastName = req.body.lastName;
+    user.email = req.body.email;
+    user.selectedJob = req.body.selectedJob || user.selectedJob;
     const updatedUser = await user.save();
-    res.json({
-      _id: updatedUser._id,
-      firstName: updatedUser.firstName,
-      lastName: updatedUser.lastName,
-      email: updatedUser.email,
-      password: updatedUser.password,
-      selectedJob: updatedUser.selectedJob,
-      token: createToken(updatedUser._id),
-    });
+    res.json(updatedUser);
   } else {
     res.status(404);
     throw new Error("User not found");
   }
 });
+
+const profilePictureUpdate = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user._id);
+  if (user) {
+    user.profilePicture = req.body.profilePicture;
+    const updatedUser = await user.save();
+    res.json(updatedUser);
+  } else {
+    res.status(404);
+    throw new Error("User not found");
+  }
+});
+
 const allUsers = asyncHandler(async (req, res) => {
   const keyword = req.query.search
     ? {
-        $or: [
-          { firstName: { $regex: req.query.search, $options: "i" } },
-          { email: { $regex: req.query.search, $options: "i" } },
-        ],
-      }
+      $or: [
+        { firstName: { $regex: req.query.search, $options: "i" } },
+        { email: { $regex: req.query.search, $options: "i" } },
+      ],
+    }
     : {};
 
   const users = await User.find(keyword).find({ _id: { $ne: req.user._id } });
@@ -356,6 +376,7 @@ module.exports = {
   forgotpassword,
   reset,
   updateUserProfile,
+  profilePictureUpdate,
   allUsers,
   SendEmail,
   generateOTP,
