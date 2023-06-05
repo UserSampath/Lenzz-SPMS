@@ -48,6 +48,7 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
   const [reporterError, setReporterError] = useState("false");
   const [startDateError, setStartDateError] = useState("false");
   const [endDateError, setEndDateError] = useState("false");
+  const [existingCards,setExistingCards] = useState([]);
 
 
 
@@ -75,13 +76,12 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
       const res = await axios.post("http://localhost:4000/api/list/progressStage/tasksOfProject", {
         projectId: localProject.projectId
       });
-      console.log(res.data, "SSSSSSSSSSSSSSSSSSSSSSSSSSSSSS");
-      setExistingTasks(res.data);
+      // setExistingTasks(res.data);
+      setExistingCards(res.data)
     } catch (err) {
       console.log(err);
     }
   };
-
   const clickedCancelButton = () => {
     toggleCreateTaskModal();
     setTaskDetailsToDefault()
@@ -240,6 +240,7 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
     setDescription(event.target.value);
   }
   const updateTask = (id) => {
+    getTasks();
     setUpdatingTaskId(id);
     setUpdatingTask(true)
     const task = cards.find(task => task._id === id)
@@ -272,9 +273,6 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
 
   }
 
-
-  //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-
   useEffect(() => {
     const getProject = async () => {
       const data = {
@@ -282,10 +280,8 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
       }
       await axios.post('http://localhost:4000/api/project/usersOfTheProject', data)
         .then(res => {
-          console.log("ssssss", res.data)
           setProjectMembers(res.data)
           const filteredData = res.data.filter(data => data.projectUserRole === "SYSTEM ADMIN" || data.projectUserRole === "PROJECT MANAGER");
-          console.log("ssss", filteredData);
           setProjectTopLevelMembers(filteredData);
         }).catch(err => {
           console.log(err)
@@ -403,7 +399,7 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
                 </div>
                 <div className={styles.controlGroup}>
                   <div style={{ textAlign: 'center', marginTop: '15px', marginLeft: '150px' }}>
-                    <OptionButtonForLink text="Link To" options={existingTasks} onChange={linkedTaskHandler} value={linkedTask} />
+                    <OptionButtonForLink text="Link To" options={existingCards} onChange={linkedTaskHandler} value={linkedTask} />
                   </div>
                 </div>
                 <div className={styles.controlGroup}>

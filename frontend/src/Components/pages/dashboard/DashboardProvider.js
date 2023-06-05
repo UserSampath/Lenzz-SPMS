@@ -23,15 +23,13 @@ const DashboardProvider = () => {
     useEffect(() => {
         const getLocalStorageProject = async () => {
             const localPro = await JSON.parse(localStorage.getItem("last access project"));
-            console.log("localPro", localPro)
             if (localPro == null) {
                 redirectCompanyAlert()
                 setTimeout(() => {
                     history('/');
                 }, 2000);
             } else {
-                SetLocalProject(localPro)
-                console.log('a');
+                SetLocalProject(localPro);
             }
         }
 
@@ -55,7 +53,6 @@ const DashboardProvider = () => {
             }
             await axios.post('http://localhost:4000/api/project/getProject', data)
                 .then(res => {
-                    console.log("ssssss",res.data.project)
                     SetProjectDetails(res.data.project);
                 }).catch(err => {
                     console.log(err)
@@ -68,7 +65,7 @@ const DashboardProvider = () => {
     }, [projectDetails._id, localProject.projectId])
 
     return (
-        <SideBar display={"Project : "+projectDetails.projectname}>{console.log('cc',roomName)}
+        <SideBar display={"Project : "+projectDetails.projectname}>
             <div style={{
                 marginTop: "60px",
                 marginLeft: "60px",
