@@ -658,7 +658,7 @@ const Company = () => {
                                 fontFamily: "monospace",
                                 fontWeight: "bold",
                                 fontStyle: "oblique",
-                                marginBottom:"0"
+                                marginBottom: "0",
                               }}
                             >
                               {user.firstName} {user.lastName}

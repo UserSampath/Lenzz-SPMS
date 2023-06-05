@@ -14,8 +14,19 @@ const getAllTimelines = async (req, res) => {
   }
 };
 
+const ProjectTimelines = async (req, res) => {
+  const { projectId } = req.body;
+  console.log("dsdsdsd");
+  try {
+    const timelines = await TimeLine.find({ projectId });
+    res.status(200).json(timelines);
+  } catch (error) {
+    res.status(404).json({ message: "Timelines not found" });
+  }
+};
+
 const createTimeline = asyncHandler(async (req, res) => {
-  const { Topic, Description } = req.body;
+  const { Topic, Description, projectId } = req.body;
   const { _id, selectedJob } = req;
   if (
     selectedJob !== "SYSTEM ADMIN" &&
@@ -25,14 +36,13 @@ const createTimeline = asyncHandler(async (req, res) => {
     return res.status(401).json({ error: "You are not authorized" });
   }
   try {
-    const checktimeline = await TimeLine.addTimeLine(Topic, Description);
-    const timline = new TimeLine({
+    const checktimeline = await TimeLine.addTimeLine(
       Topic,
       Description,
-      checktimeline,
-    });
-    const createTimeline = await timline.save();
-    res.status(201).json(createTimeline);
+      projectId
+    );
+
+    res.status(201).json(checktimeline);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -98,4 +108,5 @@ module.exports = {
   getTimelineById,
   updateTimeline,
   DeleteTimeline,
+  ProjectTimelines,
 };

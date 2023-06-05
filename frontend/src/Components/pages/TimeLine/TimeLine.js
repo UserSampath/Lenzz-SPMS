@@ -17,10 +17,10 @@ import "./TimeLine.css";
 import axios from "axios";
 import { useAuthContext } from "./../../../hooks/useAuthContext";
 import { useNavigate } from "react-router-dom";
-import { Dropdown } from "react-bootstrap";
 import Swal from "sweetalert2";
+import { IoMdRemoveCircleOutline } from "react-icons/io";
 
-const TOPIC = /^[A-Za-z0-9\s\-_,.!?:;'"()]{5,25}$/;
+const TOPIC = /^[A-Za-z0-9\s\-_,.!?:;'"()]{5,40}$/;
 
 const DESCRIPTION = /^[A-Za-z0-9\s\-_,.!?:;'"()]{5,}$/;
 const TimeLine = () => {
@@ -46,6 +46,9 @@ const TimeLine = () => {
   const [timelines, setTimelines] = useState([]);
   const [updateTimeline, setUpdateTimeline] = useState(false);
   const [updatingTimeLineId, setUpdatingTimeLineId] = useState("");
+  const [projectDetails, SetProjectDetails] = useState({});
+  const [localProject, SetLocalProject] = useState("");
+  const [name, setName] = useState("");
 
   useEffect(() => {
     setValidTopic(TOPIC.test(Topic));
@@ -93,9 +96,45 @@ const TimeLine = () => {
 
     setShowModal(true);
   };
+  useEffect(() => {
+    const getLocalStorageProject = async () => {
+      const localPro = await JSON.parse(
+        localStorage.getItem("last access project")
+      );
+      console.log("localPro", localPro);
+      if (localPro == null) {
+        setTimeout(() => {
+          history("/");
+        }, 2000);
+      } else {
+        SetLocalProject(localPro);
+      }
+    };
 
+    getLocalStorageProject();
+  }, []);
   //create timeline
+  useEffect(() => {
+    const getProject = async () => {
+      const data = {
+        id: localProject.projectId,
+      };
+      await axios
+        .post("http://localhost:4000/api/project/getProject", data)
+        .then((res) => {
+          console.log(res.data.project);
+          SetProjectDetails(res.data.project);
+          setName(res.data.project.projectname);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
 
+    if (localProject.projectId) {
+      getProject();
+    }
+  }, [projectDetails._id, localProject.projectId]);
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!user) {
@@ -103,8 +142,11 @@ const TimeLine = () => {
       return;
     }
     if (!updateTimeline) {
-      const TimeLine = { Topic, Description };
-
+      const TimeLine = {
+        Topic,
+        Description,
+        projectId: localProject.projectId,
+      };
       const response = await fetch("/api/TimeLine/createTimeLine", {
         method: "POST",
         body: JSON.stringify(TimeLine),
@@ -142,7 +184,7 @@ const TimeLine = () => {
       }
     } else if (updateTimeline) {
       const TimeLine = { Topic, Description, id: updatingTimeLineId };
-
+      console.log("timeline update");
       const response = await fetch("/api/TimeLine/updateTimeline", {
         method: "PUT",
         body: JSON.stringify(TimeLine),
@@ -157,6 +199,13 @@ const TimeLine = () => {
       }
       if (response.ok) {
         console.log("new", TimeLine);
+
+        Swal.fire({
+          title: "Success",
+          text: " Successfully Updated",
+          icon: "success",
+          confirmButtonText: "OK",
+        });
 
         timelines.map((tl) => {
           if (tl._id === TimeLine.id) {
@@ -178,25 +227,35 @@ const TimeLine = () => {
 
   useEffect(() => {
     const getTimelines = async () => {
-      const response = await axios.get("/api/TimeLine/getAllTimelines");
+      console.log("sdssssd");
+      const response = await axios.post("/api/TimeLine/ProjectTimelines", {
+        projectId: localProject.projectId,
+      });
       const { data } = response;
+      console.log("dssss", data);
       if (Array.isArray(data)) {
         setTimelines(data);
       }
     };
     getTimelines();
-  }, []);
+  }, [localProject.projectId]);
 
   return (
-    <Sidebar>
+    <Sidebar display={"Project : " + name}>
       <div>
         <div
-          className="card shadow"
+          className="BoxCard"
           style={{
-            width: "1300px",
-            height: "600px",
-            marginLeft: "200px",
-            marginTop: "75px",
+            width: " 1300px",
+            height: " 100%",
+            marginLeft: "125px",
+            marginTop: "80px",
+            border: "1.5px solid",
+            borderRadius: "10px",
+            borderColor: "#8A8A8A",
+            cursor: "Arrow",
+            paddingBottom: "20px",
+            minHeight: "200px",
           }}
         >
           <div style={{ display: "flex" }}>
@@ -208,18 +267,22 @@ const TimeLine = () => {
               }}
             />
             <h2 style={{ marginTop: "21px", marginLeft: "10px" }}>
-              TimeLine:Project 1
+              Requirments
             </h2>
             <Button
               variant="info"
               style={{
                 width: "200px",
-                height: "50px",
+                height: "40px",
                 marginTop: "15px",
-                marginLeft: "655px",
-                padding: "10px",
+                marginLeft: "730px",
                 fontSize: "20px",
-                color: "white",
+                padding: "0.3rem 1rem",
+                backgroundColor: "#0077cc",
+                color: "#fff",
+                border: "none",
+                borderRadius: "0.25rem",
+                fontFamily: "Roboto",
               }}
               block="true"
               onClick={handleShow}
@@ -358,17 +421,26 @@ const TimeLine = () => {
               </Modal.Footer>
             </Modal>
           </div>
-          <hr />
+          <div className="hr"></div>
           <div>
-            <div style={{ maxHeight: "470px", overflowY: "scroll" }}>
+            <div style={{}}>
               {Array.isArray(timelines) &&
                 timelines.map((timeline, index) => (
                   <div
-                    className="card shadow"
+                    className="BoxCard"
                     style={{
+                      width: " 80vw",
+                      height: " 50%",
+                      marginLeft: "15px",
                       marginTop: "5px",
-                      marginLeft: "20px",
-                      marginRight: "20px",
+                      marginRight: "25px",
+                      border: "1px solid",
+                      borderRadius: "10px",
+                      borderColor: "#ABAAAA",
+                      cursor: "Arrow",
+                      paddingBottom: "20px",
+                      minHeight: "200px",
+                      boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
                     }}
                     key={index}
                   >
@@ -394,12 +466,15 @@ const TimeLine = () => {
                     >
                       {timeline.Description}
                     </p>
-                    <div style={{ marginLeft: "90%", marginBottom: "10px" }}>
+                    <div
+                      className="button-container"
+                      style={{ marginRight: "50px" }}
+                    >
                       <Button
                         onClick={() => handelDeleteOutline(timeline)}
                         variant="danger"
                       >
-                        <MdOutlineDeleteOutline
+                        <IoMdRemoveCircleOutline
                           style={{
                             fontSize: "25px",
                           }}

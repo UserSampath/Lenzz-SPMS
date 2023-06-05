@@ -71,7 +71,6 @@ const generateRandomString = (myLength) => {
       { length: myLength },
       (v, k) => chars[Math.floor(Math.random() * chars.length)]
     );
-
     const randomString = randomArray.join("");
     return randomString;
   } catch (error) {
