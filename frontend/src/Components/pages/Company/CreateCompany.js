@@ -11,25 +11,30 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const EMAIL_REGEX = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
-const TEXT_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
-const CONTECTNUMBER_REGEX = /^\d{10}$/;
+const TEXT_REGEX = /^[A-Za-z0-9\s\-_,.!?:;'"()]{5,25}$/;
+const CONTECTNUMBER_REGEX = /^\w{10}$/;
 const ADDRESS = /^[A-z][A-z0-9-_]{3,23}$/;
 
 const CreateCompany = () => {
   const userRef = useRef();
   const errRef = useRef();
+
   const [companyname, setcompanyname] = useState("");
   const [validCompanyName, setValidCompanyName] = useState(false);
   const [CompanyNameFocus, setCompanyNameFocus] = useState(false);
+
   const [companyemail, setcompanyemail] = useState("");
   const [validCompanyEmail, setValidCompanyEmail] = useState(false);
   const [CompanyEmailFocus, setCompanyEmailFocus] = useState(false);
+
   const [contactnumber, setcontactnumber] = useState("");
   const [validContactNumber, setValidContactNumber] = useState(false);
   const [ContactNumberFocus, setContactNumberFocus] = useState(false);
+
   const [companyaddress, setcompanyaddress] = useState("");
   const [validCompanyaddress, setValidCompanyaddress] = useState(false);
   const [CompanyaddressFocus, setCompanyaddressFocus] = useState(false);
+
   const [redirectToCompany, setRedirectToCompany] = useState(false);
   const [errMsg, setErrMsg] = useState("");
   const [companyKey, setcompanyKey] = useState("");
@@ -55,12 +60,14 @@ const CreateCompany = () => {
   useEffect(() => {
     setValidContactNumber(CONTECTNUMBER_REGEX.test(contactnumber));
   }, [contactnumber]);
+
   useEffect(() => {
     setValidCompanyaddress(ADDRESS.test(companyaddress));
   }, [companyaddress]);
+
   useEffect(() => {
     setErrMsg("");
-  }, []);
+  }, [companyname, companyemail, contactnumber, companyaddress]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -184,7 +191,7 @@ const CreateCompany = () => {
                 </div>
                 <div className="mb-3">
                   <label htmlFor="email">
-                    CompanyEmail:
+                    Company Email:
                     <FontAwesomeIcon
                       icon={faCheck}
                       className={companyemail ? "valid" : "hide"}
@@ -209,6 +216,7 @@ const CreateCompany = () => {
                     onFocus={() => setCompanyEmailFocus(true)}
                     onBlur={() => setCompanyEmailFocus(false)}
                     id="exampleInputEmail1"
+                    placeholder="Enter your company email address"
                   />
                   <p
                     id="uidnote"
@@ -244,14 +252,17 @@ const CreateCompany = () => {
                   <input
                     type="text"
                     className="form-control"
+                    ref={userRef}
+                    autoComplete="on"
                     onChange={(e) => setcontactnumber(e.target.value)}
-                    id="contactnumber"
+                    value={contactnumber}
                     required
                     aria-invalid={validContactNumber ? "false" : "true"}
-                    autoComplete="on"
+                    aria-describedby="uidnote"
                     onFocus={() => setContactNumberFocus(true)}
                     onBlur={() => setContactNumberFocus(false)}
-                    placeholder="Enter your Contact Number"
+                    id="exampleInputContactnumber1"
+                    placeholder="Enter  contact number"
                   />
                   <p
                     id="uidnote"
@@ -265,10 +276,10 @@ const CreateCompany = () => {
                     must be 10 numbers
                   </p>
                 </div>
-
+                {/* //company addreess */}
                 <div className="mb-3">
-                  <label htmlFor="email">
-                    Company Address:
+                  <label htmlFor="company address">
+                    Company address:
                     <FontAwesomeIcon
                       icon={faCheck}
                       className={companyaddress ? "valid" : "hide"}
@@ -288,16 +299,19 @@ const CreateCompany = () => {
                     ref={userRef}
                     autoComplete="on"
                     onChange={(e) => setcompanyaddress(e.target.value)}
-                    value={companyaddress}
+                    id="companyaddress"
                     required
                     aria-invalid={validCompanyaddress ? "false" : "true"}
-                    aria-describedby="uidnote"
                     onFocus={() => setCompanyaddressFocus(true)}
                     onBlur={() => setCompanyaddressFocus(false)}
+                    placeholder="Enter your company address"
                   />
                   <p
+                    id="uidnote"
                     className={
-                      CompanyaddressFocus && !validCompanyaddress
+                      CompanyaddressFocus &&
+                      companyaddress &&
+                      !validCompanyaddress
                         ? "instructions"
                         : "offscreen"
                     }
@@ -308,7 +322,6 @@ const CreateCompany = () => {
                     Must begin with a letter.
                     <br />
                     Letters, numbers, underscores, hyphens allowed.
-                    <br />
                   </p>
                 </div>
 
@@ -325,6 +338,10 @@ const CreateCompany = () => {
                   <Modal.Body>
                     <p>Your company has been created successfully!</p>
                     <p>Here is your company key:{companyKey}</p>
+                    <p>
+                      you need to secure(copy) this key it's need to be enter
+                      the other users
+                    </p>
                     <p className="fw-bold"></p>
                   </Modal.Body>
                   <Modal.Footer>

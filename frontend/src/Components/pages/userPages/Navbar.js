@@ -26,7 +26,7 @@ const Navbar = () => {
             <span className="navbar-toggler-icon"></span>
           </button>
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <h1 className="navbar-brand  fs-1 ">HASTHIYA</h1>
+            <h1 className="navbar-brand  fs-1 ">HASTHIYA IT</h1>
             <img className="logon" src="images/logo.png" alt="logo" />
             <div style={{ marginLeft: "650px" }}>
               <button

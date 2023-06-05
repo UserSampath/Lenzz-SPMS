@@ -119,9 +119,11 @@ const forgotpassword = async (req, res) => {
 const reset = async (req, res) => {
   const { id, token } = req.params;
   const { password } = req.body;
-
   try {
-    const validuser = await User.findOne({ id: id, verifytoken: token });
+    const validuser = await User.findOne({
+      id: id,
+      verifytoken: token,
+    });
     const verifyToken = jwt.verify(token, keysecret);
     if (validuser && verifyToken._id) {
       const newpassword = await bcrypt.hash(password, 12);
@@ -136,7 +138,7 @@ const reset = async (req, res) => {
       res.status(401).json({ status: 401, message: "user not exits" });
     }
   } catch (error) {
-    res.status(401).json({ status: 401, error });
+    res.status(400).json({ error: error.message });
   }
 };
 
