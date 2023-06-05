@@ -104,7 +104,7 @@ function Login() {
                     onFocus={() => setEmailFocus(true)}
                     onBlur={() => setEmailFocus(false)}
                     id="exampleInputEmail1"
-                    placeholder="please enter your email address"
+                    placeholder="Enter your email address"
                   />
                   <p
                     id="uidnote"
@@ -145,7 +145,7 @@ function Login() {
                     aria-describedby="pwdnote"
                     onFocus={() => setPasswordFocus(true)}
                     onBlur={() => setPasswordFocus(false)}
-                    placeholder="please enter your password"
+                    placeholder="Enter your password"
                   />
                   <p
                     id="passwordnote"

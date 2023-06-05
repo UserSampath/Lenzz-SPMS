@@ -46,19 +46,21 @@ const userSchema = new Schema(
       type: String,
     },
     otp: {
-      type: String
+      type: String,
     },
     otpExpiration: {
-      type: Date
+      type: Date,
     },
     companyId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Company'
+      ref: "Company",
     },
-    projects: [{
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'ProjectUser'
-    }]
+    projects: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "ProjectUser",
+      },
+    ],
   },
   { timestamps: true }
 );
@@ -192,16 +194,13 @@ userSchema.statics.verify = async function (email, selectedJob) {
   return user;
 };
 
-//app 
-userSchema.statics.resetPassword = async function (
-  email,
-  newPassword
-) {
+//app
+userSchema.statics.resetPassword = async function (email, newPassword) {
   if (!email || !newPassword) {
     throw Error("All fields must be filled");
   }
   if (!validator.isEmail(email)) {
-    throw Error("Email not valid")
+    throw Error("Email not valid");
   }
   if (!validator.isStrongPassword(newPassword)) {
     throw Error("Password not strong enough");

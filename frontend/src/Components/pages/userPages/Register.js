@@ -221,7 +221,7 @@ const Register = () => {
                     onFocus={() => setEmailFocus(true)}
                     onBlur={() => setEmailFocus(false)}
                     id="exampleInputEmail1"
-                    placeholder="Enter your email..."
+                    placeholder="Enter your email address..."
                   />
                   <p
                     id="emailnote"
@@ -241,7 +241,7 @@ const Register = () => {
                   </div>
                 </div>
                 <div className="mb-3">
-                  <label htmlFor="email">
+                  <label htmlFor="passeorf">
                     Password:
                     <FontAwesomeIcon
                       icon={faCheck}
@@ -317,7 +317,7 @@ const Register = () => {
                     aria-describedby="confirmnote"
                     onFocus={() => setConfirmPasswordFocus(true)}
                     onBlur={() => setConfirmPasswordFocus(false)}
-                    placeholder="Enter your Confirm password..."
+                    placeholder="Enter your confirm password..."
                   />
                   <p
                     id="confirmnote"
