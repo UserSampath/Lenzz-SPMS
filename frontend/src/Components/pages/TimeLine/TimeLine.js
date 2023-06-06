@@ -3,7 +3,6 @@ import Sidebar from "../Sidebar";
 import { Button, Modal, Form } from "react-bootstrap";
 import {
   MdOutlineDomainVerification,
-  MdOutlineDeleteOutline,
   MdOutlineModeEditOutline,
 } from "react-icons/md";
 import { MdFormatListNumbered } from "react-icons/md";
@@ -266,7 +265,16 @@ const TimeLine = () => {
                 marginLeft: "20px",
               }}
             />
-            <h2 style={{ marginTop: "21px", marginLeft: "10px" }}>
+            <h2
+              style={{
+                marginTop: "20px",
+                marginLeft: "10px",
+                fontFamily: "monospace",
+                fontWeight: "bold",
+                fontStyle: "oblique",
+                fontSize: "30px",
+              }}
+            >
               Requirments
             </h2>
             <Button
@@ -453,7 +461,14 @@ const TimeLine = () => {
                       }}
                     >
                       <MdOutlineDomainVerification />
-                      <h5 style={{ marginLeft: "5px", marginTop: "5px" }}>
+                      <h5
+                        style={{
+                          marginLeft: "5px",
+                          fontFamily: "monospace",
+                          fontStyle: "oblique",
+                          fontSize: "30px",
+                        }}
+                      >
                         {timeline.Topic}
                       </h5>
                     </div>
