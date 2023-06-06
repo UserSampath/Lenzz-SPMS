@@ -114,6 +114,7 @@ userSchema.statics.signup = async function (
     firstName,
     lastName,
     selectedJob,
+    profilePicture:"https://sampathnalaka.s3.eu-north-1.amazonaws.com/uploads/pngwing.com.png"
   });
 
   return user;
