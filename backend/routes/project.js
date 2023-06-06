@@ -8,10 +8,10 @@ const {
   deleteProject,
   updateProject,
   updateProjectData,
-  usersOfTheProject
+  usersOfTheProject,
 } = require("../controllers/projectController");
 const requireAuth = require("../middleware/requireAuth");
-const appUserAuthentication=require("../middleware/appUserAuthentication")
+const appUserAuthentication = require("../middleware/appUserAuthentication");
 const router = express.Router();
 
 // router.use(requireAuth);
@@ -23,7 +23,4 @@ router.patch("/:id", updateProject);
 router.post("/changepersentage", changepersentage);
 router.put("/updateProjectData", requireAuth, updateProjectData);
 router.post("/usersOfTheProject", usersOfTheProject);
-
-
-
 module.exports = router;

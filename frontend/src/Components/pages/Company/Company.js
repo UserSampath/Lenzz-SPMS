@@ -63,11 +63,9 @@ const Company = () => {
   const [validDescription, setValidDescription] = useState(false);
   const [DescriptionFocus, setDescriptionFocus] = useState(false);
 
-  const [startDate, setstartDate] = useState("");
   const [endDate, setendDate] = useState("");
   const [errMsg, setErrMsg] = useState("");
   const [error, setError] = useState(null);
-  const [showContent, setShowContent] = useState(false);
   const [companyUsers, setCompanyUsers] = useState([]);
   const [companyProjects, setCompanyProjects] = useState([]);
   const [userData, setUserData] = useState({});
@@ -187,7 +185,6 @@ const Company = () => {
     const project = {
       projectname,
       description,
-      startDate,
       endDate,
       companyId: userData.companyId,
     };
@@ -230,17 +227,12 @@ const Company = () => {
 
       history("/Dashboard");
       setprojectname("");
-      setstartDate("");
       setendDate("");
       setdescription("");
       setError(null);
       console.log("new project created", json);
       dispatch({ type: "CREATE_PROJECT", payload: json });
     }
-  };
-
-  const handleTickClick = () => {
-    setShowContent(!showContent);
   };
 
   useEffect(() => {
@@ -420,49 +412,22 @@ const Company = () => {
                     </p>
                   </Form.Group>
 
-                  <div className="mb-6 form-check">
-                    <input
-                      type="checkbox"
-                      className="form-check-input"
-                      id="exampleCheck1"
-                      onClick={handleTickClick}
-                    />
-                    <label className="form-check-label" htmlFor="exampleCheck1">
-                      If you need to add date
-                    </label>
+                  <div>
+                    <Form.Group
+                      className="mb-3"
+                      controlId="exampleForm.ControlInput1"
+                    >
+                      <Form.Label style={{ fontWeight: "bold" }}>
+                        End Date
+                      </Form.Label>
+                      <Form.Control
+                        type="date"
+                        autoFocus
+                        onChange={(e) => setendDate(e.target.value)}
+                        value={endDate}
+                      />
+                    </Form.Group>
                   </div>
-                  {showContent ? (
-                    <div>
-                      <Form.Group
-                        className="mb-3"
-                        controlId="exampleForm.ControlInput1"
-                      >
-                        <Form.Label style={{ fontWeight: "bold" }}>
-                          Start Date
-                        </Form.Label>
-                        <Form.Control
-                          type="date"
-                          autoFocus
-                          onChange={(e) => setstartDate(e.target.value)}
-                          value={startDate}
-                        />
-                      </Form.Group>
-                      <Form.Group
-                        className="mb-3"
-                        controlId="exampleForm.ControlInput1"
-                      >
-                        <Form.Label style={{ fontWeight: "bold" }}>
-                          End Date
-                        </Form.Label>
-                        <Form.Control
-                          type="date"
-                          autoFocus
-                          onChange={(e) => setendDate(e.target.value)}
-                          value={endDate}
-                        />
-                      </Form.Group>
-                    </div>
-                  ) : null}
                 </Form>
               </Modal.Body>
               <Modal.Footer>
