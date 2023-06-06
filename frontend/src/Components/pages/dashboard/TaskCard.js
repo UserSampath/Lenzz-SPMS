@@ -11,9 +11,22 @@ const CardContainer = styled.div`
 `;
 const TaskCard = (props) => {
   const [TaskDetailsModal, setTaskDetailsModal] = useState(false);
+  const [filteredMember, setFilteredMember] = useState([]);
+
+  useEffect(() => {
+    const getAssignMember = () => {
+      console.log("pm", props.projectMembers);
+      console.log("pm", props.card);
+
+      setFilteredMember(props.projectMembers.filter(member => (member.firstName + " " + member.lastName) === props.card.assign))
+      console.log("pm", filteredMember);
+
+    }
+    getAssignMember()
+  }, [props.projectMembers])
 
   let [backgroundColor, setBackgroundColor] = useState("white")
-
+  // projectMembers
   const toggleModal = () => {
     setTaskDetailsModal(!TaskDetailsModal);
   };
@@ -63,7 +76,7 @@ const TaskCard = (props) => {
               backgroundColor: backgroundColor
             }}>
               <div className={Styles.imageContainer}>{props.text}</div>
-              <img src="https://sampathnalaka.s3.eu-north-1.amazonaws.com/uploads/IMG_20210907_151753_997.jpg" alt="svs"
+              <img src={filteredMember[0].profilePicture != null ? filteredMember[0].profilePicture : "https://sampathnalaka.s3.eu-north-1.amazonaws.com/uploads/pngwing.com.png"} alt="svs"
                 width="38" height="38"
                 className={Styles.img}
               >
@@ -73,7 +86,7 @@ const TaskCard = (props) => {
         </CardContainer>
       )}
     </Draggable>
-    </>
+  </>
   );
 };
 

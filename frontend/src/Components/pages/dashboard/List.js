@@ -28,7 +28,7 @@ const ListContainer = styled.div`
   margin-right: 8px;
 `;
 
-const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, setExistingTasks, listsData, localProject }) => {
+const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, setExistingTasks, listsData, localProject, userData }) => {
 
   const [taskName, setTaskName] = useState("");
   const [createTaskModal, setCreateTaskModal] = useState(false);
@@ -281,7 +281,7 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
       await axios.post('http://localhost:4000/api/project/usersOfTheProject', data)
         .then(res => {
           setProjectMembers(res.data)
-          const filteredData = res.data.filter(data => data.projectUserRole === "SYSTEM ADMIN" || data.projectUserRole === "PROJECT MANAGER");
+          const filteredData = res.data.filter(data => data.projectUserRole === "SYSTEM ADMIN" || data.projectUserRole === "PROJECT MANAGER" || data.projectUserRole === "TECHLEAD");
           setProjectTopLevelMembers(filteredData);
         }).catch(err => {
           console.log(err)
@@ -465,6 +465,7 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
                     card={card}
                     updateTask={updateTask}
                     deleteTask={deleteTask}
+                    projectMembers={projectMembers}
 
                   />
                 ))}

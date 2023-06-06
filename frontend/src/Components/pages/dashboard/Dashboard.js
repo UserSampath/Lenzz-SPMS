@@ -15,8 +15,29 @@ const Dashboard = (props) => {
   const [projectDetails, SetProjectDetails] = useState({})
   const [existingTasks, setExistingTasks] = useState([]);
   const [localProject, SetLocalProject] = useState({});
+  const [userData, setUserData] = useState({});
 
+  const LocalUser = JSON.parse(localStorage.getItem("user"));
 
+  useEffect(() => {
+    const user = async () => {
+      await axios
+        .get("http://localhost:4000/api/user/getUser", {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${LocalUser.token}`,
+          },
+        })
+        .then((res) => {
+          console.log("userdata", res.data);
+          setUserData(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+    user();
+},[])
   useEffect(() => {
     const getTaskWithPS = async () => {
       const data = { id: projectDetails._id }
@@ -117,6 +138,7 @@ const Dashboard = (props) => {
                   existingTasks={existingTasks}
                   setExistingTasks={setExistingTasks}
                   localProject={localProject}
+                  userData={userData}
 
                 />
               ))}

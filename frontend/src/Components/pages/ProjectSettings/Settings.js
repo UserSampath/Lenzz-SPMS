@@ -14,8 +14,8 @@ import { useNavigate } from "react-router-dom";
 
 const Settings = () => {
   const history = useNavigate();
-  const [showBasicSettingContent, setShowBasicSettingContent] = useState(false);
-  const [showAddMemberSettingContent, setShowAddMemberSettingContent] = useState(true);
+  const [showBasicSettingContent, setShowBasicSettingContent] = useState(true);
+  const [showAddMemberSettingContent, setShowAddMemberSettingContent] = useState(false);
   const [showNotificationSettingContent, setShowNotificationSettingContent] = useState(false);
   const [localProject, SetLocalProject] = useState("");
 

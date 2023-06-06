@@ -68,7 +68,7 @@ const AddMemberModel = (props) => {
                                             <option value="PROJECT MANAGER">Project Manager</option>
                                             <option value="SYSTEM ADMIN">System Admin</option>
                                             <option value="DEVELOPER">Developer</option>
-                                            <option value="TECH LEAD">Tech Lead</option>
+                                            <option value="TECHLEAD">Tech Lead</option>
                                             <option value="QUALITY ASSURANCE">QA</option>
                                             <option value="CLIENT">Client</option>
                                             <option value="OTHER PROJECT WORKERS">Other</option>
