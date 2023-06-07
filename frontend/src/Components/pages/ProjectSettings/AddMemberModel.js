@@ -15,7 +15,7 @@ const AddMemberModel = (props) => {
         setSelectedOption(event.target.value);
     };
 
-    const ModelDisplayOut = () =>{
+    const ModelDisplayOut = () => {
         props.toggleAddMemberModel();
     }
 
@@ -40,7 +40,7 @@ const AddMemberModel = (props) => {
     return (
         <div className={styles.modal}>
             <div
-                onClick={()=>ModelDisplayOut()}
+                onClick={() => ModelDisplayOut()}
                 className={styles.overlay}></div>
             <div className={styles.modalContent}>
                 <div style={{ marginBottom: '10px' }}>
@@ -88,12 +88,12 @@ const AddMemberModel = (props) => {
 
 
                     <div className={styles.buttonsContainer}>
-                        <button onClick={() => {addMemberHandler()}} className={styles.button} style={{ backgroundColor: '#007bff', marginRight: '10px' }}>Add</button>
+                        <button onClick={() => { addMemberHandler() }} className={styles.button} style={{ backgroundColor: '#007bff', marginRight: '10px' }}>Add</button>
                         <button onClick={() => { ModelDisplayOut() }} className={styles.button} style={{ backgroundColor: '#dc3545' }}>Cancel</button>
                     </div >
                     {errorMessage && (
                         <div className={styles.empty} >
-                            <p className={styles.errMsg}>{ errorMessage}</p>
+                            <p className={styles.errMsg}>{errorMessage}</p>
                         </div>)}
                 </div>
             </div>
