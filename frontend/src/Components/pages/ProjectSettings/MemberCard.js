@@ -95,7 +95,7 @@ const MemberCard = (props) => {
     <div>
       <div style={{ display: "flex", justifyContent: "center", marginBottom: "10px", }} >
         <div style={{ background: "#EDEDED", width: "90%", height: "50px", borderRadius: "10px", display: "flex", alignItems: "center", padding: "10px 20px", boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)", }}>
-          <img src="https://sampathnalaka.s3.eu-north-1.amazonaws.com/uploads/IMG_20210907_151753_997.jpg" alt="svs"
+          <img src={props.member.profilePicture !== null ? props.member.profilePicture : "https://sampathnalaka.s3.eu-north-1.amazonaws.com/uploads/pngwing.com.png"} alt="svs"
             width="38" height="38"
             className={styles.img}
           >

@@ -21,7 +21,7 @@ const MemberSearchItem = (props) => {
         <div onClick={() => SearchItemClicked()}>
             <div style={{ background: "#ddd", margin: "0px", height: "50px", display: "flex", alignItems: "center", fontSize: "16px", color: "#333333", borderBottom: "1px solid #e1e1e1", overflow: "hidden", borderRadius: "10px", margin: "5px" }}
             >
-                <img src="https://sampathnalaka.s3.eu-north-1.amazonaws.com/uploads/IMG_20210907_151753_997.jpg" alt="svs"
+                    <img src={props.user.profilePicture !== null ? props.user.profilePicture : "https://sampathnalaka.s3.eu-north-1.amazonaws.com/uploads/pngwing.com.png"} alt="svs"
                     width="32" height="32"
                     className={styles.img}
                 />

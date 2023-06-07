@@ -606,7 +606,7 @@ const Company = () => {
                         <div style={{ display: "flex", flex: "wrap" }}>
                           <div>
                             <img
-                              src="https://sampathnalaka.s3.eu-north-1.amazonaws.com/uploads/IMG_20210907_151753_997.jpg"
+                              src={user.profilePicture !== null ? user.profilePicture : "https://sampathnalaka.s3.eu-north-1.amazonaws.com/uploads/pngwing.com.png"  }
                               alt="svs"
                               width="30"
                               height="30"
