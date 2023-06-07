@@ -238,6 +238,7 @@ const SendEmail = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
+
 ///////////////////////////////////////////////////app/////////
 
 const generateOTP = async (req, res) => {
