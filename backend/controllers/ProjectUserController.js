@@ -131,3 +131,17 @@ exports.updateUserProject = async (req, res) => {
         res.status(500).json({ message: err.message });
     }
 };
+
+exports.getRole = async (req, res) => {
+    const { _id } = req;
+    const { projectID } = req.body;
+    try {
+        const data = await projectUser.findOne({ user_id: _id, project_id: projectID });
+        if (!data) {
+            return res.status(404).json({ message: 'Role not found' });
+        }
+        res.json(data);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+};

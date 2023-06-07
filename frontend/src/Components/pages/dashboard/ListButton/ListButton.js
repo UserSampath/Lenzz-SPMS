@@ -6,12 +6,31 @@ import { addList } from "../../../../actions";
 import axios from "axios";
 import { FaPlus } from "react-icons/fa";
 import Styles from "./ListButton.module.css"
+import Swal from 'sweetalert2';
 
 const ListButton = (props) => {
+
+  const showErrorAlert = (test) => {
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: test,
+      // footer: '<a href="">Why do I have this issue?</a>'
+    })
+  };
+
   const [formOpen, setFormOpen] = useState(false);
   const [text, setText] = useState("");
   const openForm = () => {
-    setFormOpen(true);
+    if (props.projectRoleData.role == "SYSTEM ADMIN" ||
+      props.projectRoleData.role == "PROJECT MANAGER" ||
+      props.projectRoleData.role == "TECHLEAD" ||
+      props.projectRoleData.role == "QUALITY ASSURANCE") {
+      setFormOpen(true);
+    } else {
+      showErrorAlert(props.projectRoleData.role + " not allowed to create tasks.");
+    }
+    
   };
   const closeForm = e => {
     setFormOpen(false);

@@ -17,7 +17,7 @@ import ThreeDoteMenu from "./ThreeDoteMenu/ThreeDoteMenu"
 import RenameListModel from "./renameListModal/RenameListModel"
 import Attachment from "./attachmentModel/Attachment"
 import { LoadingModal } from "./loadingModal/LoadingModal";
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
 
 const ListContainer = styled.div`
   background-color: #dfe3e6;
@@ -28,7 +28,7 @@ const ListContainer = styled.div`
   margin-right: 8px;
 `;
 
-const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, setExistingTasks, listsData, localProject, userData }) => {
+const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, setExistingTasks, listsData, localProject, userData, projectRoleData }) => {
 
   const [taskName, setTaskName] = useState("");
   const [createTaskModal, setCreateTaskModal] = useState(false);
@@ -48,7 +48,7 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
   const [reporterError, setReporterError] = useState("false");
   const [startDateError, setStartDateError] = useState("false");
   const [endDateError, setEndDateError] = useState("false");
-  const [existingCards,setExistingCards] = useState([]);
+  const [existingCards, setExistingCards] = useState([]);
 
 
 
@@ -70,6 +70,15 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
       width: '250px'
     })
   };
+  const showErrorAlert = (test) => {
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: test,
+      // footer: '<a href="">Why do I have this issue?</a>'
+    })
+  };
+
 
   const getTasks = async () => {
     try {
@@ -111,9 +120,18 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
   }
 
   const clickedAddTask = async () => {
-    getTasks()
-    setUpdatingTask(false)
-    toggleCreateTaskModal();
+    console.log("saasas", projectRoleData);
+    if (projectRoleData.role == "SYSTEM ADMIN" ||
+      projectRoleData.role == "PROJECT MANAGER" ||
+      projectRoleData.role == "TECHLEAD" ||
+      projectRoleData.role == "QUALITY ASSURANCE") {
+      getTasks()
+      setUpdatingTask(false)
+      toggleCreateTaskModal();
+    } else {
+      showErrorAlert(projectRoleData.role + " not allowed to create tasks.");
+    }
+
   }
 
   const toggleCreateTaskModal = () => {
@@ -193,7 +211,7 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
       setShowLoadingModal(true);
       await axios.put("http://localhost:4000/updateTaskDetails", formData, {
         headers: {
-          'Content-Type': 'multipart/form-data' // Use multipart/form-data instead of multipart/mixed
+          'Content-Type': 'multipart/form-data'
         }
       }).then(async (res) => {
         showSuccessAlert()
