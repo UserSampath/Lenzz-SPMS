@@ -275,7 +275,7 @@ const Dashboard = (props) => {
   return (
     <div>
       <DragDropContext onDragEnd={onDragEnd}>
-        <Droppable droppableId="all-lists" direction="horizontal" type="list">
+        <Droppable droppableId="all-lists" direction="horizontal" type="list" >
           {provided => (
             <div {...provided.droppableProps} ref={provided.innerRef} style={{
               display: "flex",
@@ -284,6 +284,7 @@ const Dashboard = (props) => {
             >
               {lists.map((list, index) => (
                 <List
+                 
                   listID={list._id}
                   key={list._id}
                   title={list.title}
@@ -295,6 +296,7 @@ const Dashboard = (props) => {
                   localProject={localProject}
                   userData={userData}
                   projectRoleData={projectRoleData}
+                  
 
                 />
               ))}

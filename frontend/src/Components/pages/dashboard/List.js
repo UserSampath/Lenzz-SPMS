@@ -329,9 +329,16 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
   const [isThreeDoteModelOpen, setIsThreeDoteModelOpen] = useState(false);
 
   function handleThreeDoteButtonClick(event) {
-    const buttonRect = event.target.getBoundingClientRect();
-    setThreeDoteModelPosition({ x: buttonRect.left, y: buttonRect.bottom });
-    toggleThreeDoteOpen();
+    if (projectRoleData.role == "SYSTEM ADMIN" ||
+      projectRoleData.role == "PROJECT MANAGER" ||
+      projectRoleData.role == "TECHLEAD" ||
+      projectRoleData.role == "QUALITY ASSURANCE") {
+      const buttonRect = event.target.getBoundingClientRect();
+      setThreeDoteModelPosition({ x: buttonRect.left, y: buttonRect.bottom });
+      toggleThreeDoteOpen();
+    } else {
+      showErrorAlert(projectRoleData.role + " not allowed to change progress stage settings.");
+    }
   }
 
   const toggleThreeDoteOpen = () => {
@@ -457,7 +464,7 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
       )
     }
 
-    <Draggable draggableId={String(listID)} index={index}>
+    <Draggable draggableId={String(listID)} index={index} >
       {provided => (
         <ListContainer
           {...provided.draggableProps}

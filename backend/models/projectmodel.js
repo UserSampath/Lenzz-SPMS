@@ -95,13 +95,13 @@ projectSchema.statics.updateProject = async function (
   const parsedStartDate = parseISO(startDate);
   const parsedCurrentDate = parseISO(currentDate);
   // check if the start date is before the current date
-  if (isBefore(parsedStartDate, parsedCurrentDate)) {
-    // start date is before current date, so it's invalid
-    throw Error("Start date cannot be before the current date");
-  } else {
-    // start date is valid
-    console.log("Start date is valid");
-  }
+  // if (isBefore(parsedStartDate, parsedCurrentDate)) {
+  //   // start date is before current date, so it's invalid
+  //   throw Error("Start date cannot be before the current date");
+  // } else {
+  //   // start date is valid
+  //   console.log("Start date is valid");
+  // }
   const project = await this.findByIdAndUpdate(
     id,
     {
