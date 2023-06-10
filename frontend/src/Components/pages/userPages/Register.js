@@ -12,6 +12,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const EMAIL_REGEX = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 const NAME_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
+const CONTECTNUMBER_REGEX = /^\d{10}$/;
 const Register = () => {
   const userRef = useRef();
   const errRef = useRef();
@@ -35,6 +36,10 @@ const Register = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [validConfirmPassword, setValidConfirmPassword] = useState(false);
   const [ConfirmpasswordFocus, setConfirmPasswordFocus] = useState(false);
+
+  const [contactnumber, setcontactnumber] = useState("");
+  const [validContactNumber, setValidContactNumber] = useState(false);
+  const [ContactNumberFocus, setContactNumberFocus] = useState(false);
 
   const options = [
     "SYSTEM ADMIN",
@@ -65,13 +70,24 @@ const Register = () => {
     setValidConfirmPassword(password === confirmPassword);
   }, [password, confirmPassword]);
   useEffect(() => {
+    setValidContactNumber(CONTECTNUMBER_REGEX.test(contactnumber));
+  }, [contactnumber]);
+
+  useEffect(() => {
     setErrMsg("");
-  }, [firstName, lastName, email, password, confirmPassword]);
+  }, [firstName, lastName, email, password, confirmPassword, contactnumber]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    await signup(email, password, firstName, lastName, selectedJob);
+    await signup(
+      email,
+      password,
+      firstName,
+      lastName,
+      selectedJob,
+      contactnumber
+    );
   };
 
   const handleOptionChange = (eventKey) => {
@@ -129,7 +145,7 @@ const Register = () => {
                     aria-invalid={validFirstName ? "false" : "true"}
                     aria-describedby="uidnote"
                     onFocus={() => setFirstNameFocus(true)}
-                    onBlur={() => setEmailFocus(false)}
+                    onBlur={() => setFirstNameFocus(false)}
                     value={firstName}
                     placeholder="Enter your first name..."
                   />
@@ -239,6 +255,49 @@ const Register = () => {
                   <div id="emailHelp" className="form-text">
                     We'll never share your email with anyone else.
                   </div>
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="contactnumber">
+                    Contact Number:
+                    <FontAwesomeIcon
+                      icon={faCheck}
+                      className={contactnumber ? "valid" : "hide"}
+                    />
+                    <FontAwesomeIcon
+                      icon={faTimes}
+                      className={
+                        validContactNumber || !contactnumber
+                          ? "hide"
+                          : "invalid"
+                      }
+                    />
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    ref={userRef}
+                    autoComplete="on"
+                    onChange={(e) => setcontactnumber(e.target.value)}
+                    value={contactnumber}
+                    required
+                    aria-invalid={validContactNumber ? "false" : "true"}
+                    aria-describedby="uidnote"
+                    onFocus={() => setContactNumberFocus(true)}
+                    onBlur={() => setContactNumberFocus(false)}
+                    id="exampleInputContactnumber1"
+                    placeholder="Enter  contact number"
+                  />
+                  <p
+                    id="uidnote"
+                    className={
+                      ContactNumberFocus && contactnumber && !validContactNumber
+                        ? "instructions"
+                        : "offscreen"
+                    }
+                  >
+                    <FontAwesomeIcon icon={faInfoCircle} />
+                    must be 10 numbers
+                  </p>
                 </div>
                 <div className="mb-3">
                   <label htmlFor="passeorf">

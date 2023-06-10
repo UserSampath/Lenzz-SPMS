@@ -142,54 +142,6 @@ module.exports = {
     }
   },
 
-  progress: async (req, res) => {
-    try {
-      const allTasks = await Task.find();
-      let tasks = allTasks;
-
-      // Filter tasks based on index
-      if (req.body.index !== 0) {
-        tasks = updateTaskOrder(allTasks);
-      }
-
-      // Calculate percentage of completed tasks
-      const completedTasks = tasks.filter((task) => task.completed);
-      if (req.body.index === "todo") {
-        // Find tasks with the first index or done stage
-        completedTasks = tasks.filter((task) => task.status === "todo");
-      }
-      const percentage = (completedTasks.length / tasks.length) * 100;
-      res.status(200).json({ percentage: percentage });
-      console.log(percentage);
-    } catch (error) {
-      res.status(500).json({ error: error.message });
-    }
-  },
-  overallprogres: async (req, res) => {
-    try {
-      const allTasks = await Task.find();
-      let tasks = allTasks;
-      // Filter tasks based on index
-      if (req.body.index !== 0) {
-        tasks = updateTaskOrder(allTasks);
-      }
-      // Calculate percentage of completed tasks
-      let completedTasks = tasks.filter((task) => task.completed);
-      // Check if index is the last index or done stage
-      if (req.body.index === tasks.length - 1 || req.body.index === "done") {
-        // Find tasks with the last index or done stage
-        completedTasks = tasks.filter(
-          (task) => task.index === tasks.length - 1 || task.status === "done"
-        );
-      }
-      const percentage = (completedTasks.length / tasks.length) * 100;
-      res.status(200).json({ percentage });
-      console.log(percentage);
-    } catch (error) {
-      res.status(500).json({ error: error.message });
-    }
-  },
-
   tasksOfProject: async (req, res) => {
     try {
       const { projectId } = req.body;

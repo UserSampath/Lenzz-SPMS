@@ -156,3 +156,6 @@ FaBars {
 .sub-menu-link:hover p {
   font-weight: 600;
 }
+.user {
+  font-size: 15px;
+}

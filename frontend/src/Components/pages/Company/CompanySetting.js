@@ -13,9 +13,9 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const EMAIL_REGEX = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
-const TEXT_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
-const CONTECTNUMBER_REGEX = /^\d{9}$/;
-const ADDRESS = /^[A-z][A-z0-9-_]{3,23}$/;
+const TEXT_REGEX = /^[A-Za-z0-9_,\/@\s"]{3,23}$/; ///^[A-Za-z0-9_,\/@\s"]{3,23}$/
+const CONTECTNUMBER_REGEX = /^\d{10}$/;
+const ADDRESS = /^[A-Za-z0-9_,\/@\s"]{3,23}$/;
 const KEY = /^[a-zA-Z0-9]{8}$/;
 
 const CompanySetting = () => {
@@ -312,7 +312,7 @@ const CompanySetting = () => {
                   />
                 </label>
                 <input
-                  type="text"
+                  type=""
                   className="form-control"
                   required
                   aria-invalid={validContactNumber ? "false" : "true"}

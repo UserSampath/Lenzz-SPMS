@@ -10,7 +10,6 @@ app.use(express.urlencoded({ extended: false }));
 const createToken = require("../util/createToken");
 const validator = require("validator");
 
-
 const otpGenerator = (otpLength) => {
   let otp = "";
   for (let i = 0; i < otpLength; i++) {
@@ -47,7 +46,8 @@ const loginUser = async (req, res) => {
 
 //Signup a user
 const signupUser = asyncHandler(async (req, res) => {
-  const { firstName, lastName, email, password, selectedJob } = req.body;
+  const { firstName, lastName, email, password, selectedJob, contactnumber } =
+    req.body;
 
   try {
     const user = await User.signup(
@@ -55,7 +55,8 @@ const signupUser = asyncHandler(async (req, res) => {
       lastName,
       email,
       password,
-      selectedJob
+      selectedJob,
+      contactnumber
     );
     const token = createToken(user._id);
     res.status(200).json({ email, token, selectedJob: user.selectedJob });
@@ -160,7 +161,9 @@ const updateUserProfile = asyncHandler(async (req, res) => {
       return;
     }
     if (!validator.isLength(req.body.firstName, { max: 255 })) {
-      res.status(400).json({ error: "First name must be between 2 and 255 characters" });
+      res
+        .status(400)
+        .json({ error: "First name must be between 2 and 255 characters" });
       return;
     }
     user.firstName = req.body.firstName;
@@ -190,11 +193,11 @@ const profilePictureUpdate = asyncHandler(async (req, res) => {
 const allUsers = asyncHandler(async (req, res) => {
   const keyword = req.query.search
     ? {
-      $or: [
-        { firstName: { $regex: req.query.search, $options: "i" } },
-        { email: { $regex: req.query.search, $options: "i" } },
-      ],
-    }
+        $or: [
+          { firstName: { $regex: req.query.search, $options: "i" } },
+          { email: { $regex: req.query.search, $options: "i" } },
+        ],
+      }
     : {};
 
   const users = await User.find(keyword).find({ _id: { $ne: req.user._id } });

@@ -7,18 +7,14 @@ const MemberProgressBar = (props) => {
   useEffect(() => {
     const CalculatePercentage = async () => {
       const name = props.member.firstName + " " + props.member.lastName;
-      console.log(name);
       const NumofTasks = props.tasksOftheProject.filter(
         (t) => t.assign === name
       );
-      console.log("ddddddddddddd", NumofTasks.length);
-      console.log(
-        "ddd",
-        (NumofTasks.length / props.totalTasksOftheMember.totalTasks) * 100
-      );
-      // (NumofTasks.length / props.totalTasksOftheMember) * 100
+
       setProgressContribution(
-        (NumofTasks.length / props.totalTasksOftheMember.totalTasks) * 100
+        Math.round(
+          (NumofTasks.length / props.totalTasksOftheMember.totalTasks) * 100
+        )
       );
     };
     CalculatePercentage();

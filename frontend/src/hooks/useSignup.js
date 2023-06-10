@@ -8,7 +8,14 @@ export const useSignup = () => {
   const [isLoading, setIsloading] = useState(null);
   const { dispatch } = useAuthContext();
   const history = useNavigate();
-  const signup = async (firstName, lastName, email, password, selectedJob) => {
+  const signup = async (
+    firstName,
+    lastName,
+    email,
+    password,
+    selectedJob,
+    contactnumber
+  ) => {
     setIsloading(true);
     setError(null);
 
@@ -21,6 +28,7 @@ export const useSignup = () => {
         email,
         password,
         selectedJob,
+        contactnumber,
       }),
     });
     const json = await response.json();

@@ -18,11 +18,14 @@ const Home = () => {
             </div>
             <div className="col-md-6">
               <div className="text-center">
-                <h1 className="text-white">
+                <h1 className="text-white" style={{ fontSize: "35px" }}>
                   Software Project Management System
                 </h1>
-
-                <p className="text-white">
+                <br></br>
+                <p
+                  className="text-white"
+                  style={{ fontSize: "20px", textAlign: "justify" }}
+                >
                   Unlock the full potential of your software projects with our
                   all-in-one project management system. Seamlessly plan,
                   organize, and collaborate with our intuitive interface and

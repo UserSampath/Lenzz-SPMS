@@ -105,20 +105,39 @@ const Sidebar = ({ children, SetSelectedProjectController, display }) => {
             <div className="sub-menu-wrap" id="subMenu">
               {user && (
                 <div className="sub-menu">
-                  <div>
+                  <div
+                    style={{
+                      fontSize: "18px",
+                      fontFamily: "monospace",
+                    }}
+                  >
                     <h5>{user.email}</h5>
                     <h5> {user.selectedJob}</h5>
                   </div>
                   <hr />
                   <a href="/AccountSettings" className="sub-menu-link">
                     <CgProfile className="profile" />
-                    <p>Edit Profile</p>
+                    <p
+                      style={{
+                        fontSize: "18px",
+                        fontFamily: "monospace",
+                      }}
+                    >
+                      Edit Profile
+                    </p>
                     <span></span>
                   </a>
                   <hr />
                   <a href="#" className="sub-menu-link" onClick={handleClick}>
                     <AiOutlineLogout className="profile" />
-                    <p>LogOut</p>
+                    <p
+                      style={{
+                        fontSize: "18px",
+                        fontFamily: "monospace",
+                      }}
+                    >
+                      LogOut
+                    </p>
                     <span></span>
                   </a>
                 </div>
