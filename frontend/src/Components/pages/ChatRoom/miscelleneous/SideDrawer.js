@@ -158,8 +158,8 @@ const SideDrawer = () => {
           style={{
             width: "400px",
             height: "700px",
-            marginTop: "125px",
-            marginLeft: "85px",
+            marginTop: "120px",
+            marginLeft: "175px",
             borderRadius: "10px",
           }}
         >

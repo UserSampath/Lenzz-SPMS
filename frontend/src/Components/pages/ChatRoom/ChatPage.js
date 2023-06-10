@@ -10,12 +10,12 @@ const ChatPage = () => {
   const { user } = useAuthContext();
 
   return (
-    <div style={{ width: "90%", marginLeft: "100px", marginTop: "55px" }}>
+    <div style={{ width: "700px", marginLeft: "170px", marginTop: "55px" }}>
       {user && <SideDrawer />}
       <Box
         display="flex"
         justifyContent="space-between"
-        w="175%"
+        w="1230px"
         h="84.5vh"
         p="10px"
       >
