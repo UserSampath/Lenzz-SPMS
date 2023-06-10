@@ -12,7 +12,7 @@ import {
   ModalBody,
   ModalCloseButton,
 } from "@chakra-ui/modal";
-import { Image } from "@chakra-ui/image";
+
 import { Avatar } from "@chakra-ui/avatar";
 
 const ProfileModel = ({ user, children }) => {

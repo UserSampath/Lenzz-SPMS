@@ -16,7 +16,6 @@ import { useToast } from "@chakra-ui/toast";
 import {
   Menu,
   MenuButton,
-  MenuIcon,
   MenuItem,
   MenuList,
 } from "@chakra-ui/menu";
@@ -94,7 +93,7 @@ const SideDrawer = () => {
         title: "Error fetching chat",
         description: error.message,
         status: "error",
-        duration: 5000,
+        duration: 2000,
         isClosable: true,
         position: "bottom-left",
       });
@@ -115,12 +114,14 @@ const SideDrawer = () => {
         marginLeft="7px"
       >
         <Tooltip label="Search Users to chat" hasArrow placement="bottom-end">
-          <Button variant="ghost" onClick={onOpen}>
-            <i className="fa fa-search"></i>
-            <Text display={{ base: "none", md: "flex" }} px="4">
+          <button variant="ghost" onClick={onOpen}>
+            <div style={{display:"flex" ,flex:"wrap"}}>
+            <i className="fa fa-search" style={{marginTop:"4px"}}></i>
+            <p display={{ base: "none", md: "flex" }} style={{marginLeft:"10px",marginBottom:"1px"}} px="4">
               Search User
-            </Text>
-          </Button>
+            </p>
+            </div>
+          </button>
         </Tooltip>
 
         <div>
@@ -162,7 +163,7 @@ const SideDrawer = () => {
             borderRadius: "10px",
           }}
         >
-          <DrawerHeader borderBottomWidth="1px">Serach users</DrawerHeader>
+          <DrawerHeader borderBottomWidth="1px">Search Users</DrawerHeader>
           <DrawerBody>
             <Box display="flex" pb={2}>
               <Input

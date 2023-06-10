@@ -22,6 +22,7 @@ import { Spinner } from "@chakra-ui/spinner";
 import UserListItem from "../UserDetails/UserListItem";
 
 const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
+  
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { selectedChat, setSelectedChat, user } = ChatState();
   const [groupChatName, setGroupChatName] = useState();
@@ -213,7 +214,7 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
           <ModalHeader>{selectedChat.chatName}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <Box w="100%" display="flex" flexWrap="wrap" pb={3}>
+            <Box w='100%' display="flex" flexWrap="wrap" pb={3}>
               {selectedChat.users.map((u) => (
                 <UserBadgeItem
                   key={user._id}
