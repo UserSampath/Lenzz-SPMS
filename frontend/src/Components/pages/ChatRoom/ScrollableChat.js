@@ -12,7 +12,7 @@ import { useAuthContext } from "../../../hooks/useAuthContext";
 
 const ScrollableChat = ({ messages }) => {
   const { user } = useAuthContext();
-
+console.log(user._id);
   return (
     <ScrollableFeed>
       {messages &&
@@ -41,7 +41,7 @@ const ScrollableChat = ({ messages }) => {
                 }`,
                 marginLeft: isSameSenderMargin(messages, m, i, user._id),
                 marginTop: isSameUser(messages, m, i, user._id) ? 3 : 10,
-                borderRadius: "20px",
+                borderRadius: "18px",
                 padding: "5px 15px",
                 maxWidth: "75%",
               }}

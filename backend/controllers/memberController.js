@@ -1,4 +1,5 @@
 const User = require("../models/memberModel");
+const Project = require("../models/projectmodel");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 var nodemailer = require("nodemailer");
@@ -9,6 +10,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 const createToken = require("../util/createToken");
 const validator = require("validator");
+
+const keys = ["firstName", "lastName", "email"];
 
 const otpGenerator = (otpLength) => {
   let otp = "";
@@ -38,6 +41,7 @@ const loginUser = async (req, res) => {
       email,
       token,
       selectedJob: user.selectedJob,
+      _id: user._id
     });
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -59,7 +63,7 @@ const signupUser = asyncHandler(async (req, res) => {
       contactnumber
     );
     const token = createToken(user._id);
-    res.status(200).json({ email, token, selectedJob: user.selectedJob });
+    res.status(200).json({ email, token, selectedJob: user.selectedJob, _id: user._id });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -191,17 +195,44 @@ const profilePictureUpdate = asyncHandler(async (req, res) => {
 });
 
 const allUsers = asyncHandler(async (req, res) => {
-  const keyword = req.query.search
-    ? {
-      $or: [
-        { firstName: { $regex: req.query.search, $options: "i" } },
-        { email: { $regex: req.query.search, $options: "i" } },
-      ],
-    }
-    : {};
+  // const keyword = req.body.search
+  //   ? {
+  //     $or: [
+  //       { firstName: { $regex: req.body.search, $options: "i" } },
+  //       { email: { $regex: req.body.search, $options: "i" } },
+  //     ],
+  //   }
+  //   : {};
 
-  const users = await User.find(keyword).find({ _id: { $ne: req.user._id } });
-  res.send(users);
+  // const users = await User.find(keyword).find({ _id: { $ne: req.user._id } });
+  // res.send(users);
+
+  const { id, search } = req.body;
+  try {
+    const project = await Project.findById(id).populate('users');
+    if (!project) {
+      return res.status(404).json({ error: 'Project not found' });
+    }
+    const projectUsers = project.users;
+    const members = await Promise.all(projectUsers.map(async user => {
+      const member = await User.findById(user.user_id);
+      const ProjectUserObj = {
+        "projectUserRole": user.role,
+        "projectUserId": user._id
+      };
+      const memberObj = member.toObject();
+      const concatenatedObj = Object.assign({}, memberObj, ProjectUserObj);
+      return concatenatedObj;
+    }));
+
+    const a = members.filter((item) =>
+      keys.some((key) => item[key].toLowerCase().includes(search))
+    );
+    res.status(200).json(a);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Server error' });
+  }
 });
 
 //Email verification

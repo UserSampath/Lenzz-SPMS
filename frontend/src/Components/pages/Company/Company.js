@@ -220,6 +220,27 @@ const Company = () => {
       };
       addSystemAdminToProject();
 
+      // const createChatRoom = async () => {
+      //   try {
+      //     const config = {
+      //       headers: {
+      //         Authorization: `Bearer ${user.token}`,
+      //       },
+      //     };
+      //     const { data } = await axios.post(
+      //       "/api/chat/group",
+      //       {
+      //         name: groupChatName,
+      //         users: JSON.stringify([]),
+      //       },
+      //       config
+      //     );
+      //   } catch (err) {
+      //     console.log(err);
+      //   }
+      // }
+      // createChatRoom();
+
       localStorage.setItem(
         "last access project",
         JSON.stringify({ projectId: json._id, userId: userData._id })
