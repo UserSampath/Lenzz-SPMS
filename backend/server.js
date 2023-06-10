@@ -22,7 +22,7 @@ var nodemailer = require("nodemailer");
 // express app
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: "*",
   })
 );
 // middleware
