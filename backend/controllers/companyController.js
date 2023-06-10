@@ -19,7 +19,6 @@ const createCompany = async (req, res) => {
     const user_id = req.user._id;
     const company = await Company.createcompany(
       companyname,
-
       contactnumber,
       companyaddress,
       companyemail,
@@ -120,7 +119,10 @@ const updateCompanyData = async (req, res) => {
     companyemail,
     _id,
   } = req.body;
-
+  const { id, selectedJob } = req;
+  if (selectedJob != "SYSTEM ADMIN") {
+    return res.status(401).json({ error: "User is not authorized" });
+  }
   try {
     const company = await Company.updateCompany(
       companyname,

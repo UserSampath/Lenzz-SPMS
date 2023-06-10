@@ -7,8 +7,6 @@ router.post("/progressStage/taskWithPS", ProgressStage.taskWithPS);
 router.delete("/deleteList/:id", ProgressStage.deleteList);
 router.put("/moveList", ProgressStage.moveList);
 router.put("/renameProgressStage/:id", ProgressStage.update);
-router.post("/todo", ProgressStage.progress);
-router.post("/overall", ProgressStage.overallprogres);
 router.post("/progressStage/tasksOfProject", ProgressStage.tasksOfProject);
 router.post(
   "/progressStage/TotaltasksOfProject",

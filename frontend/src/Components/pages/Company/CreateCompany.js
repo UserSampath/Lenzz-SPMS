@@ -13,7 +13,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const EMAIL_REGEX = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 const TEXT_REGEX = /^[A-Za-z0-9\s\-_,.!?:;'"()]{5,25}$/;
 const CONTECTNUMBER_REGEX = /^\w{10}$/;
-const ADDRESS = /^[A-z][A-z0-9-_]{3,23}$/;
+const ADDRESS = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/;
 
 const CreateCompany = () => {
   const userRef = useRef();
@@ -234,7 +234,7 @@ const CreateCompany = () => {
                 </div>
 
                 <div className="mb-3">
-                  <label htmlFor="email">
+                  <label htmlFor="ContactNumber">
                     Contact Number:
                     <FontAwesomeIcon
                       icon={faCheck}

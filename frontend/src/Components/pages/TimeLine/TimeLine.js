@@ -245,9 +245,9 @@ const TimeLine = () => {
         <div
           className="BoxCard"
           style={{
-            width: " 1300px",
+            width: " 1400px",
             height: " 100%",
-            marginLeft: "125px",
+            marginLeft: "175px",
             marginTop: "80px",
             border: "1.5px solid",
             borderRadius: "10px",
@@ -437,7 +437,7 @@ const TimeLine = () => {
                   <div
                     className="BoxCard"
                     style={{
-                      width: " 80vw",
+                      width: " 1320px",
                       height: " 50%",
                       marginLeft: "15px",
                       marginTop: "5px",

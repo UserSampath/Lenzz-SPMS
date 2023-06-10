@@ -1,29 +1,23 @@
 import React, { useState, useEffect } from "react";
-import ProgressBar from "react-bootstrap/ProgressBar";
 import Bar from "./Bar";
 import "./Circleprogress.css";
-import { useAuthContext } from "./../../../hooks/useAuthContext";
-import { useProjectContext } from "../../../hooks/useProjectContext";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import MemberProgressBar from "./MemberProgressBar";
 function CircleProgress(props) {
   const history = useNavigate();
 
-  const [percentage, setPercentage] = useState("");
-  const [progress, setProgress] = useState("");
-  const [overallprogress, setOverallProgress] = useState("");
-  const { user } = useAuthContext();
-  const { dispatch } = useProjectContext();
   const [projectDetails, SetProjectDetails] = useState({});
   const [localProject, SetLocalProject] = useState("");
-  const [name, setName] = useState("");
   const [membersCount, setMembersCount] = useState(0);
   const [projectMembersData, SetProjectMembersData] = useState([]);
   const [searchEmpty, setSearchEmpty] = useState(false);
   const [deadlinePercentage, setDeadlinePercentage] = useState("");
   const [tasksOftheProject, SetTasksOftheProject] = useState([]);
   const [totalTasksOftheMember, SetTotalTasksOftheMember] = useState("");
+  const [ToDototal, setTodoTotal] = useState("");
+  const [Overpercentage, setOverdoPercentage] = useState("");
+  const [toDopercentage, setTodoPercentage] = useState("");
   useEffect(() => {
     const getLocalStorageProject = async () => {
       const localPro = await JSON.parse(
@@ -41,6 +35,42 @@ function CircleProgress(props) {
 
     getLocalStorageProject();
   }, []);
+
+  useEffect(() => {
+    const getTaskWithPS = async () => {
+      const data = { id: projectDetails._id };
+      await axios
+        .post("http://localhost:4000/progressStage/taskWithPS", data)
+        .then((res) => {
+          if (res.data.length > 0) {
+            setTodoTotal(res.data[0].cards.length);
+            const TodoTotal = res.data[0].cards.length;
+            var total = 0;
+
+            const response = res.data.map((list) => {
+              total = total + list.cards.length;
+              return list.cards.length;
+            });
+
+            const toDopercentage = Math.round((TodoTotal / total) * 100);
+            setTodoPercentage(toDopercentage);
+            if (res.data.length > 1) {
+              var temp = res.data.length - 1;
+              const lastTasks = res.data[temp].cards.length;
+              const OverallPercentage = Math.round((lastTasks / total) * 100);
+              setOverdoPercentage(OverallPercentage);
+            }
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+    if (projectDetails._id && localProject.projectId) {
+      getTaskWithPS();
+    }
+  }, [projectDetails._id, localProject.projectId]);
+
   useEffect(() => {
     const getProject = async () => {
       const data = {
@@ -49,9 +79,7 @@ function CircleProgress(props) {
       await axios
         .post("http://localhost:4000/api/project/getProject", data)
         .then((res) => {
-          console.log(res.data.project);
           SetProjectDetails(res.data.project);
-          setName(res.data.project.projectname);
         })
         .catch((err) => {
           console.log(err);
@@ -65,7 +93,6 @@ function CircleProgress(props) {
 
   useEffect(() => {
     const DeadLineRemaing = async () => {
-      console.log("deadline");
       const data = {
         id: localProject.projectId,
       };
@@ -93,47 +120,6 @@ function CircleProgress(props) {
   } else {
     variant = "danger";
   }
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch("/api/list/todo", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ index: 0 }),
-        });
-        const data = await response.json();
-        const percentage = data.percentage;
-        setProgress(percentage);
-        console.log(percentage);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchData();
-  }, []);
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch("/api/list/overall", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ index: 0 }),
-        });
-        const data = await response.json();
-        const percentage = data.percentage;
-        setOverallProgress(percentage);
-        console.log(percentage);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchData();
-  }, []);
 
   //get project
 
@@ -175,7 +161,6 @@ function CircleProgress(props) {
           }
         )
         .then((res) => {
-          console.log(res.data);
           SetTotalTasksOftheMember(res.data);
         })
         .catch((err) => {
@@ -230,7 +215,7 @@ function CircleProgress(props) {
             >
               ToDo
             </label>
-            <Bar progress={progress} />
+            <Bar progress={toDopercentage} />
           </div>
         </div>
         <div
@@ -261,7 +246,7 @@ function CircleProgress(props) {
             >
               OverallProgress
             </label>
-            <Bar progress={overallprogress} />
+            <Bar progress={Overpercentage} />
           </div>
         </div>
         <div
@@ -336,6 +321,7 @@ function CircleProgress(props) {
             projectMembersData.map((member, index) => {
               return (
                 <MemberProgressBar
+                  key={index}
                   index={index}
                   member={member}
                   now={now}
@@ -343,27 +329,6 @@ function CircleProgress(props) {
                   tasksOftheProject={tasksOftheProject}
                   totalTasksOftheMember={totalTasksOftheMember}
                 />
-                // <React.Fragment key={index}>
-                //   <div style={{ marginBottom: "10px" }}>
-                //     <h5
-                //       style={{
-                //         fontFamily: "monospace",
-                //         fontWeight: "bold",
-                //         fontStyle: "oblique",
-                //       }}
-                //     >
-                //       {member.firstName} {member.lastName} -{" "}
-                //       {member.selectedJob}
-                //     </h5>
-                //   </div>
-                //   <ProgressBar
-                //     now={now}
-                //     striped
-                //     variant={variant}
-                //     label={`${70}%`}
-                //     style={{ height: "30px", marginBottom: "20px" }}
-                //   />
-                // </React.Fragment>
               );
             })}
         </div>

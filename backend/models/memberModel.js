@@ -23,6 +23,10 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
+    contactNumber: {
+      type: Number,
+      required: true,
+    },
     selectedJob: {
       type: String,
       enum: [
@@ -55,14 +59,15 @@ const userSchema = new Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Company",
     },
-    projects: [{
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'ProjectUser'
-    }]
-    ,
+    projects: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "ProjectUser",
+      },
+    ],
     profilePicture: {
-      type: String
-    }
+      type: String,
+    },
   },
   { timestamps: true }
 );
@@ -73,10 +78,18 @@ userSchema.statics.signup = async function (
   password,
   firstName,
   lastName,
-  selectedJob
+  selectedJob,
+  contactNumber
 ) {
   // validation
-  if (!email || !password || !firstName || !lastName || !selectedJob) {
+  if (
+    !email ||
+    !password ||
+    !firstName ||
+    !lastName ||
+    !selectedJob ||
+    !contactNumber
+  ) {
     throw Error("All fields must be filled");
   }
   if (!validator.isEmail(email)) {
@@ -114,7 +127,9 @@ userSchema.statics.signup = async function (
     firstName,
     lastName,
     selectedJob,
-    profilePicture:"https://sampathnalaka.s3.eu-north-1.amazonaws.com/uploads/pngwing.com.png"
+    contactNumber,
+    profilePicture:
+      "https://sampathnalaka.s3.eu-north-1.amazonaws.com/uploads/pngwing.com.png",
   });
 
   return user;
