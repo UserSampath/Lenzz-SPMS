@@ -32,14 +32,14 @@ router.post("/update", requireAuth, updateUserProfile);
 router.post("/profilePictureUpdate", requireAuth, profilePictureUpdate);
 
 
-router.get("/", requireAuth, allUsers);
+router.post("/", requireAuth, allUsers);
 
 //app
 router.post("/generateOTP", generateOTP);
 router.post("/resetPassword", resetPassword);
 router.get("/getUsers", appUserAuthentication, getUsers);
 router.post("/checkOTP", checkOTP);
-router.get("/getUser",requireAuth, getUser);
+router.get("/getUser", requireAuth, getUser);
 router.post("/getUserFromCompany", getUserFromCompany);
 
 
