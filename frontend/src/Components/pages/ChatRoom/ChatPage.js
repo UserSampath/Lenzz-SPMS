@@ -10,13 +10,19 @@ const ChatPage = () => {
   const { user } = useAuthContext();
 
   return (
-    <div style={{ width: "700px", marginLeft: "170px", marginTop: "55px" }}>
+    <div
+      style={{
+        width: "920px",
+        marginLeft: "10px",
+        marginTop: "25px",
+      }}
+    >
       {user && <SideDrawer />}
       <Box
         display="flex"
         justifyContent="space-between"
-        w="1230px"
-        h="84.5vh"
+        w="1605px"
+        h="82.5vh"
         p="10px"
       >
         {user && <MyChats fetchAgain={fetchAgain} />}

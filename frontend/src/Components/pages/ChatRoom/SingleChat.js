@@ -16,6 +16,8 @@ import ProfileModel from "./miscelleneous/ProfileModel";
 import io from "socket.io-client";
 import Lottie from "react-lottie";
 import animationData from "./animation/typing.json";
+import { FiSend } from "react-icons/fi";
+
 const ENDPOINT = "http://localhost:4000";
 var socket, selectedChatCompare;
 
@@ -202,7 +204,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             flexDir="column"
             justifyContent="flex-end"
             p={3}
-            bg="#E8E8E8"
+            bg="#FFFFFF"
             w="100%"
             h="100%"
             borderRadius="lg"
@@ -234,13 +236,27 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                 <></>
               )}
 
-              <Input
-                variant="filled"
-                bg="#E0E0E"
-                placeholder="Enter a message.."
-                onChange={typingHandler}
-                value={newMessage}
-              />
+              <div style={{ display: "flex" }}>
+                <Input
+                  variant="filled"
+                  bg="#EAF6FB"
+                  placeholder="Enter a message.."
+                  onChange={typingHandler}
+                  value={newMessage}
+                  onKeyDown={sendMessage}
+                  style={{ width: "950px" }}
+                />
+                <button
+                  onClick={sendMessage}
+                  style={{
+                    marginRight: "35px",
+                    marginLeft: "25px",
+                    fontSize: "25px",
+                  }}
+                >
+                  <FiSend style={{ color: "#137EAA" }} />
+                </button>
+              </div>
             </FormControl>
           </Box>
         </>
@@ -253,7 +269,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
           h="100%"
         >
           <Text fontSize="3xl" pb={3} fontFamily="Work sans">
-            Click on a user to start chatting
+            Click on a user to start chat with your project
           </Text>
         </Box>
       )}

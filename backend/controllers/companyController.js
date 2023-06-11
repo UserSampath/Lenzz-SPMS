@@ -19,7 +19,7 @@ const createToken = (_id) => {
 const createCompany = async (req, res) => {
   const { companyname, contactnumber, companyemail, companyaddress } = req.body;
   const { id, selectedJob } = req;
-  if (selectedJob != "SYSTEM ADMIN") {
+  if (selectedJob !== "SYSTEM ADMIN") {
     return res.status(401).json({ error: "User is not authorized" });
   }
 
@@ -129,7 +129,7 @@ const updateCompanyData = async (req, res) => {
     _id,
   } = req.body;
   const { id, selectedJob } = req;
-  if (selectedJob != "SYSTEM ADMIN") {
+  if (selectedJob !== "SYSTEM ADMIN") {
     return res.status(401).json({ error: "User is not authorized" });
   }
   try {

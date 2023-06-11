@@ -16,7 +16,7 @@ router.post("/checkcompany", requireAuth, checkcompany);
 router.get("/companyUsers", requireAuth, companyUsers);
 
 router.get("/randomkey", randomkey);
-router.put("/updateCompanyData", updateCompanyData);
+router.put("/updateCompanyData", requireAuth, updateCompanyData);
 router.get("/:id", requireAuth, getCompanyById);
 router.post("/sendInvitation", sendInvitation);
 

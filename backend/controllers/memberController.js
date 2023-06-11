@@ -41,7 +41,8 @@ const loginUser = async (req, res) => {
       email,
       token,
       selectedJob: user.selectedJob,
-      _id: user._id
+      _id: user._id,
+      profilePicture: user.profilePicture,
     });
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -63,7 +64,9 @@ const signupUser = asyncHandler(async (req, res) => {
       contactnumber
     );
     const token = createToken(user._id);
-    res.status(200).json({ email, token, selectedJob: user.selectedJob, _id: user._id });
+    res
+      .status(200)
+      .json({ email, token, selectedJob: user.selectedJob, _id: user._id });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -112,7 +115,7 @@ const forgotpassword = async (req, res) => {
   try {
     const validuser = await User.findOne({ _id: id, verifytoken: token });
     const verifyToken = jwt.verify(token, keysecret);
-    console.log(verifyToken);
+
     if (validuser && verifyToken._id) {
       res.status(201).json({ status: 201, validuser });
     } else {
@@ -209,21 +212,23 @@ const allUsers = asyncHandler(async (req, res) => {
 
   const { id, search } = req.body;
   try {
-    const project = await Project.findById(id).populate('users');
+    const project = await Project.findById(id).populate("users");
     if (!project) {
-      return res.status(404).json({ error: 'Project not found' });
+      return res.status(404).json({ error: "Project not found" });
     }
     const projectUsers = project.users;
-    const members = await Promise.all(projectUsers.map(async user => {
-      const member = await User.findById(user.user_id);
-      const ProjectUserObj = {
-        "projectUserRole": user.role,
-        "projectUserId": user._id
-      };
-      const memberObj = member.toObject();
-      const concatenatedObj = Object.assign({}, memberObj, ProjectUserObj);
-      return concatenatedObj;
-    }));
+    const members = await Promise.all(
+      projectUsers.map(async (user) => {
+        const member = await User.findById(user.user_id);
+        const ProjectUserObj = {
+          projectUserRole: user.role,
+          projectUserId: user._id,
+        };
+        const memberObj = member.toObject();
+        const concatenatedObj = Object.assign({}, memberObj, ProjectUserObj);
+        return concatenatedObj;
+      })
+    );
 
     const a = members.filter((item) =>
       keys.some((key) => item[key].toLowerCase().includes(search))
@@ -231,7 +236,7 @@ const allUsers = asyncHandler(async (req, res) => {
     res.status(200).json(a);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Server error' });
+    res.status(500).json({ error: "Server error" });
   }
 });
 

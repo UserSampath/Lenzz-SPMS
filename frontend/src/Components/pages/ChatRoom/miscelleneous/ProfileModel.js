@@ -38,7 +38,7 @@ const ProfileModel = ({ user, children }) => {
             display="flex"
             justifyContent="center"
           >
-            {user.firstName}
+            {user.firstName + " " + user.lastName}
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody
@@ -47,13 +47,28 @@ const ProfileModel = ({ user, children }) => {
             alignItems="center"
             justifyContent="space-between"
           >
-            <Avatar size="xl" name={user.firstName} src={user.pic} />
             <Text
               fontSize={{ base: "28px", md: "30px" }}
               fontFamily="Work sans"
             >
               Email: {user.email}
             </Text>
+            {/* <div>
+              <img
+                src={
+                  user.profilePicture !== null
+                    ? user.profilePicture
+                    : "https://sampathnalaka.s3.eu-north-1.amazonaws.com/uploads/pngwing.com.png"
+                }
+                alt="svs"
+                width="30"
+                height="30"
+                style={{
+                  border: "1px solid",
+                  borderRadius: "50%", // border radius of 50% makes the image circular
+                }}
+              />
+            </div> */}
           </ModalBody>
           <ModalFooter>
             <Button onClick={onClose}>Close</Button>

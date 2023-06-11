@@ -21,6 +21,7 @@ const KEY = /^[a-zA-Z0-9]{8}$/;
 const CompanySetting = () => {
   const userRef = useRef();
   const errRef = useRef();
+  const { user } = useAuthContext();
   const [userData, setUserData] = useState({});
   const [company, setCompany] = useState({});
   const [companyName, setCompanyName] = useState("");
@@ -117,7 +118,16 @@ const CompanySetting = () => {
       setIsMountUserData(true);
     }
   }, [userData]);
-
+  const showSuccessAlert = () => {
+    Swal.fire({
+      position: "center",
+      icon: "success",
+      text: "Your data has been saved",
+      showConfirmButton: false,
+      timer: 900,
+      width: "250px",
+    });
+  };
   const submitHandler = async (event) => {
     event.preventDefault();
     const companyData = {
@@ -129,9 +139,15 @@ const CompanySetting = () => {
       companyKey: companyKey,
     };
     await axios
-      .put("http://localhost:4000/api/company/updateCompanyData", companyData)
+      .put("http://localhost:4000/api/company/updateCompanyData", companyData, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+      })
       .then((res) => {
         console.log(res.data);
+        showSuccessAlert();
         setError(null);
       })
       .catch((err) => {
@@ -165,8 +181,8 @@ const CompanySetting = () => {
           className="Boxcard "
           style={{
             width: "650px",
-            marginLeft: "150px",
-            marginTop: "60px",
+            marginLeft: "250px",
+            marginTop: "95px",
             border: "1px solid",
             borderRadius: "10px",
             borderColor: "#ABAAAA",
@@ -312,17 +328,19 @@ const CompanySetting = () => {
                   />
                 </label>
                 <input
-                  type=""
+                  type="text"
                   className="form-control"
+                  placeholder="Company Email Address"
+                  id="companyNumber"
+                  ref={userRef}
+                  autoComplete="on"
+                  value={companyNumber}
                   required
                   aria-invalid={validContactNumber ? "false" : "true"}
-                  id="contactnumber"
-                  value={companyNumber}
-                  autoComplete="on"
+                  aria-describedby="uidnote"
                   onChange={companyNumberHandler}
                   onFocus={() => setContactNumberFocus(true)}
                   onBlur={() => setContactNumberFocus(false)}
-                  placeholder="Enter your Contact Number"
                 />{" "}
                 <p
                   style={{
@@ -459,7 +477,7 @@ const CompanySetting = () => {
         </div>
         <div
           className="card"
-          style={{ marginTop: "60px", backgroundColor: " #b3ecff" }}
+          style={{ marginTop: "95px", backgroundColor: " #b3ecff" }}
         >
           <img
             className="management"

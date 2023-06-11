@@ -131,23 +131,8 @@ const AccountSettings = () => {
   };
   return (
     <Sidebar>
-      <div
-        className="pageContainer"
-        style={{ display: "flex", marginLeft: "55px" }}
-      >
-        <div
-          className="BoxCard"
-          style={{
-            width: "650px",
-            marginLeft: "300px",
-            marginTop: "55px",
-            border: "1px solid",
-            borderRadius: "10px",
-            borderColor: "#ABAAAA",
-            cursor: "Arrow",
-            height: "650px",
-          }}
-        >
+      <div className="pageContainer">
+        <div className="BoxCard">
           <AiOutlineArrowLeft onClick={Redirect} style={{ fontSize: "25px" }} />
           <h2
             style={{
@@ -339,10 +324,7 @@ const AccountSettings = () => {
             </form>
           </div>
         </div>
-        <div
-          className="card"
-          style={{ marginTop: "55px", backgroundColor: " #FFFF" }}
-        >
+        <div className="card">
           <img
             className="management"
             src="images/75_smile.gif"

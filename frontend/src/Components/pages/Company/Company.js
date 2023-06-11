@@ -621,9 +621,9 @@ const Company = () => {
                         className="BoxCard"
                         style={{
                           width: " 250px",
-                          height: " 50px",
+                          height: " 48px",
                           marginLeft: "25px",
-                          // marginTop: "20px",
+                          marginTop: "20px",
                           border: "1px solid",
                           borderRadius: "10px",
                           paddingTop: "7px",
