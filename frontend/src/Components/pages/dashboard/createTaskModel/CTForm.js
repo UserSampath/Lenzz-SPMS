@@ -6,7 +6,7 @@ const errorType=()=>{
 if(props.err==='true'){
  return 'Please fill this field';
 }else if(props.err==='sDateLessThaneDate'){
-return 'end date must be gater than start date';
+return 'End date must be gater than start date';
 }else{
   return '';
 }
