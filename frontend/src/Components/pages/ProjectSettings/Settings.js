@@ -17,6 +17,7 @@ const Settings = () => {
   const [showBasicSettingContent, setShowBasicSettingContent] = useState(true);
   const [showAddMemberSettingContent, setShowAddMemberSettingContent] = useState(false);
   const [showNotificationSettingContent, setShowNotificationSettingContent] = useState(false);
+
   const [localProject, SetLocalProject] = useState("");
 
   const [name, setName] = useState("");
@@ -80,7 +81,7 @@ const Settings = () => {
     })
   };
 
-
+ 
   useEffect(() => {
     const getProject = async () => {
       const data = {
@@ -114,7 +115,6 @@ const Settings = () => {
       }
       await axios.post('http://localhost:4000/api/user/getUserFromCompany', data)
         .then(res => {
-          console.log(",,,,,,,,,,,,,,,,,,,,", res.data)
           SetCompanyMembersData(res.data)
 
         }).catch(err => {

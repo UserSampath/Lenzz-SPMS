@@ -402,7 +402,7 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
 
 
             {showAttachment && <Attachment setShowAttachment={setShowAttachment} existingTasks={existingTasks} updatingTaskId={updatingTaskId} dispatch={dispatch} listID={listID} />}
-            <h1>Task</h1>
+            <h1 style={{fontWeight:"bold",fontSize:"30px"}}>Task</h1>
             <form onSubmit={formSubmissionHandler}>
               <div className={styles.formControl}>
                 <div className={styles.controlGroup}>
@@ -475,7 +475,7 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
             {provided => (
               <div {...provided.droppableProps} ref={provided.innerRef}>
                 <div className={styles.listNameContainer}>
-                  <h5 className={styles.listName}>{title}</h5>
+                  <h5 style={{fontWeight:"bold",fontSize:"20px"}} className={styles.listName}>{title}</h5>
                   <div onClick={handleThreeDoteButtonClick}>
                     <FaEllipsisH className={styles.listPlusIcon} />
                   </div>
