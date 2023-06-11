@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import axios from 'axios';
 import styles from './AddMemberToCompany.module.css'
+import Swal from "sweetalert2";
 
 import { useRef, useEffect } from 'react';
 const AddMemberToCompany = (props) => {
@@ -10,9 +11,9 @@ const AddMemberToCompany = (props) => {
     const EMAIL_REGEX = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     useEffect(() => {
         if (!EMAIL_REGEX.test(mail)) {
-            
+
         }
-        
+
     }, [mail]);
     useEffect(() => {
         inputRef.current.focus();
@@ -21,7 +22,7 @@ const AddMemberToCompany = (props) => {
     const handleSendInvitation = async () => {
         try {
             if (EMAIL_REGEX.test(mail)) {
-               const res= await axios.post(
+                const res = await axios.post(
                     "http://localhost:4000/api/company/sendInvitation",
                     {
                         company: props.company.companyname,
@@ -29,12 +30,22 @@ const AddMemberToCompany = (props) => {
                         companyKey: props.company.companyKey
                     }
                 );
-                
+
                 props.addMemberButtonClickHandler();
                 console.log(props.company.companyname)
                 console.log(res);
 
-            } else if (mail =="") {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    text: 'Your data has been saved',
+                    showConfirmButton: false,
+                    timer: 900,
+                    width: '250px'
+                })
+
+
+            } else if (mail == "") {
                 setErr("Mail cannot be empty.");
             } else {
                 setErr("Enter valid email address..");
@@ -48,8 +59,8 @@ const AddMemberToCompany = (props) => {
         props.addMemberButtonClickHandler();
     };
     const emailHandler = (event) => {
-        setMail(event.target.value); 
-        setErr(""); 
+        setMail(event.target.value);
+        setErr("");
     }
     return (
         <div className={styles.modal}>
@@ -63,7 +74,7 @@ const AddMemberToCompany = (props) => {
                         <button onClick={handleSendInvitation} className={styles.button} style={{ backgroundColor: '#007bff', marginRight: '10px' }}>Send invitation</button>
                         <button onClick={handleCancel} className={styles.button} style={{ backgroundColor: '#dc3545' }}>Cancel</button>
                     </div >
-                    {err!="" && (
+                    {err != "" && (
                         <div className={styles.empty} >
                             <p className={styles.errMsg}>{err}</p>
                         </div>)}
