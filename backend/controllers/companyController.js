@@ -2,6 +2,15 @@ const Company = require("../models/companyModel");
 const User = require("../models/memberModel");
 const jwt = require("jsonwebtoken");
 const asyncHandler = require("express-async-handler");
+var nodemailer = require("nodemailer");
+
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: "lenzzhasthiyit@gmail.com",
+    pass: "mfmpeqgzbjbxkcja",
+  },
+});
 
 const createToken = (_id) => {
   return jwt.sign({ _id }, process.env.SECRET, { expiresIn: "1d" });
@@ -139,6 +148,39 @@ const updateCompanyData = async (req, res) => {
   }
 };
 
+const sendInvitation = async (req, res) => {
+  const company = req.body.company;
+  const mail = req.body.mail;
+  const companyKey = req.body.companyKey;
+
+  try {
+    console.log("company is ", company);
+    const mailOptions = {
+      from: "lenzzhasthiyit@gmail.com",
+      to: mail,
+      subject: `Invitation to join ${company}`,
+      text: `${company} company is inviting you to join their software project management system.
+      Enter "${companyKey}" in the company key field when you register.
+      
+      Register now: http://localhost:3000/Register`,
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+      console.log(error);
+      if (error) {
+        console.log("error", error);
+        res.status(201).json({ status: 201, message: "Email not sent", error: error.message });
+      } else {
+        console.log("Email sent", info.response);
+        res.status(200).json({ message: "Email sent successfully" });
+      }
+    }); 
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+
 module.exports = {
   createCompany,
   checkcompany,
@@ -146,4 +188,5 @@ module.exports = {
   companyUsers,
   updateCompanyData,
   getCompanyById,
+  sendInvitation
 };
