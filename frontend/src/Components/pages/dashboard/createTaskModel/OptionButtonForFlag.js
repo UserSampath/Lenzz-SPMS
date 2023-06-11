@@ -16,5 +16,4 @@ export const OptionButtonForFlag = (props) => {
           </div>
   )
 }
-
 export default OptionButtonForFlag;

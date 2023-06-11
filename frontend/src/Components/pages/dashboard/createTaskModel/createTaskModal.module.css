@@ -25,10 +25,6 @@
   height: 30px;
 }
 
-/* .formControl input:focus {
-  outline: none;
-  border-color: #618be0;
-} */
 .formControl {
   min-width: 15rem;
   flex: 1;
