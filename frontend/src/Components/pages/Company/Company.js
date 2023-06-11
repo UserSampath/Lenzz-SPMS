@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import SideBar from "../Sidebar";
+import AddMemberToCompany from "./AddMemberToCompany/AddMemberToCompany"
 import "./Company.css";
 import { Button, Modal, Form } from "react-bootstrap";
 import axios from "axios";
@@ -71,6 +72,7 @@ const Company = () => {
   const [userData, setUserData] = useState({});
   const [isMountUserData, setIsMountUserData] = useState(false);
   const [company, setCompany] = useState({});
+  const [AddMemberToCompanyModelOpen, setAddMemberToCompanyModelOpen] = useState(false);
 
   //get users
   const LocalUser = JSON.parse(localStorage.getItem("user"));
@@ -216,7 +218,7 @@ const Company = () => {
             data
           );
           console.log("sssssssssssssssssssssssssssssss", res);
-        } catch (err) {}
+        } catch (err) { }
       };
       addSystemAdminToProject();
 
@@ -274,8 +276,17 @@ const Company = () => {
     }
   }, [dispatch, user]);
 
+  const addMemberButtonClickHandler = () => {
+    setAddMemberToCompanyModelOpen(!AddMemberToCompanyModelOpen);
+  }
+
   return (
     <SideBar display={"Company : " + company.companyname}>
+      {
+        AddMemberToCompanyModelOpen && <AddMemberToCompany addMemberButtonClickHandler={addMemberButtonClickHandler} company={company} />
+      }
+
+
       <div style={{ marginLeft: "55px", marginTop: "80px" }}>
         <div
           className="BoxCard"
@@ -588,7 +599,7 @@ const Company = () => {
                   fontFamily: "Roboto",
                 }}
                 block="true"
-                href="./Createproject"
+                onClick={()=>addMemberButtonClickHandler()}
               >
                 Add member
               </Button>
@@ -627,13 +638,13 @@ const Company = () => {
                         <div style={{ display: "flex", flex: "wrap" }}>
                           <div>
                             <img
-                              src={user.profilePicture !== null ? user.profilePicture : "https://sampathnalaka.s3.eu-north-1.amazonaws.com/uploads/pngwing.com.png"  }
+                              src={user.profilePicture !== null ? user.profilePicture : "https://sampathnalaka.s3.eu-north-1.amazonaws.com/uploads/pngwing.com.png"}
                               alt="svs"
                               width="30"
                               height="30"
                               style={{
                                 border: "1px solid",
-                                borderRadius: "50%", // border radius of 50% makes the image circular
+                                borderRadius: "50%",
                               }}
                             />
                           </div>
