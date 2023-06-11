@@ -184,7 +184,7 @@ function CircleProgress(props) {
         style={{
           display: "flex",
           justifyContent: "center",
-          marginLeft: "100px",
+          marginLeft: "160px",
         }}
       >
         <div
@@ -286,14 +286,14 @@ function CircleProgress(props) {
         style={{
           width: " 1200px",
           height: " auto",
-          marginLeft: "175px",
-          marginTop: "70px",
+          marginLeft: "235px",
+          marginTop: "40px",
           fontFamily: "Signika Negative",
           border: "1.5px solid",
           borderRadius: "10px",
           borderColor: "#8A8A8A",
           cursor: "Arrow",
-          paddingBottom: "20px",
+          paddingBottom: "5px",
           minHeight: "200px",
           boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
         }}

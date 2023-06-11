@@ -245,9 +245,9 @@ const TimeLine = () => {
         <div
           className="BoxCard"
           style={{
-            width: " 1400px",
+            width: " 1570px",
             height: " 100%",
-            marginLeft: "175px",
+            marginLeft: "85px",
             marginTop: "80px",
             border: "1.5px solid",
             borderRadius: "10px",
@@ -283,7 +283,7 @@ const TimeLine = () => {
                 width: "200px",
                 height: "40px",
                 marginTop: "15px",
-                marginLeft: "730px",
+                marginLeft: "1030px",
                 fontSize: "20px",
                 padding: "0.3rem 1rem",
                 backgroundColor: "#0077cc",
@@ -437,10 +437,10 @@ const TimeLine = () => {
                   <div
                     className="BoxCard"
                     style={{
-                      width: " 1320px",
+                      width: " 1500px",
                       height: " 50%",
                       marginLeft: "15px",
-                      marginTop: "5px",
+                      marginTop: "15px",
                       marginRight: "25px",
                       border: "1px solid",
                       borderRadius: "10px",
@@ -457,7 +457,7 @@ const TimeLine = () => {
                         display: "flex",
                         fontSize: "35px",
                         marginLeft: "15px",
-                        marginTop: "10px",
+                        marginTop: "20px",
                       }}
                     >
                       <MdOutlineDomainVerification />
@@ -475,7 +475,7 @@ const TimeLine = () => {
                     <p
                       style={{
                         marginLeft: "55px",
-                        marginTop: "5px",
+                        marginTop: "15px",
                         marginRight: "100px",
                       }}
                     >

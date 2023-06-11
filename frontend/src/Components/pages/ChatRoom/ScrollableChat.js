@@ -12,7 +12,8 @@ import { useAuthContext } from "../../../hooks/useAuthContext";
 
 const ScrollableChat = ({ messages }) => {
   const { user } = useAuthContext();
-console.log(user._id);
+  console.log(user._id);
+
   return (
     <ScrollableFeed>
       {messages &&

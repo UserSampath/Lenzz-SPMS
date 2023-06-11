@@ -13,7 +13,7 @@ const companySchema = new Schema(
       required: true,
     },
     contactnumber: {
-      type: Number,
+      type: String,
       required: true,
     },
     companyaddress: {

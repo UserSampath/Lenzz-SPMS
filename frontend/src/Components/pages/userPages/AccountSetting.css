@@ -12,3 +12,42 @@ div.errors {
 input.error {
   border: 1px solid var(--error);
 }
+.pageContainer {
+  display: flex;
+  margin-left: 55px;
+}
+
+.BoxCard {
+  width: 650px;
+  margin-left: 300px;
+  margin-top: 55px;
+  border: 1px solid;
+  border-radius: 10px;
+  border-color: #abaaaa;
+  cursor: arrow;
+  height: 650px;
+}
+
+@media (max-width: 768px) {
+  .pageContainer {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .BoxCard {
+    width: 100%;
+    margin: 00px;
+    height: auto;
+  }
+}
+.card {
+  margin-top: 55px;
+  background-color: #ffff;
+}
+
+@media (max-width: 768px) {
+  .card {
+    margin-top: 0;
+    margin-bottom: 55px;
+  }
+}

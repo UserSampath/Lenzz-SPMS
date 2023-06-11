@@ -610,9 +610,9 @@ const Company = () => {
                         className="BoxCard"
                         style={{
                           width: " 250px",
-                          height: " 50px",
+                          height: " 48px",
                           marginLeft: "25px",
-                          // marginTop: "20px",
+                          marginTop: "20px",
                           border: "1px solid",
                           borderRadius: "10px",
                           paddingTop: "7px",
@@ -627,7 +627,11 @@ const Company = () => {
                         <div style={{ display: "flex", flex: "wrap" }}>
                           <div>
                             <img
-                              src={user.profilePicture !== null ? user.profilePicture : "https://sampathnalaka.s3.eu-north-1.amazonaws.com/uploads/pngwing.com.png"  }
+                              src={
+                                user.profilePicture !== null
+                                  ? user.profilePicture
+                                  : "https://sampathnalaka.s3.eu-north-1.amazonaws.com/uploads/pngwing.com.png"
+                              }
                               alt="svs"
                               width="30"
                               height="30"

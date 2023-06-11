@@ -24,7 +24,7 @@ var nodemailer = require("nodemailer");
 //   const method = req.method;
 //   const url = req.originalUrl;
 //   console.log(`[${date}] ${method} ${url}`);
-//   next(); 
+//   next();
 // });
 // express app
 app.use(

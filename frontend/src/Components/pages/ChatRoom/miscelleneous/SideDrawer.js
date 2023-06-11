@@ -13,12 +13,7 @@ import {
 } from "@chakra-ui/modal";
 import axios from "axios";
 import { useToast } from "@chakra-ui/toast";
-import {
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
-} from "@chakra-ui/menu";
+import { Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/menu";
 import { Input } from "@chakra-ui/input";
 import { ChatState } from "./../../../../context/ChatProvider";
 import ChatLoading from "../ChatLoading";
@@ -58,7 +53,7 @@ const SideDrawer = () => {
           Authorization: `Bearer ${user.token}`,
         },
       };
-      const { data } = await axios.get(`/api/user?search=${search}`, config);
+      const { data } = await axios.get(`/api/user/`, config);
       setLoadingChat(false);
       setSearchResult(data);
     } catch (error) {
@@ -113,13 +108,32 @@ const SideDrawer = () => {
         borderRadius="10px"
         marginLeft="7px"
       >
-        <Tooltip label="Search Users to chat" hasArrow placement="bottom-end">
-          <button variant="ghost" onClick={onOpen}>
-            <div style={{display:"flex" ,flex:"wrap"}}>
-            <i className="fa fa-search" style={{marginTop:"4px"}}></i>
-            <p display={{ base: "none", md: "flex" }} style={{marginLeft:"10px",marginBottom:"1px"}} px="4">
-              Search User
-            </p>
+        <Tooltip
+          label="Search Users to chat"
+          hasArrow
+          placement="bottom-end"
+          bg="#137EAA"
+        >
+          <button variant="ghost" onClick={onOpen} style={{}}>
+            <div
+              style={{
+                display: "flex",
+                flex: "wrap",
+                height: "50px",
+                width: "150px",
+                padding: "15px	",
+                backgroundColor: "#EAF6FB",
+                borderRadius: "10px	",
+              }}
+            >
+              <i className="fa fa-search" style={{ marginTop: "4px" }}></i>
+              <p
+                display={{ base: "none", md: "flex" }}
+                style={{ marginLeft: "10px", marginBottom: "1px" }}
+                px="4"
+              >
+                Search User
+              </p>
             </div>
           </button>
         </Tooltip>
@@ -157,9 +171,9 @@ const SideDrawer = () => {
         <DrawerContent
           style={{
             width: "400px",
-            height: "700px",
-            marginTop: "120px",
-            marginLeft: "175px",
+            height: "630px",
+            marginTop: "135px",
+            marginLeft: "70px",
             borderRadius: "10px",
           }}
         >

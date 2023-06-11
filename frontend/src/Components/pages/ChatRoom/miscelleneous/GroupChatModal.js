@@ -29,7 +29,7 @@ const GroupChatModal = ({ children }) => {
   const toast = useToast();
   const { chats, setChats } = ChatState();
   const { user } = useAuthContext();
-  
+
   const handleGroup = (userToAdd) => {
     if (selectedUsers.includes(userToAdd)) {
       toast({
@@ -57,7 +57,11 @@ const GroupChatModal = ({ children }) => {
           Authorization: `Bearer ${user.token}`,
         },
       };
-      const { data } = await axios.post(`/api/user`, { "id":"648077ce822996c09ca50e05","search":search}, config);
+      const { data } = await axios.post(
+        `/api/user`,
+        { id: "648077ce822996c09ca50e05", search: search },
+        config
+      );
       setLoading(false);
       setSearchResult(data);
     } catch (error) {
