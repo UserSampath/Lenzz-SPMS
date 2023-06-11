@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './ThreeDoteMenu.module.css';
+
 const ThreeDoteMenu = (props) => {
     const renameHandler = () => {
         props.renameListHandler()
@@ -29,5 +30,4 @@ const ThreeDoteMenu = (props) => {
         </div>
     );
 }
-
 export default ThreeDoteMenu;

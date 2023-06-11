@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import Textarea from "react-textarea-autosize";
 import { connect } from "react-redux";
@@ -9,16 +8,13 @@ import Styles from "./ListButton.module.css"
 import Swal from 'sweetalert2';
 
 const ListButton = (props) => {
-
   const showErrorAlert = (test) => {
     Swal.fire({
       icon: 'error',
       title: 'Oops...',
       text: test,
-      // footer: '<a href="">Why do I have this issue?</a>'
     })
   };
-
   const [formOpen, setFormOpen] = useState(false);
   const [text, setText] = useState("");
   const openForm = () => {
@@ -49,7 +45,7 @@ const ListButton = (props) => {
         console.log("ProgressStage added success 😊");
         console.log(props.lists);
 
-        props.dispatch(addList(text, response.data._id)); //project id is not stored in local
+        props.dispatch(addList(text, response.data._id)); 
         setText("");
 
       }).catch((err) => {

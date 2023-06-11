@@ -39,6 +39,7 @@ const SideDrawer = () => {
   const { isOpen, onOpen, onClose } = useDisclosure("");
   const toast = useToast();
   const { user } = useAuthContext();
+  const localPro = JSON.parse(localStorage.getItem("last access project"));
 
   const handleSearch = async () => {
     if (!search) {
@@ -58,7 +59,7 @@ const SideDrawer = () => {
           Authorization: `Bearer ${user.token}`,
         },
       };
-      const { data } = await axios.get(`/api/user?search=${search}`, config);
+      const { data } = await axios.post(`/api/user`, { "id": localPro.projectId, "search": search }, config);
       setLoadingChat(false);
       setSearchResult(data);
     } catch (error) {

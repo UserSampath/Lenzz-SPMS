@@ -30,6 +30,8 @@ const GroupChatModal = ({ children }) => {
   const { chats, setChats } = ChatState();
   const { user } = useAuthContext();
   
+  const localPro = JSON.parse(localStorage.getItem("last access project"));
+
   const handleGroup = (userToAdd) => {
     if (selectedUsers.includes(userToAdd)) {
       toast({
@@ -57,7 +59,7 @@ const GroupChatModal = ({ children }) => {
           Authorization: `Bearer ${user.token}`,
         },
       };
-      const { data } = await axios.post(`/api/user`, { "id":"648077ce822996c09ca50e05","search":search}, config);
+      const { data } = await axios.post(`/api/user`, { "id": localPro.projectId,"search":search}, config);
       setLoading(false);
       setSearchResult(data);
     } catch (error) {

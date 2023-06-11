@@ -8,17 +8,12 @@ import Swal from 'sweetalert2'
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-
-
 const DashboardProvider = () => {
     const history = useNavigate();
-
     const location = useLocation();
     const roomName = location.state ? location.state.projectId : null;
     const [localProject, SetLocalProject] = useState({});
     const [projectDetails, SetProjectDetails] = useState({})
-
-
 
     useEffect(() => {
         const getLocalStorageProject = async () => {
@@ -32,7 +27,6 @@ const DashboardProvider = () => {
                 SetLocalProject(localPro);
             }
         }
-
         getLocalStorageProject();
     }, []);
 
@@ -61,9 +55,7 @@ const DashboardProvider = () => {
         if (localProject.projectId) {
             getProject();
         }
-
     }, [projectDetails._id, localProject.projectId])
-
     return (
         <SideBar display={"Project : "+projectDetails.projectname}>
             <div style={{

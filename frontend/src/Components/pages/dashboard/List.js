@@ -42,23 +42,16 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
   const [updatingTask, setUpdatingTask] = useState(false)
   const [updatingTaskId, setUpdatingTaskId] = useState("");
   const [selectedFile, setSelectedFile] = useState([]);
-
   const [taskNameError, setTaskNameError] = useState("false");
   const [assignError, setAssignError] = useState("false");
   const [reporterError, setReporterError] = useState("false");
   const [startDateError, setStartDateError] = useState("false");
   const [endDateError, setEndDateError] = useState("false");
   const [existingCards, setExistingCards] = useState([]);
-
-
-
   const [showAttachment, setShowAttachment] = useState("false");
   const [showLoadingModal, setShowLoadingModal] = useState(false);
-
   const [projectMembers, setProjectMembers] = useState([]);
   const [projectTopLevelMembers, setProjectTopLevelMembers] = useState([]);
-
-
 
   const showSuccessAlert = () => {
     Swal.fire({
@@ -75,17 +68,13 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
       icon: 'error',
       title: 'Oops...',
       text: test,
-      // footer: '<a href="">Why do I have this issue?</a>'
     })
   };
-
-
   const getTasks = async () => {
     try {
       const res = await axios.post("http://localhost:4000/api/list/progressStage/tasksOfProject", {
         projectId: localProject.projectId
       });
-      // setExistingTasks(res.data);
       setExistingCards(res.data)
     } catch (err) {
       console.log(err);
@@ -94,14 +83,11 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
   const clickedCancelButton = () => {
     toggleCreateTaskModal();
     setTaskDetailsToDefault()
-
   }
   const clickedModal = () => {
     toggleCreateTaskModal();
     setTaskDetailsToDefault()
-
   }
-
   const setTaskDetailsToDefault = () => {
     setAssign("default");
     setFlag("default");
@@ -111,7 +97,6 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
     setEndDate("");
     setTaskName("");
     setDescription("")
-
     setTaskNameError("false");
     setAssignError("false");
     setReporterError("false");
@@ -173,7 +158,7 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
       setCreateTaskModal(!createTaskModal);
       await axios.post("http://localhost:4000/task/create", formData, {
         headers: {
-          'Content-Type': 'multipart/form-data' // Use multipart/form-data instead of multipart/mixed
+          'Content-Type': 'multipart/form-data'
         }
       }).then((res) => {
         console.log("data sent to the database successfully")
@@ -224,8 +209,6 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
         console.log(err)
       })
       setShowLoadingModal(false);
-
-
     }
   };
   const TaskNameHandler = (event) => {
@@ -288,7 +271,6 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
         console.error(error);
       });
     setShowLoadingModal(false)
-
   }
 
   useEffect(() => {
@@ -311,19 +293,10 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
 
   }, [localProject.projectId])
 
-
-
-
-
-
-
-
   const flags = [
     { name: "🟡", _id: "1", color: "#ebf0c5", priority: "Low Priority", fontColor: "#8B8000" },
     { name: "🟢", _id: "2", color: "#c5f0d1", priority: "Medium Priority", fontColor: "green" },
     { name: "🔴", _id: "3", color: "#f0c5c5", priority: "High Priority", fontColor: "red" }];
-
-  const member = [{ name: "sampath", _id: "1" }, { name: "sasa", _id: "2" }, { name: "kumara", _id: "3" }];
 
   const [threeDoteModelPosition, setThreeDoteModelPosition] = useState({ x: 0, y: 0 });
   const [isThreeDoteModelOpen, setIsThreeDoteModelOpen] = useState(false);
@@ -340,7 +313,6 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
       showErrorAlert(projectRoleData.role + " not allowed to change progress stage settings.");
     }
   }
-
   const toggleThreeDoteOpen = () => {
     setIsThreeDoteModelOpen(!isThreeDoteModelOpen)
   }
@@ -348,11 +320,9 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
   const toggleRenameListModal = () => {
     SetShowRenameListModal(!showRenameListModal);
   };
-
   const renameListHandler = () => {
     toggleRenameListModal();
     setIsThreeDoteModelOpen(!isThreeDoteModelOpen)
-
   }
   const deleteListHandler = async () => {
     setIsThreeDoteModelOpen(!isThreeDoteModelOpen)
@@ -368,9 +338,6 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
       });
     setShowLoadingModal(false)
   }
-
-
-
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files);
   };
@@ -386,21 +353,15 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
         toggleThreeDoteOpen={toggleThreeDoteOpen}
         renameListHandler={renameListHandler}
         deleteListHandler={deleteListHandler}
-
       />
     </div>)}
     {showLoadingModal && <LoadingModal />}
     {showRenameListModal && <RenameListModel toggleRenameListModal={toggleRenameListModal} title={title} listID={listID} dispatch={dispatch} />}
     {
       createTaskModal && (
-
         <div className={styles.modal}>
-          {/* <div onClick={toggleCreateTaskModal} className={styles.overlay}></div> */}
           <div onClick={clickedModal} className={styles.overlay}></div>
-
           <div className={styles.modalContent}>
-
-
             {showAttachment && <Attachment setShowAttachment={setShowAttachment} existingTasks={existingTasks} updatingTaskId={updatingTaskId} dispatch={dispatch} listID={listID} />}
             <h1>Task</h1>
             <form onSubmit={formSubmissionHandler}>
@@ -415,7 +376,6 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
                     type="text"
                     value={taskName}
                   />
-
                   <OptionButtonForFlag text="Select a flag" options={flags} onChange={flagHandler} value={flag} />
                 </div>
                 <div className={styles.controlGroup}>
@@ -438,16 +398,13 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
               </div>
               <div className={styles.controlGroup}>
                 <div style={{ textAlign: 'center', marginTop: '5px', marginLeft: "150px", marginBottom: "10px" }}>
-
                   {updatingTask && <div
                     onClick={attachmentButtonClicked}
                     className={styles.attachmentButton}
                   >
                     attachments
                   </div>}
-
                   <div style={{ marginTop: "5px" }}>
-
                     <input type="file" multiple accept=".jpg, .jpeg, .png, .pdf, .zip" onChange={handleFileChange} />
                   </div>
                 </div>
@@ -491,14 +448,12 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
                     updateTask={updateTask}
                     deleteTask={deleteTask}
                     projectMembers={projectMembers}
-
                   />
                 ))}
                 {provided.placeholder}
                 <button
                   onClick={clickedAddTask}
                   className={styles.addCardBtnContainer}
-
                 >
                   <p className={styles.addCardBtnText}>add card</p>
                   <FaPlus className={styles.addCardBtnIcon} />
