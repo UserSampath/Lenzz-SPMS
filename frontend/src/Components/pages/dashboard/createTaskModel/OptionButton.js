@@ -16,5 +16,4 @@ export const OptionButton = (props) => {
           </div>
   )
 }
-
 export default OptionButton;

@@ -1,7 +1,7 @@
 import React from 'react'
 import styles from "./MemberCard.module.css"
 import { useState } from 'react';
-import { IoMdRemoveCircleOutline } from "react-icons/io"
+import { FaTrashAlt } from "react-icons/fa"
 import Swal from 'sweetalert2'
 import axios from 'axios';
 
@@ -23,7 +23,7 @@ const MemberCard = (props) => {
     console.log(data)
     try {
       const res = await axios.put("http://localhost:4000/updateUserProject", data)
-      console.log("sssssssssssssssssssssssssssssss", res)
+
 
 
     } catch (err) {
@@ -107,8 +107,8 @@ const MemberCard = (props) => {
           </div>
           <div style={{ display: "flex", alignItems: "center" }}>
             <div style={{ marginRight: "10px", display: "flex" }}>
-              <p style={{ marginTop: "18px", marginRight: "5px" }}>Role:</p>
-              <select style={{ textAlign: "center", padding: "2px", fontSize: "1rem", borderRadius: "10px", border: "1px solid #CCCCCC", height: "30px", marginTop: "15px" }}
+              <p style={{ marginTop: "8px", marginRight: "5px" }}>Role:</p>
+              <select style={{ textAlign: "center", padding: "2px", fontSize: "1rem", borderRadius: "10px", border: "1px solid #CCCCCC", height: "30px", marginTop: "4px" }}
                 value={selectedOption}
                 onChange={handleOptionChange}
               >
@@ -123,10 +123,10 @@ const MemberCard = (props) => {
               </select>
             </div>
             <div
-              style={{ background: "#ff0000", height: "30px", borderRadius: "20px", width: "40px", display: "flex", justifyContent: "center", alignItems: "center", color: "#FFFFFF", fontWeight: "bold", fontSize: "0.9rem", textTransform: "uppercase" }}
+              style={{ background: "#f55", height: "30px", borderRadius: "20px", width: "40px", display: "flex", justifyContent: "center", alignItems: "center", color: "#FFFFFF", fontWeight: "bold", fontSize: "0.9rem", textTransform: "uppercase",marginTop:"5px",cursor: "pointer" }}
               onClick={() => { removeMemberHandler() }}
             >
-              <IoMdRemoveCircleOutline style={{ width: "20px", height: "20px" }} /></div>
+              <FaTrashAlt style={{ width: "20px", height: "20px" }} /></div>
           </div>
         </div>
 
