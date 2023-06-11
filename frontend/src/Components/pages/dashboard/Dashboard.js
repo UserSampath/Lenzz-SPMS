@@ -61,7 +61,6 @@ const Dashboard = (props) => {
           },
         })
         .then((res) => {
-          console.log("userdata", res.data);
           setUserData(res.data);
           getUserProjects();
         })
@@ -79,7 +78,6 @@ const Dashboard = (props) => {
           },
         })
         .then((res) => {
-          console.log("getProjectsForUser", res.data.userProject);
           memberProjects = res.data.userProject;
           getLocalStorageProject();
         })
@@ -97,7 +95,6 @@ const Dashboard = (props) => {
       } else {
         SetLocalProject(localPro);
         if (memberProjects[0] && memberProjects.length > 0) {
-          console.log("localPro", localPro.projectId)
           const checkLocalProject = memberProjects.filter(project => project[0]._id === localPro.projectId);
           console.log("checkLocalProject", checkLocalProject);
           if (checkLocalProject.length == 0) {
@@ -106,7 +103,6 @@ const Dashboard = (props) => {
               history('/');
             }, 2000);
           } else {
-            console.log("qqqqqqqq", checkLocalProject[0][0]._id)
             await axios
               .post("http://localhost:4000/getRole", {
                 projectID: checkLocalProject[0][0]._id
@@ -117,7 +113,6 @@ const Dashboard = (props) => {
                 },
               })
               .then((res) => {
-                console.log("setProjectRoleData", res.data);
                 setProjectRoleData(res.data);
               })
               .catch((err) => {

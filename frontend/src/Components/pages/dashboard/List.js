@@ -52,6 +52,8 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
   const [showLoadingModal, setShowLoadingModal] = useState(false);
   const [projectMembers, setProjectMembers] = useState([]);
   const [projectTopLevelMembers, setProjectTopLevelMembers] = useState([]);
+  const [threeDoteModelPosition, setThreeDoteModelPosition] = useState({ x: 0, y: 0 });
+  const [isThreeDoteModelOpen, setIsThreeDoteModelOpen] = useState(false);
 
   const showSuccessAlert = () => {
     Swal.fire({
@@ -105,7 +107,6 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
   }
 
   const clickedAddTask = async () => {
-    console.log("saasas", projectRoleData);
     if (projectRoleData.role == "SYSTEM ADMIN" ||
       projectRoleData.role == "PROJECT MANAGER" ||
       projectRoleData.role == "TECHLEAD" ||
@@ -298,8 +299,6 @@ const List = ({ title, cards, listID, index, dispatch, lists, existingTasks, set
     { name: "🟢", _id: "2", color: "#c5f0d1", priority: "Medium Priority", fontColor: "green" },
     { name: "🔴", _id: "3", color: "#f0c5c5", priority: "High Priority", fontColor: "red" }];
 
-  const [threeDoteModelPosition, setThreeDoteModelPosition] = useState({ x: 0, y: 0 });
-  const [isThreeDoteModelOpen, setIsThreeDoteModelOpen] = useState(false);
 
   function handleThreeDoteButtonClick(event) {
     if (projectRoleData.role == "SYSTEM ADMIN" ||
