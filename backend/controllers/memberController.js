@@ -115,7 +115,7 @@ const forgotpassword = async (req, res) => {
   try {
     const validuser = await User.findOne({ _id: id, verifytoken: token });
     const verifyToken = jwt.verify(token, keysecret);
-    console.log(verifyToken);
+
     if (validuser && verifyToken._id) {
       res.status(201).json({ status: 201, validuser });
     } else {

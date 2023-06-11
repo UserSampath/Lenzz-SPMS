@@ -47,7 +47,6 @@ const ProfileModel = ({ user, children }) => {
             alignItems="center"
             justifyContent="space-between"
           >
-            <Avatar size="xl" name={user.firstName} />x
             <Text
               fontSize={{ base: "28px", md: "30px" }}
               fontFamily="Work sans"
