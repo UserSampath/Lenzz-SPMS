@@ -181,7 +181,7 @@ const CompanySetting = () => {
           className="Boxcard "
           style={{
             width: "650px",
-            marginLeft: "250px",
+            marginLeft: "150px",
             marginTop: "95px",
             border: "1px solid",
             borderRadius: "10px",

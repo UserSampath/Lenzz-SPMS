@@ -17,6 +17,7 @@ import io from "socket.io-client";
 import Lottie from "react-lottie";
 import animationData from "./animation/typing.json";
 import { FiSend } from "react-icons/fi";
+import { useAuthContext } from "../../../hooks/useAuthContext";
 
 const ENDPOINT = "http://localhost:4000";
 var socket, selectedChatCompare;
@@ -28,6 +29,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const [socketConnected, setSocketConnected] = useState(false);
   const [typing, setTyping] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
+  const { user } = useAuthContext();
   //lottie animation library
   const defaultOptions = {
     loop: true,
@@ -38,7 +40,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     },
   };
   const toast = useToast();
-  const { user, selectedChat, setSelectedChat, notification, setNotification } =
+  const { selectedChat, setSelectedChat, notification, setNotification } =
     ChatState();
 
   const fetchMessages = async () => {

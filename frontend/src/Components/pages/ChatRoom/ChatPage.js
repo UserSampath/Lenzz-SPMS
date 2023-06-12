@@ -12,7 +12,7 @@ const ChatPage = () => {
   return (
     <div
       style={{
-        width: "920px",
+        width: "820px",
         marginLeft: "10px",
         marginTop: "25px",
       }}
@@ -21,8 +21,8 @@ const ChatPage = () => {
       <Box
         display="flex"
         justifyContent="space-between"
-        w="1605px"
-        h="82.5vh"
+        w="1430px"
+        h="80.5vh"
         p="10px"
       >
         {user && <MyChats fetchAgain={fetchAgain} />}

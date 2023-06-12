@@ -610,12 +610,12 @@ const Company = () => {
                         className="BoxCard"
                         style={{
                           width: " 250px",
-                          height: " 48px",
+                          height: " 53px",
                           marginLeft: "25px",
                           marginTop: "20px",
                           border: "1px solid",
                           borderRadius: "10px",
-                          paddingTop: "7px",
+                          paddingTop: "2px",
                           borderColor: "#ABAAAA",
                           overflow: "hidden",
                           background: "#D1F4F4",
@@ -624,7 +624,14 @@ const Company = () => {
                           cursor: "pointer",
                         }}
                       >
-                        <div style={{ display: "flex", flex: "wrap" }}>
+                        <div
+                          style={{
+                            display: "flex",
+                            flex: "wrap",
+                            overflow: "hidden",
+                            marginTop: "1px",
+                          }}
+                        >
                           <div>
                             <img
                               src={
@@ -641,6 +648,7 @@ const Company = () => {
                               }}
                             />
                           </div>
+
                           <div style={{ marginLeft: "13px" }}>
                             <p
                               style={{
@@ -648,10 +656,10 @@ const Company = () => {
                                 fontFamily: "monospace",
                                 fontWeight: "bold",
                                 fontStyle: "oblique",
-                                marginBottom: "0",
+                                display: "inline",
                               }}
                             >
-                              {user.firstName} {user.lastName}
+                              {user.firstName}&nbsp; {user.lastName}
                             </p>
                             <p
                               style={{
