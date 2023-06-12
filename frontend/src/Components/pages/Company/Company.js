@@ -524,10 +524,10 @@ const Company = () => {
                         }}
                       >
                         <div style={{ display: "flex", flex: "wrap" }}>
-                          <div>
+                          <div style={{marginTop:"5px"}}>
                             <GrProjects />
                           </div>
-                          <div style={{ marginLeft: "13px" }}>
+                          <div style={{ marginLeft: "13px",marginTop:"0px" }}>
                             {" "}
                             <p
                               style={{
@@ -605,22 +605,31 @@ const Company = () => {
               </Button>
             </div>
             <div className="container">
-              <div className="row">
+              <div
+                // className="row"
+                style={{
+                  marginBottom: "10px",
+                  display: "flex",
+                  flexWrap: "wrap",
+                  justifyContent: "flex-start"
+                }}
+              >
                 {companyUsers.map((user, index) => {
                   return (
                     <div
-                      className="col-md-3"
+                      // className="col-md-3"
                       key={index}
                       style={{
                         marginBottom: "10px",
                         display: "flex",
-                        flex: "wrap",
+                        // flex: "wrap",
                       }}
                     >
                       <div
                         className="BoxCard"
                         style={{
                           width: " 250px",
+                          minWidth:"250px",
                           height: " 53px",
                           marginLeft: "25px",
                           marginTop: "20px",

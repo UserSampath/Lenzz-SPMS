@@ -8,6 +8,7 @@ const {
   deleteOne,
   downloadOne,
 } = require("../util/s3Service");
+
 module.exports = {
   create: async (req, res) => {
     const newTask = JSON.parse(req.body.json);
@@ -24,6 +25,7 @@ module.exports = {
         file.push(f);
       }
     }
+    
 
     const task = await Task.create({
       progressStage_id: newTask.progressStage_id,

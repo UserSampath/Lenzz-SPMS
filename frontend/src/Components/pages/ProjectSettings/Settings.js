@@ -24,7 +24,7 @@ const Settings = () => {
   const [description, setDescription] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState({});
-  const [projectDetails, SetProjectDetails] = useState({})
+  const [projectDetails, SetProjectDetails] = useState({});
 
   const [projectMembersData, SetProjectMembersData] = useState([])
   const [companyMembersData, SetCompanyMembersData] = useState([])
@@ -295,7 +295,8 @@ const Settings = () => {
                   </div>
 
                 </form>
-                <div style={{ display: "flex", justifyContent: "center" }}>{error && (
+                <div style={{ display: "flex", justifyContent: "center" }}>
+                  {error && (
                   <div
                     className="error"
                     style={{
@@ -312,7 +313,8 @@ const Settings = () => {
                   >
                     {error}
                   </div>
-                )}</div>
+                  )}
+                </div>
               </div>
             </div>
           )}
@@ -393,6 +395,7 @@ const Settings = () => {
           {showNotificationSettingContent && (
             <div className={styles.settingsContainer}>
               <div className={styles.settingsPart}>
+                dd
               </div>
             </div>
           )}
