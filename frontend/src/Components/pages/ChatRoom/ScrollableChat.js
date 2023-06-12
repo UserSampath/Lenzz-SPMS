@@ -20,7 +20,8 @@ console.log(user._id);
           <div style={{ display: "flex" }} key={m._id}>
             {(isSameSender(messages, m, i, user._id) ||
               isLastMessage(messages, i, user._id)) && (
-              <Tooltip
+             
+                <Tooltip
                 label={m.sender.firstName}
                 placement="bottom-start"
                 hasArrow
