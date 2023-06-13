@@ -6,5 +6,6 @@ module.exports = {
     TechLead: "TECHLEAD",
     Client: "CLIENT",
     QualityAssurance: "QUALITY ASSURANCE",
+    OtherProjectWorkers: "OTHER PROJECT WORKERS",
   },
 };

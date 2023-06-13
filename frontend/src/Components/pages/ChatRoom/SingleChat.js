@@ -17,13 +17,15 @@ import io from "socket.io-client";
 import Lottie from "react-lottie";
 import animationData from "./animation/typing.json";
 import { FiSend } from "react-icons/fi";
+import { ImAttachment } from "react-icons/im";
+
 import { useAuthContext } from "../../../hooks/useAuthContext";
 
 const ENDPOINT = "http://localhost:4000";
 var socket, selectedChatCompare;
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
-    const { user } = useAuthContext();
+  const { user } = useAuthContext();
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [newMessage, setNewMessage] = useState();
@@ -38,6 +40,26 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     rendererSettings: {
       preserveAspectRatio: "xMidYMid slice",
     },
+  };
+
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    // Update windowWidth when the window is resized
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    // Cleanup the event listener on component unmount
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  const inputStyle = {
+    width: windowWidth >= 950 ? "950px" : "100%",
   };
   const toast = useToast();
   const { selectedChat, setSelectedChat, notification, setNotification } =
@@ -107,7 +129,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   });
 
   const sendMessage = async (event) => {
-    if (event.key === "Enter" && newMessage) {
+    if (newMessage) {
       socket.emit("stop typing", selectedChat._id);
       try {
         const config = {
@@ -125,7 +147,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
           },
           config
         );
-        console.log(data);
+
         socket.emit("new message", data);
         setMessages([...messages, data]);
       } catch (error) {
@@ -162,6 +184,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     }, timerLength);
   };
 
+  const handleFileSelection = () => {};
   return (
     <>
       {selectedChat ? (
@@ -222,10 +245,11 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
               />
             ) : (
               <div className="messages">
-                <ScrollableChat messages={messages} />
+                <ScrollableChat messages={messages} setMessages={setMessages} />
               </div>
             )}
-            <FormControl onKeyDown={sendMessage} isRequired mt={3}>
+
+            <FormControl isRequired mt={3}>
               {isTyping ? (
                 <div>
                   <Lottie
@@ -238,26 +262,44 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                 <></>
               )}
 
-              <div style={{ display: "flex" }}>
+              <div style={{ display: "flex", inputStyle }}>
+                <button
+                  style={{
+                    marginRight: "5px",
+                    marginLeft: "5px",
+                    fontSize: "25px",
+                  }}
+                >
+                  <label htmlFor="fileInput">
+                    <ImAttachment style={{ color: "#137EAA" }} />
+                  </label>
+                  <input
+                    id="fileInput"
+                    type="file"
+                    style={{ display: "none" }}
+                    onChange={(e) => handleFileSelection(e.target.files)}
+                  />
+                </button>
+
                 <Input
                   variant="filled"
                   bg="#EAF6FB"
                   placeholder="Enter a message.."
                   onChange={typingHandler}
                   value={newMessage}
-                  onKeyDown={sendMessage}
-                  style={{ width: "950px" }}
                 />
-                <button
-                  onClick={sendMessage}
-                  style={{
-                    marginRight: "35px",
-                    marginLeft: "25px",
-                    fontSize: "25px",
-                  }}
-                >
-                  <FiSend style={{ color: "#137EAA" }} />
-                </button>
+                {newMessage && (
+                  <button
+                    style={{
+                      marginRight: "35px",
+                      marginLeft: "5px",
+                      fontSize: "25px",
+                    }}
+                    onClick={sendMessage}
+                  >
+                    <FiSend style={{ color: "#137EAA" }} />
+                  </button>
+                )}
               </div>
             </FormControl>
           </Box>

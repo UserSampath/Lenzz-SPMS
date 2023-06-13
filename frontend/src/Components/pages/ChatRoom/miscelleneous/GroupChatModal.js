@@ -29,7 +29,7 @@ const GroupChatModal = ({ children }) => {
   const toast = useToast();
   const { chats, setChats } = ChatState();
   const { user } = useAuthContext();
-  
+
   const localPro = JSON.parse(localStorage.getItem("last access project"));
 
   const handleGroup = (userToAdd) => {
@@ -59,7 +59,11 @@ const GroupChatModal = ({ children }) => {
           Authorization: `Bearer ${user.token}`,
         },
       };
-      const { data } = await axios.post(`/api/user`, { "id": localPro.projectId,"search":search}, config);
+      const { data } = await axios.post(
+        `/api/user`,
+        { id: localPro.projectId, search: search },
+        config
+      );
       setLoading(false);
       setSearchResult(data);
     } catch (error) {
@@ -133,9 +137,11 @@ const GroupChatModal = ({ children }) => {
         <ModalContent>
           <ModalHeader
             fontSize="35px"
-            fontFamily="Work sans"
+            fontFamily="monospace"
+            fontStyle="oblique"
             display="flex"
             justifyContent="center"
+            
           >
             Create Group Chat
           </ModalHeader>

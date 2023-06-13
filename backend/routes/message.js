@@ -4,8 +4,10 @@ const requireAuth = require("../middleware/requireAuth");
 const {
   sendMessage,
   allMessages,
+  deleteMessages,
 } = require("../controllers/messageController");
-router.use(requireAuth);
-router.post("/", sendMessage);
+// router.use(requireAuth);
+router.post("/", requireAuth, sendMessage);
 router.get("/:chatId", allMessages);
+router.delete("/:id", deleteMessages);
 module.exports = router;

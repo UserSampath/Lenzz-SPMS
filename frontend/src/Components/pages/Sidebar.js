@@ -111,7 +111,7 @@ const Sidebar = ({ children, SetSelectedProjectController, display }) => {
                       fontFamily: "monospace",
                     }}
                   >
-                    <h5>{user.email}</h5>
+                    <h5>{user.firstName + " " + user.lastName}</h5>
                     <h5> {user.selectedJob}</h5>
                   </div>
                   <hr />

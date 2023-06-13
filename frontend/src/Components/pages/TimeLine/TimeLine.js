@@ -17,8 +17,7 @@ import axios from "axios";
 import { useAuthContext } from "./../../../hooks/useAuthContext";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import { IoMdRemoveCircleOutline } from "react-icons/io";
-
+import { FaTrashAlt } from "react-icons/fa";
 const TOPIC = /^[A-Za-z0-9\s\-_,.!?:;'"()]{5,40}$/;
 
 const DESCRIPTION = /^[A-Za-z0-9\s\-_,.!?:;'"()]{5,}$/;
@@ -489,7 +488,7 @@ const TimeLine = () => {
                         onClick={() => handelDeleteOutline(timeline)}
                         variant="danger"
                       >
-                        <IoMdRemoveCircleOutline
+                        <FaTrashAlt
                           style={{
                             fontSize: "25px",
                           }}

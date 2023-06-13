@@ -10,11 +10,12 @@ import { getSender } from "./config/ChatLogics";
 import { useAuthContext } from "../../../hooks/useAuthContext";
 import GroupChatModal from "./miscelleneous/GroupChatModal";
 
-const MyChats = ({ fetchAgain }) => {
-  const [loggedUser, setLoggedUser] = useState();
+const MyChats = ({ fetchAgain, localPro }) => {
   const { selectedChat, setSelectedChat, chats, setChats } = ChatState();
   const { user } = useAuthContext();
   const toast = useToast();
+  const [loggedUser, setLoggedUser] = useState();
+  //load get project chat
 
   const fetchChats = async () => {
     try {

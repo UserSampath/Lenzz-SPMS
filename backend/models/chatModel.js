@@ -23,6 +23,9 @@ const chatModel = mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
+    projectId: {
+      type: String,
+    },
   },
   { timestamps: true }
 );

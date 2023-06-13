@@ -52,12 +52,15 @@ function CircleProgress(props) {
               return list.cards.length;
             });
 
-            const toDopercentage = Math.round((TodoTotal / total) * 100);
+            const toDopercentage =
+              total !== 0 ? Math.round((TodoTotal / total) * 100) : 0;
+
             setTodoPercentage(toDopercentage);
             if (res.data.length > 1) {
               var temp = res.data.length - 1;
               const lastTasks = res.data[temp].cards.length;
-              const OverallPercentage = Math.round((lastTasks / total) * 100);
+              const OverallPercentage =
+                total !== 0 ? Math.round((lastTasks / total) * 100) : 0;
               setOverdoPercentage(OverallPercentage);
             }
           }
@@ -193,7 +196,7 @@ function CircleProgress(props) {
             width: " 350px",
             height: " 350px",
             marginLeft: "75px",
-            marginTop: "120px",
+            marginTop: "90px",
             border: "1.5px solid",
             borderRadius: "10px",
             borderColor: "#8A8A8A",
@@ -224,7 +227,7 @@ function CircleProgress(props) {
             width: " 350px",
             height: " 350px",
             marginLeft: "75px",
-            marginTop: "120px",
+            marginTop: "90px",
             border: "1.5px solid",
             borderRadius: "10px",
             borderColor: "#8A8A8A",
@@ -255,7 +258,7 @@ function CircleProgress(props) {
             width: " 350px",
             height: " 350px",
             marginLeft: "75px",
-            marginTop: "120px",
+            marginTop: "90px",
             border: "1.5px solid",
             borderRadius: "10px",
             borderColor: "#8A8A8A",

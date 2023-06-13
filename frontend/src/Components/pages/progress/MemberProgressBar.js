@@ -11,11 +11,13 @@ const MemberProgressBar = (props) => {
         (t) => t.assign === name
       );
 
-      setProgressContribution(
-        Math.round(
-          (NumofTasks.length / props.totalTasksOftheMember.totalTasks) * 100
-        )
-      );
+      const totalTasks = props.totalTasksOftheMember.totalTasks;
+      const progressContribution =
+        !isNaN(totalTasks) && totalTasks !== 0
+          ? Math.round((NumofTasks.length / totalTasks) * 100)
+          : 0;
+
+      setProgressContribution(progressContribution);
     };
     CalculatePercentage();
   }, []);
@@ -23,17 +25,35 @@ const MemberProgressBar = (props) => {
   return (
     <div>
       <React.Fragment key={props.index}>
-        <div style={{ marginBottom: "10px" }}>
-          <h5
-            style={{
-              fontFamily: "monospace",
-              fontWeight: "bold",
-              fontStyle: "oblique",
-            }}
-          >
-            {props.member.firstName} {props.member.lastName} -{" "}
-            {props.member.selectedJob}
-          </h5>
+        <div style={{ display: "flex" }}>
+          <div style={{ marginBottom: "5px" }}>
+            <img
+              src={
+                props.member.profilePicture !== null
+                  ? props.member.profilePicture
+                  : "https://sampathnalaka.s3.eu-north-1.amazonaws.com/uploads/pngwing.com.png"
+              }
+              alt="svs"
+              width="30"
+              height="30"
+              style={{
+                border: "1px solid",
+                borderRadius: "50%",
+              }}
+            />
+          </div>
+          <div style={{ marginLeft: "15px", marginTop: "5px" }}>
+            <h5
+              style={{
+                fontFamily: "monospace",
+                fontWeight: "bold",
+                fontStyle: "oblique",
+              }}
+            >
+              {props.member.firstName} {props.member.lastName} -{" "}
+              {props.member.selectedJob}
+            </h5>
+          </div>
         </div>
         <ProgressBar
           now={progresContribution}
