@@ -145,3 +145,32 @@ exports.getRole = async (req, res) => {
         res.status(500).json({ message: err.message });
     }
 };
+
+exports.deleteProject = async (req, res) => {
+    const { projectId } = req.body; // Assuming projectId is passed as a string
+    try {
+        var temp = [];
+        const projectUsersData = await projectUser.find({ project_id: projectId });
+        temp = projectUsersData;
+        // console.log("projectUsersData", temp);
+        for (let i = 0; i < temp.length; i++) {
+            await User.updateOne(
+                { _id: temp[i].user_id },
+                { $pull: { projects: temp[i]._id } }
+            );
+        }
+
+        const projectUserData = await projectUser.deleteMany({ project_id: projectId });
+        const deletedProject = await Project.deleteOne({ _id: projectId });
+
+        if (projectUserData.deletedCount == 1) {
+            res.json({ message: 'Project deleted successfully' });
+        } else {
+            res.json({ message: 'Project deletion unsuccessful' });
+        }
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+};
+
+

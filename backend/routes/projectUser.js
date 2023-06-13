@@ -8,5 +8,7 @@ router.post("/removeUserFromProject", projectUser.removeUserFromProject);
 router.put("/updateUserProject", projectUser.updateUserProject);
 router.get("/getProjectsForUser", requireAuth, projectUser.getProjectsForUser);
 router.post("/getRole", requireAuth, projectUser.getRole);
+router.post("/deleteProject", projectUser.deleteProject);
+
 
 module.exports = router;

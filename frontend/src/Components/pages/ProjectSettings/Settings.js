@@ -4,22 +4,19 @@ import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 import styles from "./Settings.module.css";
 import { useEffect } from "react";
 import axios from "axios";
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
 import MemberCard from "./MemberCard"
 import MemberSearchItem from "./MemberSearchItem"
 import { useNavigate } from "react-router-dom";
+import { FaTrashAlt } from "react-icons/fa"
 
-
-// import "./Settings.css"
 
 const Settings = () => {
   const history = useNavigate();
   const [showBasicSettingContent, setShowBasicSettingContent] = useState(true);
   const [showAddMemberSettingContent, setShowAddMemberSettingContent] = useState(false);
   const [showNotificationSettingContent, setShowNotificationSettingContent] = useState(false);
-
   const [localProject, SetLocalProject] = useState("");
-
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [startDate, setStartDate] = useState("");
@@ -81,7 +78,7 @@ const Settings = () => {
     })
   };
 
- 
+
   useEffect(() => {
     const getProject = async () => {
       const data = {
@@ -221,8 +218,62 @@ const Settings = () => {
     setSearchEmpty(!searchEmpty);
   }
 
+  const deleteProjectHandler = async () => {
+    console.log("deleting project");
+    console.log(projectMembersData);
+    console.log(LocalUser._id)
+
+    const projectMemberData = projectMembersData.filter(member => member._id === LocalUser._id);
+    console.log(projectMemberData, "projectMemberData");
+    if (projectMemberData[0].projectUserRole !== "SYSTEM ADMIN") {
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        text: 'Only admins can delete projects',
+        showConfirmButton: false,
+        timer: 1500,
+        width: '250px'
+      })
+    } else {
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          Swal.fire(
+            'Deleted!',
+            'Project has been deleted.',
+            'success'
+          )
+          try {
+            const res = await axios.post("http://localhost:4000/deleteProject", {
+              "userId": LocalUser._id,
+              "projectId": localProject.projectId
+            });
+            console.log(res);
+            if (res.status == 200) {
+              setTimeout(() => {
+                history('/');
+                localStorage.removeItem(
+                  "last access project");
+              }, 2000);
+             }
+          } catch (e) {
+            console.log(e);
+           }
+        }
+      })
+    }
+
+  }
+
   return (
-    <SideBar display={"Project : "+name}>
+    <SideBar display={"Project : " + name}>
       <div className={styles.settings}>
 
         <div className={styles.dropDown}>
@@ -231,7 +282,7 @@ const Settings = () => {
               <div
                 className={styles.dropDownTextContainer}
               >
-                <h3 style={{ fontFamily: "monospace", fontSize: "23px",fontWeight:"bold",fontStyle:"oblique", marginTop:"4px"}} >Basic Settings</h3>
+                <h3 style={{ fontFamily: "monospace", fontSize: "23px", fontWeight: "bold", fontStyle: "oblique", marginTop: "4px" }} >Basic Settings</h3>
               </div>
               <div>
                 {showBasicSettingContent ? <FaAngleUp className={styles.icon} /> : <FaAngleDown className={styles.icon} />}
@@ -292,27 +343,35 @@ const Settings = () => {
                   </div>
                   <div style={{ display: 'flex', justifyContent: "" }}>
                     <button type="submit" style={{ padding: '0.5rem 1rem', backgroundColor: '#0077cc', color: '#fff', border: 'none', borderRadius: '0.25rem', cursor: 'pointer', width: '150px', }}>Save Changes</button>
+                    <div style={{ marginLeft: "5px" }}>
+
+                      <div type="Delete project"
+                        onClick={deleteProjectHandler}
+                        style={{ padding: '0.5rem 1rem', backgroundColor: '#f55', color: '#fff', border: 'none', borderRadius: '0.25rem', cursor: 'pointer', width: '150px', display: "flex" }}>
+                        <FaTrashAlt style={{ marginTop: "3px", marginRight: "3px" }} />
+                        <p>Delete Project</p></div>
+                    </div>
                   </div>
 
                 </form>
                 <div style={{ display: "flex", justifyContent: "center" }}>
                   {error && (
-                  <div
-                    className="error"
-                    style={{
-                      padding: " 10px",
-                      paddingLeft: "65px",
-                      background: " #ffefef",
-                      border: " 1px solid var(--error)",
-                      color: "red",
-                      borderRadius: "15px",
-                      margin: " 10px 0",
-                      marginRight: "55px",
-                      width: " 440px",
-                    }}
-                  >
-                    {error}
-                  </div>
+                    <div
+                      className="error"
+                      style={{
+                        padding: " 10px",
+                        paddingLeft: "65px",
+                        background: " #ffefef",
+                        border: " 1px solid var(--error)",
+                        color: "red",
+                        borderRadius: "15px",
+                        margin: " 10px 0",
+                        marginRight: "55px",
+                        width: " 440px",
+                      }}
+                    >
+                      {error}
+                    </div>
                   )}
                 </div>
               </div>
