@@ -491,22 +491,24 @@ const Company = () => {
             </Modal>
           </div>
           <div className="container">
-            <div className="row">
+            <div style={{ display: "flex", flexWrap: "wrap" }}>
               {companyProjects &&
                 companyProjects.map((project, index) => {
                   return (
+                    <div >
                     <div
-                      className="col-md-3"
+                      // className="col-md-3"
                       key={index}
                       style={{
                         marginBottom: "10px",
                         display: "flex",
                         flex: "wrap",
+                        
                       }}
                     >
                       <div
                         onClick={() => projectClicked(project[0])}
-                        className="BoxCard"
+
                         style={{
                           width: " 250px",
                           height: " 45px",
@@ -524,7 +526,7 @@ const Company = () => {
                         }}
                       >
                         <div style={{ display: "flex", flex: "wrap" }}>
-                          <div style={{marginTop:"5px"}}>
+                          <div style={{marginTop:"5px",marginLeft:"10px"}}>
                             <GrProjects />
                           </div>
                           <div style={{ marginLeft: "13px",marginTop:"0px" }}>
@@ -541,6 +543,7 @@ const Company = () => {
                             </p>
                           </div>
                         </div>
+                      </div>
                       </div>
                     </div>
                   );
@@ -611,7 +614,7 @@ const Company = () => {
                   marginBottom: "10px",
                   display: "flex",
                   flexWrap: "wrap",
-                  justifyContent: "flex-start"
+                  justifyContent: "flex-start"  
                 }}
               >
                 {companyUsers.map((user, index) => {
@@ -622,11 +625,11 @@ const Company = () => {
                       style={{
                         marginBottom: "10px",
                         display: "flex",
+                       
                         // flex: "wrap",
                       }}
                     >
                       <div
-                        className="BoxCard"
                         style={{
                           width: " 250px",
                           minWidth:"250px",
@@ -639,7 +642,6 @@ const Company = () => {
                           borderColor: "#ABAAAA",
                           overflow: "hidden",
                           background: "#D1F4F4",
-                          // justifyContent: "center"
                           display: "flex",
                           cursor: "pointer",
                         }}
@@ -652,20 +654,21 @@ const Company = () => {
                             marginTop: "1px",
                           }}
                         >
-                          <div>
+                          <div style={{ marginTop:"6px"}}>
                             <img
                               src={user.profilePicture !== null ? user.profilePicture : "https://sampathnalaka.s3.eu-north-1.amazonaws.com/uploads/pngwing.com.png"}
                               alt="svs"
-                              width="30"
-                              height="30"
+                              width="35"
+                              height="35"
                               style={{
                                 border: "1px solid",
                                 borderRadius: "50%",
+                                marginLeft:"5px"
                               }}
                             />
                           </div>
 
-                          <div style={{ marginLeft: "13px" }}>
+                          <div style={{ marginLeft: "13px",textOverflow:"ellipsis",overflow:"hidden",whiteSpace:"nowrap" }}>
                             <p
                               style={{
                                 fontSize: "18px",
@@ -673,9 +676,11 @@ const Company = () => {
                                 fontWeight: "bold",
                                 fontStyle: "oblique",
                                 display: "inline",
+                                overflow: "hidden",
+                                
                               }}
                             >
-                              {user.firstName}&nbsp; {user.lastName}
+                              {user.firstName} {user.lastName}
                             </p>
                             <p
                               style={{
