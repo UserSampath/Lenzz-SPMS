@@ -15,6 +15,8 @@ import axios from "axios";
 import { useToast } from "@chakra-ui/toast";
 import { Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/menu";
 import { Input } from "@chakra-ui/input";
+import Swal from "sweetalert2";
+
 import { ChatState } from "./../../../../context/ChatProvider";
 import ChatLoading from "../ChatLoading";
 import UserListItem from "../UserDetails/UserListItem";
@@ -45,6 +47,7 @@ const SideDrawer = () => {
         isClosable: true,
         position: "top-left",
       });
+
       return;
     }
     try {
@@ -54,7 +57,11 @@ const SideDrawer = () => {
           Authorization: `Bearer ${user.token}`,
         },
       };
-      const { data } = await axios.post(`/api/user`, { "id": localPro.projectId, "search": search }, config);
+      const { data } = await axios.post(
+        `/api/user`,
+        { id: localPro.projectId, search: search },
+        config
+      );
       setLoadingChat(false);
       setSearchResult(data);
     } catch (error) {
