@@ -52,12 +52,15 @@ function CircleProgress(props) {
               return list.cards.length;
             });
 
-            const toDopercentage = Math.round((TodoTotal / total) * 100);
+            const toDopercentage =
+              total !== 0 ? Math.round((TodoTotal / total) * 100) : 0;
+
             setTodoPercentage(toDopercentage);
             if (res.data.length > 1) {
               var temp = res.data.length - 1;
               const lastTasks = res.data[temp].cards.length;
-              const OverallPercentage = Math.round((lastTasks / total) * 100);
+              const OverallPercentage =
+                total !== 0 ? Math.round((lastTasks / total) * 100) : 0;
               setOverdoPercentage(OverallPercentage);
             }
           }
@@ -113,13 +116,6 @@ function CircleProgress(props) {
   const now = 90;
 
   let variant = props.progresContribution;
-  if (now >= 75) {
-    variant = "warning";
-  } else if (now >= 50) {
-    variant = "success";
-  } else {
-    variant = "danger";
-  }
 
   //get project
 
@@ -193,10 +189,10 @@ function CircleProgress(props) {
             width: " 350px",
             height: " 350px",
             marginLeft: "75px",
-            marginTop: "120px",
+            marginTop: "90px",
             border: "1.5px solid",
             borderRadius: "10px",
-            borderColor: "#8A8A8A",
+            borderColor: "#E3E3E3",
             cursor: "Arrow",
             paddingBottom: "20px",
             minHeight: "200px",
@@ -210,12 +206,13 @@ function CircleProgress(props) {
                 fontFamily: "monospace",
                 fontWeight: "bold",
                 fontStyle: "oblique",
-                marginLeft: "65px",
               }}
             >
-              ToDo
+              ToDo Task Progress
             </label>
-            <Bar progress={toDopercentage} />
+            <div style={{ marginLeft: "30px" }}>
+              <Bar progress={toDopercentage} />
+            </div>
           </div>
         </div>
         <div
@@ -224,10 +221,10 @@ function CircleProgress(props) {
             width: " 350px",
             height: " 350px",
             marginLeft: "75px",
-            marginTop: "120px",
+            marginTop: "90px",
             border: "1.5px solid",
             borderRadius: "10px",
-            borderColor: "#8A8A8A",
+            borderColor: "#E3E3E3",
             cursor: "Arrow",
             paddingBottom: "20px",
             minHeight: "200px",
@@ -244,7 +241,7 @@ function CircleProgress(props) {
                 marginLeft: "0px",
               }}
             >
-              OverallProgress
+              Overall Progress
             </label>
             <Bar progress={Overpercentage} />
           </div>
@@ -255,10 +252,10 @@ function CircleProgress(props) {
             width: " 350px",
             height: " 350px",
             marginLeft: "75px",
-            marginTop: "120px",
+            marginTop: "90px",
             border: "1.5px solid",
             borderRadius: "10px",
-            borderColor: "#8A8A8A",
+            borderColor: "#E3E3E3",
             cursor: "Arrow",
             paddingBottom: "20px",
             minHeight: "200px",
@@ -291,7 +288,7 @@ function CircleProgress(props) {
           fontFamily: "Signika Negative",
           border: "1.5px solid",
           borderRadius: "10px",
-          borderColor: "#8A8A8A",
+          borderColor: "#E3E3E3",
           cursor: "Arrow",
           paddingBottom: "5px",
           minHeight: "200px",
@@ -324,7 +321,6 @@ function CircleProgress(props) {
                   key={index}
                   index={index}
                   member={member}
-                  now={now}
                   variant={variant}
                   tasksOftheProject={tasksOftheProject}
                   totalTasksOftheMember={totalTasksOftheMember}

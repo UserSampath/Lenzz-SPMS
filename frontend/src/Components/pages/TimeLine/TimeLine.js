@@ -17,8 +17,7 @@ import axios from "axios";
 import { useAuthContext } from "./../../../hooks/useAuthContext";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import { IoMdRemoveCircleOutline } from "react-icons/io";
-
+import { FaTrashAlt } from "react-icons/fa";
 const TOPIC = /^[A-Za-z0-9\s\-_,.!?:;'"()]{5,40}$/;
 
 const DESCRIPTION = /^[A-Za-z0-9\s\-_,.!?:;'"()]{5,}$/;
@@ -249,9 +248,9 @@ const TimeLine = () => {
             height: " 100%",
             marginLeft: "85px",
             marginTop: "80px",
-            border: "1.5px solid",
+            border: "1.5px solid ",
             borderRadius: "10px",
-            borderColor: "#8A8A8A",
+            borderColor: "#E3E3E3",
             cursor: "Arrow",
             paddingBottom: "20px",
             minHeight: "200px",
@@ -273,6 +272,7 @@ const TimeLine = () => {
                 fontWeight: "bold",
                 fontStyle: "oblique",
                 fontSize: "30px",
+                color: "#515151",
               }}
             >
               Requirments
@@ -444,7 +444,7 @@ const TimeLine = () => {
                       marginRight: "25px",
                       border: "1px solid",
                       borderRadius: "10px",
-                      borderColor: "#ABAAAA",
+                      borderColor: "#E3E3E3",
                       cursor: "Arrow",
                       paddingBottom: "20px",
                       minHeight: "200px",
@@ -489,7 +489,7 @@ const TimeLine = () => {
                         onClick={() => handelDeleteOutline(timeline)}
                         variant="danger"
                       >
-                        <IoMdRemoveCircleOutline
+                        <FaTrashAlt
                           style={{
                             fontSize: "25px",
                           }}

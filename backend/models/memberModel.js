@@ -24,7 +24,7 @@ const userSchema = new Schema(
       required: true,
     },
     contactNumber: {
-      type: Number,
+      type: String,
       required: false,
     },
     selectedJob: {
@@ -36,6 +36,7 @@ const userSchema = new Schema(
         Jobes.TechLead,
         Jobes.Client,
         Jobes.QualityAssurance,
+        Jobes.OtherProjectWorkers,
       ],
     },
     tokens: [

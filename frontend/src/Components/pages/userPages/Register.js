@@ -48,6 +48,7 @@ const Register = () => {
     "CLIENT",
     "QUALITY ASSURANCE",
     "TECHLEAD",
+    " OTHER PROJECT WORKERS",
   ];
   const [selectedJob, setSelectedJob] = useState("");
   const { signup, isLoading, error } = useSignup();
@@ -106,8 +107,8 @@ const Register = () => {
               Login
             </NavLink>
           </div>
-          <div className="col-md-6 p-5 ">
-            <h1 className="display-6 fw-bolder mb-5">REGISTER</h1>
+          <div className="col-md-6 p-3 ">
+            <h1 className="display-6 fw-bolder mb-3">REGISTER</h1>
             <div
               className="mform"
               style={{ width: "450px", marginLeft: "50px" }}
@@ -120,9 +121,9 @@ const Register = () => {
                 >
                   {errMsg}
                 </p>
-                <div className="mb-3">
+                <div className="mb-2">
                   <label htmlFor="email">
-                    FirstName:
+                    First name:
                     <FontAwesomeIcon
                       icon={faCheck}
                       className={validFirstName ? "valid" : "hide"}
@@ -167,9 +168,9 @@ const Register = () => {
                   </p>
                 </div>
 
-                <div className="mb-3">
+                <div className="mb-2">
                   <label htmlFor="email">
-                    LastName:
+                    Last name:
                     <FontAwesomeIcon
                       icon={faCheck}
                       className={validLastName ? "valid" : "hide"}
@@ -212,7 +213,7 @@ const Register = () => {
                     Letters, numbers, underscores, hyphens allowed.
                   </p>
                 </div>
-                <div className="mb-3">
+                <div className="mb-2">
                   <label htmlFor="email">
                     Email:
                     <FontAwesomeIcon
@@ -256,9 +257,9 @@ const Register = () => {
                     We'll never share your email with anyone else.
                   </div>
                 </div>
-                <div className="mb-3">
+                <div className="mb-2">
                   <label htmlFor="contactnumber">
-                    Contact Number:
+                    Contact number:
                     <FontAwesomeIcon
                       icon={faCheck}
                       className={contactnumber ? "valid" : "hide"}
@@ -299,7 +300,7 @@ const Register = () => {
                     must be 10 numbers
                   </p>
                 </div>
-                <div className="mb-3">
+                <div className="mb-2">
                   <label htmlFor="passeorf">
                     Password:
                     <FontAwesomeIcon
@@ -347,9 +348,9 @@ const Register = () => {
                     <span aria-label="percent">%</span>
                   </p>
                 </div>
-                <div className="mb-3">
+                <div className="mb-2">
                   <label htmlFor="confirm_pwd">
-                    Confirm Password:
+                    Confirm password:
                     <FontAwesomeIcon
                       icon={faCheck}
                       className={
@@ -393,7 +394,7 @@ const Register = () => {
 
                 <div className="mb-3">
                   <label htmlFor="jobtitle" className="form-label">
-                    Jobtitle
+                    Job title
                   </label>
                   <Dropdown onSelect={handleOptionChange}>
                     <Dropdown.Toggle variant="primary" id="dropdown-basic">
@@ -417,7 +418,7 @@ const Register = () => {
 
                 <button
                   type="submit"
-                  className="btn btn-outline-primary w-100 mt-4 "
+                  className="btn btn-outline-primary w-100 m-2 "
                   disabled={isLoading}
                 >
                   Submit

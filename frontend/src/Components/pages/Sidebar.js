@@ -10,7 +10,7 @@ import {
 } from "react-icons/fa";
 import { CgProfile } from "react-icons/cg";
 import { AiOutlineLogout } from "react-icons/ai";
-import { MdSettingsSuggest } from "react-icons/md";
+import { FaUsersCog } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Navbar from "react-bootstrap/Navbar";
@@ -96,7 +96,7 @@ const Sidebar = ({ children, SetSelectedProjectController, display }) => {
                 {}
               </h2>
             </div>
-            <MdSettingsSuggest
+            <FaUsersCog
               className="set-pic"
               onClick={toggleMenu}
               style={{ right: "0" }}
@@ -111,7 +111,7 @@ const Sidebar = ({ children, SetSelectedProjectController, display }) => {
                       fontFamily: "monospace",
                     }}
                   >
-                    <h5>{user.email}</h5>
+                    <h5>{user.firstName + " " + user.lastName}</h5>
                     <h5> {user.selectedJob}</h5>
                   </div>
                   <hr />

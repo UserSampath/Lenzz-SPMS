@@ -20,12 +20,12 @@ input.error {
 .BoxCard {
   width: 650px;
   margin-left: 170px;
-  margin-top: 55px;
+  margin-top: 35px;
   border: 1px solid;
   border-radius: 10px;
   border-color: #abaaaa;
   cursor: arrow;
-  height: 650px;
+  height: 620px;
 }
 
 @media (max-width: 768px) {
@@ -41,7 +41,7 @@ input.error {
   }
 }
 .card {
-  margin-top: 55px;
+  margin-top: 35px;
   background-color: #ffff;
 }
 

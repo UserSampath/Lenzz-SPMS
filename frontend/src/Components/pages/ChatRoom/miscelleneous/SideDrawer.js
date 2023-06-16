@@ -45,6 +45,7 @@ const SideDrawer = () => {
         isClosable: true,
         position: "top-left",
       });
+
       return;
     }
     try {
@@ -54,7 +55,11 @@ const SideDrawer = () => {
           Authorization: `Bearer ${user.token}`,
         },
       };
-      const { data } = await axios.post(`/api/user`, { "id": localPro.projectId, "search": search }, config);
+      const { data } = await axios.post(
+        `/api/user`,
+        { id: localPro.projectId, search: search },
+        config
+      );
       setLoadingChat(false);
       setSearchResult(data);
     } catch (error) {
@@ -130,7 +135,11 @@ const SideDrawer = () => {
               <i className="fa fa-search" style={{ marginTop: "4px" }}></i>
               <p
                 display={{ base: "none", md: "flex" }}
-                style={{ marginLeft: "10px", marginBottom: "1px" }}
+                style={{
+                  marginLeft: "10px",
+                  marginBottom: "1px",
+                  fontWeight: "bold",
+                }}
                 px="4"
               >
                 Search User

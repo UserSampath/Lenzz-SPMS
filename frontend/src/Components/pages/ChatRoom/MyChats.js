@@ -9,12 +9,15 @@ import ChatLoading from "./ChatLoading";
 import { getSender } from "./config/ChatLogics";
 import { useAuthContext } from "../../../hooks/useAuthContext";
 import GroupChatModal from "./miscelleneous/GroupChatModal";
-
-const MyChats = ({ fetchAgain }) => {
-  const [loggedUser, setLoggedUser] = useState();
+import AvatarPro from "./UserDetails/AvatarPro";
+import { Avatar } from "@chakra-ui/react";
+const MyChats = ({ fetchAgain, member }) => {
   const { selectedChat, setSelectedChat, chats, setChats } = ChatState();
   const { user } = useAuthContext();
   const toast = useToast();
+  const [loggedUser, setLoggedUser] = useState();
+  const [projectChatUsers, setProjectChatUsers] = useState([]);
+  const localPro = JSON.parse(localStorage.getItem("last access project"));
 
   const fetchChats = async () => {
     try {
@@ -25,6 +28,7 @@ const MyChats = ({ fetchAgain }) => {
       };
       const { data } = await axios.get("/api/chat", config);
       setChats(data);
+      console.log(data);
     } catch (error) {
       toast({
         title: "Error occured",
@@ -40,7 +44,41 @@ const MyChats = ({ fetchAgain }) => {
     setLoggedUser(JSON.parse(localStorage.getItem("user")));
     fetchChats();
   }, [fetchAgain]);
+  // const fetchChats = async () => {
+  //   try {
+  //     const config = {
+  //       headers: {
+  //         Authorization: `Bearer ${user.token}`,
+  //       },
+  //     };
 
+  //     // Fetch chats
+  //     const { data } = await axios.get("/api/chat", config);
+  //     setChats(data);
+  //     console.log(data);
+  //     // Fetch current project chat users
+  //     const projectId = localPro.projectId;
+  //     console.log(projectId); // Assuming you have the project ID available
+  //     const { data: projectChatUsers } = await axios.get(
+  //       `/api/project/${projectId}/chat/users`,
+  //       config
+  //     );
+  //     setProjectChatUsers(projectChatUsers);
+  //   } catch (error) {
+  //     toast({
+  //       title: "Error occurred",
+  //       description: "Failed to load the chats",
+  //       status: "error",
+  //       duration: 5000,
+  //       isClosable: true,
+  //       position: "bottom-left",
+  //     });
+  //   }
+  // };
+  // useEffect(() => {
+  //   setLoggedUser(JSON.parse(localStorage.getItem("user")));
+  //   fetchChats();
+  // }, [fetchAgain, projectChatUsers]);
   return (
     <Box
       display={{ base: selectedChat ? "none" : "flex", md: "flex" }}
@@ -98,20 +136,54 @@ const MyChats = ({ fetchAgain }) => {
                   py={2}
                   borderRadius="lg"
                   key={chat._id}
+                  width="350px" // Set the desired width value, e.g., "200px"
+                  height="90px"
+                  alignItems="center"
+                  paddingTop="19px"
                 >
-                  <Text>
-                    {!chat.isGroupChat
-                      ? getSender(user, chat.users)
-                      : chat.chatName}
-                  </Text>
-                  {chat.latestMessage && (
-                    <Text fontSize="xs">
-                      <b>{chat.latestMessage.sender.firstName} : </b>
-                      {chat.latestMessage.content.length > 50
-                        ? chat.latestMessage.content.substring(0, 51) + "..."
-                        : chat.latestMessage.content}
+                  <Box display="flex" alignItems="center">
+                    {!chat.isGroupChat && chat.users.length > 1 && (
+                      <AvatarPro
+                        key={chat.users[1]._id}
+                        member={chat.users[1]}
+                        fallback={
+                          <Avatar size="md" name={chat.users[1].name} />
+                        }
+                      />
+                    )}
+
+                    {chat.isGroupChat && (
+                      <Avatar size="md" name={chat.chatName} />
+                    )}
+                    <Text ml={2}>
+                      {!chat.isGroupChat
+                        ? getSender(user, chat.users)
+                        : chat.chatName}
                     </Text>
-                  )}
+                  </Box>
+                  <div style={{ display: "flex" }}>
+                    {chat.latestMessage && (
+                      <Text fontSize="xs" style={{ marginLeft: "60px" }}>
+                        <b>{chat.latestMessage.sender.firstName} : </b>
+                        {chat.latestMessage.content.length > 50
+                          ? chat.latestMessage.content.substring(0, 51) + "..."
+                          : chat.latestMessage.content}
+                      </Text>
+                    )}
+                    <div style={{ marginLeft: "105px" }}>
+                      {chat.latestMessage && (
+                        <Text fontSize="xs" style={{ marginLeft: "60px" }}>
+                          {new Date(
+                            chat.latestMessage.createdAt
+                          ).toLocaleTimeString([], {
+                            hour: "2-digit",
+                            minute: "2-digit",
+                            hour12: true,
+                          })}
+                        </Text>
+                      )}
+                    </div>
+                  </div>
                 </Box>
               );
             })}
