@@ -4,6 +4,8 @@ import styles from "./AddMemberToCompany.module.css";
 import Swal from "sweetalert2";
 
 import { useRef, useEffect } from "react";
+const LocalUser = JSON.parse(localStorage.getItem("user"));
+
 const AddMemberToCompany = (props) => {
   const [mail, setMail] = useState("");
   const inputRef = useRef(null);
@@ -19,14 +21,22 @@ const AddMemberToCompany = (props) => {
 
   const handleSendInvitation = async () => {
     try {
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${LocalUser.token}`,
+        },
+      };
       if (EMAIL_REGEX.test(mail)) {
         const res = await axios.post(
           "http://localhost:4000/api/company/sendInvitation",
+
           {
             company: props.company.companyname,
             mail: mail,
             companyKey: props.company.companyKey,
-          }
+          },
+          config
         );
 
         props.addMemberButtonClickHandler();

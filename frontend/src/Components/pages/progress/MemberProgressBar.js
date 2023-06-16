@@ -34,11 +34,12 @@ const MemberProgressBar = (props) => {
                   : "https://sampathnalaka.s3.eu-north-1.amazonaws.com/uploads/pngwing.com.png"
               }
               alt="svs"
-              width="30"
-              height="30"
+              width="35"
+              height="35"
               style={{
                 border: "1px solid",
                 borderRadius: "50%",
+                borderColor: "#E3E3E3",
               }}
             />
           </div>

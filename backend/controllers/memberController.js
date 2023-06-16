@@ -91,7 +91,9 @@ const passwordlink = async (req, res) => {
         from: "lenzzhasthiyit@gmail.com",
         to: email,
         subject: "Sending Email for password Reset",
-        text: `This link is valid for 2 minutes http://localhost:3000/forgotPassword/${userfind.id}/${setusertoken.verifytoken}`,
+        text: `This link send Hasthiya IT software project management system 
+        Change your account password(valid for 2 minutes)
+         http://localhost:3000/forgotPassword/${userfind.id}/${setusertoken.verifytoken}`,
       };
       transporter.sendMail(mailOptions, (error, info) => {
         if (error) {

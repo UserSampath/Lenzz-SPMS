@@ -16,6 +16,7 @@
     "@chakra-ui/spinner": "^2.0.13",
     "@chakra-ui/toast": "^6.0.1",
     "@chakra-ui/tooltip": "^2.2.6",
+    "@emoji-mart/data": "^1.1.2",
     "@emotion/react": "^11.11.0",
     "@emotion/styled": "^11.11.0",
     "@fontsource/roboto": "^4.5.8",

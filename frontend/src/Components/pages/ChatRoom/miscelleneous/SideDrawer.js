@@ -15,8 +15,6 @@ import axios from "axios";
 import { useToast } from "@chakra-ui/toast";
 import { Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/menu";
 import { Input } from "@chakra-ui/input";
-import Swal from "sweetalert2";
-
 import { ChatState } from "./../../../../context/ChatProvider";
 import ChatLoading from "../ChatLoading";
 import UserListItem from "../UserDetails/UserListItem";
@@ -137,7 +135,11 @@ const SideDrawer = () => {
               <i className="fa fa-search" style={{ marginTop: "4px" }}></i>
               <p
                 display={{ base: "none", md: "flex" }}
-                style={{ marginLeft: "10px", marginBottom: "1px" }}
+                style={{
+                  marginLeft: "10px",
+                  marginBottom: "1px",
+                  fontWeight: "bold",
+                }}
                 px="4"
               >
                 Search User

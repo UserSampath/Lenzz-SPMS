@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { ChatState } from "../../../context/ChatProvider";
 import { Box, Text } from "@chakra-ui/layout";
 import { IconButton } from "@chakra-ui/button";
@@ -18,9 +18,9 @@ import Lottie from "react-lottie";
 import animationData from "./animation/typing.json";
 import { FiSend } from "react-icons/fi";
 import { ImAttachment } from "react-icons/im";
-
 import { useAuthContext } from "../../../hooks/useAuthContext";
-
+import { IoMdPhotos } from "react-icons/io";
+import { IoDocumentsSharp } from "react-icons/io5";
 const ENDPOINT = "http://localhost:4000";
 var socket, selectedChatCompare;
 
@@ -32,6 +32,26 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const [socketConnected, setSocketConnected] = useState(false);
   const [typing, setTyping] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
+  const [showOptions, setShowOptions] = useState(false);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  const ref = useRef(null);
+  const handleLabelClick = () => {
+    setShowOptions(!showOptions);
+  };
+
+  const handleClickOutside = (event) => {
+    if (ref.current && !ref.current.contains(event.target)) {
+      setShowOptions(false);
+    }
+  };
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   //lottie animation library
   const defaultOptions = {
     loop: true,
@@ -41,8 +61,13 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
       preserveAspectRatio: "xMidYMid slice",
     },
   };
+  const [selectedFile, setSelectedFile] = useState(null);
 
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const handleFileSelection = (files) => {
+    if (files && files.length > 0) {
+      setSelectedFile(files[0]);
+    }
+  };
 
   useEffect(() => {
     // Update windowWidth when the window is resized
@@ -184,7 +209,6 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     }, timerLength);
   };
 
-  const handleFileSelection = () => {};
   return (
     <>
       {selectedChat ? (
@@ -263,22 +287,98 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
               )}
 
               <div style={{ display: "flex", inputStyle }}>
-                <button
-                  style={{
-                    marginRight: "5px",
-                    marginLeft: "5px",
-                    fontSize: "25px",
-                  }}
-                >
-                  <label htmlFor="fileInput">
-                    <ImAttachment style={{ color: "#137EAA" }} />
-                  </label>
-                  <input
-                    id="fileInput"
-                    type="file"
-                    style={{ display: "none" }}
-                    onChange={(e) => handleFileSelection(e.target.files)}
-                  />
+                <button>
+                  {" "}
+                  <div
+                    onClick={handleLabelClick}
+                    style={{ marginRight: "19px", marginLeft: "5px" }}
+                  >
+                    <ImAttachment
+                      style={{ color: "#137EAA", fontSize: "25px" }}
+                    />
+                  </div>
+                  {showOptions && (
+                    <div
+                      className="vertical-options"
+                      ref={ref}
+                      style={{
+                        position: "absolute",
+                        top: -110, // Adjust this value to position the vertical buttons
+                        left: -5,
+                      }}
+                    >
+                      {" "}
+                      <div>
+                        <label htmlFor="docInput">
+                          <div
+                            htmlFor="photoInput"
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              width: "45px",
+                              height: "45px",
+                              borderRadius: "50%",
+                              border: "3px solid white",
+                              boxShadow: "0 0 2px rgba(0, 0, 0, 0.5)",
+                              marginBottom: "10px",
+                            }}
+                          >
+                            <div>
+                              <IoMdPhotos
+                                style={{
+                                  color: "#137EAA",
+                                  fontSize: "25px",
+                                }}
+                              />
+                            </div>
+                          </div>
+                          <input
+                            id="photoInput"
+                            type="file"
+                            style={{ display: "none" }}
+                            onChange={(e) =>
+                              handleFileSelection(e.target.files)
+                            }
+                          />
+                        </label>
+                      </div>
+                      <div onClick={handleFileSelection}>
+                        <label htmlFor="docInput">
+                          <div
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              width: "45px",
+                              height: "45px",
+                              borderRadius: "50%",
+                              border: "3px solid white",
+                              boxShadow: "0 0 2px rgba(0, 0, 0, 0.5)",
+                            }}
+                          >
+                            <IoDocumentsSharp
+                              style={{
+                                color: "#137EAA",
+                                fontSize: "25px",
+                              }}
+                            />
+                            <input
+                              id="docInput"
+                              type="file"
+                              style={{ display: "none" }}
+                              onChange={(e) =>
+                                handleFileSelection(e.target.files)
+                              }
+                            />
+                          </div>
+                        </label>
+                      </div>
+                      {selectedFile && (
+                        <p>Selected File: {selectedFile.name}</p>
+                      )}
+                    </div>
+                  )}
                 </button>
 
                 <Input

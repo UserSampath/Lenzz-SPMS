@@ -9,20 +9,25 @@ import {
 import { Tooltip } from "@chakra-ui/tooltip";
 import { Avatar } from "@chakra-ui/avatar";
 import { useAuthContext } from "../../../hooks/useAuthContext";
-import { BiDotsVerticalRounded } from "react-icons/bi";
+import { IoIosArrowDropdown } from "react-icons/io";
 import axios from "axios";
 import { useToast } from "@chakra-ui/toast";
+import { GiCancel } from "react-icons/gi";
 const ScrollableChat = ({ messages, setMessages }) => {
   const [showNotification, setShowNotification] = useState(false);
   const [selectedMessage, setSelectedMessage] = useState(null);
   const [replyMessage, setReplyMessage] = useState(null);
   const { user } = useAuthContext();
   const toast = useToast();
+  const [typingMessage, setTypingMessage] = useState("");
+
   const handleShowOptions = (message) => {
     setSelectedMessage(message);
     setShowNotification(true);
     setReplyMessage(null);
+    setTypingMessage("");
   };
+
   const handleDeleteMessage = async () => {
     try {
       // Send a DELETE request to the backend API to delete the message
@@ -32,7 +37,6 @@ const ScrollableChat = ({ messages, setMessages }) => {
       console.log("Message deleted successfully");
       toast({
         title: "Message deleted successfully",
-
         status: "success",
         duration: 5000,
         isClosable: true,
@@ -46,7 +50,7 @@ const ScrollableChat = ({ messages, setMessages }) => {
     } catch (error) {
       console.error("Error deleting message:", error);
       toast({
-        title: "Error occured",
+        title: "Error occurred",
         description: "Message not found",
         status: "error",
         duration: 5000,
@@ -56,6 +60,11 @@ const ScrollableChat = ({ messages, setMessages }) => {
       // Display an error message to the user
     }
     setShowNotification(false);
+  };
+
+  const handleReplyMessage = (message) => {
+    setReplyMessage(message);
+    setTypingMessage("");
   };
 
   return (
@@ -107,13 +116,13 @@ const ScrollableChat = ({ messages, setMessages }) => {
                     fontSize: "14px",
                     display: "flex",
                     flexDirection: "column",
-                    alignItems: "flex-start", // Align the notification to the right
-                    minWidth: "200px", // Set a minimum width for the notification
+                    alignItems: "flex-start",
+                    minWidth: "200px",
                     marginRight: "96px",
                   }}
                 >
                   <p style={{ marginBottom: "4px" }}>
-                    Do you want to delete this message?
+                    Do you want to delete or reply to this message?
                   </p>
                   <div
                     style={{
@@ -147,24 +156,97 @@ const ScrollableChat = ({ messages, setMessages }) => {
                     >
                       Delete
                     </button>
+                    <button
+                      style={{
+                        border: "none",
+                        background: "transparent",
+                        color: "rgba(255, 255, 255, 0.8)",
+                        fontSize: "14px",
+                        marginLeft: "8px",
+                        cursor: "pointer",
+                      }}
+                      onClick={() => handleReplyMessage(m)}
+                    >
+                      Reply
+                    </button>
                   </div>
                 </div>
               )}
-              {m.content}
+              {m.replyMessage ? (
+                <div>
+                  <p>{m.replyMessage.content}</p>
+                  <p>hi</p>
+                </div>
+              ) : null}
+              <div>{m.content}</div>
               <button
                 style={{
-                  marginLeft: "auto",
+                  marginLeft: "5px",
                   border: "none",
                   background: "transparent",
                   cursor: "pointer",
                 }}
                 onClick={() => handleShowOptions(m)}
               >
-                <BiDotsVerticalRounded />
+                <IoIosArrowDropdown />
               </button>
             </span>
           </div>
         ))}
+      <div>
+        {replyMessage && (
+          <div
+            style={{
+              background: "#E6F4F4",
+              borderRadius: "8px",
+              padding: "8px",
+              marginBottom: "8px",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                marginBottom: "4px",
+              }}
+            >
+              <span
+                style={{
+                  fontWeight: "bold",
+                  marginRight: "8px",
+                  color: "#075E54",
+                }}
+              >
+                {replyMessage.sender.firstName}:
+              </span>
+              <span style={{ flex: 1 }}>{replyMessage.content}</span>
+              <button
+                onClick={() => {
+                  setReplyMessage(null);
+                  setTypingMessage("");
+                }}
+                style={{
+                  background: "none",
+                  border: "none",
+                  color: "#FF1300",
+                  textDecoration: "none",
+                  cursor: "pointer",
+                  width: "24px",
+                  height: "14px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  padding: "0",
+                  marginLeft: "8px",
+                }}
+              >
+                <GiCancel size={19} />
+              </button>
+            </div>
+            <hr style={{ margin: "0" }} />
+          </div>
+        )}
+      </div>
     </ScrollableFeed>
   );
 };

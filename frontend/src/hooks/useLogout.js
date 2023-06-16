@@ -26,12 +26,11 @@ export const useLogout = () => {
         Swal.fire({
           position: "center",
           icon: "success",
-          title: "You have successfully logged out",
+          text: "Logout Successfully",
           showConfirmButton: false,
-          timer: 1500,
+          timer: 1200,
           width: "250px",
         });
-        // Add your log out code here
       }
     });
 

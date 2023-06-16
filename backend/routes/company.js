@@ -18,6 +18,6 @@ router.get("/companyUsers", requireAuth, companyUsers);
 router.get("/randomkey", randomkey);
 router.put("/updateCompanyData", updateCompanyData);
 router.get("/:id", requireAuth, getCompanyById);
-router.post("/sendInvitation", sendInvitation);
+router.post("/sendInvitation", requireAuth, sendInvitation);
 
 module.exports = router;

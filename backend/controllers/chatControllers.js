@@ -1,6 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const Chat = require("../models/chatModel");
 const User = require("../models/memberModel");
+const projectUser = require("../models/projectUserModel");
 
 const accesChat = asyncHandler(async (req, res) => {
   const { userId } = req.body;
@@ -177,7 +178,23 @@ const removeFromGroup = asyncHandler(async (req, res) => {
 
   res.json(removed);
 });
+// const ProjectChat = async (req, res) => {
+//   try {
+//     const projectId = req.params.projectId;
+//     // Implement the logic to fetch the project chat users based on the project ID
+//     // You can use your existing models and database queries here
+//     // For example:
+//     console.log(projectId);
+//     const projectChatUsers = await projectUser
+//       .find({ projectId })
+//       .populate("user");
 
+//     res.json(projectChatUsers);
+
+//   } catch (error) {
+//     res.status(500).json({ error: "Failed to fetch project chat users" });
+//   }
+// };
 module.exports = {
   removeFromGroup,
   accesChat,
@@ -185,4 +202,5 @@ module.exports = {
   createGroupChat,
   renameGroup,
   addToGroup,
+  // ProjectChat,
 };

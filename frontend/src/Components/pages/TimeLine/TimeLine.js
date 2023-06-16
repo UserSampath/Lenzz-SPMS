@@ -248,9 +248,9 @@ const TimeLine = () => {
             height: " 100%",
             marginLeft: "85px",
             marginTop: "80px",
-            border: "1.5px solid",
+            border: "1.5px solid ",
             borderRadius: "10px",
-            borderColor: "#8A8A8A",
+            borderColor: "#E3E3E3",
             cursor: "Arrow",
             paddingBottom: "20px",
             minHeight: "200px",
@@ -272,6 +272,7 @@ const TimeLine = () => {
                 fontWeight: "bold",
                 fontStyle: "oblique",
                 fontSize: "30px",
+                color: "#515151",
               }}
             >
               Requirments
@@ -443,7 +444,7 @@ const TimeLine = () => {
                       marginRight: "25px",
                       border: "1px solid",
                       borderRadius: "10px",
-                      borderColor: "#ABAAAA",
+                      borderColor: "#E3E3E3",
                       cursor: "Arrow",
                       paddingBottom: "20px",
                       minHeight: "200px",
