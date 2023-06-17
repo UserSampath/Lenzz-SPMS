@@ -13,8 +13,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const EMAIL_REGEX = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 const TEXT_REGEX = /^[A-Za-z0-9\s\-_,.!?:;'"()]{5,25}$/;
 const CONTECTNUMBER_REGEX = /^\w{10}$/;
-const ADDRESS = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/;
-
+const ADDRESS = /^[A-Za-z0-9_,\/@\s"]{3,30}$/;
 const CreateCompany = () => {
   const userRef = useRef();
   const errRef = useRef();
@@ -191,7 +190,7 @@ const CreateCompany = () => {
                 </div>
                 <div className="mb-3">
                   <label htmlFor="email">
-                    Company Email:
+                    Company email:
                     <FontAwesomeIcon
                       icon={faCheck}
                       className={companyemail ? "valid" : "hide"}
@@ -235,7 +234,7 @@ const CreateCompany = () => {
 
                 <div className="mb-3">
                   <label htmlFor="ContactNumber">
-                    Contact Number:
+                    Contact number:
                     <FontAwesomeIcon
                       icon={faCheck}
                       className={contactnumber ? "valid" : "hide"}
@@ -278,7 +277,7 @@ const CreateCompany = () => {
                 </div>
                 {/* //company addreess */}
                 <div className="mb-3">
-                  <label htmlFor="company address">
+                  <label htmlFor="Company address">
                     Company address:
                     <FontAwesomeIcon
                       icon={faCheck}
@@ -304,7 +303,7 @@ const CreateCompany = () => {
                     aria-invalid={validCompanyaddress ? "false" : "true"}
                     onFocus={() => setCompanyaddressFocus(true)}
                     onBlur={() => setCompanyaddressFocus(false)}
-                    placeholder="Enter your company address"
+                    placeholder="Enter company address"
                   />
                   <p
                     id="uidnote"
@@ -327,7 +326,7 @@ const CreateCompany = () => {
 
                 <button
                   type="submit"
-                  className="btn btn-outline-primary w-100 mt-4"
+                  className="btn btn-outline-primary w-100 mt-2"
                 >
                   Submit
                 </button>

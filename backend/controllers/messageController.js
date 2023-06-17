@@ -16,7 +16,7 @@ const sendMessage = asyncHandler(async (req, res) => {
     content: content,
     chat: chatId,
   };
-
+  console.log(req.user._id);
   try {
     var message = await Message.create(newMessage);
     message = await message.populate("sender", "firstName");
@@ -44,4 +44,52 @@ const allMessages = asyncHandler(async (req, res) => {
     throw new Error(error.message);
   }
 });
-module.exports = { sendMessage, allMessages };
+const deleteMessages = asyncHandler(async (req, res) => {
+  const messageId = req.params.id;
+
+  try {
+    // Find the message by ID
+    const message = await Message.findById(messageId);
+
+    if (!message) {
+      console.log("Message not found");
+      return res.sendStatus(404);
+    }
+
+    // Check if the user is authorized to delete the message (you may implement your own logic for authorization)
+
+    // Delete the message
+    await message.remove();
+
+    res.status(200).json("message deleted");
+  } catch (error) {
+    console.log(error.message);
+    res.sendStatus(500);
+  }
+});
+
+// app.delete("/messages/:id", asyncHandler(async (req, res) => {
+//   const messageId = req.params.id;
+
+//   try {
+//     // Find the message by ID
+//     const message = await Message.findById(messageId);
+
+//     if (!message) {
+//       console.log("Message not found");
+//       return res.sendStatus(404);
+//     }
+
+//     // Check if the user is authorized to delete the message (you may implement your own logic for authorization)
+
+//     // Delete the message
+//     await message.remove();
+
+//     res.sendStatus(200);
+//   } catch (error) {
+//     console.log(error.message);
+//     res.sendStatus(500);
+//   }
+// }));
+
+module.exports = { sendMessage, allMessages, deleteMessages };

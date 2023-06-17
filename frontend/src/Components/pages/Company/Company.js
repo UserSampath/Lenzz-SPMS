@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import SideBar from "../Sidebar";
-import AddMemberToCompany from "./AddMemberToCompany/AddMemberToCompany"
+import AddMemberToCompany from "./AddMemberToCompany/AddMemberToCompany";
 import "./Company.css";
 import { Button, Modal, Form } from "react-bootstrap";
 import axios from "axios";
@@ -54,8 +54,16 @@ const Company = () => {
   const { dispatch } = useProjectContext();
   const { user } = useAuthContext();
   const [showModal, setShowModal] = useState(false);
+  const [showUserModal, setShowUserModal] = useState(false);
+  const [selecteUser, setSelectedUser] = useState({});
   const handleClose = () => setShowModal(false);
   const handleShow = () => setShowModal(true);
+  const handleUserClose = () => setShowUserModal(false);
+  const handleUser = (user) => {
+    setShowUserModal(true);
+    setSelectedUser(user);
+  };
+
   const history = useNavigate();
   const [projectname, setprojectname] = useState("");
   const [validProjectName, setValidProjectName] = useState(false);
@@ -72,7 +80,8 @@ const Company = () => {
   const [userData, setUserData] = useState({});
   const [isMountUserData, setIsMountUserData] = useState(false);
   const [company, setCompany] = useState({});
-  const [AddMemberToCompanyModelOpen, setAddMemberToCompanyModelOpen] = useState(false);
+  const [AddMemberToCompanyModelOpen, setAddMemberToCompanyModelOpen] =
+    useState(false);
 
   //get users
   const LocalUser = JSON.parse(localStorage.getItem("user"));
@@ -123,10 +132,7 @@ const Company = () => {
         })
         .then((res) => {
           setCompanyProjects(res.data.userProject);
-          console.log(
-            "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
-            res.data.userProject
-          );
+          console.log("Company users", res.data.userProject);
         })
         .catch((err) => {
           console.log(err);
@@ -218,7 +224,7 @@ const Company = () => {
             data
           );
           console.log("sssssssssssssssssssssssssssssss", res);
-        } catch (err) { }
+        } catch (err) {}
       };
       addSystemAdminToProject();
 
@@ -278,14 +284,16 @@ const Company = () => {
 
   const addMemberButtonClickHandler = () => {
     setAddMemberToCompanyModelOpen(!AddMemberToCompanyModelOpen);
-  }
+  };
 
   return (
     <SideBar display={"Company : " + company.companyname}>
-      {
-        AddMemberToCompanyModelOpen && <AddMemberToCompany addMemberButtonClickHandler={addMemberButtonClickHandler} company={company} />
-      }
-
+      {AddMemberToCompanyModelOpen && (
+        <AddMemberToCompany
+          addMemberButtonClickHandler={addMemberButtonClickHandler}
+          company={company}
+        />
+      )}
 
       <div style={{ marginLeft: "55px", marginTop: "80px" }}>
         <div
@@ -297,7 +305,7 @@ const Company = () => {
             marginTop: "50px",
             border: "1px solid",
             borderRadius: "10px",
-            borderColor: "#ABAAAA",
+            borderColor: "#E3E3E3",
             cursor: "Arrow",
             paddingBottom: "20px",
             minHeight: "200px",
@@ -356,7 +364,7 @@ const Company = () => {
                     controlId="exampleForm.ControlInput1"
                   >
                     <Form.Label style={{ fontWeight: "bold" }}>
-                      Project Name
+                      Project name
                       <FontAwesomeIcon
                         icon={faCheck}
                         className={validProjectName ? "valid" : "hide"}
@@ -450,7 +458,7 @@ const Company = () => {
                       controlId="exampleForm.ControlInput1"
                     >
                       <Form.Label style={{ fontWeight: "bold" }}>
-                        End Date
+                        End date
                       </Form.Label>
                       <Form.Control
                         type="date"
@@ -463,12 +471,13 @@ const Company = () => {
                 </Form>
               </Modal.Body>
               <Modal.Footer>
-                <Button variant="secondary" onClick={handleClose}>
-                  Close
-                </Button>
                 <Button variant="primary" onClick={handleSubmit}>
                   Create Project
                 </Button>
+                <Button variant="danger" onClick={handleClose}>
+                  Close
+                </Button>
+
                 {error && (
                   <div
                     className="error"
@@ -567,7 +576,7 @@ const Company = () => {
               marginTop: "10px",
               border: "1px solid",
               borderRadius: "10px",
-              borderColor: "#ABAAAA",
+              borderColor: "#E3E3E3",
               cursor: "Arrow",
               paddingBottom: "20px",
               minHeight: "200px",
@@ -602,7 +611,7 @@ const Company = () => {
                   fontFamily: "Roboto",
                 }}
                 block="true"
-                onClick={()=>addMemberButtonClickHandler()}
+                onClick={() => addMemberButtonClickHandler()}
               >
                 Add member
               </Button>
@@ -645,18 +654,23 @@ const Company = () => {
                           display: "flex",
                           cursor: "pointer",
                         }}
+                        onClick={() => handleUser(user)}
                       >
                         <div
                           style={{
                             display: "flex",
                             flex: "wrap",
                             overflow: "hidden",
-                            marginTop: "1px",
+                            marginTop: "10px",
                           }}
                         >
                           <div style={{ marginTop:"6px"}}>
                             <img
-                              src={user.profilePicture !== null ? user.profilePicture : "https://sampathnalaka.s3.eu-north-1.amazonaws.com/uploads/pngwing.com.png"}
+                              src={
+                                user.profilePicture !== null
+                                  ? user.profilePicture
+                                  : "https://sampathnalaka.s3.eu-north-1.amazonaws.com/uploads/pngwing.com.png"
+                              }
                               alt="svs"
                               width="35"
                               height="35"
@@ -704,6 +718,59 @@ const Company = () => {
             </div>
           </div>
         </div>
+        <Modal show={showUserModal} onHide={handleUserClose}>
+          <Modal.Header>
+            <Modal.Title>Member Details</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                marginBottom: "10px",
+                marginLeft: "180px",
+              }}
+            >
+              <img
+                src={
+                  selecteUser.profilePicture !== null
+                    ? selecteUser.profilePicture
+                    : "https://sampathnalaka.s3.eu-north-1.amazonaws.com/uploads/pngwing.com.png"
+                }
+                alt="Profile Picture"
+                width="100"
+                height="100"
+                style={{
+                  border: "2px solid",
+                  borderRadius: "50%",
+                  marginRight: "10px",
+                }}
+              />
+            </div>
+            <div style={{ textAlign: "left" }}>
+              <p>
+                <strong>Name :</strong> {selecteUser.firstName}{" "}
+                {selecteUser.lastName}
+              </p>
+              <p style={{ margin: "5px 0" }}>
+                {" "}
+                <strong>Email :</strong> {selecteUser.email}
+              </p>
+              <p style={{ margin: "5px 0" }}>
+                <strong>Selected Job : </strong> {selecteUser.selectedJob}
+              </p>
+            </div>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button
+              variant="danger"
+              onClick={handleUserClose}
+              style={{ width: "20%" }}
+            >
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
         <Link to="/CompanySetting">
           <div
             className="Boxcard"

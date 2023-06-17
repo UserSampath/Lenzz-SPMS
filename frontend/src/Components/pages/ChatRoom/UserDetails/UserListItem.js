@@ -1,8 +1,8 @@
 import React from "react";
 import { Box, Text } from "@chakra-ui/layout";
-import { Avatar } from "@chakra-ui/avatar";
-const UserListItem = ({user, handleFunction }) => {
- 
+import AvatarPro from "./AvatarPro";
+
+const UserListItem = ({ user, handleFunction, props }) => {
   return (
     <Box
       onClick={handleFunction}
@@ -21,14 +21,11 @@ const UserListItem = ({user, handleFunction }) => {
       mb={2}
       borderRadius="lg"
     >
-      <Avatar
-      mr={2}
-      size="sm"
-      cursor="pointer"
-      name={user.firstName}
-      />
-      <Box>
-        <Text>{user.firstName}</Text>
+      <AvatarPro member={user} />
+      <Box style={{ marginLeft: "15px" }}>
+        <Text>
+          {user.firstName} {user.lastName}
+        </Text>
         <Text fontSize="xs">
           <b>Email: </b>
           {user.email}

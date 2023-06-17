@@ -1,9 +1,9 @@
 #home {
-  background: rgb(0, 101, 219);
+  background: rgb(0, 75, 160);
   background: linear-gradient(
     90deg,
-    rgb(0, 101, 219) 50%,
-    rgb(60, 113, 187) 100%
+    rgb(37, 109, 223) 50%,
+    rgb(22, 107, 226) 100%
   );
   min-height: 603px;
 }
@@ -12,8 +12,8 @@
   background: rgb(0, 101, 219);
   background: linear-gradient(
     90deg,
-    rgb(0, 101, 219) 30%,
-    rgb(60, 113, 187) 100%
+    rgb(19, 110, 214) 30%,
+    rgb(10, 99, 223) 100%
   );
   min-height: 650px;
 }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import ScrollableFeed from "react-scrollable-feed";
 import {
   isSameSender,
@@ -9,10 +9,63 @@ import {
 import { Tooltip } from "@chakra-ui/tooltip";
 import { Avatar } from "@chakra-ui/avatar";
 import { useAuthContext } from "../../../hooks/useAuthContext";
-
-const ScrollableChat = ({ messages }) => {
+import { IoIosArrowDropdown } from "react-icons/io";
+import axios from "axios";
+import { useToast } from "@chakra-ui/toast";
+import { GiCancel } from "react-icons/gi";
+const ScrollableChat = ({ messages, setMessages }) => {
+  const [showNotification, setShowNotification] = useState(false);
+  const [selectedMessage, setSelectedMessage] = useState(null);
+  const [replyMessage, setReplyMessage] = useState(null);
   const { user } = useAuthContext();
-  console.log(user._id);
+  const toast = useToast();
+  const [typingMessage, setTypingMessage] = useState("");
+
+  const handleShowOptions = (message) => {
+    setSelectedMessage(message);
+    setShowNotification(true);
+    setReplyMessage(null);
+    setTypingMessage("");
+  };
+
+  const handleDeleteMessage = async () => {
+    try {
+      // Send a DELETE request to the backend API to delete the message
+      await axios.delete(
+        `http://localhost:4000/api/messages/${selectedMessage._id}`
+      );
+      console.log("Message deleted successfully");
+      toast({
+        title: "Message deleted successfully",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom-left",
+      });
+      // Update the messages state by removing the deleted message
+      setMessages(messages.filter((m) => m._id !== selectedMessage._id));
+
+      // After deleting the message, hide the notification
+      setShowNotification(false);
+    } catch (error) {
+      console.error("Error deleting message:", error);
+      toast({
+        title: "Error occurred",
+        description: "Message not found",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom-left",
+      });
+      // Display an error message to the user
+    }
+    setShowNotification(false);
+  };
+
+  const handleReplyMessage = (message) => {
+    setReplyMessage(message);
+    setTypingMessage("");
+  };
 
   return (
     <ScrollableFeed>
@@ -21,8 +74,7 @@ const ScrollableChat = ({ messages }) => {
           <div style={{ display: "flex" }} key={m._id}>
             {(isSameSender(messages, m, i, user._id) ||
               isLastMessage(messages, i, user._id)) && (
-             
-                <Tooltip
+              <Tooltip
                 label={m.sender.firstName}
                 placement="bottom-start"
                 hasArrow
@@ -44,14 +96,157 @@ const ScrollableChat = ({ messages }) => {
                 marginLeft: isSameSenderMargin(messages, m, i, user._id),
                 marginTop: isSameUser(messages, m, i, user._id) ? 3 : 10,
                 borderRadius: "18px",
-                padding: "5px 15px",
+                padding: "5px 25px",
                 maxWidth: "75%",
+                display: "flex",
+                position: "relative",
               }}
             >
-              {m.content}
+              {showNotification && selectedMessage === m && (
+                <div
+                  style={{
+                    position: "absolute",
+                    right: "0",
+                    top: "0%",
+                    transform: "translateY(-50%)",
+                    backgroundColor: "rgba(0, 0, 0, 0.8)",
+                    color: "white",
+                    padding: "8px",
+                    borderRadius: "4px",
+                    fontSize: "14px",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "flex-start",
+                    minWidth: "200px",
+                    marginRight: "96px",
+                  }}
+                >
+                  <p style={{ marginBottom: "4px" }}>
+                    Do you want to delete or reply to this message?
+                  </p>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "flex-end",
+                      width: "100%",
+                    }}
+                  >
+                    <button
+                      style={{
+                        border: "none",
+                        background: "transparent",
+                        color: "rgba(255, 255, 255, 0.8)",
+                        fontSize: "14px",
+                        marginRight: "8px",
+                        cursor: "pointer",
+                      }}
+                      onClick={() => setShowNotification(false)}
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      style={{
+                        border: "none",
+                        background: "transparent",
+                        color: "#dc3545",
+                        fontSize: "14px",
+                        cursor: "pointer",
+                      }}
+                      onClick={handleDeleteMessage}
+                    >
+                      Delete
+                    </button>
+                    <button
+                      style={{
+                        border: "none",
+                        background: "transparent",
+                        color: "rgba(255, 255, 255, 0.8)",
+                        fontSize: "14px",
+                        marginLeft: "8px",
+                        cursor: "pointer",
+                      }}
+                      onClick={() => handleReplyMessage(m)}
+                    >
+                      Reply
+                    </button>
+                  </div>
+                </div>
+              )}
+              {m.replyMessage ? (
+                <div>
+                  <p>{m.replyMessage.content}</p>
+                  <p>hi</p>
+                </div>
+              ) : null}
+              <div>{m.content}</div>
+              <button
+                style={{
+                  marginLeft: "5px",
+                  border: "none",
+                  background: "transparent",
+                  cursor: "pointer",
+                }}
+                onClick={() => handleShowOptions(m)}
+              >
+                <IoIosArrowDropdown />
+              </button>
             </span>
           </div>
         ))}
+      <div>
+        {replyMessage && (
+          <div
+            style={{
+              background: "#E6F4F4",
+              borderRadius: "8px",
+              padding: "8px",
+              marginBottom: "8px",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                marginBottom: "4px",
+              }}
+            >
+              <span
+                style={{
+                  fontWeight: "bold",
+                  marginRight: "8px",
+                  color: "#075E54",
+                }}
+              >
+                {replyMessage.sender.firstName}:
+              </span>
+              <span style={{ flex: 1 }}>{replyMessage.content}</span>
+              <button
+                onClick={() => {
+                  setReplyMessage(null);
+                  setTypingMessage("");
+                }}
+                style={{
+                  background: "none",
+                  border: "none",
+                  color: "#FF1300",
+                  textDecoration: "none",
+                  cursor: "pointer",
+                  width: "24px",
+                  height: "14px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  padding: "0",
+                  marginLeft: "8px",
+                }}
+              >
+                <GiCancel size={19} />
+              </button>
+            </div>
+            <hr style={{ margin: "0" }} />
+          </div>
+        )}
+      </div>
     </ScrollableFeed>
   );
 };

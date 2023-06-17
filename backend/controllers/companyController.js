@@ -152,7 +152,10 @@ const sendInvitation = async (req, res) => {
   const company = req.body.company;
   const mail = req.body.mail;
   const companyKey = req.body.companyKey;
-
+  const { id, selectedJob } = req;
+  if (selectedJob !== "SYSTEM ADMIN") {
+    return res.status(401).json({ error: "User is not authorized" });
+  }
   try {
     console.log("company is ", company);
     const mailOptions = {
@@ -169,17 +172,20 @@ const sendInvitation = async (req, res) => {
       console.log(error);
       if (error) {
         console.log("error", error);
-        res.status(201).json({ status: 201, message: "Email not sent", error: error.message });
+        res.status(201).json({
+          status: 201,
+          message: "Email not sent",
+          error: error.message,
+        });
       } else {
         console.log("Email sent", info.response);
         res.status(200).json({ message: "Email sent successfully" });
       }
-    }); 
+    });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
-
 
 module.exports = {
   createCompany,
@@ -188,5 +194,5 @@ module.exports = {
   companyUsers,
   updateCompanyData,
   getCompanyById,
-  sendInvitation
+  sendInvitation,
 };

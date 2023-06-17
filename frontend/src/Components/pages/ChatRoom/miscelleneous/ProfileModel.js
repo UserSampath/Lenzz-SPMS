@@ -34,11 +34,14 @@ const ProfileModel = ({ user, children }) => {
         <ModalContent>
           <ModalHeader
             fontSize="40px"
-            fontFamily="Work sans"
+           fontFamily="monospace"
+            fontStyle="oblique"
             display="flex"
             justifyContent="center"
           >
             {user.firstName + " " + user.lastName}
+         
+           
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody

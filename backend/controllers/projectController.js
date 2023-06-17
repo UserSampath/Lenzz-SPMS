@@ -30,7 +30,23 @@ const project = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
-
+// router.get('/project/:projectId/chat/users',
+const ProjectChat = async (req, res) => {
+  try {
+    const projectId = req.params.projectId;
+    // Implement the logic to fetch the project chat users based on the project ID
+    // You can use your existing models and database queries here
+    // For example:
+    const projectChatUsers = await projectchatUser
+      .find({
+        projectId,
+      })
+      .populate("user");
+    res.json(projectChatUsers);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch project chat users" });
+  }
+};
 const updateProjectData = async (req, res) => {
   const { projectname, description, startDate, endDate, id } = req.body;
   const { _id, selectedJob } = req;

@@ -4,6 +4,7 @@
   border-top: 1px solid rgb(144, 142, 142);
   margin: 15px 0;
   margin-left: 12px;
+  border-color: #e3e3e3;
 }
 input.error {
   border: 1px solid var(--error);
