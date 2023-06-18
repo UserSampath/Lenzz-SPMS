@@ -41,7 +41,7 @@ module.exports = {
       files: file,
     });
     const taskData = await task.save();
-    return res.send({ taskData: taskData, results: results });
+    return res.send({taskData: taskData, results: results});
   },
   catch(err) {
     res.status(500).json(err);

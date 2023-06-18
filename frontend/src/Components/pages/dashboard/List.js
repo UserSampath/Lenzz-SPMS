@@ -188,6 +188,7 @@ const List = ({
         taskIndex: cards.length,
       };
       formData.append("json", JSON.stringify(newTask));
+      console.log("formData",formData);
       setShowLoadingModal(true);
       setCreateTaskModal(!createTaskModal);
       await axios

@@ -677,7 +677,9 @@ const Company = () => {
                               style={{
                                 border: "1px solid",
                                 borderRadius: "50%",
-                                marginLeft:"5px"
+                                marginLeft: "5px",
+                                minHeight: "35px",
+                                minWidth: "35px",
                               }}
                             />
                           </div>
