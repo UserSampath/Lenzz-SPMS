@@ -62,9 +62,9 @@ const ListButton = (props) => {
   const renderAddButton = () => {
     return (
       <div className={Styles.addListButton} onClick={openForm}>
-        
+
         <p className={Styles.addListButtonText}>Add Progress Stage</p>
-        
+
         <FaPlus className={Styles.plusIcon} />
       </div>
     );

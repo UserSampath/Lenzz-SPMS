@@ -18,7 +18,9 @@ const Attachment = (props) => {
             props.existingTasks.map((task) => {
                 if (task._id === props.updatingTaskId) {
                     setAttachedFiles(task.files)
+                    
                 }
+                console.log(props.updatingTaskId);
             })
         }
         findAttachments()
@@ -71,7 +73,7 @@ const Attachment = (props) => {
                                 </a>
                                 <div onClick={() => attachmentDeleteHandler(att._id)}
                                     className={styles.attDeleteButton}>
-                                    <BsTrash />
+                                    <BsTrash  style={{marginTop:"4px"}}/>
                                 </div>
                             </div>
                         </div>

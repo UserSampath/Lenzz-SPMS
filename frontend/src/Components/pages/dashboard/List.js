@@ -462,7 +462,7 @@ const List = ({
             {showAttachment && (
               <Attachment
                 setShowAttachment={setShowAttachment}
-                existingTasks={existingTasks}
+                existingTasks={cards}
                 updatingTaskId={updatingTaskId}
                 dispatch={dispatch}
                 listID={listID}
