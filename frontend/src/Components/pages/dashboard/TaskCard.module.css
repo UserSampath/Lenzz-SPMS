@@ -1,6 +1,6 @@
 .card {
   border-radius: 10px;
-  padding: 0px 10px;
+  padding: 5px 10px;
   align-items: center;
   justify-content: space-between;
   overflow: hidden;
@@ -20,7 +20,7 @@
 .img {
   border-radius: 50%;
   border: 1px solid white;
-  margin-top: 15px;
+  margin-top: 11px;
   margin-bottom: 5px;
 }
 
