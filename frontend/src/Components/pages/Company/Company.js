@@ -665,7 +665,7 @@ const Company = () => {
                             display: "flex",
                             flex: "wrap",
                             overflow: "hidden",
-                            marginTop: "7px",
+                            marginTop: "1px",
                           }}
                         >
                           <div>
@@ -684,6 +684,7 @@ const Company = () => {
                                 marginLeft: "5px",
                                 minHeight: "35px",
                                 minWidth: "35px",
+                                marginTop: "6px",
                               }}
                             />
                           </div>

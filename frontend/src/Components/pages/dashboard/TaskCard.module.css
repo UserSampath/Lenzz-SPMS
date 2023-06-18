@@ -1,12 +1,13 @@
 .card {
-  border-radius: 10px;
+  border-radius: 5px;
+
   padding: 5px 10px;
   align-items: center;
   justify-content: space-between;
   overflow: hidden;
   box-shadow: 0px 2px 4px rgba(176, 176, 176, 0.1);
   border-color: #e3e3e3;
-  border: "1.5px solid";
+  border: 1px solid #59595a;
   font-weight: bold;
   font-family: "Raleway", sans-serif;
   max-height: "auto";
