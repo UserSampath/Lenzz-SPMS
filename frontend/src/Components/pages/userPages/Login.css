@@ -73,3 +73,6 @@ input.error {
 .body {
   font-family: Arial, sans-serif;
 }
+.custom-button {
+  background-color: #022141;
+}

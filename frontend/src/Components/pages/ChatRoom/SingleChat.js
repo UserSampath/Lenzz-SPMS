@@ -19,8 +19,8 @@ import animationData from "./animation/typing.json";
 import { FiSend } from "react-icons/fi";
 import { ImAttachment } from "react-icons/im";
 import { useAuthContext } from "../../../hooks/useAuthContext";
-import { IoMdPhotos } from "react-icons/io";
-import { IoDocumentsSharp } from "react-icons/io5";
+import { FcPhotoReel } from "react-icons/fc";
+import { FcDocument } from "react-icons/fc";
 const ENDPOINT = "http://localhost:4000";
 var socket, selectedChatCompare;
 
@@ -34,6 +34,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const [isTyping, setIsTyping] = useState(false);
   const [showOptions, setShowOptions] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [selectedFile, setSelectedFile] = useState(null);
 
   const ref = useRef(null);
   const handleLabelClick = () => {
@@ -61,7 +62,6 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
       preserveAspectRatio: "xMidYMid slice",
     },
   };
-  const [selectedFile, setSelectedFile] = useState(null);
 
   const handleFileSelection = (files) => {
     if (files && files.length > 0) {
@@ -154,6 +154,9 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     });
   });
 
+  const handleCancel = () => {
+    setSelectedFile(null);
+  };
   const sendMessage = async (event) => {
     const formData = new FormData();
     if (newMessage) {
@@ -172,8 +175,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             "Content-Type": "multipart/form-data",
             Authorization: `Bearer ${user.token}`,
           },
-        }
-        );
+        });
         console.log("data", data);
 
         socket.emit("new message", data);
@@ -181,14 +183,19 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         setSelectedFile(null);
       } catch (error) {
         toast({
-          title: "Error Occured!",
-          description: "Failed to send the Message",
+          title: "Error Occurred!",
+          description: "Failed to send the message",
           status: "error",
           duration: 5000,
           isClosable: true,
           position: "bottom",
         });
       }
+    }
+  };
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      sendMessage();
     }
   };
   // const sendMessage = async () => {
@@ -313,6 +320,51 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                 <ScrollableChat messages={messages} setMessages={setMessages} />
               </div>
             )}
+            {selectedFile && (
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  marginTop: "20px",
+                }}
+              >
+                <div
+                  style={{
+                    background: "#F4F4F4",
+                    borderRadius: "8px",
+                    padding: "16px",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
+                  {/* Check the file type and render the appropriate icon */}
+                  {selectedFile.type.includes("image") ? (
+                    <div style={{ marginRight: "16px" }}>
+                      <FcPhotoReel style={{ fontSize: "48px" }} />
+                    </div>
+                  ) : (
+                    <div style={{ marginRight: "16px" }}>
+                      <FcDocument style={{ fontSize: "48px" }} />
+                    </div>
+                  )}
+
+                  <div>{selectedFile.name}</div>
+                  <button
+                    style={{
+                      marginLeft: "16px",
+                      background: "none",
+                      border: "none",
+                      cursor: "pointer",
+                      color: "red",
+                      fontSize: "16px",
+                    }}
+                    onClick={handleCancel}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            )}
 
             <FormControl isRequired mt={3}>
               {isTyping ? (
@@ -344,46 +396,11 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                       ref={ref}
                       style={{
                         position: "absolute",
-                        top: -110, // Adjust this value to position the vertical buttons
+                        top: -130, // Adjust this value to position the vertical buttons
                         left: -5,
                       }}
                     >
                       {" "}
-                      <div>
-                        <label htmlFor="docInput">
-                          <div
-                            htmlFor="photoInput"
-                            style={{
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              width: "45px",
-                              height: "45px",
-                              borderRadius: "50%",
-                              border: "3px solid white",
-                              boxShadow: "0 0 2px rgba(0, 0, 0, 0.5)",
-                              marginBottom: "10px",
-                            }}
-                          >
-                            <div>
-                              <IoMdPhotos
-                                style={{
-                                  color: "#137EAA",
-                                  fontSize: "25px",
-                                }}
-                              />
-                            </div>
-                          </div>
-                          <input
-                            id="photoInput"
-                            type="file"
-                            multiple
-                            accept=".jpg, .jpeg, .png, .pdf, .zip"
-                            style={{ display: "none" }}
-                            onChange={(e) => handleFileSelection(e.target.files)}
-                          />
-                        </label>
-                      </div>
                       <div onClick={handleFileSelection}>
                         <label htmlFor="docInput">
                           <div
@@ -398,7 +415,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                               boxShadow: "0 0 2px rgba(0, 0, 0, 0.5)",
                             }}
                           >
-                            <IoDocumentsSharp
+                            <FcDocument
                               style={{
                                 color: "#137EAA",
                                 fontSize: "25px",
@@ -415,9 +432,39 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                           </div>
                         </label>
                       </div>
-                      {selectedFile && (
-                        <p>Selected File: {selectedFile.name}</p>
-                      )}
+                      <div style={{ height: "20px" }}></div>{" "}
+                      {/* Add a gap of 20 pixels */}
+                      <div onClick={handleFileSelection}>
+                        <label htmlFor="docInput">
+                          <div
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              width: "45px",
+                              height: "45px",
+                              borderRadius: "50%",
+                              border: "3px solid white",
+                              boxShadow: "0 0 2px rgba(0, 0, 0, 0.5)",
+                            }}
+                          >
+                            <FcPhotoReel
+                              style={{
+                                color: "#137EAA",
+                                fontSize: "25px",
+                              }}
+                            />
+                            <input
+                              id="docInput"
+                              type="file"
+                              style={{ display: "none" }}
+                              onChange={(e) =>
+                                handleFileSelection(e.target.files)
+                              }
+                            />
+                          </div>
+                        </label>
+                      </div>
                     </div>
                   )}
                 </button>
@@ -428,6 +475,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                   placeholder="Enter a message.."
                   onChange={typingHandler}
                   value={newMessage}
+                  onKeyPress={handleKeyPress}
                 />
                 {newMessage && (
                   <button

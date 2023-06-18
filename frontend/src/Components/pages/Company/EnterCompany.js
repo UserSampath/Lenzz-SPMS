@@ -221,6 +221,7 @@ function EnterCompany() {
                 <button
                   type="submit"
                   className="btn btn-primary w-75   mt-3 h-25 p-20"
+                  style={{ backgroundColor: "#144B9F" }}
                 >
                   Submit
                 </button>
