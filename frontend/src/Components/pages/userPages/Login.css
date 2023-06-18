@@ -70,3 +70,6 @@ input.error {
 .line {
   display: inline-block;
 }
+.body {
+  font-family: Arial, sans-serif;
+}

@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { connect } from "react-redux";
 import TaskDetails from "./taskDetails/TaskDetails";
 import { useState } from "react";
-import Styles from "./TaskCard.module.css"
+import Styles from "./TaskCard.module.css";
 
 const CardContainer = styled.div`
   margin-bottom: 8px;
@@ -15,12 +15,17 @@ const TaskCard = (props) => {
 
   useEffect(() => {
     const getAssignMember = () => {
-      setFilteredMember(props.projectMembers.filter(member => (member.firstName + " " + member.lastName) === props.card.assign))
-    }
-    getAssignMember()
-  }, [props.projectMembers, props.card])
+      setFilteredMember(
+        props.projectMembers.filter(
+          (member) =>
+            member.firstName + " " + member.lastName === props.card.assign
+        )
+      );
+    };
+    getAssignMember();
+  }, [props.projectMembers, props.card]);
 
-  let [backgroundColor, setBackgroundColor] = useState("white")
+  let [backgroundColor, setBackgroundColor] = useState("white");
   const toggleModal = () => {
     setTaskDetailsModal(!TaskDetailsModal);
   };
@@ -46,48 +51,65 @@ const TaskCard = (props) => {
   }, [props.card.flag]);
   const clickedUpdateButton = () => {
     setTaskDetailsModal(!TaskDetailsModal);
-    props.updateTask(props.id)
-  }
+    props.updateTask(props.id);
+  };
 
   const clickedDeleteButton = () => {
-    props.deleteTask(props.id, props.index)
+    props.deleteTask(props.id, props.index);
     toggleModal();
-
-  }
-  return (<>
-    <Draggable draggableId={String(props.id)} index={props.index} isDragDisabled={false}>
-      {provided => (
-        <CardContainer
-          ref={provided.innerRef}
-          {...provided.draggableProps}
-          {...provided.dragHandleProps}
-        >
-          {TaskDetailsModal && (
-            <TaskDetails toggleModal={toggleModal} card={props.card} clickedUpdateButton={clickedUpdateButton} clickedDeleteButton={clickedDeleteButton} />
-          )}
-          <div onClick={toggleModal}>
-            <div className={Styles.card} style={{
-              backgroundColor: backgroundColor
-            }}>
-              <div className={Styles.imageContainer}>{props.text}</div>
-              <img
-                src={
-                  filteredMember && filteredMember[0] && filteredMember[0].profilePicture
-                    ? filteredMember[0].profilePicture
-                    : "https://sampathnalaka.s3.eu-north-1.amazonaws.com/uploads/pngwing.com.png"
-                }
-                alt="svs"
-                width="38"
-                height="38"
-                className={Styles.img}
+  };
+  return (
+    <>
+      <Draggable
+        draggableId={String(props.id)}
+        index={props.index}
+        isDragDisabled={false}
+      >
+        {(provided) => (
+          <CardContainer
+            ref={provided.innerRef}
+            {...provided.draggableProps}
+            {...provided.dragHandleProps}
+          >
+            {TaskDetailsModal && (
+              <TaskDetails
+                toggleModal={toggleModal}
+                card={props.card}
+                clickedUpdateButton={clickedUpdateButton}
+                clickedDeleteButton={clickedDeleteButton}
               />
+            )}
 
+            <div onClick={toggleModal}>
+              <div
+                className={Styles.card}
+                style={{
+                  backgroundColor: backgroundColor,
+                }}
+              >
+                <div className={Styles.imageContainer}>{props.text}</div>
+                <div style={{ display: "flex" }}>
+                  <img
+                    src={
+                      filteredMember &&
+                      filteredMember[0] &&
+                      filteredMember[0].profilePicture
+                        ? filteredMember[0].profilePicture
+                        : "https://sampathnalaka.s3.eu-north-1.amazonaws.com/uploads/pngwing.com.png"
+                    }
+                    alt="svs"
+                    width="38"
+                    height="38"
+                    className={Styles.img}
+                  />
+                  <div className={Styles.Date}> End Date : {props.endDate}</div>
+                </div>
+              </div>
             </div>
-          </div>
-        </CardContainer>
-      )}
-    </Draggable>
-  </>
+          </CardContainer>
+        )}
+      </Draggable>
+    </>
   );
 };
 

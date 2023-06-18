@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
+import { Text, Box, Stack } from "@chakra-ui/layout"; // Replace 'your-text-library' with your text library import
 import { ChatState } from "../../../context/ChatProvider";
 import { useToast } from "@chakra-ui/toast";
 import axios from "axios";
-import { Box, Text, Stack } from "@chakra-ui/layout";
 import { Button } from "@chakra-ui/button";
 import { AddIcon } from "@chakra-ui/icons";
 import ChatLoading from "./ChatLoading";
@@ -11,13 +11,51 @@ import { useAuthContext } from "../../../hooks/useAuthContext";
 import GroupChatModal from "./miscelleneous/GroupChatModal";
 import AvatarPro from "./UserDetails/AvatarPro";
 import { Avatar } from "@chakra-ui/react";
+
 const MyChats = ({ fetchAgain, member }) => {
   const { selectedChat, setSelectedChat, chats, setChats } = ChatState();
   const { user } = useAuthContext();
   const toast = useToast();
   const [loggedUser, setLoggedUser] = useState();
-  const [projectChatUsers, setProjectChatUsers] = useState([]);
-  const localPro = JSON.parse(localStorage.getItem("last access project"));
+
+  const [projectDetails, SetProjectDetails] = useState({});
+  const [localProject, SetLocalProject] = useState("");
+  useEffect(() => {
+    const getLocalStorageProject = async () => {
+      const localPro = await JSON.parse(
+        localStorage.getItem("last access project")
+      );
+      console.log("localPro", localPro);
+      if (localPro == null) {
+        setTimeout(() => {}, 2000);
+      } else {
+        SetLocalProject(localPro);
+      }
+    };
+
+    getLocalStorageProject();
+  }, []);
+  //create timeline
+  useEffect(() => {
+    const getProject = async () => {
+      const data = {
+        id: localProject.projectId,
+      };
+      await axios
+        .post("http://localhost:4000/api/project/getProject", data)
+        .then((res) => {
+          console.log(res.data.project);
+          SetProjectDetails(res.data.project);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+
+    if (localProject.projectId) {
+      getProject();
+    }
+  }, [projectDetails._id, localProject.projectId]);
 
   const fetchChats = async () => {
     try {
@@ -31,8 +69,8 @@ const MyChats = ({ fetchAgain, member }) => {
       console.log(data);
     } catch (error) {
       toast({
-        title: "Error occured",
-        description: "failed to load the chats",
+        title: "Error occurred",
+        description: "Failed to load the chats",
         status: "error",
         duration: 5000,
         isClosable: true,
@@ -40,45 +78,12 @@ const MyChats = ({ fetchAgain, member }) => {
       });
     }
   };
+
   useEffect(() => {
     setLoggedUser(JSON.parse(localStorage.getItem("user")));
     fetchChats();
   }, [fetchAgain]);
-  // const fetchChats = async () => {
-  //   try {
-  //     const config = {
-  //       headers: {
-  //         Authorization: `Bearer ${user.token}`,
-  //       },
-  //     };
 
-  //     // Fetch chats
-  //     const { data } = await axios.get("/api/chat", config);
-  //     setChats(data);
-  //     console.log(data);
-  //     // Fetch current project chat users
-  //     const projectId = localPro.projectId;
-  //     console.log(projectId); // Assuming you have the project ID available
-  //     const { data: projectChatUsers } = await axios.get(
-  //       `/api/project/${projectId}/chat/users`,
-  //       config
-  //     );
-  //     setProjectChatUsers(projectChatUsers);
-  //   } catch (error) {
-  //     toast({
-  //       title: "Error occurred",
-  //       description: "Failed to load the chats",
-  //       status: "error",
-  //       duration: 5000,
-  //       isClosable: true,
-  //       position: "bottom-left",
-  //     });
-  //   }
-  // };
-  // useEffect(() => {
-  //   setLoggedUser(JSON.parse(localStorage.getItem("user")));
-  //   fetchChats();
-  // }, [fetchAgain, projectChatUsers]);
   return (
     <Box
       display={{ base: selectedChat ? "none" : "flex", md: "flex" }}
@@ -163,19 +168,36 @@ const MyChats = ({ fetchAgain, member }) => {
                   </Box>
                   <div style={{ display: "flex" }}>
                     {chat.latestMessage && (
-                      <Text fontSize="xs" style={{ marginLeft: "60px" }}>
+                      <Text
+                        fontSize="xs"
+                        style={{ marginLeft: "60px", display: "flex" }}
+                      >
                         <b>{chat.latestMessage.sender.firstName} : </b>
                         {chat.latestMessage.content.length > 50
                           ? chat.latestMessage.content.substring(0, 51) + "..."
                           : chat.latestMessage.content}
                       </Text>
                     )}
-                    <div style={{ marginLeft: "105px" }}>
+                    <div style={{ marginLeft: "75px" }}>
                       {chat.latestMessage && (
-                        <Text fontSize="xs" style={{ marginLeft: "60px" }}>
+                        <Text
+                          fontSize="xs"
+                          style={{
+                            marginLeft: "0px",
+                            color:
+                              new Date(
+                                chat.latestMessage.createdAt
+                              ).toDateString() === new Date().toDateString()
+                                ? "#007bff"
+                                : "#000000",
+                          }}
+                        >
                           {new Date(
                             chat.latestMessage.createdAt
-                          ).toLocaleTimeString([], {
+                          ).toLocaleString([], {
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric",
                             hour: "2-digit",
                             minute: "2-digit",
                             hour12: true,

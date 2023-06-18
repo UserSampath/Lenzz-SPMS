@@ -99,13 +99,36 @@ const Register = () => {
     <div>
       <div className="container shadow my-5">
         <div className="row justify-content-end">
-          <div className="col-md-6 d-flex flex-column align-items-center text-white justify-content-center form order-2 ">
-            <h1 className="display-4 fw-bolder">Hello, Friend</h1>
-            <p className="lead text-center">Enter your Details to register</p>
-            <h5 className="mb-4">OR</h5>
-            <NavLink to="/login" className="btn btn-outline-light pb-2 w-50">
-              Login
-            </NavLink>
+          <div
+            className="col-md-6 d-flex flex-column align-items-center text-white justify-content-center form order-2 "
+            style={{
+              backgroundImage: "url('images/background.png')",
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }}
+          >
+            <div
+              className="mainpart"
+              style={{
+                marginTop: "10px",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              <img
+                className="homeimg"
+                src="images/Register.gif"
+                alt="Register"
+                style={{ width: "400px" }}
+              />
+              <h1 className="display-4 fw-bolder mt-7">Hello, Friend</h1>
+              <p className="lead text-center">Enter your Details to register</p>
+              <h5 className="mb-4">OR</h5>
+              <NavLink to="/login" className="btn btn-outline-light pb-2 w-100">
+                Login
+              </NavLink>
+            </div>
           </div>
           <div className="col-md-6 p-3 ">
             <h1 className="display-6 fw-bolder mb-3">REGISTER</h1>

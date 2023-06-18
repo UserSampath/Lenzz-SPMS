@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import ProgressBar from "react-bootstrap/ProgressBar";
-
 const MemberProgressBar = (props) => {
   const [progresContribution, setProgressContribution] = useState(10);
 
@@ -46,9 +45,8 @@ const MemberProgressBar = (props) => {
           <div style={{ marginLeft: "15px", marginTop: "5px" }}>
             <h5
               style={{
-                fontFamily: "monospace",
+                fontFamily: "Raleway",
                 fontWeight: "bold",
-                fontStyle: "oblique",
               }}
             >
               {props.member.firstName} {props.member.lastName} -{" "}
@@ -61,7 +59,7 @@ const MemberProgressBar = (props) => {
           striped
           variant={progresContribution}
           label={`${progresContribution}%`}
-          style={{ height: "30px", marginBottom: "20px" }}
+          style={{ height: "30px", marginBottom: "20px", borderRadius: "20px" }}
         />
       </React.Fragment>
     </div>

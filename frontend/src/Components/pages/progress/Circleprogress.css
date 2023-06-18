@@ -13,7 +13,7 @@
   font-family: "monospace";
   font-weight: "bold";
   font-style: "oblique";
-
+  margin-left: 10px;
   color: rgb(0, 0, 0);
   text-align: left;
   margin-bottom: 15%;
@@ -41,8 +41,8 @@
 
   color: rgb(0, 0, 0);
   text-align: left;
-  margin-left: 15px;
-  margin-bottom: 15%;
+  margin-left: 1px;
+  margin-bottom: 11%;
   letter-spacing: 0.1rem;
 }
 
@@ -53,9 +53,31 @@
   font-style: "oblique";
   color: rgb(0, 0, 0);
   text-align: left;
-  margin-left: 15px;
-  margin-bottom: 15%;
+  margin-left: 5px;
+  margin-bottom: 9%;
   letter-spacing: 0.1rem;
 }
-.h3 {
+.subName {
+  font-size: 30px;
+  font-family: "Raleway", sans-serif;
+  font-weight: bold;
+
+  color: rgb(0, 0, 0);
+  text-align: left;
+  margin-left: 15px;
+  margin-bottom: 2%;
+  letter-spacing: 0.1rem;
+  margin-top: 25px;
+}
+.sub {
+  font-size: 50px;
+  font-family: "Raleway", sans-serif;
+  font-weight: bold;
+
+  color: rgb(0, 0, 0);
+  text-align: left;
+  margin-left: 25px;
+  margin-bottom: 2%;
+  letter-spacing: 0.1rem;
+  margin-top: 25px;
 }

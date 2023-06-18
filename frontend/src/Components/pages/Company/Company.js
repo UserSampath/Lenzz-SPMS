@@ -309,6 +309,7 @@ const Company = () => {
             cursor: "Arrow",
             paddingBottom: "20px",
             minHeight: "200px",
+            boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
           }}
         >
           <div className="projectpart" style={{ display: "flex" }}>
@@ -316,7 +317,7 @@ const Company = () => {
               style={{
                 marginLeft: "25px",
                 marginTop: "10px",
-                fontFamily: "monospace",
+                fontFamily: "Raleway",
                 fontSize: "23px",
                 fontWeight: "bold",
                 fontStyle: "oblique",
@@ -504,55 +505,57 @@ const Company = () => {
               {companyProjects &&
                 companyProjects.map((project, index) => {
                   return (
-                    <div >
-                    <div
-                      // className="col-md-3"
-                      key={index}
-                      style={{
-                        marginBottom: "10px",
-                        display: "flex",
-                        flex: "wrap",
-                        
-                      }}
-                    >
+                    <div>
                       <div
-                        onClick={() => projectClicked(project[0])}
-
+                        // className="col-md-3"
+                        key={index}
                         style={{
-                          width: " 250px",
-                          height: " 45px",
-                          marginLeft: "25px",
-                          marginTop: "20px",
-                          border: "1px solid",
-                          borderRadius: "10px",
-                          paddingTop: "10px",
-                          borderColor: "#ABAAAA",
-                          overflow: "hidden",
-                          background: "#CEEAF4",
-                          // justifyContent: "center"
+                          marginBottom: "10px",
                           display: "flex",
-                          cursor: "pointer",
+                          flex: "wrap",
                         }}
                       >
-                        <div style={{ display: "flex", flex: "wrap" }}>
-                          <div style={{marginTop:"5px",marginLeft:"10px"}}>
-                            <GrProjects />
-                          </div>
-                          <div style={{ marginLeft: "13px",marginTop:"0px" }}>
-                            {" "}
-                            <p
-                              style={{
-                                fontSize: "18px",
-                                fontFamily: "monospace",
-                                fontWeight: "bold",
-                                fontStyle: "oblique",
-                              }}
+                        <div
+                          onClick={() => projectClicked(project[0])}
+                          style={{
+                            width: " 250px",
+                            height: " 45px",
+                            marginLeft: "25px",
+                            marginTop: "20px",
+                            border: "1px solid",
+                            borderRadius: "10px",
+                            paddingTop: "10px",
+                            borderColor: "#ABAAAA",
+                            overflow: "hidden",
+                            background: "#CEEAF4",
+                            // justifyContent: "center"
+                            display: "flex",
+                            cursor: "pointer",
+                          }}
+                        >
+                          <div style={{ display: "flex", flex: "wrap" }}>
+                            <div
+                              style={{ marginTop: "5px", marginLeft: "10px" }}
                             >
-                              {project[0] && project[0].projectname}
-                            </p>
+                              <GrProjects />
+                            </div>
+                            <div
+                              style={{ marginLeft: "13px", marginTop: "0px" }}
+                            >
+                              {" "}
+                              <p
+                                style={{
+                                  fontSize: "18px",
+                                  fontFamily: "Raleway",
+                                  fontWeight: "bold",
+                                  fontStyle: "oblique",
+                                }}
+                              >
+                                {project[0] && project[0].projectname}
+                              </p>
+                            </div>
                           </div>
                         </div>
-                      </div>
                       </div>
                     </div>
                   );
@@ -580,6 +583,7 @@ const Company = () => {
               cursor: "Arrow",
               paddingBottom: "20px",
               minHeight: "200px",
+              boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
             }}
           >
             <div className="projectpart" style={{ display: "flex" }}>
@@ -587,7 +591,7 @@ const Company = () => {
                 style={{
                   marginLeft: "25px",
                   marginTop: "10px",
-                  fontFamily: "monospace",
+                  fontFamily: "Raleway",
                   fontSize: "23px",
                   fontWeight: "bold",
                   fontStyle: "oblique",
@@ -623,7 +627,7 @@ const Company = () => {
                   marginBottom: "10px",
                   display: "flex",
                   flexWrap: "wrap",
-                  justifyContent: "flex-start"  
+                  justifyContent: "flex-start",
                 }}
               >
                 {companyUsers.map((user, index) => {
@@ -634,14 +638,14 @@ const Company = () => {
                       style={{
                         marginBottom: "10px",
                         display: "flex",
-                       
+
                         // flex: "wrap",
                       }}
                     >
                       <div
                         style={{
                           width: " 250px",
-                          minWidth:"250px",
+                          minWidth: "250px",
                           height: " 53px",
                           marginLeft: "25px",
                           marginTop: "20px",
@@ -661,10 +665,10 @@ const Company = () => {
                             display: "flex",
                             flex: "wrap",
                             overflow: "hidden",
-                            marginTop: "10px",
+                            marginTop: "7px",
                           }}
                         >
-                          <div style={{ marginTop:"6px"}}>
+                          <div>
                             <img
                               src={
                                 user.profilePicture !== null
@@ -684,7 +688,14 @@ const Company = () => {
                             />
                           </div>
 
-                          <div style={{ marginLeft: "13px",textOverflow:"ellipsis",overflow:"hidden",whiteSpace:"nowrap" }}>
+                          <div
+                            style={{
+                              marginLeft: "13px",
+                              textOverflow: "ellipsis",
+                              overflow: "hidden",
+                              whiteSpace: "nowrap",
+                            }}
+                          >
                             <p
                               style={{
                                 fontSize: "18px",
@@ -693,7 +704,6 @@ const Company = () => {
                                 fontStyle: "oblique",
                                 display: "inline",
                                 overflow: "hidden",
-                                
                               }}
                             >
                               {user.firstName} {user.lastName}
@@ -701,7 +711,7 @@ const Company = () => {
                             <p
                               style={{
                                 fontSize: "10px",
-                                fontFamily: "monospace",
+                                fontFamily: "Raleway",
                                 fontWeight: "bold",
                                 fontStyle: "oblique",
                               }}
@@ -784,6 +794,7 @@ const Company = () => {
               border: "1px solid",
               borderColor: "#ABAAAA",
               cursor: "pointer",
+              boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
             }}
           >
             <FcSettings className="rotate" style={{ fontSize: "45px" }} />
