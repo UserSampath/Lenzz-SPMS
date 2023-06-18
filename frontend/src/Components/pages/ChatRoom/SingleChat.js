@@ -65,6 +65,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
   const handleFileSelection = (files) => {
     if (files && files.length > 0) {
+      console.log("Selected file");
       setSelectedFile(files[0]);
     }
   };
@@ -154,27 +155,30 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   });
 
   const sendMessage = async (event) => {
+    const formData = new FormData();
     if (newMessage) {
       socket.emit("stop typing", selectedChat._id);
       try {
-        const config = {
+        const json = {
+          content: newMessage,
+          chatId: selectedChat._id,
+        };
+        formData.append("json", JSON.stringify(json));
+        formData.append("file", selectedFile);
+
+        setNewMessage("");
+        const { data } = await axios.post("/api/messages", formData, {
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "multipart/form-data",
             Authorization: `Bearer ${user.token}`,
           },
-        };
-        setNewMessage("");
-        const { data } = await axios.post(
-          "/api/messages",
-          {
-            content: newMessage,
-            chatId: selectedChat._id,
-          },
-          config
+        }
         );
+        console.log("data", data);
 
         socket.emit("new message", data);
         setMessages([...messages, data]);
+        setSelectedFile(null);
       } catch (error) {
         toast({
           title: "Error Occured!",
@@ -336,10 +340,10 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                           <input
                             id="photoInput"
                             type="file"
+                            multiple
+                            accept=".jpg, .jpeg, .png, .pdf, .zip"
                             style={{ display: "none" }}
-                            onChange={(e) =>
-                              handleFileSelection(e.target.files)
-                            }
+                            onChange={(e) => handleFileSelection(e.target.files)}
                           />
                         </label>
                       </div>

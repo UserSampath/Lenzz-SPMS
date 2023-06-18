@@ -2,9 +2,31 @@ const asyncHandler = require("express-async-handler");
 const Message = require("../models/messageModel");
 const User = require("../models/memberModel");
 const Chat = require("../models/chatModel");
-
+const {
+  uploadFile,
+  find,
+  deleteOne,
+  downloadOne,
+} = require("../util/s3Service");
 const sendMessage = asyncHandler(async (req, res) => {
-  const { content, chatId } = req.body;
+  // const { content, chatId } = req.body;
+  console.log(req.body);
+  const data = JSON.parse(req.body.json);
+  const content = data.content;
+  const chatId=data.chatId;
+  const results = await uploadFile(req.files);
+  var file=[];
+  if (results.length>0) {
+    let key = results[0].key;
+    let location = results[0].Location;
+    console.log("key", key);
+    console.log("location", location);
+    file = [{
+      fileName: key,
+      location: location,
+    }]
+  }
+
 
   if (!content || !chatId) {
     console.log("Invalid data passed into request");
@@ -14,6 +36,7 @@ const sendMessage = asyncHandler(async (req, res) => {
   var newMessage = {
     sender: req.user._id,
     content: content,
+    files: file,
     chat: chatId,
   };
   console.log(req.user._id);
@@ -25,7 +48,7 @@ const sendMessage = asyncHandler(async (req, res) => {
       path: "chat.users",
       select: "firstName  email",
     });
-    await Chat.findByIdAndUpdate(req.body.chatId, { latestMessage: message });
+    await Chat.findByIdAndUpdate(req.body.json.chatId, { latestMessage: message });
     res.json(message);
   } catch (error) {
     res.status(400);

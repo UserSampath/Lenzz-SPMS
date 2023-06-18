@@ -10,6 +10,17 @@ const messageSchema = mongoose.Schema(
       type: String,
       trim: true,
     },
+    files: [{
+      fileName: {
+        type: String,
+
+      },
+      location: {
+        type: String,
+
+      }
+    }]
+    ,
     chat: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Chat",
