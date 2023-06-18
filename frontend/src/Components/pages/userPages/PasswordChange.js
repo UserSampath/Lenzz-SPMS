@@ -128,7 +128,11 @@ const PasswordChange = () => {
                 Must begin with a letter.
               </p>
             </div>
-            <button className="butt" onClick={sendLink}>
+            <button
+              className="butt"
+              onClick={sendLink}
+              style={{ backgroundColor: "#144B9F" }}
+            >
               Send
             </button>
           </form>
