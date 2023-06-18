@@ -13,7 +13,7 @@ import { IoIosArrowDropdown } from "react-icons/io";
 import axios from "axios";
 import { useToast } from "@chakra-ui/toast";
 import { GiCancel } from "react-icons/gi";
-import { FaFileAlt } from "react-icons/fa";
+import { FcFile } from "react-icons/fc";
 
 const ScrollableChat = ({ messages, setMessages }) => {
   const [showNotification, setShowNotification] = useState(false);
@@ -76,24 +76,25 @@ const ScrollableChat = ({ messages, setMessages }) => {
           <div style={{ display: "flex" }} key={m._id}>
             {(isSameSender(messages, m, i, user._id) ||
               isLastMessage(messages, i, user._id)) && (
-                <Tooltip
-                  label={m.sender.firstName}
-                  placement="bottom-start"
-                  hasArrow
-                >
-                  <Avatar
-                    mt="7px"
-                    mr={1}
-                    size="sm"
-                    cursor="pointer"
-                    name={m.sender.firstName}
-                  />
-                </Tooltip>
-              )}
+              <Tooltip
+                label={m.sender.firstName}
+                placement="bottom-start"
+                hasArrow
+              >
+                <Avatar
+                  mt="7px"
+                  mr={1}
+                  size="sm"
+                  cursor="pointer"
+                  name={m.sender.firstName}
+                />
+              </Tooltip>
+            )}
             <span
               style={{
-                backgroundColor: `${m.sender._id === user._id ? "#BEE3F8" : "#B9F5D0"
-                  }`,
+                backgroundColor: `${
+                  m.sender._id === user._id ? "#BEE3F8" : "#B9F5D0"
+                }`,
                 marginLeft: isSameSenderMargin(messages, m, i, user._id),
                 marginTop: isSameUser(messages, m, i, user._id) ? 3 : 10,
                 borderRadius: "18px",
@@ -176,13 +177,17 @@ const ScrollableChat = ({ messages, setMessages }) => {
               {m.replyMessage ? (
                 <div>
                   <p>{m.replyMessage.content}</p>
-                  <p>hi</p>
                 </div>
               ) : null}
-              <div>{m.content}</div>
-              {m.files[0] && < div style={{ margin: "5px", marginTop: "5px" }} > <a href={m.files[0].location} rel="noopener noreferrer">
-                <FaFileAlt />
-              </a></div>}
+              {m.content && <div>{m.content}</div>}
+
+              {m.files[0] && (
+                <div style={{ margin: "5px", marginTop: "5px" }}>
+                  <a href={m.files[0].location} rel="noopener noreferrer">
+                    <FcFile style={{ fontSize: "95px" }} />
+                  </a>
+                </div>
+              )}
 
               <button
                 style={{

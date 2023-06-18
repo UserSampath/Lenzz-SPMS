@@ -191,7 +191,11 @@ const ForgotPassword = () => {
                 </p>
               </div>
             </div>
-            <button className="butt " onClick={sendPassword}>
+            <button
+              className="butt "
+              onClick={sendPassword}
+              style={{ backgroundColor: "#144B9F" }}
+            >
               send
             </button>
           </form>

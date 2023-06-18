@@ -420,7 +420,11 @@ const Register = () => {
                     Job title
                   </label>
                   <Dropdown onSelect={handleOptionChange}>
-                    <Dropdown.Toggle variant="primary" id="dropdown-basic">
+                    <Dropdown.Toggle
+                      variant="primary"
+                      id="dropdown-basic"
+                      style={{ backgroundColor: "#144B9F" }}
+                    >
                       Select an option
                     </Dropdown.Toggle>
 

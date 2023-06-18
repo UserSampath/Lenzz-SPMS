@@ -160,52 +160,15 @@ const MyChats = ({ fetchAgain, member }) => {
                     {chat.isGroupChat && (
                       <Avatar size="md" name={chat.chatName} />
                     )}
-                    <Text ml={2}>
+                    <Text
+                      ml={2}
+                      style={{ fontWeight: "bold", fontFamily: "Raleway" }}
+                    >
                       {!chat.isGroupChat
                         ? getSender(user, chat.users)
                         : chat.chatName}
                     </Text>
                   </Box>
-                  <div style={{ display: "flex" }}>
-                    {chat.latestMessage && (
-                      <Text
-                        fontSize="xs"
-                        style={{ marginLeft: "60px", display: "flex" }}
-                      >
-                        <b>{chat.latestMessage.sender.firstName} : </b>
-                        {chat.latestMessage.content.length > 50
-                          ? chat.latestMessage.content.substring(0, 51) + "..."
-                          : chat.latestMessage.content}
-                      </Text>
-                    )}
-                    <div style={{ marginLeft: "75px" }}>
-                      {chat.latestMessage && (
-                        <Text
-                          fontSize="xs"
-                          style={{
-                            marginLeft: "0px",
-                            color:
-                              new Date(
-                                chat.latestMessage.createdAt
-                              ).toDateString() === new Date().toDateString()
-                                ? "#007bff"
-                                : "#000000",
-                          }}
-                        >
-                          {new Date(
-                            chat.latestMessage.createdAt
-                          ).toLocaleString([], {
-                            year: "numeric",
-                            month: "long",
-                            day: "numeric",
-                            hour: "2-digit",
-                            minute: "2-digit",
-                            hour12: true,
-                          })}
-                        </Text>
-                      )}
-                    </div>
-                  </div>
                 </Box>
               );
             })}

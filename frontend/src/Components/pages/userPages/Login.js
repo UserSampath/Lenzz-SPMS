@@ -200,8 +200,9 @@ function Login() {
                 </NavLink>
                 <button
                   type="submit"
-                  className="btn btn-primary w-75  mt-5 h-25 p-20"
+                  className="btn btn-primary w-75 mt-5 h-25 p-20"
                   disabled={isLoading}
+                  style={{ backgroundColor: "#144B9F" }}
                 >
                   Submit
                 </button>
