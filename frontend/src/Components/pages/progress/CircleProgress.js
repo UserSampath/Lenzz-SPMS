@@ -18,6 +18,13 @@ function CircleProgress(props) {
   const [ToDototal, setTodoTotal] = useState("");
   const [Overpercentage, setOverdoPercentage] = useState("");
   const [toDopercentage, setTodoPercentage] = useState("");
+  const [totalnum, setTotalnum] = useState("");
+  const [Donenum, setDonenum] = useState("");
+  const [Incomplete, setIncomplete] = useState("");
+  const [endDateData, setEndDateData] = useState("");
+  const [shortDateData, setShortDateData] = useState("");
+  const [month, setMonth] = useState("");
+
   useEffect(() => {
     const getLocalStorageProject = async () => {
       const localPro = await JSON.parse(
@@ -51,7 +58,7 @@ function CircleProgress(props) {
               total = total + list.cards.length;
               return list.cards.length;
             });
-
+            setTotalnum(total);
             const toDopercentage =
               total !== 0 ? Math.round((TodoTotal / total) * 100) : 0;
 
@@ -59,9 +66,12 @@ function CircleProgress(props) {
             if (res.data.length > 1) {
               var temp = res.data.length - 1;
               const lastTasks = res.data[temp].cards.length;
+              setDonenum(lastTasks);
               const OverallPercentage =
                 total !== 0 ? Math.round((lastTasks / total) * 100) : 0;
               setOverdoPercentage(OverallPercentage);
+              const Incompletenew = total - lastTasks;
+              setIncomplete(Incompletenew);
             }
           }
         })
@@ -83,6 +93,13 @@ function CircleProgress(props) {
         .post("http://localhost:4000/api/project/getProject", data)
         .then((res) => {
           SetProjectDetails(res.data.project);
+          setEndDateData(projectDetails.endDate);
+          const endDate = new Date(projectDetails.endDate);
+          const day = endDate.getDate();
+          const month = endDate.getMonth() + 1; // Adding 1 to get the correct month number
+          console.log(month);
+          setShortDateData(` ${day} `);
+          setMonth(`${month}`);
         })
         .catch((err) => {
           console.log(err);
@@ -103,7 +120,7 @@ function CircleProgress(props) {
         .post("http://localhost:4000/api/project/changepersentage", data)
         .then((res) => {
           console.log("ssssssssssssss", res.data.percentage);
-          setDeadlinePercentage(res.data.percentage);
+          setDeadlinePercentage(Math.round(res.data.percentage));
         })
         .catch((error) => {
           console.log(error);
@@ -113,9 +130,6 @@ function CircleProgress(props) {
       DeadLineRemaing();
     }
   }, [localProject.projectId]);
-  const now = 90;
-
-  let variant = props.progresContribution;
 
   //get project
 
@@ -180,21 +194,20 @@ function CircleProgress(props) {
         style={{
           display: "flex",
           justifyContent: "center",
-          marginLeft: "80px",
+          marginLeft: "90px",
         }}
       >
         <div
-          className="BoxCard"
+          className="BoxCardnew"
           style={{
-            width: " 350px",
-            height: " 350px",
-            marginLeft: "75px",
+            width: " 320px",
+            height: " 320px",
             marginTop: "90px",
             border: "1.5px solid",
             borderRadius: "10px",
             borderColor: "#E3E3E3",
             cursor: "Arrow",
-            paddingBottom: "20px",
+            paddingBottom: "30px",
             minHeight: "200px",
             boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
           }}
@@ -203,30 +216,30 @@ function CircleProgress(props) {
             <label
               className="pname"
               style={{
-                fontFamily: "monospace",
+                fontFamily: "Raleway",
+
                 fontWeight: "bold",
-                fontStyle: "oblique",
               }}
             >
               ToDo Task Progress
             </label>
-            <div style={{ marginLeft: "30px" }}>
+            <div style={{ marginLeft: "50px" }}>
               <Bar progress={toDopercentage} />
             </div>
           </div>
         </div>
         <div
-          className="BoxCard"
+          className="BoxCardnews2"
           style={{
-            width: " 350px",
-            height: " 350px",
-            marginLeft: "75px",
+            width: " 320px",
+            height: " 320px",
+            marginLeft: "35px",
             marginTop: "90px",
             border: "1.5px solid",
             borderRadius: "10px",
             borderColor: "#E3E3E3",
             cursor: "Arrow",
-            paddingBottom: "20px",
+            paddingBottom: "0px",
             minHeight: "200px",
             boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
           }}
@@ -235,9 +248,9 @@ function CircleProgress(props) {
             <label
               className="pname2"
               style={{
-                fontFamily: "monospace",
+                fontFamily: "Raleway",
+
                 fontWeight: "bold",
-                fontStyle: "oblique",
                 marginLeft: "0px",
               }}
             >
@@ -247,11 +260,11 @@ function CircleProgress(props) {
           </div>
         </div>
         <div
-          className="BoxCard"
+          className="BoxCardnew3"
           style={{
-            width: " 350px",
-            height: " 350px",
-            marginLeft: "75px",
+            width: " 320px",
+            height: " 320px",
+            marginLeft: "35px",
             marginTop: "90px",
             border: "1.5px solid",
             borderRadius: "10px",
@@ -266,9 +279,10 @@ function CircleProgress(props) {
             <label
               className="pname3"
               style={{
-                fontFamily: "monospace",
+                fontFamily: "Raleway",
+
                 fontWeight: "bold",
-                fontStyle: "oblique",
+
                 marginLeft: "0px",
               }}
             >
@@ -277,56 +291,213 @@ function CircleProgress(props) {
             <Bar progress={deadlinePercentage} />
           </div>
         </div>
+        <div>
+          <div
+            className="BoxCardnew4"
+            style={{
+              width: " 320px",
+              height: " 100px",
+              marginLeft: "35px",
+              marginTop: "90px",
+              border: "1.5px solid",
+              borderRadius: "10px",
+              borderColor: "#E3E3E3",
+              cursor: "Arrow",
+              paddingBottom: "20px",
+              boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
+              backgroundColor: "#ECDEF4",
+            }}
+          >
+            <div style={{ display: "flex" }}>
+              <p className="subName">Total Tasks </p>
+              <p
+                style={{
+                  fontSize: "50px",
+                  fontFamily: "Raleway",
+                  fontWeight: "bold",
+                  marginLeft: "70px",
+                  marginTop: "10px",
+                }}
+              >
+                {totalnum}
+              </p>
+            </div>
+          </div>
+          <div
+            className="BoxCardnew5"
+            style={{
+              width: " 320px",
+              height: " 100px",
+              marginLeft: "35px",
+              marginTop: "5px",
+              border: "1.5px solid",
+              borderRadius: "10px",
+              borderColor: "#E3E3E3",
+              cursor: "Arrow",
+              paddingBottom: "20px",
+              boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
+              backgroundColor: "#DEF4E6",
+            }}
+          >
+            {" "}
+            <div style={{ display: "flex" }}>
+              <p className="subName">Incomplete </p>
+              <p
+                style={{
+                  fontSize: "50px",
+                  fontFamily: "Raleway",
+                  fontWeight: "bold",
+                  marginLeft: "65px",
+                  marginTop: "10px",
+                }}
+              >
+                {Incomplete}
+              </p>
+            </div>{" "}
+          </div>
+          <div
+            className="BoxCardnew6"
+            style={{
+              width: " 320px",
+              height: " 100px",
+              marginLeft: "35px",
+              marginTop: "5px",
+              border: "1.5px solid",
+              borderRadius: "10px",
+              borderColor: "#E3E3E3",
+              cursor: "Arrow",
+              paddingBottom: "20px",
+              boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
+              backgroundColor: "#F4DEE7",
+            }}
+          >
+            {" "}
+            <div style={{ display: "flex" }}>
+              <p className="subName">Done </p>
+              <p
+                style={{
+                  fontSize: "50px",
+                  fontFamily: "Raleway",
+                  fontWeight: "bold",
+                  marginLeft: "155px",
+                  marginTop: "10px",
+                }}
+              >
+                {Donenum}
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
-      <div
-        className="BoxCard"
-        style={{
-          width: " 1200px",
-          height: " auto",
-          marginLeft: "155px",
-          marginTop: "40px",
-          fontFamily: "Signika Negative",
-          border: "1.5px solid",
-          borderRadius: "10px",
-          borderColor: "#E3E3E3",
-          cursor: "Arrow",
-          paddingBottom: "5px",
-          minHeight: "200px",
-          boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
-        }}
-      >
-        <h3
-          style={{
-            marginTop: "10px",
-            marginLeft: "10px",
-            fontFamily: "monospace",
-            fontWeight: "bold",
-            fontStyle: "oblique",
-          }}
-        >
-          Member Contribution
-        </h3>
+      <div style={{ display: "flex" }}>
         <div
-          className="barlist"
+          className="BoxCard"
           style={{
-            marginTop: "30px",
-            width: "1075px",
-            marginLeft: "40px",
+            width: " 1030px",
+            height: " auto",
+            marginLeft: "90px",
+            marginTop: "40px",
+            fontFamily: "Signika Negative",
+            border: "1.5px solid",
+            borderRadius: "10px",
+            borderColor: "#E3E3E3",
+            cursor: "Arrow",
+            paddingBottom: "5px",
+            minHeight: "200px",
+            boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
           }}
         >
-          {projectMembersData &&
-            projectMembersData.map((member, index) => {
-              return (
-                <MemberProgressBar
-                  key={index}
-                  index={index}
-                  member={member}
-                  variant={variant}
-                  tasksOftheProject={tasksOftheProject}
-                  totalTasksOftheMember={totalTasksOftheMember}
-                />
-              );
-            })}
+          <h3
+            style={{
+              marginTop: "10px",
+              marginLeft: "10px",
+              fontFamily: "Raleway",
+
+              fontWeight: "bold",
+            }}
+          >
+            Member Contribution
+          </h3>
+          <div
+            className="barlist"
+            style={{
+              marginTop: "30px",
+              width: "925px",
+              marginLeft: "40px",
+            }}
+          >
+            {projectMembersData &&
+              projectMembersData.map((member, index) => {
+                return (
+                  <MemberProgressBar
+                    key={index}
+                    index={index}
+                    member={member}
+                    tasksOftheProject={tasksOftheProject}
+                    totalTasksOftheMember={totalTasksOftheMember}
+                  />
+                );
+              })}
+          </div>
+        </div>
+        <div
+          style={{
+            width: " 320px",
+            height: " 100px",
+            marginLeft: "35px",
+            marginTop: "40px",
+            border: "1.5px solid",
+            borderRadius: "10px",
+            borderColor: "#E3E3E3",
+            cursor: "Arrow",
+            paddingBottom: "20px",
+            boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
+            backgroundColor: "#DCFAF8",
+          }}
+        >
+          <div style={{ display: "flex" }}>
+            <p className="subName">Members </p>
+            <p
+              style={{
+                fontSize: "50px",
+                fontFamily: "Raleway",
+                fontWeight: "bold",
+                marginLeft: "100px",
+                marginTop: "10px",
+              }}
+            >
+              {membersCount}
+            </p>
+          </div>
+          <div
+            style={{
+              width: " 320px",
+              height: " 100px",
+              marginTop: "25px",
+              border: "1.5px solid",
+              borderRadius: "10px",
+              borderColor: "#E3E3E3",
+              cursor: "Arrow",
+              paddingBottom: "20px",
+              boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
+              backgroundColor: "#FFFFFF",
+            }}
+          >
+            <div style={{ display: "flex" }}>
+              <p className="subName">End Date </p>
+              <p
+                style={{
+                  fontSize: "30px",
+                  fontFamily: "Raleway",
+                  fontWeight: "bold",
+                  marginLeft: "60px",
+                  marginTop: "25px",
+                }}
+              >
+                {shortDateData + "/" + month}
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </div>

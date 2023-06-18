@@ -1,7 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const Chat = require("../models/chatModel");
 const User = require("../models/memberModel");
-const projectUser = require("../models/projectUserModel");
+const Project = require("../models/projectmodel");
 
 const accesChat = asyncHandler(async (req, res) => {
   const { userId } = req.body;
@@ -64,6 +64,72 @@ const fetchChats = asyncHandler(async (req, res) => {
         });
         res.status(200).send(results);
       });
+  } catch (error) {
+    res.status(400);
+    throw new Error(error.message);
+  }
+});
+
+const ProjectChats = asyncHandler(async (req, res) => {
+  try {
+    const { id } = req.params;
+    console.log(id);
+    // Load project details
+    const project = await Project.findById(id);
+    if (!project) {
+      res.status(404);
+      throw new Error("Project not found");
+    }
+
+    // Load users associated with the project
+    const projectUsers = await User.find({ projects: id });
+
+    res.status(200).json({
+      project,
+      projectUsers: project.users,
+    });
+  } catch (error) {
+    res.status(400);
+    throw new Error(error.message);
+  }
+});
+
+const fetchChatsOnly = asyncHandler(async (req, res) => {
+  try {
+    const { id } = req.params;
+    console.log(id);
+    // Load project details
+    const project = await Project.findById(id);
+    if (!project) {
+      res.status(404);
+      throw new Error("Project not found");
+    }
+    const projectUsers = await User.find({ projects: id });
+    console.log(project.users);
+
+    // Load chats for project users
+    const chatPromises = project.users.map((userId) =>
+      Chat.find({ users: { $elemMatch: { $eq: userId } } })
+        .populate("users", "-password")
+        .populate("groupAdmin", "-password")
+        .populate("latestMessage")
+        .sort({ updatedAt: -1 })
+        .then(async (results) => {
+          results = await User.populate(results, {
+            path: "latestMessage.sender",
+            select: "firstName email",
+          });
+          return { userId, chats: results };
+        })
+    );
+
+    const chatsByUser = await Promise.all(chatPromises);
+
+    res.status(200).json({
+      project,
+      projectUsers,
+      chatsByUser,
+    });
   } catch (error) {
     res.status(400);
     throw new Error(error.message);
@@ -202,5 +268,6 @@ module.exports = {
   createGroupChat,
   renameGroup,
   addToGroup,
-  // ProjectChat,
+  ProjectChats,
+  fetchChatsOnly,
 };

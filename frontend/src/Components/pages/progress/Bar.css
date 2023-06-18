@@ -9,3 +9,10 @@
   fill: var(--color1);
   font-family: "Roboto";
 }
+.gradient-with-stroke {
+  /* Define the gradient background */
+  background: linear-gradient(to right, #ff0000, #00ff00);
+
+  /* Add the stroke style */
+  border: 2px solid #007bff;
+}

@@ -121,7 +121,14 @@ const CreateCompany = () => {
     <div>
       <div className="container shadow my-5">
         <div className="row justify-content-end">
-          <div className="col-md-6 d-flex flex-column align-items-center text-white justify-content-center form order-2 ">
+          <div
+            className="col-md-6 d-flex flex-column align-items-center text-white justify-content-center form order-2 "
+            style={{
+              backgroundImage: "url('images/background.png')",
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }}
+          >
             <h1 className="display-4 fw-bolder">Hello, Friend</h1>
             <p className="lead text-center">
               Enter your company details to register

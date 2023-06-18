@@ -126,7 +126,7 @@ const SideDrawer = () => {
                 display: "flex",
                 flex: "wrap",
                 height: "50px",
-                width: "150px",
+                width: "200px",
                 padding: "15px	",
                 backgroundColor: "#EAF6FB",
                 borderRadius: "10px	",

@@ -1,11 +1,22 @@
 import React from "react";
 import Navbar from "./Navbar";
+
 const Home = () => {
   return (
     <div>
       <Navbar />
 
-      <section id="home" style={{ marginTop: "18px" }}>
+      <section
+        id="home"
+        style={{
+          marginTop: "18px",
+          backgroundImage: "url('images/background.png')",
+          backgroundSize: "cover",
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "center",
+          height: "80vh",
+        }}
+      >
         <div className="container data">
           <div className="row justify-content-center align-items-center">
             <div className="col-md-6">
@@ -18,13 +29,24 @@ const Home = () => {
             </div>
             <div className="col-md-6">
               <div className="text-center">
-                <h1 className="text-white" style={{ fontSize: "35px" }}>
+                <h1
+                  className="text-white"
+                  style={{
+                    fontSize: "40px",
+                    fontFamily: " Arial, sans-serif",
+                    fontWeight: "bold",
+                  }}
+                >
                   Software Project Management System
                 </h1>
                 <br></br>
                 <p
                   className="text-white"
-                  style={{ fontSize: "20px", textAlign: "justify" }}
+                  style={{
+                    fontSize: "20px",
+                    textAlign: "center",
+                    fontFamily: " Arial, sans-serif",
+                  }}
                 >
                   Unlock the full potential of your software projects with our
                   all-in-one project management system. Seamlessly plan,

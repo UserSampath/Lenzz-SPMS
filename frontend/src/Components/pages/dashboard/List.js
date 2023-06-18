@@ -612,6 +612,8 @@ const List = ({
                       key={card._id}
                       index={index}
                       text={card.name}
+                      endDate={card.endDate}
+                      description={card.description}
                       id={card._id}
                       listID={listID}
                       card={card}
@@ -625,7 +627,7 @@ const List = ({
                     onClick={clickedAddTask}
                     className={styles.addCardBtnContainer}
                   >
-                    <p className={styles.addCardBtnText}>add card</p>
+                    <p className={styles.addCardBtnText}>Add card</p>
                     <FaPlus className={styles.addCardBtnIcon} />
                   </button>
                 </div>

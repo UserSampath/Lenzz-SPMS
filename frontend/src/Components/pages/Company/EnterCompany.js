@@ -11,6 +11,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Swal from "sweetalert2";
 import axios from "axios";
+import { NavLink } from "react-router-dom";
 
 const KEY = /^[a-zA-Z0-9]{8}$/;
 
@@ -128,10 +129,37 @@ function EnterCompany() {
     <div>
       <div className="container shadow my-5">
         <div className="row">
-          <div className="col-md-6 d-flex flex-column align-items-center text-white justify-content-center order-2 form ">
-            <h1 className="display-4 fw-bolder">JOIN THE COMPANY</h1>
-            <p className="lead text-center">Enter your Credentials </p>
+          <div
+            className="col-md-6 d-flex flex-column align-items-center text-white justify-content-center order-2 form "
+            style={{
+              backgroundImage: "url('images/background.png')",
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }}
+          >
+            <div
+              className="mainpart1"
+              style={{
+                marginTop: "10px",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              <img
+                className="companyimg"
+                src="images/company.gif"
+                alt="company"
+                style={{ width: "200px" }}
+              />
+              <h1 className="display-4 fw-bolder">JOIN THE COMPANY</h1>
+              <p className="lead text-center">Enter your Credentials </p>
+              <NavLink to="/login" className="btn btn-outline-light pb-2 w-50">
+                Login
+              </NavLink>
+            </div>
           </div>
+
           <div className="col-md-6 p-5  ">
             <h1 className="display-6 fw-bolder mb-5">JOIN WITH YOUR COMPANY</h1>
             <div
@@ -172,7 +200,7 @@ function EnterCompany() {
                     onFocus={() => setCompanyKeyFocus(true)}
                     onBlur={() => setCompanyKeyFocus(false)}
                     value={companyKey}
-                    placeholder="Enter company name"
+                    placeholder="Enter company key"
                   />
                   <p
                     className={

@@ -53,8 +53,20 @@ function Login() {
     <div>
       <div className="container shadow my-5">
         <div className="row">
-          <div className="col-md-6 d-flex flex-column align-items-center text-white justify-content-center order-2 form ">
-            <h1 className="display-4 fw-bolder">Welcome Back</h1>
+          <div
+            className="col-md-6 d-flex flex-column align-items-center text-white justify-content-center order-2 form "
+            style={{
+              backgroundImage: "url('images/background.png')",
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }}
+          >
+            <h1
+              className="display-4 fw-bolder"
+              style={{ fontFamily: " Arial, sans-serif" }}
+            >
+              Welcome Back
+            </h1>
             <p className="lead text-center">Enter your Credentials To Login </p>
             <h5 className="mb-4">OR</h5>
             <NavLink
@@ -69,7 +81,12 @@ function Login() {
             </NavLink>
           </div>
           <div className="col-md-6 p-5  ">
-            <h1 className="display-3 fw-bolder mb-5">LOGIN</h1>
+            <h1
+              className="display-3 fw-bolder mb-5"
+              style={{ fontFamily: " Arial, sans-serif" }}
+            >
+              LOGIN
+            </h1>
             <div className="lg" style={{ marginLeft: "95px" }}>
               <form className="mt-5 needs-validation " onSubmit={handleSubmit}>
                 <div className="mb-4 w-75">

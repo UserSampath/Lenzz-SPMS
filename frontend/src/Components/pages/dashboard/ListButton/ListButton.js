@@ -4,34 +4,37 @@ import { connect } from "react-redux";
 import { addList } from "../../../../actions";
 import axios from "axios";
 import { FaPlus } from "react-icons/fa";
-import Styles from "./ListButton.module.css"
-import Swal from 'sweetalert2';
+import Styles from "./ListButton.module.css";
+import Swal from "sweetalert2";
 
 const ListButton = (props) => {
   const showErrorAlert = (test) => {
     Swal.fire({
-      icon: 'error',
-      title: 'Oops...',
+      icon: "error",
+      title: "Oops...",
       text: test,
-    })
+    });
   };
   const [formOpen, setFormOpen] = useState(false);
   const [text, setText] = useState("");
   const openForm = () => {
-    if (props.projectRoleData.role == "SYSTEM ADMIN" ||
+    if (
+      props.projectRoleData.role == "SYSTEM ADMIN" ||
       props.projectRoleData.role == "PROJECT MANAGER" ||
       props.projectRoleData.role == "TECHLEAD" ||
-      props.projectRoleData.role == "QUALITY ASSURANCE") {
+      props.projectRoleData.role == "QUALITY ASSURANCE"
+    ) {
       setFormOpen(true);
     } else {
-      showErrorAlert(props.projectRoleData.role + " not allowed to create tasks.");
+      showErrorAlert(
+        props.projectRoleData.role + " not allowed to create tasks."
+      );
     }
-    
   };
-  const closeForm = e => {
+  const closeForm = (e) => {
     setFormOpen(false);
   };
-  const handleInputChange = e => {
+  const handleInputChange = (e) => {
     setText(e.target.value);
   };
   const handleAddList = () => {
@@ -39,38 +42,35 @@ const ListButton = (props) => {
       const newProgressStage = {
         title: text,
         listIndex: props.lists.length,
-        projectId: props.projectId
-      }
-      axios.post("http://localhost:4000/progressStage/create", newProgressStage).then((response) => {
-        console.log("ProgressStage added success 😊");
-        console.log(props.lists);
+        projectId: props.projectId,
+      };
+      axios
+        .post("http://localhost:4000/progressStage/create", newProgressStage)
+        .then((response) => {
+          console.log("ProgressStage added success 😊");
+          console.log(props.lists);
 
-        props.dispatch(addList(text, response.data._id)); 
-        setText("");
-
-      }).catch((err) => {
-        alert(err);
-      });
+          props.dispatch(addList(text, response.data._id));
+          setText("");
+        })
+        .catch((err) => {
+          alert(err);
+        });
     }
     return;
   };
   const renderAddButton = () => {
     return (
-      <div className={Styles.addListButton}
-        onClick={openForm}
-      >
+      <div className={Styles.addListButton} onClick={openForm}>
         <FaPlus className={Styles.plusIcon} />
         <p className={Styles.addListButtonText}>Add another list</p>
       </div>
     );
   };
   const renderForm = () => {
-
     return (
       <div>
-        <div
-          className={Styles.textareaBackground}
-        >
+        <div className={Styles.textareaBackground}>
           <Textarea
             placeholder="Enter list name..."
             autoFocus
@@ -80,11 +80,13 @@ const ListButton = (props) => {
             className={Styles.textArea}
           />
         </div>
-        <div style={{
-          marginTop: 5,
-          display: "flex",
-          alignItems: "center"
-        }}>
+        <div
+          style={{
+            marginTop: 5,
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
           <div
             onMouseDown={handleAddList}
             className={Styles.addNewListListButton}
@@ -96,7 +98,6 @@ const ListButton = (props) => {
       </div>
     );
   };
-  return (formOpen ? renderForm() : renderAddButton());
-}
+  return formOpen ? renderForm() : renderAddButton();
+};
 export default connect()(ListButton);
-

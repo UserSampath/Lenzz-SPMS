@@ -268,11 +268,9 @@ const TimeLine = () => {
               style={{
                 marginTop: "20px",
                 marginLeft: "10px",
-                fontFamily: "monospace",
+                fontFamily: "Raleway",
                 fontWeight: "bold",
-                fontStyle: "oblique",
                 fontSize: "30px",
-                color: "#515151",
               }}
             >
               Requirments
@@ -464,8 +462,8 @@ const TimeLine = () => {
                       <h5
                         style={{
                           marginLeft: "5px",
-                          fontFamily: "monospace",
-                          fontStyle: "oblique",
+                          fontFamily: "Raleway",
+                          fontWeight: "bold",
                           fontSize: "30px",
                         }}
                       >

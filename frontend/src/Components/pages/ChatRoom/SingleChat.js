@@ -187,6 +187,43 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
       }
     }
   };
+  // const sendMessage = async () => {
+  //   if (newMessage) {
+  //     socket.emit("stop typing", selectedChat._id);
+  //     try {
+  //       const formData = new FormData();
+  //       formData.append("content", newMessage);
+  //       formData.append("chatId", selectedChat._id);
+  //       if (selectedFile) {
+  //         formData.append("files", selectedFile);
+  //       }
+
+  //       const config = {
+  //         headers: {
+  //           Authorization: `Bearer ${user.token}`,
+  //           "Content-Type": "multipart/form-data",
+  //         },
+  //       };
+
+  //       setNewMessage("");
+  //       setSelectedFile(null);
+
+  //       const { data } = await axios.post("/api/messages", formData, config);
+
+  //       socket.emit("new message", data);
+  //       setMessages([...messages, data]);
+  //     } catch (error) {
+  //       toast({
+  //         title: "Error Occurred!",
+  //         description: "Failed to send the Message",
+  //         status: "error",
+  //         duration: 5000,
+  //         isClosable: true,
+  //         position: "bottom",
+  //       });
+  //     }
+  //   }
+  // };
 
   const typingHandler = (e) => {
     setNewMessage(e.target.value);
