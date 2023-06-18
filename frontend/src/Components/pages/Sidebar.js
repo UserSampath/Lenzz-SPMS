@@ -163,7 +163,7 @@ const Sidebar = ({ children, SetSelectedProjectController, display }) => {
               className="bars"
               style={{ marginLeft: open ? "60px" : "12px" }}
             >
-              <FaBars onClick={toggle} className="fabars" />
+              <FaBars onClick={toggle} className="fabars" style={{cursor:"pointer"}} />
             </div>
           </div>
           <div>

@@ -62,8 +62,10 @@ const ListButton = (props) => {
   const renderAddButton = () => {
     return (
       <div className={Styles.addListButton} onClick={openForm}>
+        
+        <p className={Styles.addListButtonText}>Add Progress Stage</p>
+        
         <FaPlus className={Styles.plusIcon} />
-        <p className={Styles.addListButtonText}>Add another list</p>
       </div>
     );
   };
@@ -72,7 +74,7 @@ const ListButton = (props) => {
       <div>
         <div className={Styles.textareaBackground}>
           <Textarea
-            placeholder="Enter list name..."
+            placeholder="Enter Progress Stage name..."
             autoFocus
             onBlur={closeForm}
             value={text}

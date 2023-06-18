@@ -141,7 +141,7 @@ const MyChats = ({ fetchAgain, member }) => {
                   py={2}
                   borderRadius="lg"
                   key={chat._id}
-                  width="350px" // Set the desired width value, e.g., "200px"
+                  width="300px" // Set the desired width value, e.g., "200px"
                   height="90px"
                   alignItems="center"
                   paddingTop="19px"

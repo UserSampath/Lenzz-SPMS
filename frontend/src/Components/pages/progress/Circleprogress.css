@@ -1,8 +1,8 @@
 .circle1 {
-  width: 300px;
+  width: 280px;
   height: 300px;
-  margin-left: 25px;
-  margin-top: 10%;
+  margin-left: 10px;
+  margin-top: 8%;
 }
 .BarCss {
   margin-left: 55px;
@@ -21,10 +21,10 @@
 }
 
 .circle2 {
-  width: 300px;
+  width: 280px;
   height: 300px;
-  margin-left: 18%;
-  margin-top: 10%;
+  margin-left: 55px;
+  margin-top: 8%;
 }
 
 .circle3 {
@@ -58,7 +58,7 @@
   letter-spacing: 0.1rem;
 }
 .subName {
-  font-size: 30px;
+  font-size: 20px;
   font-family: "Raleway", sans-serif;
   font-weight: bold;
 

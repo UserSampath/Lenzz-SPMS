@@ -599,7 +599,7 @@ const List = ({
                 <div {...provided.droppableProps} ref={provided.innerRef}>
                   <div className={styles.listNameContainer}>
                     <h5
-                      style={{ fontWeight: "bold", fontSize: "20px" }}
+                      style={{ fontWeight: "bold", fontSize: "19px" }}
                       className={styles.listName}
                     >
                       {title}
@@ -628,7 +628,7 @@ const List = ({
                     onClick={clickedAddTask}
                     className={styles.addCardBtnContainer}
                   >
-                    <p className={styles.addCardBtnText}>Add card</p>
+                    <p className={styles.addCardBtnText}>Add Task</p>
                     <FaPlus className={styles.addCardBtnIcon} />
                   </button>
                 </div>

@@ -11,8 +11,14 @@
   background-color: #def3fd;
 }
 
+.addListButton:hover {
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  transform: scale(1.02);
+}
+
 .plusIcon {
-  margin-right: 5px;
+  margin-left: 5px;
+  margin-top: 2px;
 }
 .addListButtonText {
   margin: 0px;

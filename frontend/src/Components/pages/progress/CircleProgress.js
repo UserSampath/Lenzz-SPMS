@@ -200,8 +200,8 @@ function CircleProgress(props) {
         <div
           className="BoxCardnew"
           style={{
-            width: " 320px",
-            height: " 320px",
+            width: " 300px",
+            height: " 300px",
             marginTop: "90px",
             border: "1.5px solid",
             borderRadius: "10px",
@@ -231,8 +231,8 @@ function CircleProgress(props) {
         <div
           className="BoxCardnews2"
           style={{
-            width: " 320px",
-            height: " 320px",
+            width: " 300px",
+            height: " 300px",
             marginLeft: "35px",
             marginTop: "90px",
             border: "1.5px solid",
@@ -262,8 +262,8 @@ function CircleProgress(props) {
         <div
           className="BoxCardnew3"
           style={{
-            width: " 320px",
-            height: " 320px",
+            width: " 300px",
+            height: " 300px",
             marginLeft: "35px",
             marginTop: "90px",
             border: "1.5px solid",
@@ -295,8 +295,8 @@ function CircleProgress(props) {
           <div
             className="BoxCardnew4"
             style={{
-              width: " 320px",
-              height: " 100px",
+              width: " 240px",
+              height: " 80px",
               marginLeft: "35px",
               marginTop: "90px",
               border: "1.5px solid",
@@ -306,16 +306,17 @@ function CircleProgress(props) {
               paddingBottom: "20px",
               boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
               backgroundColor: "#ECDEF4",
+              marginBottom: "27px",
             }}
           >
             <div style={{ display: "flex" }}>
               <p className="subName">Total Tasks </p>
               <p
                 style={{
-                  fontSize: "50px",
+                  fontSize: "35px",
                   fontFamily: "Raleway",
                   fontWeight: "bold",
-                  marginLeft: "70px",
+                  marginLeft: "50px",
                   marginTop: "10px",
                 }}
               >
@@ -326,8 +327,8 @@ function CircleProgress(props) {
           <div
             className="BoxCardnew5"
             style={{
-              width: " 320px",
-              height: " 100px",
+              width: " 240px",
+              height: " 80px",
               marginLeft: "35px",
               marginTop: "5px",
               border: "1.5px solid",
@@ -337,6 +338,8 @@ function CircleProgress(props) {
               paddingBottom: "20px",
               boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
               backgroundColor: "#DEF4E6",
+              marginBottom: "27px",
+
             }}
           >
             {" "}
@@ -344,10 +347,10 @@ function CircleProgress(props) {
               <p className="subName">Incomplete </p>
               <p
                 style={{
-                  fontSize: "50px",
+                  fontSize: "35px",
                   fontFamily: "Raleway",
                   fontWeight: "bold",
-                  marginLeft: "65px",
+                  marginLeft: "45px",
                   marginTop: "10px",
                 }}
               >
@@ -358,8 +361,8 @@ function CircleProgress(props) {
           <div
             className="BoxCardnew6"
             style={{
-              width: " 320px",
-              height: " 100px",
+              width: " 240px",
+              height: " 80px",
               marginLeft: "35px",
               marginTop: "5px",
               border: "1.5px solid",
@@ -376,10 +379,10 @@ function CircleProgress(props) {
               <p className="subName">Done </p>
               <p
                 style={{
-                  fontSize: "50px",
+                  fontSize: "35px",
                   fontFamily: "Raleway",
                   fontWeight: "bold",
-                  marginLeft: "155px",
+                  marginLeft: "115px",
                   marginTop: "10px",
                 }}
               >
@@ -393,10 +396,10 @@ function CircleProgress(props) {
         <div
           className="BoxCard"
           style={{
-            width: " 1030px",
+            width: " 980px",
             height: " auto",
             marginLeft: "90px",
-            marginTop: "40px",
+            marginTop: "23px",
             fontFamily: "Signika Negative",
             border: "1.5px solid",
             borderRadius: "10px",
@@ -422,7 +425,7 @@ function CircleProgress(props) {
             className="barlist"
             style={{
               marginTop: "30px",
-              width: "925px",
+              width: "905px",
               marginLeft: "40px",
             }}
           >
@@ -442,10 +445,10 @@ function CircleProgress(props) {
         </div>
         <div
           style={{
-            width: " 320px",
-            height: " 100px",
+            width: " 240px",
+            height: " 80px",
             marginLeft: "35px",
-            marginTop: "40px",
+            marginTop: "23px",
             border: "1.5px solid",
             borderRadius: "10px",
             borderColor: "#E3E3E3",
@@ -453,16 +456,17 @@ function CircleProgress(props) {
             paddingBottom: "20px",
             boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
             backgroundColor: "#DCFAF8",
+            marginBottom: "23px"
           }}
         >
           <div style={{ display: "flex" }}>
             <p className="subName">Members </p>
             <p
               style={{
-                fontSize: "50px",
+                fontSize: "35px",
                 fontFamily: "Raleway",
                 fontWeight: "bold",
-                marginLeft: "100px",
+                marginLeft: "70px",
                 marginTop: "10px",
               }}
             >
@@ -471,9 +475,9 @@ function CircleProgress(props) {
           </div>
           <div
             style={{
-              width: " 320px",
-              height: " 100px",
-              marginTop: "25px",
+              width: " 240px",
+              height: " 80px",
+              marginTop: "45px",
               border: "1.5px solid",
               borderRadius: "10px",
               borderColor: "#E3E3E3",
@@ -487,10 +491,10 @@ function CircleProgress(props) {
               <p className="subName">End Date </p>
               <p
                 style={{
-                  fontSize: "30px",
+                  fontSize: "25px",
                   fontFamily: "Raleway",
                   fontWeight: "bold",
-                  marginLeft: "60px",
+                  marginLeft: "40px",
                   marginTop: "25px",
                 }}
               >

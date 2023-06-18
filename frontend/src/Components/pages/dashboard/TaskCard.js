@@ -20,6 +20,7 @@ const TaskCard = (props) => {
           (member) =>
             member.firstName + " " + member.lastName === props.card.assign
         )
+
       );
     };
     getAssignMember();
@@ -87,22 +88,30 @@ const TaskCard = (props) => {
                   backgroundColor: backgroundColor,
                 }}
               >
+                
                 <div className={Styles.imageContainer}>{props.text}</div>
-                <div style={{ display: "flex" }}>
+                <hr style={{marginTop:"4px"}}/>
+                <div style={{ display: "flex", marginTop:"10px" }}>
                   <img
                     src={
                       filteredMember &&
-                      filteredMember[0] &&
-                      filteredMember[0].profilePicture
+                        filteredMember[0] &&
+                        filteredMember[0].profilePicture
                         ? filteredMember[0].profilePicture
                         : "https://sampathnalaka.s3.eu-north-1.amazonaws.com/uploads/pngwing.com.png"
                     }
                     alt="svs"
-                    width="38"
-                    height="38"
+                    width="35"
+                    height="35"
                     className={Styles.img}
                   />
-                  <div className={Styles.Date}> End Date : {props.endDate}</div>
+                  <div style={{ marginLeft: "5px" }} className={Styles.taskBottomDetails} >
+                    <div>
+                      {filteredMember && filteredMember[0] && filteredMember[0].firstName + " " + filteredMember[0].lastName}
+                    </div>
+                    {/* <div className={Styles.Date}> End Date : {props.endDate}</div> */}
+                  </div>
+
                 </div>
               </div>
             </div>

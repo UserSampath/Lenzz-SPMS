@@ -15,7 +15,6 @@ const Settings = () => {
   const history = useNavigate();
   const [showBasicSettingContent, setShowBasicSettingContent] = useState(true);
   const [showAddMemberSettingContent, setShowAddMemberSettingContent] = useState(false);
-  const [showNotificationSettingContent, setShowNotificationSettingContent] = useState(false);
   const [localProject, SetLocalProject] = useState("");
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -43,9 +42,6 @@ const Settings = () => {
   };
   const toggleAddMemberSettingContent = () => {
     setShowAddMemberSettingContent(!showAddMemberSettingContent);
-  };
-  const toggleNotificationSettingContent = () => {
-    setShowNotificationSettingContent(!showNotificationSettingContent);
   };
 
   const LocalUser = JSON.parse(localStorage.getItem("user"));
@@ -437,29 +433,8 @@ const Settings = () => {
             </div>
           )}
         </div>
-
         <div className={styles.dropDown}>
-          <div onClick={toggleNotificationSettingContent} className={styles.dropDownButton} >
-            <div className={styles.dropDownButtonContainer}>
-              <div
-                className={styles.dropDownTextContainer}
-              >
-                <h3 style={{ fontFamily: "monospace", fontSize: "23px", fontWeight: "bold", fontStyle: "oblique", marginTop: "4px" }} >Notification settings</h3>
-              </div>
-              <div>
-                {showNotificationSettingContent ? <FaAngleUp className={styles.icon} /> : <FaAngleDown className={styles.icon} />}
-              </div>
-            </div>
-          </div>
-          {showNotificationSettingContent && (
-            <div className={styles.settingsContainer}>
-              <div className={styles.settingsPart}>
-                dd
-              </div>
-            </div>
-          )}
         </div>
-
       </div>
     </SideBar>
   );

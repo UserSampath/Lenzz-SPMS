@@ -12,7 +12,7 @@ const ChatPage = () => {
   return (
     <div
       style={{
-        width: "820px",
+        width: "740px",
         marginLeft: "10px",
         marginTop: "25px",
       }}
@@ -21,7 +21,7 @@ const ChatPage = () => {
       <Box
         display="flex"
         justifyContent="space-between"
-        w="1430px"
+        w="1300px"
         h="80.5vh"
         p="10px"
       >
