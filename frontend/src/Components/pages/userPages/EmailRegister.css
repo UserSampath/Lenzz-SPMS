@@ -1,0 +1,28 @@
+div.error {
+  padding: 10px;
+  padding-left: 85px;
+  background: #ffefef;
+  border: 1px solid var(--error);
+  color: red;
+  border-radius: 4px;
+  margin: 30px 0;
+  width: 350px;
+}
+input.error {
+  border: 1px solid var(--error);
+}
+.invalid-confirm-password {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: 80%;
+  color: #dc3545;
+}
+.invalid-strong-password {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: 80%;
+  color: #dc3545;
+}
+.mainpart {
+  margin-top: 105px;
+}

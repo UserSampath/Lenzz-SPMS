@@ -15,6 +15,7 @@ import AccountSettings from "./Components/pages/userPages/AccountSettings";
 import DashboardProvider from "./Components/pages/dashboard/DashboardProvider";
 import TimeLine from "./Components/pages/TimeLine/TimeLine";
 import CompanySetting from "./Components/pages/Company/CompanySetting";
+import EmailRegister from "./Components/pages/userPages/EmailRegister";
 function App() {
   return (
     <div className="App">
@@ -38,6 +39,7 @@ function App() {
           <Route path="/AccountSettings" element={<AccountSettings />} />
           <Route path="/TimeLine" element={<TimeLine />} />
           <Route path="/CompanySetting" element={<CompanySetting />} />
+          <Route path="/EmailRegister" element={<EmailRegister />} />
         </Routes>
       </BrowserRouter>
     </div>
