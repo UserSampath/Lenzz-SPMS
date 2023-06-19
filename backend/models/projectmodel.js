@@ -53,7 +53,7 @@ projectSchema.statics.createproject = async function (
   const exists = await this.findOne({ projectname });
 
   if (exists) {
-    throw Error("Project name is already in use");
+    throw Error("Project Name is already in use");
   }
 
   const currentDate = new Date().toISOString().slice(0, 10);

@@ -173,6 +173,8 @@ const Company = () => {
     history("/Dashboard", { state: { projectId: data._id } });
   };
 
+  //create project
+
   useEffect(() => {
     setValidProjectName(NAME_REGEX.test(projectname));
   }, [projectname]);
@@ -186,7 +188,7 @@ const Company = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!user) {
-      setError("you must be logged in");
+      setError("You must be logged in");
       history("/login");
       return;
     }
@@ -343,7 +345,7 @@ const Company = () => {
               block="true"
               onClick={handleShow}
             >
-              Add project
+              Add Project
             </Button>
 
             <Modal show={showModal} onHide={handleClose}>
@@ -365,7 +367,7 @@ const Company = () => {
                     controlId="exampleForm.ControlInput1"
                   >
                     <Form.Label style={{ fontWeight: "bold" }}>
-                      Project name
+                      Project Name
                       <FontAwesomeIcon
                         icon={faCheck}
                         className={validProjectName ? "valid" : "hide"}
@@ -389,7 +391,7 @@ const Company = () => {
                       onFocus={() => setProjectNameFocus(true)}
                       onBlur={() => setProjectNameFocus(false)}
                       value={projectname}
-                      placeholder="Enter your project name..."
+                      placeholder="Enter your Project Name..."
                     />
                     <p
                       className={
@@ -459,7 +461,7 @@ const Company = () => {
                       controlId="exampleForm.ControlInput1"
                     >
                       <Form.Label style={{ fontWeight: "bold" }}>
-                        End date
+                        End Date
                       </Form.Label>
                       <Form.Control
                         type="date"
