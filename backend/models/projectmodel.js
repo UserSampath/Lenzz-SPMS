@@ -46,36 +46,32 @@ projectSchema.statics.createproject = async function (
   user_id,
   companyId
 ) {
-  if (!projectname || !description) {
-    throw Error("All Field is required");
+  if (!projectname || !description || !endDate) {
+    throw Error("All fields are required");
   }
 
   const exists = await this.findOne({ projectname });
 
   if (exists) {
-    throw Error("Project Name is already use");
+    throw Error("Project name is already in use");
   }
+
   const currentDate = new Date().toISOString().slice(0, 10);
 
-  // const parsedStartDate = parseISO(startDate);
-  // const parsedCurrentDate = parseISO(currentDate);
-  // //check if the start date is before the current date
-  // if (isBefore(parsedStartDate, parsedCurrentDate)) {
-  //   // start date is before current date, so it's invalid
-  //   throw Error("Start date cannot be before the current date");
-  // } else {
-  //   // start date is valid
-  // }
-  const currentDatenow = moment(this.startDate).format("YYYY-MM-DD");
+  // Check if the endDate is before the currentDate
+  if (endDate < currentDate) {
+    throw Error("End date cannot be before the current date");
+  }
+
   const project = await this.create({
     projectname,
     description,
-    startDate: currentDatenow,
+    startDate: currentDate,
     endDate,
     user_id,
     company_id: companyId,
   });
-  // console.log("ddddddddddddddddddddddd",project)
+
   return project;
 };
 
@@ -92,16 +88,13 @@ projectSchema.statics.updateProject = async function (
 
   const currentDate = new Date().toISOString().slice(0, 10);
 
-  const parsedStartDate = parseISO(startDate);
-  const parsedCurrentDate = parseISO(currentDate);
-  // check if the start date is before the current date
-  // if (isBefore(parsedStartDate, parsedCurrentDate)) {
-  //   // start date is before current date, so it's invalid
-  //   throw Error("Start date cannot be before the current date");
-  // } else {
-  //   // start date is valid
-  //   console.log("Start date is valid");
-  // }
+  // Check if the endDate is before the currentDate
+  if (endDate < currentDate) {
+    throw Error("End date cannot be before the current date");
+  }
+  if (startDate < currentDate) {
+    throw Error("Start date cannot be before the current date");
+  }
   const project = await this.findByIdAndUpdate(
     id,
     {

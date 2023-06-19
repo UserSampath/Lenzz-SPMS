@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
 import React, { useState, useEffect, useRef } from "react";
-import "./Register.css";
+import "./EmailRegister.css";
 import useSignup from "../../../hooks/useSignup";
 import { Dropdown } from "react-bootstrap";
 import {
@@ -13,7 +13,7 @@ const EMAIL_REGEX = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 const NAME_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const CONTECTNUMBER_REGEX = /^\d{10}$/;
-const Register = () => {
+const EmailRegister = () => {
   const userRef = useRef();
   const errRef = useRef();
 
@@ -42,7 +42,6 @@ const Register = () => {
   const [ContactNumberFocus, setContactNumberFocus] = useState(false);
 
   const options = [
-    "SYSTEM ADMIN",
     "DEVELOPER",
     "PROJECT MANAGER",
     "CLIENT",
@@ -461,4 +460,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default EmailRegister;
