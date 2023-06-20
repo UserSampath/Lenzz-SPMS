@@ -20,7 +20,7 @@ import Swal from "sweetalert2";
 import { FaTrashAlt } from "react-icons/fa";
 const TOPIC = /^[A-Za-z0-9\s\-_,.!?:;'"()]{5,40}$/;
 
-const DESCRIPTION = /^[A-Za-z0-9\s\-_,.!?:;'"()]{5,}$/;
+const DESCRIPTION = /^[A-Za-z0-9\s\-_,.!?:;'"/()]{5,}$/;
 const TimeLine = () => {
   const userRef = useRef();
   const errRef = useRef();
@@ -244,7 +244,7 @@ const TimeLine = () => {
         <div
           className="BoxCard"
           style={{
-            width: " 1290px",
+            width: " 1260px",
             height: " 100%",
             marginLeft: "85px",
             marginTop: "80px",
@@ -281,7 +281,7 @@ const TimeLine = () => {
                 width: "200px",
                 height: "40px",
                 marginTop: "15px",
-                marginLeft: "890px",
+                marginLeft: "690px",
                 fontSize: "20px",
                 padding: "0.3rem 1rem",
                 backgroundColor: "#0077cc",
@@ -435,7 +435,7 @@ const TimeLine = () => {
                   <div
                     className="BoxCard"
                     style={{
-                      width: " 1330px",
+                      width: " 1200px",
                       height: " 50%",
                       marginLeft: "15px",
                       marginTop: "15px",

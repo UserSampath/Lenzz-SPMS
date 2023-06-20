@@ -141,14 +141,14 @@ const changepersentage = async (req, res) => {
   const pastdays = pastMilliseconds / 1000 / 60 / 60 / 24;
 
   console.log((pastdays / totaldays) * 100);
-  const percentage = Math.round((pastdays / totaldays) * 100 * 100) / 100;
-
+  var percentage = Math.round((pastdays / totaldays) * 100 * 100) / 100;
+  if (percentage < 0) {
+    percentage = 0;
+  }
   res.status(200).json({ id, percentage });
 };
-
 const usersOfTheProject = async (req, res) => {
   const { id } = req.body;
-
   try {
     const project = await Project.findById(id).populate("users");
     if (!project) {

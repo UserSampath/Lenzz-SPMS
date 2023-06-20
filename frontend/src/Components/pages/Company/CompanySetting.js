@@ -181,7 +181,7 @@ const CompanySetting = () => {
           className="Boxcard "
           style={{
             width: "650px",
-            marginLeft: "150px",
+            marginLeft: "100px",
             marginTop: "95px",
             border: "1px solid",
             borderRadius: "10px",
@@ -192,10 +192,9 @@ const CompanySetting = () => {
           <div
             style={{
               marginLeft: "60px",
-              fontFamily: "monospace",
+              fontFamily: "Raleway",
               fontSize: "23px",
               fontWeight: "bold",
-              fontStyle: "oblique",
               marginTop: "15px",
             }}
           >

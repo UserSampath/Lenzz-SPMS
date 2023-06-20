@@ -427,6 +427,7 @@ const Company = () => {
                     </Form.Label>
                     <Form.Control
                       type="text"
+                      as="textarea"
                       className="form-control"
                       ref={userRef}
                       autoComplete="on"
@@ -788,6 +789,7 @@ const Company = () => {
           <div
             className="Boxcard"
             style={{
+              height:"60px",
               position: "absolute",
               right: "35px",
               marginTop: "15px",
@@ -800,7 +802,10 @@ const Company = () => {
               boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
             }}
           >
-            <FcSettings className="rotate" style={{ fontSize: "45px" }} />
+            <div style={{ display: "flex"}}>
+              <div style={{ fontSize: "20px", marginTop: "9px", marginRight: "4px", fontFamily:"Raleway"}}>Company Settings</div>
+              <FcSettings className="rotate" style={{ fontSize: "45px" }} /></div>
+           
           </div>
         </Link>
       </div>

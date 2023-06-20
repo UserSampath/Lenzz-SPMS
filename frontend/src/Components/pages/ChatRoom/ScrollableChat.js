@@ -18,7 +18,6 @@ import { FcFile } from "react-icons/fc";
 const ScrollableChat = ({ messages, setMessages }) => {
   const [showNotification, setShowNotification] = useState(false);
   const [selectedMessage, setSelectedMessage] = useState(null);
-  const [replyMessage, setReplyMessage] = useState(null);
   const { user } = useAuthContext();
   const toast = useToast();
   const [typingMessage, setTypingMessage] = useState("");
@@ -26,7 +25,6 @@ const ScrollableChat = ({ messages, setMessages }) => {
   const handleShowOptions = (message) => {
     setSelectedMessage(message);
     setShowNotification(true);
-    setReplyMessage(null);
     setTypingMessage("");
   };
 
@@ -64,10 +62,7 @@ const ScrollableChat = ({ messages, setMessages }) => {
     setShowNotification(false);
   };
 
-  const handleReplyMessage = (message) => {
-    setReplyMessage(message);
-    setTypingMessage("");
-  };
+
 
   return (
     <ScrollableFeed>
@@ -76,25 +71,24 @@ const ScrollableChat = ({ messages, setMessages }) => {
           <div style={{ display: "flex" }} key={m._id}>
             {(isSameSender(messages, m, i, user._id) ||
               isLastMessage(messages, i, user._id)) && (
-              <Tooltip
-                label={m.sender.firstName}
-                placement="bottom-start"
-                hasArrow
-              >
-                <Avatar
-                  mt="7px"
-                  mr={1}
-                  size="sm"
-                  cursor="pointer"
-                  name={m.sender.firstName}
-                />
-              </Tooltip>
-            )}
+                <Tooltip
+                  label={m.sender.firstName}
+                  placement="bottom-start"
+                  hasArrow
+                >
+                  <Avatar
+                    mt="7px"
+                    mr={1}
+                    size="sm"
+                    cursor="pointer"
+                    name={m.sender.firstName}
+                  />
+                </Tooltip>
+              )}
             <span
               style={{
-                backgroundColor: `${
-                  m.sender._id === user._id ? "#BEE3F8" : "#B9F5D0"
-                }`,
+                backgroundColor: `${m.sender._id === user._id ? "#BEE3F8" : "#B9F5D0"
+                  }`,
                 marginLeft: isSameSenderMargin(messages, m, i, user._id),
                 marginTop: isSameUser(messages, m, i, user._id) ? 3 : 10,
                 borderRadius: "18px",
@@ -124,7 +118,7 @@ const ScrollableChat = ({ messages, setMessages }) => {
                   }}
                 >
                   <p style={{ marginBottom: "4px" }}>
-                    Do you want to delete or reply to this message?
+                    Do you want to delete  this message?
                   </p>
                   <div
                     style={{
@@ -158,19 +152,7 @@ const ScrollableChat = ({ messages, setMessages }) => {
                     >
                       Delete
                     </button>
-                    <button
-                      style={{
-                        border: "none",
-                        background: "transparent",
-                        color: "rgba(255, 255, 255, 0.8)",
-                        fontSize: "14px",
-                        marginLeft: "8px",
-                        cursor: "pointer",
-                      }}
-                      onClick={() => handleReplyMessage(m)}
-                    >
-                      Reply
-                    </button>
+
                   </div>
                 </div>
               )}
@@ -204,58 +186,7 @@ const ScrollableChat = ({ messages, setMessages }) => {
           </div>
         ))}
       <div>
-        {replyMessage && (
-          <div
-            style={{
-              background: "#E6F4F4",
-              borderRadius: "8px",
-              padding: "8px",
-              marginBottom: "8px",
-            }}
-          >
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                marginBottom: "4px",
-              }}
-            >
-              <span
-                style={{
-                  fontWeight: "bold",
-                  marginRight: "8px",
-                  color: "#075E54",
-                }}
-              >
-                {replyMessage.sender.firstName}:
-              </span>
-              <span style={{ flex: 1 }}>{replyMessage.content}</span>
-              <button
-                onClick={() => {
-                  setReplyMessage(null);
-                  setTypingMessage("");
-                }}
-                style={{
-                  background: "none",
-                  border: "none",
-                  color: "#FF1300",
-                  textDecoration: "none",
-                  cursor: "pointer",
-                  width: "24px",
-                  height: "14px",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  padding: "0",
-                  marginLeft: "8px",
-                }}
-              >
-                <GiCancel size={19} />
-              </button>
-            </div>
-            <hr style={{ margin: "0" }} />
-          </div>
-        )}
+
       </div>
     </ScrollableFeed>
   );

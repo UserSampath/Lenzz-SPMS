@@ -27,7 +27,7 @@ const MyChats = ({ fetchAgain, member }) => {
       );
       console.log("localPro", localPro);
       if (localPro == null) {
-        setTimeout(() => {}, 2000);
+        setTimeout(() => { }, 2000);
       } else {
         SetLocalProject(localPro);
       }
@@ -150,7 +150,7 @@ const MyChats = ({ fetchAgain, member }) => {
                     {!chat.isGroupChat && chat.users.length > 1 && (
                       <AvatarPro
                         key={chat.users[1]._id}
-                        member={chat.users[1]}
+                        member={chat.users[0]}
                         fallback={
                           <Avatar size="md" name={chat.users[1].name} />
                         }
