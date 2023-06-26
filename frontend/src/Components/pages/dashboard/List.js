@@ -133,7 +133,7 @@ const List = ({
     if (
       projectRoleData.role === "SYSTEM ADMIN" ||
       projectRoleData.role === "PROJECT MANAGER" ||
-      projectRoleData.role === "TECHLEAD" ||
+      projectRoleData.role === "TECH LEAD" ||
       projectRoleData.role === "QUALITY ASSURANCE"
     ) {
       getTasks();
@@ -188,7 +188,7 @@ const List = ({
         taskIndex: cards.length,
       };
       formData.append("json", JSON.stringify(newTask));
-      console.log("formData",formData);
+      console.log("formData", formData);
       setShowLoadingModal(true);
       setCreateTaskModal(!createTaskModal);
       await axios
@@ -385,7 +385,7 @@ const List = ({
     if (
       projectRoleData.role === "SYSTEM ADMIN" ||
       projectRoleData.role === "PROJECT MANAGER" ||
-      projectRoleData.role === "TECHLEAD" ||
+      projectRoleData.role === "TECH LEAD" ||
       projectRoleData.role === "QUALITY ASSURANCE"
     ) {
       const buttonRect = event.target.getBoundingClientRect();

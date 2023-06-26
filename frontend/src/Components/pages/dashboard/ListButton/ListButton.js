@@ -21,13 +21,13 @@ const ListButton = (props) => {
     if (
       props.projectRoleData.role == "SYSTEM ADMIN" ||
       props.projectRoleData.role == "PROJECT MANAGER" ||
-      props.projectRoleData.role == "TECHLEAD" ||
+      props.projectRoleData.role == "TECH LEAD" ||
       props.projectRoleData.role == "QUALITY ASSURANCE"
     ) {
       setFormOpen(true);
     } else {
       showErrorAlert(
-        props.projectRoleData.role + " not allowed to create tasks."
+        props.projectRoleData.role + " not allowed to create progress stage."
       );
     }
   };
