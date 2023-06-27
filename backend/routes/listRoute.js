@@ -12,4 +12,8 @@ router.post(
   "/progressStage/TotaltasksOfProject",
   ProgressStage.TotaltasksOfProject
 );
+router.post(
+  "/progressStage/UsertasksOfProject",
+  ProgressStage.UsertasksOfProject
+);
 module.exports = router;

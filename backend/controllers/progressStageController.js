@@ -171,4 +171,19 @@ module.exports = {
       res.status(500).json({ error: "Internal server error" });
     }
   },
+  UsertasksOfProject: async (req, res) => {
+    try {
+      const { projectId } = req.body;
+      const lists = await ProgressStage.find({ projectId });
+      const progressStageIds = lists.map((stage) => stage._id);
+      const tasks = await Task.find({
+        progressStage_id: { $in: progressStageIds },
+      });
+      const totalTasks = tasks;
+      res.json({ totalTasks });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  },
 };
