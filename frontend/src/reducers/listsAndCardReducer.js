@@ -194,15 +194,10 @@ const listsReducer = (state = initialState, action) => {
         fetchTasks();
       }
 
-      // other list
       if (droppableIdStart !== droppableIdEnd) {
-        // find the list drag happened
         const listStart = state.find(list => droppableIdStart === list._id);
-        // pull out the card from this list
         const card = listStart.cards.splice(droppableIndexStart, 1);
-        // find the list where drag ended
         const listEnd = state.find(list => droppableIdEnd === list._id);
-        // put the card in the new list
         listEnd.cards.splice(droppableIndexEnd, 0, ...card);
         const temp3 = { droppableIdStart, droppableIdEnd, droppableIndexStart, droppableIndexEnd, cardId: card[0]._id, }
         const fetchTasks = async () => {
