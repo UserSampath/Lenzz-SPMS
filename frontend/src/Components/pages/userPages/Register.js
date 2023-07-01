@@ -47,7 +47,7 @@ const Register = () => {
     "PROJECT MANAGER",
     "CLIENT",
     "QUALITY ASSURANCE",
-    "TECHLEAD",
+    "TECH LEAD",
     " OTHER PROJECT WORKERS",
   ];
 

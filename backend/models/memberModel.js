@@ -31,7 +31,7 @@ const userSchema = new Schema(
       type: String,
       enum: [
         Jobes.SystemAdmin,
-        Jobes.Projectmanager,
+        Jobes.ProjectManager,
         Jobes.Developer,
         Jobes.TechLead,
         Jobes.Client,
@@ -118,7 +118,9 @@ userSchema.statics.signup = async function (
   if (exists) {
     throw Error("Email already in use");
   }
-
+  if (!/^\d{10}$/.test(contactNumber)) {
+    throw new Error("Contact number must be 10 digits");
+  }
   const salt = await bcrypt.genSalt(10);
   const hash = await bcrypt.hash(password, salt);
 

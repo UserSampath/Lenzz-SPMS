@@ -502,7 +502,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
           h="100%"
         >
           <Text fontSize="3xl" pb={3} fontFamily="Work sans">
-            Click on a user to start chat with your project
+            Click on a user to start chat 
           </Text>
         </Box>
       )}

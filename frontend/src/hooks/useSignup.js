@@ -38,31 +38,28 @@ export const useSignup = () => {
       setError(json.error);
     }
     if (response.ok) {
-      const showAlert = () => {
-        Swal.fire({
-          position: "center",
-          icon: "success",
-          text: "Register Successfully",
-          showConfirmButton: false,
-          timer: 1200,
-          width: "250px",
-        });
-      };
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        text: "Register Successfully",
+        showConfirmButton: false,
+        timer: 1200,
+        width: "250px",
+      });
+
       localStorage.setItem("user", JSON.stringify(json));
       if (json.selectedJob === "SYSTEM ADMIN") {
         history("/CreateCompany");
-        showAlert();
       }
       if (
         json.selectedJob === "DEVELOPER" ||
         json.selectedJob === "TECH LEAD" ||
         json.selectedJob === "PROJECT MANAGER" ||
         json.selectedJob === "CLIENT" ||
-        json.selectedJob === "QUALITY ASSURANCE ENGINNER" ||
-        json.selectedJob === "CLIENT"
+        json.selectedJob === "QUALITY ASSURANCE " ||
+        json.selectedJob === "OTHER PROJECT WORKERS"
       ) {
         history("/EnterCompany");
-        showAlert();
       }
       console.log(json.selectedJob);
 

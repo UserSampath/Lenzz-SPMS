@@ -1,9 +1,9 @@
 module.exports = {
   Jobes: {
     SystemAdmin: "SYSTEM ADMIN",
-    Projectmanager: "PROJECT MANAGER",
+    ProjectManager: "PROJECT MANAGER",
     Developer: "DEVELOPER",
-    TechLead: "TECHLEAD",
+    TechLead: "TECH LEAD",
     Client: "CLIENT",
     QualityAssurance: "QUALITY ASSURANCE",
     OtherProjectWorkers: "OTHER PROJECT WORKERS",

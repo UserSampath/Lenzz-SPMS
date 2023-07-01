@@ -61,7 +61,7 @@ mongoose
       console.log("connected to db & listening on port", process.env.PORT);
 
       const io = require("socket.io")(server, {
-        pingTimeout: 60000, //ammount of time it wait while will be innactive
+        pingTimeout: 60000, 
         cors: {
           origin: "http://localhost:3000",
         },

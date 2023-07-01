@@ -51,7 +51,9 @@ companySchema.statics.createcompany = async function (
     }
     throw Error("All fields must be filled ");
   }
-
+  if (!/^\d{10}$/.test(contactnumber)) {
+    throw new Error("Contact number must be 10 digits");
+  }
   const company = await this.create({
     companyname,
     companyemail,
@@ -94,7 +96,9 @@ companySchema.statics.updateCompany = async function (
   if (!validator.isEmail(companyemail)) {
     throw Error("company Email not valid");
   }
-
+  if (!/^\d{10}$/.test(contactnumber)) {
+    throw new Error("Contact number must be 10 digits");
+  }
   console.log("data", companyname);
 
   const company = await this.findByIdAndUpdate(

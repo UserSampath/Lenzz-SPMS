@@ -15,7 +15,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const EMAIL_REGEX = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 const TEXT_REGEX = /^[A-Za-z0-9_,\/@\s"]{3,23}$/; ///^[A-Za-z0-9_,\/@\s"]{3,23}$/
 const CONTECTNUMBER_REGEX = /^\d{10}$/;
-const ADDRESS = /^[A-Za-z0-9_,\/@\s"]{3,30}$/;
+const ADDRESS = /^[A-Za-z0-9_,-\/@\s"]{3,70}$/;
 const KEY = /^[a-zA-Z0-9]{8}$/;
 
 const CompanySetting = () => {
@@ -297,8 +297,8 @@ const CompanySetting = () => {
                 <p
                   className={
                     CompanyaddressFocus &&
-                    companyAddress &&
-                    !validCompanyaddress
+                      companyAddress &&
+                      !validCompanyaddress
                       ? "instructions"
                       : "offscreen"
                   }
@@ -348,7 +348,7 @@ const CompanySetting = () => {
                     fontSize: "15px",
                   }}
                 >
-                  Ex:713246556
+                  Ex:0718246556
                 </p>
                 <p
                   id="uidnote"
