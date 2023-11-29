@@ -16,7 +16,7 @@ const getAllTimelines = async (req, res) => {
 
 const ProjectTimelines = async (req, res) => {
   const { projectId } = req.body;
-  console.log("dsdsdsd");
+
   try {
     const timelines = await TimeLine.find({ projectId });
     res.status(200).json(timelines);
@@ -92,7 +92,7 @@ const DeleteTimeline = asyncHandler(async (req, res) => {
   }
   if (timeline) {
     const deletedTimeLine = await timeline.remove();
-    console.log(deletedTimeLine);
+
     res.json({
       message: "Timeline deleted successfully",
       deletedTimeLine: deletedTimeLine,

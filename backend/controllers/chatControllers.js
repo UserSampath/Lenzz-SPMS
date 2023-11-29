@@ -73,7 +73,7 @@ const fetchChats = asyncHandler(async (req, res) => {
 const ProjectChats = asyncHandler(async (req, res) => {
   try {
     const { id } = req.params;
-    console.log(id);
+
     // Load project details
     const project = await Project.findById(id);
     if (!project) {
@@ -97,7 +97,7 @@ const ProjectChats = asyncHandler(async (req, res) => {
 const fetchChatsOnly = asyncHandler(async (req, res) => {
   try {
     const { id } = req.params;
-    console.log(id);
+
     // Load project details
     const project = await Project.findById(id);
     if (!project) {
@@ -105,7 +105,7 @@ const fetchChatsOnly = asyncHandler(async (req, res) => {
       throw new Error("Project not found");
     }
     const projectUsers = await User.find({ projects: id });
-    console.log(project.users);
+
 
     // Load chats for project users
     const chatPromises = project.users.map((userId) =>

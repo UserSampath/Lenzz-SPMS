@@ -10,7 +10,7 @@ const {
 } = require("../util/s3Service");
 const sendMessage = asyncHandler(async (req, res) => {
   // const { content, chatId } = req.body;
-  console.log(req.body);
+
   const data = JSON.parse(req.body.json);
   const content = data.content;
   const chatId=data.chatId;
@@ -19,8 +19,6 @@ const sendMessage = asyncHandler(async (req, res) => {
   if (results.length>0) {
     let key = results[0].key;
     let location = results[0].Location;
-    console.log("key", key);
-    console.log("location", location);
     file = [{
       fileName: key,
       location: location,
@@ -58,7 +56,6 @@ const sendMessage = asyncHandler(async (req, res) => {
 
     newMessage.files = files;
   }
-  console.log(req.user._id);
   try {
     var message = await Message.create(newMessage);
     message = await message.populate("sender", "firstName");

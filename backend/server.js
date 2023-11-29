@@ -19,14 +19,6 @@ app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: false }));
 var nodemailer = require("nodemailer");
 
-// app.use((req, res, next) => {
-//   const date = new Date().toISOString();
-//   const method = req.method;
-//   const url = req.originalUrl;
-//   console.log(`[${date}] ${method} ${url}`);
-//   next();
-// });
-// express app
 app.use(
   cors({
     origin: "*",

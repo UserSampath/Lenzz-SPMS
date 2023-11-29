@@ -14,7 +14,7 @@ const project = async (req, res) => {
   if (selectedJob !== "SYSTEM ADMIN") {
     return res.status(401).json({ error: "User is not authorized" });
   }
-  console.log(selectedJob);
+
   try {
     const user_id = req.user._id;
     const project = await Project.createproject(
@@ -24,7 +24,7 @@ const project = async (req, res) => {
       user_id,
       companyId
     );
-    console.log(project);
+
     res.status(200).json(project);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -47,7 +47,7 @@ const updateProjectData = async (req, res) => {
       endDate,
       id
     );
-    console.log(project);
+
     res.status(200).json(project);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -106,7 +106,6 @@ const updateProject = async (req, res) => {
 
 const changepersentage = async (req, res) => {
   const { id } = req.body;
-  console.log(id);
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(404).json({ error: "No such project" });
@@ -118,7 +117,7 @@ const changepersentage = async (req, res) => {
   }
   const startDate = project.startDate;
   const endDate = project.endDate;
-  console.log(startDate, endDate);
+
   // Check if the start date is the current day
   const currentDay = moment().startOf("day");
   //const isStartDateValid = moment(startDate).isSameOrAfter(currentDay);

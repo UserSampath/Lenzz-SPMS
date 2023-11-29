@@ -23,7 +23,6 @@ module.exports = {
   },
   taskWithPS: async (req, res) => {
     const projectId = req.body.id;
-    console.log(projectId);
     try {
       const progressStageData = await ProgressStage.aggregate([
         {
@@ -51,7 +50,6 @@ module.exports = {
         return obj;
       });
       res.status(200).send(sortedCards);
-      console.log("22");
     } catch (err) {
       res.status(500).json(err);
     }
@@ -112,7 +110,6 @@ module.exports = {
         }
       }
       const result = await Task.deleteMany({ progressStage_id: listID });
-      console.log(result);
       return res.status(200).json({
         message: `list delete successfully and Deleted ${result.deletedCount} tasks.`,
       });

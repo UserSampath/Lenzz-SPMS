@@ -152,7 +152,7 @@ const Company = () => {
           })
           .then((res) => {
             setCompany(res.data);
-            console.log("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq", res.data);
+            console.log(res.data);
           })
           .catch((err) => {
             console.log(err, userData);
@@ -212,7 +212,7 @@ const Company = () => {
       setError(json.error);
     }
     if (response.ok) {
-      console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", json);
+      console.log(json);
 
       const addSystemAdminToProject = async () => {
         const data = {
@@ -225,7 +225,7 @@ const Company = () => {
             "http://localhost:4000/addUserToProject",
             data
           );
-          console.log("sssssssssssssssssssssssssssssss", res);
+          console.log(res);
         } catch (err) {}
       };
       addSystemAdminToProject();

@@ -38,7 +38,6 @@ const createCompany = async (req, res) => {
     const updatedUser = await User.findByIdAndUpdate(user_id, {
       companyId: company._id,
     });
-    console.log(updatedUser);
     const token = createToken(company._id);
 
     res.status(200).json({ company, companyname, token });
@@ -58,13 +57,10 @@ const checkcompany = async (req, res) => {
     if (!company) {
       return res.status(404).json({ error: "Company not found" });
     }
-    console.log(company.companyname);
-    console.log(_id);
 
     const updatedUser = await User.findByIdAndUpdate(_id, {
       companyId: company._id,
     });
-    console.log("updatedUser", updatedUser);
     res.status(200).json({ company });
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -103,7 +99,6 @@ const companyUsers = async (req, res) => {
       companyId: user.companyId,
     });
     if (user) {
-      console.log(user);
       res.send(allUsersInSameCompany);
     }
   } catch (error) {
@@ -141,8 +136,7 @@ const updateCompanyData = async (req, res) => {
       companyemail,
       _id
     );
-    console.log(company);
-    res.status(200).json(company);
+res.status(200).json(company);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -157,7 +151,7 @@ const sendInvitation = async (req, res) => {
     return res.status(401).json({ error: "User is not authorized" });
   }
   try {
-    console.log("company is ", company);
+
     const mailOptions = {
       from: "lenzzhasthiyit@gmail.com",
       to: mail,

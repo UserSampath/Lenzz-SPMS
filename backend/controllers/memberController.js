@@ -328,7 +328,7 @@ const generateOTP = async (req, res) => {
 const checkOTP = async (req, res) => {
   try {
     const { email, otp } = req.body;
-    console.log("gdf");
+  
 
     const user = await User.findOne({ email });
     if (user && user.otp === otp && user.otpExpiration > new Date()) {
@@ -344,7 +344,7 @@ const checkOTP = async (req, res) => {
 const resetPassword = async (req, res) => {
   try {
     const { email, newPassword } = req.body;
-    console.log("gdf");
+   
 
     const user = await User.resetPassword(email, newPassword);
     const salt = await bcrypt.genSalt(10);
@@ -374,7 +374,7 @@ const getUsers = async (req, res) => {
   try {
     // const { userId } = req.body;
     const userId = req.user._id;
-    console.log(userId.toString());
+   
 
     const users = await User.find();
     if (users.length > 0) {

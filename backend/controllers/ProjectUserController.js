@@ -4,7 +4,7 @@ const projectUser = require('../models/projectUserModel')
 
 exports.addUserToProject = async (req, res) => {
     const { userId, projectId, role } = req.body;
-    console.log(role);
+    
     try {
         const existingRecord = await projectUser.findOne({ user_id: userId, project_id: projectId });
         if (existingRecord) {
@@ -75,9 +75,9 @@ exports.getProjectsForUser = async (req, res) => {
         const projectUserDocs = await projectUser.find({ user_id: _id });
         const userProjects = [];
         for (const projectUserData of projectUserDocs) {
-            console.log(projectUserData.project_id);
+           
             const projectData = await Project.find({ _id: projectUserData.project_id });
-            console.log(projectData);
+          
             userProjects.push(projectData);
         }
         res.json({ userProject: userProjects });
@@ -111,7 +111,7 @@ exports.updateUserProject = async (req, res) => {
                 const filteredProjectUsersData = projectUsersData.filter((projectUser) => {
                     return projectUser.role === "SYSTEM ADMIN" && projectUser._id.toString() !== projectUserData._id.toString();
                 });
-                console.log(filteredProjectUsersData);
+               
 
                 if (filteredProjectUsersData.length > 0) {
                     const result = await projectUser.findByIdAndUpdate(projectUserData._id, { role: role }, { new: true })
