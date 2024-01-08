@@ -25,7 +25,7 @@ const Sidebar = ({ children, SetSelectedProjectController, display }) => {
   const toggle = () => SetOpen(!open);
   const { logout } = useLogout();
   const { user } = useAuthContext();
-  const { company } = useCompanyContext;
+
 
   const handleClick = () => {
     logout();
@@ -57,11 +57,11 @@ const Sidebar = ({ children, SetSelectedProjectController, display }) => {
       name: "Timeline",
       icon: <FaThList />,
     },
-    {
-      path: "/ChatRoom",
-      name: "ChatRoom",
-      icon: <FaCommentAlt />,
-    },
+    // {
+    //   path: "/ChatRoom",
+    //   name: "ChatRoom",
+    //   icon: <FaCommentAlt />,
+    // },
     {
       path: "/Settings",
       name: "Settings",

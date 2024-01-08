@@ -24,7 +24,6 @@ const Dashboard = (props) => {
       const data = { id: projectDetails._id }
       await axios.post("http://localhost:4000/progressStage/taskWithPS", data).then(res => {
         props.dispatch(initialValue(res.data));
-        console.log("TaskWithPS", res.data)
       }).catch(err => { console.log(err) })
     }
     const getProject = async () => {

@@ -36,7 +36,6 @@ const Settings = () => {
 
 
 
-
   const toggleBasicSettingContent = () => {
     setShowBasicSettingContent(!showBasicSettingContent);
   };

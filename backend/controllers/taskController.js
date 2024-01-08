@@ -25,7 +25,6 @@ module.exports = {
         file.push(f);
       }
     }
-    
 
     const task = await Task.create({
       progressStage_id: newTask.progressStage_id,

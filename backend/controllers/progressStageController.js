@@ -26,7 +26,7 @@ module.exports = {
     try {
       const progressStageData = await ProgressStage.aggregate([
         {
-          $match: { projectId: projectId }, // Only consider progress stages with the given projectId
+          $match: { projectId: projectId },
         },
         {
           $lookup: {

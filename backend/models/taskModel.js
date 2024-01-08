@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const TaskSchema = new mongoose.Schema({
     progressStage_id: {
-        type: mongoose.Schema.Types.ObjectId,  //
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'ProgressStage'
     },
     name: {
@@ -52,6 +52,6 @@ const TaskSchema = new mongoose.Schema({
     , { timestamps: true });
 
 module.exports = mongoose.model('Task', TaskSchema)
-// module.exports = mongoose.model('Staff', StaffSchema);
+
 
 

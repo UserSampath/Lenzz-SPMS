@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Text } from "@chakra-ui/layout";
+import { Box } from "@chakra-ui/layout";
 import { Tooltip } from "@chakra-ui/tooltip";
 import { Button } from "@chakra-ui/button";
 import { BellIcon } from "@chakra-ui/icons";

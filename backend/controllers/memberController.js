@@ -268,7 +268,6 @@ const SendEmail = async (req, res) => {
           console.log("error", error);
           res.status(201).json({ status: 201, message: "Email not send" });
         } else {
-          console.log("Email sent", info.response);
           res
             .status(201)
             .json({ status: 201, message: "Email sent succsfully" });
@@ -299,7 +298,6 @@ const generateOTP = async (req, res) => {
     // const userFind = await User.findOne({ email: email });
 
     if (updateUserDetails.modifiedCount) {
-      console.log("otp is ", otp);
       const mailOptions = {
         from: "lenzzhasthiyit@gmail.com",
         to: email,
@@ -311,7 +309,6 @@ const generateOTP = async (req, res) => {
           console.log("error", error);
           res.status(201).json({ status: 201, message: "email not sent" });
         } else {
-          console.log("Email sent", info.response);
           res.status(200).json({ message: "email sent successfully" });
         }
       });

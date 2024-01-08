@@ -17,7 +17,7 @@ const bodyParser = require("body-parser");
 
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: false }));
-var nodemailer = require("nodemailer");
+
 
 app.use(
   cors({
@@ -53,7 +53,7 @@ mongoose
       console.log("connected to db & listening on port", process.env.PORT);
 
       const io = require("socket.io")(server, {
-        pingTimeout: 60000, 
+        pingTimeout: 60000,
         cors: {
           origin: "http://localhost:3000",
         },

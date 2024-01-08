@@ -12,7 +12,6 @@ import { useAuthContext } from "../../../hooks/useAuthContext";
 import { IoIosArrowDropdown } from "react-icons/io";
 import axios from "axios";
 import { useToast } from "@chakra-ui/toast";
-import { GiCancel } from "react-icons/gi";
 import { FcFile } from "react-icons/fc";
 
 const ScrollableChat = ({ messages, setMessages }) => {

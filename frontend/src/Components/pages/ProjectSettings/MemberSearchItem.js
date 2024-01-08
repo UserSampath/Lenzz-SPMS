@@ -19,7 +19,7 @@ const MemberSearchItem = (props) => {
 
         <div>{openAddMemberModel === true ? <AddMemberModel user={props.user} toggleAddMemberModel={toggleAddMemberModel} projectId={props.projectId}   /> : null}
         <div onClick={() => SearchItemClicked()}>
-            <div style={{ background: "#ddd", margin: "0px", height: "50px", display: "flex", alignItems: "center", fontSize: "16px", color: "#333333", borderBottom: "1px solid #e1e1e1", overflow: "hidden", borderRadius: "10px", margin: "5px" }}
+            <div style={{ background: "#ddd", height: "50px", display: "flex", alignItems: "center", fontSize: "16px", color: "#333333", borderBottom: "1px solid #e1e1e1", overflow: "hidden", borderRadius: "10px", margin: "5px" }}
             >
                     <img src={props.user.profilePicture !== null ? props.user.profilePicture : "https://sampathnalaka.s3.eu-north-1.amazonaws.com/uploads/pngwing.com.png"} alt="svs"
                     width="32" height="32"

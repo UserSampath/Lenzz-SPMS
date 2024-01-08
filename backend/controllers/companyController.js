@@ -172,7 +172,6 @@ const sendInvitation = async (req, res) => {
           error: error.message,
         });
       } else {
-        console.log("Email sent", info.response);
         res.status(200).json({ message: "Email sent successfully" });
       }
     });

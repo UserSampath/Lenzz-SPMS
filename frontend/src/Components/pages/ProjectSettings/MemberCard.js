@@ -22,7 +22,7 @@ const MemberCard = (props) => {
     }
     console.log(data)
     try {
-      const res = await axios.put("http://localhost:4000/updateUserProject", data)
+      // const res = await axios.put("http://localhost:4000/updateUserProject", data)
 
 
 
