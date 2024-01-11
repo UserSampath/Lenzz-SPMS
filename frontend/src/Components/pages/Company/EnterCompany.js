@@ -44,14 +44,14 @@ function EnterCompany() {
   useEffect(() => {
     const user = async () => {
       await axios
-        .get("http://localhost:4000/api/user/getUser", {
+        .get("http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/api/user/getUser", {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${LocalUser.token}`,
           },
         })
         .then((res) => {
-          console.log("userdata", res.data);
+   
           setUserData(res.data);
         })
         .catch((err) => {
@@ -65,7 +65,7 @@ function EnterCompany() {
     if (isMountUserData) {
       const getCompany = async () => {
         await axios
-          .get(`http://localhost:4000/api/company/${userData.companyId}`, {
+          .get(`http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/api/company/${userData.companyId}`, {
             headers: {
               "Content-Type": "application/json",
               Authorization: `Bearer ${LocalUser.token}`,
@@ -73,10 +73,9 @@ function EnterCompany() {
           })
           .then((res) => {
             setCompany(res.data);
-            console.log("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq", res.data);
           })
           .catch((err) => {
-            console.log(err, userData);
+            console.log(err);
           });
       };
       getCompany();
@@ -92,7 +91,7 @@ function EnterCompany() {
       return;
     }
     const key = { companyKey };
-    const response = await fetch("/api/company/checkcompany", {
+    const response = await fetch("http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/api/company/checkcompany", {
       method: "POST",
       body: JSON.stringify(key),
       headers: {
@@ -101,7 +100,7 @@ function EnterCompany() {
       },
     });
     const json = await response.json();
-    console.log("ok");
+
 
     if (!response.ok) {
       setError(json.error);

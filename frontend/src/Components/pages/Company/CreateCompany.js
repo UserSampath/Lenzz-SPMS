@@ -80,7 +80,7 @@ const CreateCompany = () => {
       contactnumber,
       companyaddress,
     };
-    const response = await fetch("/api/company/createcompany", {
+    const response = await fetch("http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/api/company/createcompany", {
       method: "POST",
       body: JSON.stringify(company),
       headers: {
@@ -103,8 +103,6 @@ const CreateCompany = () => {
       setcompanyaddress("");
       setError(null);
 
-      console.log("New company created", json);
-      console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", json.company.companyKey);
       setcompanyKey(json.company.companyKey);
       setShowModal(true);
       dispatch({ type: "COMPANY_CREATE", payload: json });

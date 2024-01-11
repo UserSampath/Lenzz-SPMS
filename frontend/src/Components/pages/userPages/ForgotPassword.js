@@ -14,7 +14,6 @@ const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 
 const ForgotPassword = () => {
   const { id, token } = useParams();
-  console.log(id, token);
   const userRef = useRef(null);
   const errRef = useRef();
   const history = useNavigate();
@@ -44,13 +43,13 @@ const ForgotPassword = () => {
   }, [password, confirmPassword]);
 
   const userValid = async () => {
-    const res = await fetch(`/api/user/forgotPassword/${id}/${token}`, {
+    const res = await fetch(`http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/api/user/forgotPassword/${id}/${token}`, {
       method: "GET",
       headers: { "Content-Type": "application/json" },
     });
     const data = await res.json();
     if (data.status === 201) {
-      console.log("user valid");
+
     } else {
       history("*");
     }
@@ -62,13 +61,13 @@ const ForgotPassword = () => {
   const sendPassword = async (e) => {
     try {
       e.preventDefault();
-      const res = await fetch(`/api/user/${id}/${token}`, {
+      const res = await fetch(`http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/api/user/${id}/${token}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ password }),
       });
       const data = await res.json();
-      console.log(password);
+
 
       if (data.status === 201) {
         setPassword("");

@@ -29,7 +29,7 @@ const AddMemberToCompany = (props) => {
       };
       if (EMAIL_REGEX.test(mail)) {
         const res = await axios.post(
-          "http://localhost:4000/api/company/sendInvitation",
+          "http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/api/company/sendInvitation",
 
           {
             company: props.company.companyname,
@@ -40,8 +40,8 @@ const AddMemberToCompany = (props) => {
         );
 
         props.addMemberButtonClickHandler();
-        console.log(props.company.companyname);
-        console.log(res);
+
+
 
         Swal.fire({
           position: "center",

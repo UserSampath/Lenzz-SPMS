@@ -9,7 +9,6 @@ import CreateCompany from "./Components/pages/Company/CreateCompany";
 import ForgotPassword from "./Components/pages/userPages/ForgotPassword";
 import Progress from "./Components/pages/progress/Progress";
 import Settings from "./Components/pages/ProjectSettings/Settings";
-import Chatroom from "./Components/pages/ChatRoom/Chatroom";
 import Company from "./Components/pages/Company/Company";
 import AccountSettings from "./Components/pages/userPages/AccountSettings";
 import DashboardProvider from "./Components/pages/dashboard/DashboardProvider";
@@ -33,7 +32,7 @@ function App() {
           <Route path="/EnterCompany" element={<EnterCompany />} />
           <Route path="/CreateCompany" element={<CreateCompany />} />
           <Route path="/Progress" element={<Progress />} />
-          {/* <Route path="/ChatRoom" element={<Chatroom />} /> */}
+
           <Route path="/Settings" element={<Settings />} />
           <Route path="/" element={<Company />} />
           <Route path="/Dashboard" element={<DashboardProvider />} />

@@ -88,14 +88,14 @@ const Company = () => {
   useEffect(() => {
     const user = async () => {
       await axios
-        .get("http://localhost:4000/api/user/getUser", {
+        .get("http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/api/user/getUser", {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${LocalUser.token}`,
           },
         })
         .then((res) => {
-          console.log("userdata", res.data);
+         
           setUserData(res.data);
         })
         .catch((err) => {
@@ -106,7 +106,7 @@ const Company = () => {
 
     const getCompanyAllUsers = async () => {
       await axios
-        .get("http://localhost:4000/api/company/companyUsers", {
+        .get("http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/api/company/companyUsers", {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${LocalUser.token}`,
@@ -114,7 +114,7 @@ const Company = () => {
         })
         .then((res) => {
           setCompanyUsers(res.data);
-          console.log(res);
+       
         })
         .catch((err) => {
           console.log(err);
@@ -124,7 +124,7 @@ const Company = () => {
 
     const getCompanyAllProjects = async () => {
       await axios
-        .get("http://localhost:4000/getProjectsForUser", {
+        .get("http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/getProjectsForUser", {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${LocalUser.token}`,
@@ -132,7 +132,7 @@ const Company = () => {
         })
         .then((res) => {
           setCompanyProjects(res.data.userProject);
-          console.log("Company users", res.data.userProject);
+         
         })
         .catch((err) => {
           console.log(err);
@@ -144,7 +144,7 @@ const Company = () => {
     if (isMountUserData) {
       const getCompany = async () => {
         await axios
-          .get(`http://localhost:4000/api/company/${userData.companyId}`, {
+          .get(`http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/api/company/${userData.companyId}`, {
             headers: {
               "Content-Type": "application/json",
               Authorization: `Bearer ${LocalUser.token}`,
@@ -152,10 +152,10 @@ const Company = () => {
           })
           .then((res) => {
             setCompany(res.data);
-            console.log(res.data);
+         
           })
           .catch((err) => {
-            console.log(err, userData);
+            console.log(err);
           });
       };
       getCompany();
@@ -165,7 +165,7 @@ const Company = () => {
   }, [userData]);
   //TODO:
   const projectClicked = (data) => {
-    console.log(data);
+  
     localStorage.setItem(
       "last access project",
       JSON.stringify({ projectId: data._id, userId: userData._id })
@@ -198,7 +198,7 @@ const Company = () => {
       endDate,
       companyId: userData.companyId,
     };
-    const response = await fetch("/api/project/creatproject", {
+    const response = await fetch("http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/api/project/creatproject", {
       method: "POST",
       body: JSON.stringify(project),
       headers: {
@@ -212,7 +212,7 @@ const Company = () => {
       setError(json.error);
     }
     if (response.ok) {
-      console.log(json);
+      
 
       const addSystemAdminToProject = async () => {
         const data = {
@@ -222,10 +222,10 @@ const Company = () => {
         };
         try {
           const res = await axios.post(
-            "http://localhost:4000/addUserToProject",
+            "http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/addUserToProject",
             data
           );
-          console.log(res);
+          
         } catch (err) {}
       };
       addSystemAdminToProject();
@@ -246,7 +246,7 @@ const Company = () => {
       //       config
       //     );
       //   } catch (err) {
-      //     console.log(err);
+      //     
       //   }
       // }
       // createChatRoom();
@@ -261,20 +261,20 @@ const Company = () => {
       setendDate("");
       setdescription("");
       setError(null);
-      console.log("new project created", json);
+      
       dispatch({ type: "CREATE_PROJECT", payload: json });
     }
   };
 
   useEffect(() => {
     const fetchProjects = async () => {
-      const response = await fetch("/api/project:id", {
+      const response = await fetch("http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/api/project:id", {
         headers: { Authorization: `Bearer ${user.token}` },
       });
       const json = await response.json();
 
       if (response.ok) {
-        console.log("projects", json);
+     
         dispatch({ type: "SHOW_PROJECTS", payload: json });
       }
     };

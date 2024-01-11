@@ -13,7 +13,7 @@ export const useLogin = () => {
     setIsloading(true);
     setError(null);
 
-    const response = await fetch("/api/user/login", {
+    const response = await fetch("http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/api/user/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

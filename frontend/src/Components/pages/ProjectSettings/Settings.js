@@ -48,7 +48,7 @@ const Settings = () => {
   useEffect(() => {
     const getLocalStorageProject = async () => {
       const localPro = await JSON.parse(localStorage.getItem("last access project"));
-      console.log("localPro", localPro)
+     
       if (localPro == null) {
         redirectCompanyAlert()
         setTimeout(() => {
@@ -79,9 +79,9 @@ const Settings = () => {
       const data = {
         id: localProject.projectId
       }
-      await axios.post('http://localhost:4000/api/project/getProject', data)
+      await axios.post('http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/api/project/getProject', data)
         .then(res => {
-          console.log(res.data.project)
+          
           SetProjectDetails(res.data.project);
           setName(res.data.project.projectname);
           setDescription(res.data.project.description);
@@ -105,7 +105,7 @@ const Settings = () => {
       const data = {
         companyId: projectDetails.company_id
       }
-      await axios.post('http://localhost:4000/api/user/getUserFromCompany', data)
+      await axios.post('http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/api/user/getUserFromCompany', data)
         .then(res => {
           SetCompanyMembersData(res.data)
 
@@ -125,13 +125,13 @@ const Settings = () => {
       startDate: startDate,
       endDate: endDate
     }
-    await axios.put("http://localhost:4000/api/project/updateProjectData", formData, {
+    await axios.put("http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/api/project/updateProjectData", formData, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${LocalUser.token}`,
       }
     }).then(res => {
-      console.log(res.data);
+     
       showSuccessAlert();
       setError(null)
 
@@ -159,9 +159,9 @@ const Settings = () => {
         id: localProject.projectId,
       };
       await axios
-        .post("http://localhost:4000/api/project/usersOfTheProject", data)
+        .post("http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/api/project/usersOfTheProject", data)
         .then((res) => {
-          console.log("bbbbbbbbbbbbbbbbbbbbbb", res.data);
+         
           SetProjectMembersData(res.data);
           setMembersCount(res.data.length);
         })
@@ -180,7 +180,7 @@ const Settings = () => {
         keys.some((key) => item[key].toLowerCase().includes(query))
       );
       SetSearchResultsData(a);
-      console.log(a)
+      
     }
   }, [query])
 
@@ -193,7 +193,7 @@ const Settings = () => {
     setQuery(e.target.value.toLowerCase());
   }
   const searchOnFocusHandler = (e) => {
-    console.log("searchOnFocusHandler", e.target.value)
+
     if (e.target.value.length > 0) {
       setSearchEmpty(false)
     } else {
@@ -214,12 +214,10 @@ const Settings = () => {
   }
 
   const deleteProjectHandler = async () => {
-    console.log("deleting project");
-    console.log(projectMembersData);
-    console.log(LocalUser._id)
+
 
     const projectMemberData = projectMembersData.filter(member => member._id === LocalUser._id);
-    console.log(projectMemberData, "projectMemberData");
+
     if (projectMemberData[0].projectUserRole !== "SYSTEM ADMIN") {
       Swal.fire({
         position: 'center',
@@ -246,11 +244,11 @@ const Settings = () => {
             'success'
           )
           try {
-            const res = await axios.post("http://localhost:4000/deleteProject", {
+            const res = await axios.post("http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/deleteProject", {
               "userId": LocalUser._id,
               "projectId": localProject.projectId
             });
-            console.log(res);
+            
             if (res.status == 200) {
               setTimeout(() => {
                 history('/');

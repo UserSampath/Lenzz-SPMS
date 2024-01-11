@@ -30,7 +30,7 @@ function CircleProgress(props) {
       const localPro = await JSON.parse(
         localStorage.getItem("last access project")
       );
-      console.log("localPro", localPro);
+     
       if (localPro == null) {
         setTimeout(() => {
           history("/");
@@ -47,7 +47,7 @@ function CircleProgress(props) {
     const getTaskWithPS = async () => {
       const data = { id: projectDetails._id };
       await axios
-        .post("http://localhost:4000/progressStage/taskWithPS", data)
+        .post("http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/progressStage/taskWithPS", data)
         .then((res) => {
           if (res.data.length > 0) {
             setTodoTotal(res.data[0].cards.length);
@@ -90,14 +90,14 @@ function CircleProgress(props) {
         id: localProject.projectId,
       };
       await axios
-        .post("http://localhost:4000/api/project/getProject", data)
+        .post("http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/api/project/getProject", data)
         .then((res) => {
           SetProjectDetails(res.data.project);
           setEndDateData(projectDetails.endDate);
           const endDate = new Date(projectDetails.endDate);
           const day = endDate.getDate();
           const month = endDate.getMonth() + 1; // Adding 1 to get the correct month number
-          console.log(month);
+       
           setShortDateData(` ${day} `);
           setMonth(`${month}`);
         })
@@ -117,9 +117,9 @@ function CircleProgress(props) {
         id: localProject.projectId,
       };
       await axios
-        .post("http://localhost:4000/api/project/changepersentage", data)
+        .post("http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/api/project/changepersentage", data)
         .then((res) => {
-          console.log("ssssssssssssss", res.data.percentage);
+        
           setDeadlinePercentage(Math.round(res.data.percentage));
         })
         .catch((error) => {
@@ -139,9 +139,9 @@ function CircleProgress(props) {
         id: localProject.projectId,
       };
       await axios
-        .post("http://localhost:4000/api/project/usersOfTheProject", data)
+        .post("http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/api/project/usersOfTheProject", data)
         .then((res) => {
-          console.log("bbbbbbbbbbbbbbbbbbbbbb", res.data);
+     
           SetProjectMembersData(res.data);
           setMembersCount(res.data.length);
         })
@@ -151,11 +151,11 @@ function CircleProgress(props) {
     };
     const getTasks = async () => {
       await axios
-        .post("http://localhost:4000/api/list/progressStage/tasksOfProject", {
+        .post("http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/api/list/progressStage/tasksOfProject", {
           projectId: localProject.projectId,
         })
         .then((res) => {
-          console.log(res.data);
+       
           SetTasksOftheProject(res.data);
         })
         .catch((err) => {
@@ -165,7 +165,7 @@ function CircleProgress(props) {
     const TotaltasksOfMember = async () => {
       await axios
         .post(
-          "http://localhost:4000/api/list/progressStage/TotaltasksOfProject",
+          "http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/api/list/progressStage/TotaltasksOfProject",
           {
             projectId: localProject.projectId,
           }

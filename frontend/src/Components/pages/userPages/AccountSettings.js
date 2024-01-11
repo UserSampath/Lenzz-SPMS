@@ -44,14 +44,14 @@ const AccountSettings = () => {
     }
     const updatedUser = { firstName, lastName, email };
     await axios
-      .post("http://localhost:4000/api/user/update", updatedUser, {
+      .post("http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/api/user/update", updatedUser, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${LocalUser.token}`,
         },
       })
       .then((res) => {
-        console.log(res);
+   
         showSuccessAlert();
       })
       .catch((error) => {
@@ -63,14 +63,14 @@ const AccountSettings = () => {
   useEffect(() => {
     const user = async () => {
       await axios
-        .get("http://localhost:4000/api/user/getUser", {
+        .get("http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/api/user/getUser", {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${LocalUser.token}`,
           },
         })
         .then((res) => {
-          console.log("userdata", res.data);
+       
           setUserData(res.data);
           setFirstName(res.data.firstName);
           setLastName(res.data.lastName);
@@ -86,7 +86,7 @@ const AccountSettings = () => {
   }, []);
 
   const onCrop = (view) => {
-    console.log(view);
+   
     setCroppedImage(view);
   };
   const editPictureButtonClicked = () => {
@@ -111,7 +111,7 @@ const AccountSettings = () => {
 
     await axios
       .post(
-        "http://localhost:4000/api/user/profilePictureUpdate",
+        "http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/api/user/profilePictureUpdate",
         { profilePicture: croppedImage },
         {
           headers: {
@@ -121,7 +121,7 @@ const AccountSettings = () => {
         }
       )
       .then((res) => {
-        console.log(res);
+   
         showSuccessAlert();
       })
       .catch((error) => {

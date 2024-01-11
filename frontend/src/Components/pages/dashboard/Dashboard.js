@@ -22,7 +22,7 @@ const Dashboard = (props) => {
   useEffect(() => {
     const getTaskWithPS = async () => {
       const data = { id: projectDetails._id }
-      await axios.post("http://localhost:4000/progressStage/taskWithPS", data).then(res => {
+      await axios.post("http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/progressStage/taskWithPS", data).then(res => {
         props.dispatch(initialValue(res.data));
       }).catch(err => { console.log(err) })
     }
@@ -30,9 +30,9 @@ const Dashboard = (props) => {
       const data = {
         id: localProject.projectId
       }
-      await axios.post('http://localhost:4000/api/project/getProject', data)
+      await axios.post('http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/api/project/getProject', data)
         .then(res => {
-          console.log(res.data.project)
+         
           SetProjectDetails(res.data.project)
         }).catch(err => {
           redirectCompanyAlert()
@@ -53,7 +53,7 @@ const Dashboard = (props) => {
     let memberProjects = [];
     const user = async () => {
       await axios
-        .get("http://localhost:4000/api/user/getUser", {
+        .get("http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/api/user/getUser", {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${LocalUser.token}`,
@@ -70,7 +70,7 @@ const Dashboard = (props) => {
     user();
     const getUserProjects = async (id) => {
       await axios
-        .get("http://localhost:4000/getProjectsForUser", {
+        .get("http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/getProjectsForUser", {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${LocalUser.token}`,
@@ -95,7 +95,7 @@ const Dashboard = (props) => {
         SetLocalProject(localPro);
         if (memberProjects[0] && memberProjects.length > 0) {
           const checkLocalProject = memberProjects.filter(project => project[0]._id === localPro.projectId);
-          console.log("checkLocalProject", checkLocalProject);
+          
           if (checkLocalProject.length == 0) {
             redirectCompanyAlert()
             setTimeout(() => {
@@ -103,7 +103,7 @@ const Dashboard = (props) => {
             }, 2000);
           } else {
             await axios
-              .post("http://localhost:4000/getRole", {
+              .post("http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/getRole", {
                 projectID: checkLocalProject[0][0]._id
               }, {
                 headers: {

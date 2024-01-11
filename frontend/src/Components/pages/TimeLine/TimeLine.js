@@ -64,7 +64,7 @@ const TimeLine = () => {
   const handelDeleteOutline = async (timeline) => {
     const TimeLine = { id: timeline._id };
 
-    const response = await fetch("/api/TimeLine/DeleteTimeline", {
+    const response = await fetch("http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/api/TimeLine/DeleteTimeline", {
       method: "DELETE",
       body: JSON.stringify(TimeLine),
       headers: {
@@ -99,7 +99,7 @@ const TimeLine = () => {
       const localPro = await JSON.parse(
         localStorage.getItem("last access project")
       );
-      console.log("localPro", localPro);
+
       if (localPro == null) {
         setTimeout(() => {
           history("/");
@@ -118,9 +118,9 @@ const TimeLine = () => {
         id: localProject.projectId,
       };
       await axios
-        .post("http://localhost:4000/api/project/getProject", data)
+        .post("http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/api/project/getProject", data)
         .then((res) => {
-          console.log(res.data.project);
+       
           SetProjectDetails(res.data.project);
           setName(res.data.project.projectname);
         })
@@ -145,7 +145,7 @@ const TimeLine = () => {
         Description,
         projectId: localProject.projectId,
       };
-      const response = await fetch("/api/TimeLine/createTimeLine", {
+      const response = await fetch("http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/api/TimeLine/createTimeLine", {
         method: "POST",
         body: JSON.stringify(TimeLine),
         headers: {
@@ -158,7 +158,7 @@ const TimeLine = () => {
         setError(json.error);
       }
       if (response.ok) {
-        console.log(json);
+        
         const showAlert = () => {
           Swal.fire({
             title: "Success",
@@ -182,8 +182,8 @@ const TimeLine = () => {
       }
     } else if (updateTimeline) {
       const TimeLine = { Topic, Description, id: updatingTimeLineId };
-      console.log("timeline update");
-      const response = await fetch("/api/TimeLine/updateTimeline", {
+      
+      const response = await fetch("http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/api/TimeLine/updateTimeline", {
         method: "PUT",
         body: JSON.stringify(TimeLine),
         headers: {
@@ -196,7 +196,7 @@ const TimeLine = () => {
         setError(json.error);
       }
       if (response.ok) {
-        console.log("new", TimeLine);
+      
 
         Swal.fire({
           title: "Success",
@@ -225,12 +225,10 @@ const TimeLine = () => {
 
   useEffect(() => {
     const getTimelines = async () => {
-      console.log("sdssssd");
-      const response = await axios.post("/api/TimeLine/ProjectTimelines", {
+      const response = await axios.post("http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/api/TimeLine/ProjectTimelines", {
         projectId: localProject.projectId,
       });
       const { data } = response;
-      console.log("dssss", data);
       if (Array.isArray(data)) {
         setTimelines(data);
       }

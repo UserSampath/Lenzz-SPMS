@@ -95,7 +95,7 @@ const List = ({
   const getTasks = async () => {
     try {
       const res = await axios.post(
-        "http://localhost:4000/api/list/progressStage/tasksOfProject",
+        "http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/api/list/progressStage/tasksOfProject",
         {
           projectId: localProject.projectId,
         }
@@ -188,17 +188,17 @@ const List = ({
         taskIndex: cards.length,
       };
       formData.append("json", JSON.stringify(newTask));
-      console.log("formData", formData);
+
       setShowLoadingModal(true);
       setCreateTaskModal(!createTaskModal);
       await axios
-        .post("http://localhost:4000/task/create", formData, {
+        .post("http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/task/create", formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
         })
         .then((res) => {
-          console.log("data sent to the database successfully");
+          
           showSuccessAlert();
           dispatch(addCard(res.data.taskData));
           setSelectedFile({});
@@ -238,14 +238,14 @@ const List = ({
       setCreateTaskModal(!createTaskModal);
       setShowLoadingModal(true);
       await axios
-        .put("http://localhost:4000/updateTaskDetails", formData, {
+        .put("http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/updateTaskDetails", formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
         })
         .then(async (res) => {
           showSuccessAlert();
-          console.log("update to the database successfully");
+         
           dispatch(updateOneTask(res.data.task));
           setSelectedFile({});
           setTaskDetailsToDefault();
@@ -317,12 +317,12 @@ const List = ({
     const taskIndex = index;
     setShowLoadingModal(true);
     await axios
-      .delete(`http://localhost:4000/deleteOneTask/${id}`, {
+      .delete(`http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/deleteOneTask/${id}`, {
         data: { taskIndex, listID },
       })
       .then((response) => {
         showSuccessAlert();
-        console.log(response.data.message);
+     
         dispatch(deleteCard(id, listID));
       })
       .catch((error) => {
@@ -337,7 +337,7 @@ const List = ({
         id: localProject.projectId,
       };
       await axios
-        .post("http://localhost:4000/api/project/usersOfTheProject", data)
+        .post("http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/api/project/usersOfTheProject", data)
         .then((res) => {
           setProjectMembers(res.data);
           const filteredData = res.data.filter(
@@ -412,12 +412,12 @@ const List = ({
     setIsThreeDoteModelOpen(!isThreeDoteModelOpen);
     setShowLoadingModal(true);
     await axios
-      .delete(`http://localhost:4000/deleteList/${listID}`, {
+      .delete(`http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/deleteList/${listID}`, {
         data: { index, listID },
       })
       .then((response) => {
         showSuccessAlert();
-        console.log(response.data.message);
+       
         dispatch(deleteList(listID));
       })
       .catch((error) => {

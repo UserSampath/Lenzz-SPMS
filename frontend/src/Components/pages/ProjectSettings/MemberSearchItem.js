@@ -4,7 +4,7 @@ import AddMemberModel from './AddMemberModel'
 const MemberSearchItem = (props) => {
 
     const SearchItemClicked = () => {
-        console.log(props.user.email);
+    
         setOpenAddMemberModel(true);
 
     }

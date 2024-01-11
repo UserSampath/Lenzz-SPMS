@@ -13,14 +13,14 @@ const MemberCard = (props) => {
 
   const handleOptionChange = async (event) => {
     setSelectedOption(event.target.value);
-    console.log(event.target.value)
+    
 
     const data = {
       "userId": props.member._id,
       "projectId": props.projectId,
       "role": event.target.value
     }
-    console.log(data)
+    
     try {
       // const res = await axios.put("http://localhost:4000/updateUserProject", data)
 
@@ -36,18 +36,15 @@ const MemberCard = (props) => {
       }, 1000);
     }
   };
-  console.log("removeMemberHandler");
-  console.log("zzzzzzzzzzzzzzzzzzzzzzzzzzzzz", props.member)
 
   const removeMemberHandler = async () => {
     const data = {
       "userId": props.member._id,
       "projectId": props.projectId,
     }
-    console.log(data)
+    
     try {
-      const res = await axios.post("http://localhost:4000/removeUserFromProject", data)
-      console.log("sssssssssssssssssssssssssssssss", res)
+      const res = await axios.post("http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/removeUserFromProject", data)
       props.setMembersCount((prevCount) => prevCount - 1);
       if (typeof props.setCount === "function") {
         props.deleteCount();

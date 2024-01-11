@@ -19,7 +19,7 @@ export const useSignup = () => {
     setIsloading(true);
     setError(null);
 
-    const response = await fetch("http://localhost:4000/api/user/signup", {
+    const response = await fetch("http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/api/user/signup", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -35,6 +35,7 @@ export const useSignup = () => {
 
     if (!response.ok) {
       setIsloading(false);
+      
       setError(json.error);
     }
     if (response.ok) {
@@ -61,7 +62,7 @@ export const useSignup = () => {
       ) {
         history("/EnterCompany");
       }
-      console.log(json.selectedJob);
+    
 
       dispatch({ type: "LOGIN", payload: json });
 

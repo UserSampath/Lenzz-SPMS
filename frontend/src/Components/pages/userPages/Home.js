@@ -22,9 +22,9 @@ const Home = () => {
             <div className="col-md-6">
               <img
                 className="homeimg"
-                src="images/home.gif"
+                src="images/goal.jpg"
                 alt="home"
-                style={{ width: "600px", marginTop: "78px" }}
+                style={{ width: "450px", marginTop: "78px" }}
               />
             </div>
             <div className="col-md-6">

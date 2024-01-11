@@ -25,10 +25,9 @@ const AddMemberModel = (props) => {
             "projectId": props.projectId,
             "role": selectedOption
         }
-        console.log(data)
+    
         try {
-            const res = await axios.post("http://localhost:4000/addUserToProject", data)
-            console.log("sssssssssssssssssssssssssssssss", res)
+            const res = await axios.post("http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/addUserToProject", data)
             props.toggleAddMemberModel();
 
         } catch (err) {

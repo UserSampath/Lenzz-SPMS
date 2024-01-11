@@ -33,7 +33,7 @@ const MemberProgressBar = (props) => {
 
   const fetchUserTasks = async () => {
     await axios
-      .post("http://localhost:4000/api/list/progressStage/UsertasksOfProject", {
+      .post("http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/api/list/progressStage/UsertasksOfProject", {
         projectId: localProject.projectId,
       })
       .then((res) => {
@@ -42,7 +42,7 @@ const MemberProgressBar = (props) => {
         const NumofTasks = props.tasksOftheProject.filter(
           (t) => t.assign === n
         );
-        console.log("sdsd", NumofTasks);
+     
         SetUserTasks(NumofTasks);
       })
       .catch((err) => {
