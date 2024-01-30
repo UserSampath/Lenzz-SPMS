@@ -174,7 +174,7 @@ const listsReducer = (state = initialState, action) => {
         newState.splice(droppableIndexEnd, 0, ...list);
         const temp2 = { droppableIndexStart, droppableIndexEnd }
         const fetchTasks = async () => {
-          await axios.put("http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/moveList", temp2).then(res => {
+          await axios.put(`${process.env.REACT_APP_BACKEND_URL}/moveList`, temp2).then(res => {
           }).catch(err => { console.log(err) })
         }
         fetchTasks();
@@ -188,7 +188,7 @@ const listsReducer = (state = initialState, action) => {
 
         const temp = { droppableIndexStart, droppableIndexEnd, list }
         const fetchTasks = async () => {
-          await axios.put("http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/moveCardSameList", temp).then(res => {
+          await axios.put(`${process.env.REACT_APP_BACKEND_URL}/moveCardSameList`, temp).then(res => {
           }).catch(err => { console.log(err) })
         }
         fetchTasks();
@@ -201,7 +201,7 @@ const listsReducer = (state = initialState, action) => {
         listEnd.cards.splice(droppableIndexEnd, 0, ...card);
         const temp3 = { droppableIdStart, droppableIdEnd, droppableIndexStart, droppableIndexEnd, cardId: card[0]._id, }
         const fetchTasks = async () => {
-          await axios.put("http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/moveCardsAcrossStages", temp3).then(res => {
+          await axios.put(`${process.env.REACT_APP_BACKEND_URL}/moveCardsAcrossStages`, temp3).then(res => {
           }).catch(err => { console.log(err) })
         }
         fetchTasks();

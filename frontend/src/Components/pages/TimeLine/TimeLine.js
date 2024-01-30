@@ -64,7 +64,7 @@ const TimeLine = () => {
   const handelDeleteOutline = async (timeline) => {
     const TimeLine = { id: timeline._id };
 
-    const response = await fetch("http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/api/TimeLine/DeleteTimeline", {
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/TimeLine/DeleteTimeline`, {
       method: "DELETE",
       body: JSON.stringify(TimeLine),
       headers: {
@@ -118,7 +118,7 @@ const TimeLine = () => {
         id: localProject.projectId,
       };
       await axios
-        .post("http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/api/project/getProject", data)
+        .post(`${process.env.REACT_APP_BACKEND_URL}/api/project/getProject`, data)
         .then((res) => {
        
           SetProjectDetails(res.data.project);
@@ -145,7 +145,7 @@ const TimeLine = () => {
         Description,
         projectId: localProject.projectId,
       };
-      const response = await fetch("http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/api/TimeLine/createTimeLine", {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/TimeLine/createTimeLine`, {
         method: "POST",
         body: JSON.stringify(TimeLine),
         headers: {
@@ -183,7 +183,7 @@ const TimeLine = () => {
     } else if (updateTimeline) {
       const TimeLine = { Topic, Description, id: updatingTimeLineId };
       
-      const response = await fetch("http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/api/TimeLine/updateTimeline", {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/TimeLine/updateTimeline`, {
         method: "PUT",
         body: JSON.stringify(TimeLine),
         headers: {
@@ -225,7 +225,7 @@ const TimeLine = () => {
 
   useEffect(() => {
     const getTimelines = async () => {
-      const response = await axios.post("http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/api/TimeLine/ProjectTimelines", {
+      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/TimeLine/ProjectTimelines`, {
         projectId: localProject.projectId,
       });
       const { data } = response;

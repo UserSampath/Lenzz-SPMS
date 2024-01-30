@@ -79,7 +79,7 @@ const Settings = () => {
       const data = {
         id: localProject.projectId
       }
-      await axios.post('http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/api/project/getProject', data)
+      await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/project/getProject`, data)
         .then(res => {
           
           SetProjectDetails(res.data.project);
@@ -105,7 +105,7 @@ const Settings = () => {
       const data = {
         companyId: projectDetails.company_id
       }
-      await axios.post('http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/api/user/getUserFromCompany', data)
+      await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/user/getUserFromCompany`, data)
         .then(res => {
           SetCompanyMembersData(res.data)
 
@@ -125,7 +125,7 @@ const Settings = () => {
       startDate: startDate,
       endDate: endDate
     }
-    await axios.put("http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/api/project/updateProjectData", formData, {
+    await axios.put(`${process.env.REACT_APP_BACKEND_URL}/api/project/updateProjectData`, formData, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${LocalUser.token}`,
@@ -159,7 +159,7 @@ const Settings = () => {
         id: localProject.projectId,
       };
       await axios
-        .post("http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/api/project/usersOfTheProject", data)
+        .post(`${process.env.REACT_APP_BACKEND_URL}/api/project/usersOfTheProject`, data)
         .then((res) => {
          
           SetProjectMembersData(res.data);
@@ -244,7 +244,7 @@ const Settings = () => {
             'success'
           )
           try {
-            const res = await axios.post("http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/deleteProject", {
+            const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/deleteProject`, {
               "userId": LocalUser._id,
               "projectId": localProject.projectId
             });

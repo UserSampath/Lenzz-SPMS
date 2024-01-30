@@ -93,7 +93,7 @@ const Sidebar = ({ children, SetSelectedProjectController, display }) => {
                 }}
               >
                 {display}
-                {}
+                { }
               </h2>
             </div>
             <FaUsersCog
@@ -163,7 +163,7 @@ const Sidebar = ({ children, SetSelectedProjectController, display }) => {
               className="bars"
               style={{ marginLeft: open ? "60px" : "12px" }}
             >
-              <FaBars onClick={toggle} className="fabars" style={{cursor:"pointer"}} />
+              <FaBars onClick={toggle} className="fabars" style={{ cursor: "pointer" }} />
             </div>
           </div>
           <div>
@@ -186,9 +186,10 @@ const Sidebar = ({ children, SetSelectedProjectController, display }) => {
         </div>
         <div
           className="content"
-          // style={{ marginLeft: open ? "180px" : "1px" }}
+        // style={{ marginLeft: open ? "180px" : "1px" }}
         >
           {children}
+
         </div>
       </div>
     </div>
@@ -196,3 +197,6 @@ const Sidebar = ({ children, SetSelectedProjectController, display }) => {
 };
 
 export default Sidebar;
+
+
+

@@ -74,7 +74,7 @@ const CompanySetting = () => {
   useEffect(() => {
     const user = async () => {
       await axios
-        .get("http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/api/user/getUser", {
+        .get(`${process.env.REACT_APP_BACKEND_URL}/api/user/getUser`, {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${LocalUser.token}`,
@@ -94,7 +94,7 @@ const CompanySetting = () => {
     if (isMountUserData) {
       const getCompany = async () => {
         await axios
-          .get(`http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/api/company/${userData.companyId}`, {
+          .get(`${process.env.REACT_APP_BACKEND_URL}api/company/${userData.companyId}`, {
             headers: {
               "Content-Type": "application/json",
               Authorization: `Bearer ${LocalUser.token}`,
@@ -138,7 +138,7 @@ const CompanySetting = () => {
       companyKey: companyKey,
     };
     await axios
-      .put("http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/api/company/updateCompanyData", companyData, {
+      .put(`${process.env.REACT_APP_BACKEND_URL}/api/company/updateCompanyData`, companyData, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${user.token}`,

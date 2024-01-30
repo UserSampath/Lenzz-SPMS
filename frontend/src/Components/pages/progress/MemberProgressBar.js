@@ -33,7 +33,7 @@ const MemberProgressBar = (props) => {
 
   const fetchUserTasks = async () => {
     await axios
-      .post("http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/api/list/progressStage/UsertasksOfProject", {
+      .post(`${process.env.REACT_APP_BACKEND_URL}/api/list/progressStage/UsertasksOfProject`, {
         projectId: localProject.projectId,
       })
       .then((res) => {

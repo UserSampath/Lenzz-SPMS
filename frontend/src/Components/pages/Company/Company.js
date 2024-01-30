@@ -88,7 +88,7 @@ const Company = () => {
   useEffect(() => {
     const user = async () => {
       await axios
-        .get("http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/api/user/getUser", {
+        .get(`${process.env.REACT_APP_BACKEND_URL}/api/user/getUser`, {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${LocalUser.token}`,
@@ -106,7 +106,7 @@ const Company = () => {
 
     const getCompanyAllUsers = async () => {
       await axios
-        .get("http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/api/company/companyUsers", {
+        .get(`${process.env.REACT_APP_BACKEND_URL}/api/company/companyUsers`, {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${LocalUser.token}`,
@@ -124,7 +124,7 @@ const Company = () => {
 
     const getCompanyAllProjects = async () => {
       await axios
-        .get("http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/getProjectsForUser", {
+        .get(`${process.env.REACT_APP_BACKEND_URL}/getProjectsForUser`, {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${LocalUser.token}`,
@@ -144,7 +144,7 @@ const Company = () => {
     if (isMountUserData) {
       const getCompany = async () => {
         await axios
-          .get(`http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/api/company/${userData.companyId}`, {
+          .get(`${process.env.REACT_APP_BACKEND_URL}/api/company/${userData.companyId}`, {
             headers: {
               "Content-Type": "application/json",
               Authorization: `Bearer ${LocalUser.token}`,
@@ -222,7 +222,7 @@ const Company = () => {
         };
         try {
           const res = await axios.post(
-            "http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/addUserToProject",
+            `${process.env.REACT_APP_BACKEND_URL}/addUserToProject`,
             data
           );
           
@@ -268,7 +268,7 @@ const Company = () => {
 
   useEffect(() => {
     const fetchProjects = async () => {
-      const response = await fetch("http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/api/project:id", {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/project:id`, {
         headers: { Authorization: `Bearer ${user.token}` },
       });
       const json = await response.json();

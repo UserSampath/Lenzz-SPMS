@@ -93,7 +93,7 @@ const passwordlink = async (req, res) => {
         subject: "Sending Email for password Reset",
         text: `This link send Hasthiya IT software project management system 
         Change your account password(valid for 2 minutes)
-         http://localhost:3000/forgotPassword/${userfind.id}/${setusertoken.verifytoken}`,
+         http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4040/forgotPassword/${userfind.id}/${setusertoken.verifytoken}`,
       };
       transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
@@ -325,7 +325,7 @@ const generateOTP = async (req, res) => {
 const checkOTP = async (req, res) => {
   try {
     const { email, otp } = req.body;
-  
+
 
     const user = await User.findOne({ email });
     if (user && user.otp === otp && user.otpExpiration > new Date()) {
@@ -341,7 +341,7 @@ const checkOTP = async (req, res) => {
 const resetPassword = async (req, res) => {
   try {
     const { email, newPassword } = req.body;
-   
+
 
     const user = await User.resetPassword(email, newPassword);
     const salt = await bcrypt.genSalt(10);
@@ -371,7 +371,7 @@ const getUsers = async (req, res) => {
   try {
     // const { userId } = req.body;
     const userId = req.user._id;
-   
+
 
     const users = await User.find();
     if (users.length > 0) {

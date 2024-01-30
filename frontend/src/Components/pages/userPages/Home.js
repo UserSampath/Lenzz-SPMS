@@ -10,7 +10,7 @@ const Home = () => {
         id="home"
         style={{
           marginTop: "18px",
-          backgroundImage: "url('images/background.png')",
+          backgroundImage: "images/background.png'",
           backgroundSize: "cover",
           backgroundRepeat: "no-repeat",
           backgroundPosition: "center",

@@ -44,7 +44,7 @@ const AccountSettings = () => {
     }
     const updatedUser = { firstName, lastName, email };
     await axios
-      .post("http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/api/user/update", updatedUser, {
+      .post(`${process.env.REACT_APP_BACKEND_URL}/api/user/update`, updatedUser, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${LocalUser.token}`,
@@ -63,7 +63,7 @@ const AccountSettings = () => {
   useEffect(() => {
     const user = async () => {
       await axios
-        .get("http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/api/user/getUser", {
+        .get(`${process.env.REACT_APP_BACKEND_URL}/api/user/getUser`, {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${LocalUser.token}`,
@@ -111,7 +111,7 @@ const AccountSettings = () => {
 
     await axios
       .post(
-        "http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/api/user/profilePictureUpdate",
+        `${process.env.REACT_APP_BACKEND_URL}/api/user/profilePictureUpdate`,
         { profilePicture: croppedImage },
         {
           headers: {

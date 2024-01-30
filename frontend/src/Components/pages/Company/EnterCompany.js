@@ -44,7 +44,7 @@ function EnterCompany() {
   useEffect(() => {
     const user = async () => {
       await axios
-        .get("http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/api/user/getUser", {
+        .get(`${process.env.REACT_APP_BACKEND_URL}/api/user/getUser`, {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${LocalUser.token}`,
@@ -65,7 +65,7 @@ function EnterCompany() {
     if (isMountUserData) {
       const getCompany = async () => {
         await axios
-          .get(`http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/api/company/${userData.companyId}`, {
+          .get(`${process.env.REACT_APP_BACKEND_URL}/api/company/${userData.companyId}`, {
             headers: {
               "Content-Type": "application/json",
               Authorization: `Bearer ${LocalUser.token}`,
@@ -91,7 +91,7 @@ function EnterCompany() {
       return;
     }
     const key = { companyKey };
-    const response = await fetch("http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/api/company/checkcompany", {
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/company/checkcompany`, {
       method: "POST",
       body: JSON.stringify(key),
       headers: {

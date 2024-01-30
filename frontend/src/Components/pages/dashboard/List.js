@@ -95,7 +95,7 @@ const List = ({
   const getTasks = async () => {
     try {
       const res = await axios.post(
-        "http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/api/list/progressStage/tasksOfProject",
+        `${process.env.REACT_APP_BACKEND_URL}/api/list/progressStage/tasksOfProject`,
         {
           projectId: localProject.projectId,
         }
@@ -192,7 +192,7 @@ const List = ({
       setShowLoadingModal(true);
       setCreateTaskModal(!createTaskModal);
       await axios
-        .post("http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/task/create", formData, {
+        .post(`${process.env.REACT_APP_BACKEND_URL}/task/create`, formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
@@ -238,7 +238,7 @@ const List = ({
       setCreateTaskModal(!createTaskModal);
       setShowLoadingModal(true);
       await axios
-        .put("http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/updateTaskDetails", formData, {
+        .put(`${process.env.REACT_APP_BACKEND_URL}/updateTaskDetails`, formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
@@ -317,7 +317,7 @@ const List = ({
     const taskIndex = index;
     setShowLoadingModal(true);
     await axios
-      .delete(`http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/deleteOneTask/${id}`, {
+      .delete(`${process.env.REACT_APP_BACKEND_URL}/deleteOneTask/${id}`, {
         data: { taskIndex, listID },
       })
       .then((response) => {
@@ -337,7 +337,7 @@ const List = ({
         id: localProject.projectId,
       };
       await axios
-        .post("http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/api/project/usersOfTheProject", data)
+        .post(`${process.env.REACT_APP_BACKEND_URL}/api/project/usersOfTheProject`, data)
         .then((res) => {
           setProjectMembers(res.data);
           const filteredData = res.data.filter(
@@ -412,7 +412,7 @@ const List = ({
     setIsThreeDoteModelOpen(!isThreeDoteModelOpen);
     setShowLoadingModal(true);
     await axios
-      .delete(`http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/deleteList/${listID}`, {
+      .delete(`${process.env.REACT_APP_BACKEND_URL}/deleteList/${listID}`, {
         data: { index, listID },
       })
       .then((response) => {

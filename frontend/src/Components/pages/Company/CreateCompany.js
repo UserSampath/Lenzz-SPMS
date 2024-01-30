@@ -80,7 +80,7 @@ const CreateCompany = () => {
       contactnumber,
       companyaddress,
     };
-    const response = await fetch("http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/api/company/createcompany", {
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/company/createcompany`, {
       method: "POST",
       body: JSON.stringify(company),
       headers: {

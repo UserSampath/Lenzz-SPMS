@@ -49,6 +49,9 @@ function Login() {
     await login(email, password);
   };
 
+
+  console.log(process.env.REACT_APP_BACKEND_URL);
+
   return (
     <div>
       <div className="container shadow my-5">
@@ -56,7 +59,7 @@ function Login() {
           <div
             className="col-md-6 d-flex flex-column align-items-center text-white justify-content-center order-2 form "
             style={{
-              backgroundImage: "url('images/background.png')",
+              backgroundColor: "blue",
               backgroundSize: "cover",
               backgroundPosition: "center",
             }}

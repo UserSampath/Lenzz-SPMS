@@ -44,7 +44,7 @@ const MemberCard = (props) => {
     }
     
     try {
-      const res = await axios.post("http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/removeUserFromProject", data)
+      const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/removeUserFromProject`, data)
       props.setMembersCount((prevCount) => prevCount - 1);
       if (typeof props.setCount === "function") {
         props.deleteCount();

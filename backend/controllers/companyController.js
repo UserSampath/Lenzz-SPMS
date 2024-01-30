@@ -159,7 +159,7 @@ const sendInvitation = async (req, res) => {
       text: `${company} company is inviting you to join their software project management system.
       Enter "${companyKey}" in the company key field when you register.
       
-      Register now: http://localhost:3000/EmailRegister`,
+      Register now:http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4040/register`,
     };
 
     transporter.sendMail(mailOptions, (error, info) => {

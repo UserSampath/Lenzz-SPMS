@@ -43,7 +43,7 @@ const ForgotPassword = () => {
   }, [password, confirmPassword]);
 
   const userValid = async () => {
-    const res = await fetch(`http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/api/user/forgotPassword/${id}/${token}`, {
+    const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/user/forgotPassword/${id}/${token}`, {
       method: "GET",
       headers: { "Content-Type": "application/json" },
     });
@@ -61,7 +61,7 @@ const ForgotPassword = () => {
   const sendPassword = async (e) => {
     try {
       e.preventDefault();
-      const res = await fetch(`http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/api/user/${id}/${token}`, {
+      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/user/${id}/${token}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ password }),

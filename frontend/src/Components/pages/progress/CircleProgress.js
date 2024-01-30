@@ -47,7 +47,7 @@ function CircleProgress(props) {
     const getTaskWithPS = async () => {
       const data = { id: projectDetails._id };
       await axios
-        .post("http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/progressStage/taskWithPS", data)
+        .post(`${process.env.REACT_APP_BACKEND_URL}/progressStage/taskWithPS`, data)
         .then((res) => {
           if (res.data.length > 0) {
             setTodoTotal(res.data[0].cards.length);
@@ -90,7 +90,7 @@ function CircleProgress(props) {
         id: localProject.projectId,
       };
       await axios
-        .post("http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/api/project/getProject", data)
+        .post(`${process.env.REACT_APP_BACKEND_URL}/api/project/getProject`, data)
         .then((res) => {
           SetProjectDetails(res.data.project);
           setEndDateData(projectDetails.endDate);
@@ -117,7 +117,7 @@ function CircleProgress(props) {
         id: localProject.projectId,
       };
       await axios
-        .post("http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/api/project/changepersentage", data)
+        .post(`${process.env.REACT_APP_BACKEND_URL}/api/project/changepersentage`, data)
         .then((res) => {
         
           setDeadlinePercentage(Math.round(res.data.percentage));
@@ -139,7 +139,7 @@ function CircleProgress(props) {
         id: localProject.projectId,
       };
       await axios
-        .post("http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/api/project/usersOfTheProject", data)
+        .post(`${process.env.REACT_APP_BACKEND_URL}/api/project/usersOfTheProject`, data)
         .then((res) => {
      
           SetProjectMembersData(res.data);
@@ -151,7 +151,7 @@ function CircleProgress(props) {
     };
     const getTasks = async () => {
       await axios
-        .post("http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/api/list/progressStage/tasksOfProject", {
+        .post(`${process.env.REACT_APP_BACKEND_URL}/api/list/progressStage/tasksOfProject`, {
           projectId: localProject.projectId,
         })
         .then((res) => {
@@ -165,7 +165,7 @@ function CircleProgress(props) {
     const TotaltasksOfMember = async () => {
       await axios
         .post(
-          "http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/api/list/progressStage/TotaltasksOfProject",
+          `${process.env.REACT_APP_BACKEND_URL}/api/list/progressStage/TotaltasksOfProject`,
           {
             projectId: localProject.projectId,
           }
