@@ -198,7 +198,7 @@ const Company = () => {
       endDate,
       companyId: userData.companyId,
     };
-    const response = await fetch("http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/api/project/creatproject", {
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/project/creatproject`, {
       method: "POST",
       body: JSON.stringify(project),
       headers: {
@@ -772,6 +772,9 @@ const Company = () => {
               </p>
               <p style={{ margin: "5px 0" }}>
                 <strong>Selected Job : </strong> {selecteUser.selectedJob}
+              </p>
+              <p style={{ margin: "5px 0" }}>
+                <strong>Git User Name : </strong> {selecteUser.gitUserName}
               </p>
             </div>
           </Modal.Body>

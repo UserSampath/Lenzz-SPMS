@@ -122,7 +122,7 @@ const CreateCompany = () => {
           <div
             className="col-md-6 d-flex flex-column align-items-center text-white justify-content-center form order-2 "
             style={{
-              backgroundImage: "url('images/background.png')",
+              backgroundColor:"blue",
               backgroundSize: "cover",
               backgroundPosition: "center",
             }}

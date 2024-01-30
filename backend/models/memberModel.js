@@ -27,6 +27,10 @@ const userSchema = new Schema(
       type: String,
       required: false,
     },
+    gitUserName : {
+      type: String,
+      required: false,
+    },
     selectedJob: {
       type: String,
       enum: [
@@ -80,7 +84,8 @@ userSchema.statics.signup = async function (
   firstName,
   lastName,
   selectedJob,
-  contactNumber
+  contactNumber,
+  gitUserName
 ) {
   // validation
   if (
@@ -89,7 +94,8 @@ userSchema.statics.signup = async function (
     !firstName ||
     !lastName ||
     !selectedJob ||
-    !contactNumber
+    !contactNumber ||
+    !gitUserName
   ) {
     throw Error("All fields must be filled");
   }
@@ -131,6 +137,7 @@ userSchema.statics.signup = async function (
     lastName,
     selectedJob,
     contactNumber,
+    gitUserName,
     profilePicture:
       "https://sampathnalaka.s3.eu-north-1.amazonaws.com/uploads/pngwing.com.png",
   });

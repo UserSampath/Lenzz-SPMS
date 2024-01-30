@@ -101,6 +101,7 @@ const CompanySetting = () => {
             },
           })
           .then((res) => {
+
             setCompany(res.data);
             setCompanyName(res.data.companyname);
             setCompanyAddress(res.data.companyaddress);
@@ -174,7 +175,7 @@ const CompanySetting = () => {
     <Sidebar>
       <div
         className="pagecontainner"
-        style={{ display: "flex", marginLeft: "55px" }}
+        style={{ display: "flex", marginLeft: "65px" }}
       >
         <div
           className="Boxcard "

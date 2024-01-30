@@ -54,7 +54,7 @@ function Login() {
 
   return (
     <div>
-      <div className="container shadow my-5">
+      <div className="container shadow mt-5">
         <div className="row">
           <div
             className="col-md-6 d-flex flex-column align-items-center text-white justify-content-center order-2 form "
@@ -78,7 +78,7 @@ function Login() {
             >
               Register
             </NavLink>
-            <h5 className="mb-4">OR</h5>
+            <h5 className="mb-2 mt-1 ">OR</h5>
             <NavLink to="/Home" className="btn btn-outline-light  pb-2 w-50">
               Home
             </NavLink>
@@ -205,7 +205,7 @@ function Login() {
                   type="submit"
                   className="btn btn-primary w-75 mt-5 h-25 p-20"
                   disabled={isLoading}
-                  style={{ backgroundColor: "#144B9F" }}
+                  style={{ backgroundColor: "blue" }}
                 >
                   Submit
                 </button>

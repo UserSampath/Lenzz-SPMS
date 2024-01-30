@@ -9,10 +9,13 @@ import {
   faInfoCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 const EMAIL_REGEX = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 const NAME_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const CONTECTNUMBER_REGEX = /^\d{10}$/;
+const GIT_USERNAME_REGEX  = /^[A-z][A-z0-9-_]{3,23}$/;
+
 const Register = () => {
   const userRef = useRef();
   const errRef = useRef();
@@ -40,6 +43,11 @@ const Register = () => {
   const [contactnumber, setcontactnumber] = useState("");
   const [validContactNumber, setValidContactNumber] = useState(false);
   const [ContactNumberFocus, setContactNumberFocus] = useState(false);
+
+
+  const [gitUserName, setGitUserName] = useState("");
+  const [validGitUserName, setValidGitUserName] = useState(false);
+  const [gitUserNameFocus, setGitUserNamerFocus] = useState(false);
 
   const options = [
     "SYSTEM ADMIN",
@@ -76,19 +84,23 @@ const Register = () => {
   }, [contactnumber]);
 
   useEffect(() => {
+    setValidGitUserName(GIT_USERNAME_REGEX.test(gitUserName));
+  }, [gitUserName]);
+
+  useEffect(() => {
     setErrMsg("");
-  }, [firstName, lastName, email, password, confirmPassword, contactnumber]);
+  }, [firstName, lastName, email, password, confirmPassword, contactnumber,gitUserName]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     await signup(
       email,
       password,
       firstName,
       lastName,
       selectedJob,
-      contactnumber
+      contactnumber,
+      gitUserName
     );
   };
 
@@ -98,7 +110,7 @@ const Register = () => {
 
   return (
     <div>
-      <div className="container shadow my-5">
+      <div className="container shadow ">
         <div className="row justify-content-end">
           <div
             className="col-md-6 d-flex flex-column align-items-center text-white justify-content-center form order-2 "
@@ -106,12 +118,13 @@ const Register = () => {
               backgroundColor: "blue",
               backgroundSize: "cover",
               backgroundPosition: "center",
+
             }}
           >
             <div
               className="mainpart"
               style={{
-                marginTop: "10px",
+                marginTop: "5px",
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
@@ -121,7 +134,7 @@ const Register = () => {
                 className="homeimg"
                 src="images/Register.gif"
                 alt="Register"
-                style={{ width: "400px" }}
+                style={{ width: "300px" }}
               />
               <h1 className="display-4 fw-bolder mt-7">Hello, Friend</h1>
               <p className="lead text-center">Enter your Details to register</p>
@@ -324,6 +337,49 @@ const Register = () => {
                     must be 10 numbers
                   </p>
                 </div>
+
+                <div className="mb-2">
+                <label htmlFor="email">
+                    Git User name:
+                    <FontAwesomeIcon
+                      icon={faCheck}
+                      className={validGitUserName ? "valid" : "hide"}
+                    />
+                    <FontAwesomeIcon
+                      icon={faTimes}
+                      className={
+                        validGitUserName || !gitUserName ? "hide" : "invalid"
+                      }
+                    />
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    ref={userRef}
+                    autoComplete="on"
+                    onChange={(e) => setGitUserName(e.target.value)}
+                    value={gitUserName}
+                    required
+                    aria-invalid={validGitUserName ? "false" : "true"}
+                    aria-describedby="uidnote"
+                    onFocus={() => setGitUserNamerFocus(true)}
+                    onBlur={() => setGitUserNamerFocus(false)}
+                    id="exampleInputGitUserName"
+                    placeholder="Enter  git user name"
+                  />
+                  <p
+                    id="uidnote"
+                    className={
+                      gitUserNameFocus && gitUserName && !validGitUserName
+                        ? "instructions"
+                        : "offscreen"
+                    }
+                  >
+                    <FontAwesomeIcon icon={faInfoCircle} />
+                    git User name must be unique and valid
+                  </p>
+                </div>
+
                 <div className="mb-2">
                   <label htmlFor="passeorf">
                     Password:

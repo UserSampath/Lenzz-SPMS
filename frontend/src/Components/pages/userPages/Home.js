@@ -22,7 +22,7 @@ const Home = () => {
             <div className="col-md-6">
               <img
                 className="homeimg"
-                src="images/goal.jpg"
+                src="images/goal.png"
                 alt="home"
                 style={{ width: "450px", marginTop: "78px" }}
               />

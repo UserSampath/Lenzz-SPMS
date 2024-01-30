@@ -14,7 +14,8 @@ export const useSignup = () => {
     email,
     password,
     selectedJob,
-    contactnumber
+    contactnumber,
+    gitUserName
   ) => {
     setIsloading(true);
     setError(null);
@@ -29,6 +30,7 @@ export const useSignup = () => {
         password,
         selectedJob,
         contactnumber,
+        gitUserName
       }),
     });
     const json = await response.json();

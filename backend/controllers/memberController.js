@@ -43,6 +43,7 @@ const loginUser = async (req, res) => {
       selectedJob: user.selectedJob,
       _id: user._id,
       profilePicture: user.profilePicture,
+      
     });
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -51,7 +52,7 @@ const loginUser = async (req, res) => {
 
 //Signup a user
 const signupUser = asyncHandler(async (req, res) => {
-  const { firstName, lastName, email, password, selectedJob, contactnumber } =
+  const { firstName, lastName, email, password, selectedJob, contactnumber,gitUserName } =
     req.body;
 
   try {
@@ -61,7 +62,8 @@ const signupUser = asyncHandler(async (req, res) => {
       email,
       password,
       selectedJob,
-      contactnumber
+      contactnumber,
+      gitUserName
     );
     const token = createToken(user._id);
     res
