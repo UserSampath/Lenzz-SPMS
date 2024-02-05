@@ -93,7 +93,7 @@ const passwordlink = async (req, res) => {
         subject: "Sending Email for password Reset",
         text: `This link send Hasthiya IT software project management system 
         Change your account password(valid for 2 minutes)
-         http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4040/forgotPassword/${userfind.id}/${setusertoken.verifytoken}`,
+         ${ process.env.REACT_APP_BACKEND_URL}/forgotPassword/${userfind.id}/${setusertoken.verifytoken}`,
       };
       transporter.sendMail(mailOptions, (error, info) => {
         if (error) {

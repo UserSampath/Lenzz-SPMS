@@ -102,8 +102,8 @@ const MemberCard = (props) => {
             <p style={{ fontSize: "0.8rem", margin: 0 }}>{props.member.email}</p>
 
           </div>
-          <div style={{ display: "flex", alignItems: "center" }}>
-            <div style={{ marginRight: "10px", display: "flex" }}>
+          <div style={{ display: "flex", alignItems: "center",justifyContent:"center" }}>
+            <div style={{ marginRight: "10px", display: "flex",justifyContent:"center",marginTop:"12px" }}>
               <p style={{ marginTop: "8px", marginRight: "5px" }}>Role:</p>
               <select style={{ textAlign: "center", padding: "2px", fontSize: "1rem", borderRadius: "10px", border: "1px solid #CCCCCC", height: "30px", marginTop: "4px" }}
                 value={selectedOption}
@@ -120,10 +120,10 @@ const MemberCard = (props) => {
               </select>
             </div>
             <div
-              style={{ background: "#f55", height: "30px", borderRadius: "20px", width: "40px", display: "flex", justifyContent: "center", alignItems: "center", color: "#FFFFFF", fontWeight: "bold", fontSize: "0.9rem", textTransform: "uppercase",marginTop:"5px",cursor: "pointer" }}
+              style={{ background: "#f55", height: "30px", borderRadius: "20px", width: "30px", display: "flex", justifyContent: "center", alignItems: "center", color: "#FFFFFF", fontWeight: "bold", fontSize: "0.9rem", textTransform: "uppercase",marginTop:"5px",cursor: "pointer" }}
               onClick={() => { removeMemberHandler() }}
             >
-              <FaTrashAlt style={{ width: "20px", height: "20px" }} /></div>
+              <FaTrashAlt  style={{ width: "16px", height: "16px" }} /></div>
           </div>
         </div>
 

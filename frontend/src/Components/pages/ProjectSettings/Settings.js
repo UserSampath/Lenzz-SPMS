@@ -308,7 +308,7 @@ const Settings = () => {
                       id="description"
                       value={description}
                       onChange={(event) => setDescription(event.target.value)}
-                      style={{ padding: '0.5rem', borderRadius: '0.25rem', border: '1px solid #ccc', marginBottom: '10px', width: '90%' }}
+                      style={{ padding: '0.5rem', borderRadius: '0.25rem', border: '1px solid #ccc', marginBottom: '10px', width: '90%', height: '100px' }}
                     />
                   </div>
                   <div style={{ display: "flex" }}>
@@ -334,15 +334,14 @@ const Settings = () => {
                       />
                     </div>
                   </div>
-                  <div style={{ display: 'flex', justifyContent: "" }}>
-                    <button type="submit" style={{ padding: '0.5rem 1rem', backgroundColor: '#0077cc', color: '#fff', border: 'none', borderRadius: '0.25rem', cursor: 'pointer', width: '150px', }}>Save Changes</button>
+                  <div style={{ display: 'flex', justifyContent: ""}}>
+                    <button type="submit" style={{ padding: "5px", backgroundColor: '#0077cc', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', width: '150px',height:"40px" }}>Save Changes</button>
                     <div style={{ marginLeft: "5px" }}>
-
                       <div type="Delete project"
                         onClick={deleteProjectHandler}
-                        style={{ padding: '0.5rem 1rem', backgroundColor: '#f55', color: '#fff', border: 'none', borderRadius: '0.25rem', cursor: 'pointer', width: '150px', display: "flex" }}>
+                        style={{ padding: '5px', backgroundColor: '#f55', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', width: '150px', display: "flex",alignItems:"center",height:"40px" }}>
                         <FaTrashAlt style={{ marginTop: "3px", marginRight: "3px" }} />
-                        <p>Delete Project</p></div>
+                        Delete Project</div>
                     </div>
                   </div>
 

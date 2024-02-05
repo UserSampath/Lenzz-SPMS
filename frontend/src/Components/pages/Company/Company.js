@@ -95,7 +95,7 @@ const Company = () => {
           },
         })
         .then((res) => {
-         
+
           setUserData(res.data);
         })
         .catch((err) => {
@@ -114,7 +114,7 @@ const Company = () => {
         })
         .then((res) => {
           setCompanyUsers(res.data);
-       
+
         })
         .catch((err) => {
           console.log(err);
@@ -132,7 +132,7 @@ const Company = () => {
         })
         .then((res) => {
           setCompanyProjects(res.data.userProject);
-         
+
         })
         .catch((err) => {
           console.log(err);
@@ -152,7 +152,7 @@ const Company = () => {
           })
           .then((res) => {
             setCompany(res.data);
-         
+
           })
           .catch((err) => {
             console.log(err);
@@ -165,7 +165,7 @@ const Company = () => {
   }, [userData]);
   //TODO:
   const projectClicked = (data) => {
-  
+
     localStorage.setItem(
       "last access project",
       JSON.stringify({ projectId: data._id, userId: userData._id })
@@ -198,7 +198,7 @@ const Company = () => {
       endDate,
       companyId: userData.companyId,
     };
-    const response = await fetch("http://ec2-3-139-78-36.us-east-2.compute.amazonaws.com:4000/api/project/creatproject", {
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/project/creatproject`, {
       method: "POST",
       body: JSON.stringify(project),
       headers: {
@@ -212,7 +212,7 @@ const Company = () => {
       setError(json.error);
     }
     if (response.ok) {
-      
+
 
       const addSystemAdminToProject = async () => {
         const data = {
@@ -225,8 +225,8 @@ const Company = () => {
             `${process.env.REACT_APP_BACKEND_URL}/addUserToProject`,
             data
           );
-          
-        } catch (err) {}
+
+        } catch (err) { }
       };
       addSystemAdminToProject();
 
@@ -261,7 +261,7 @@ const Company = () => {
       setendDate("");
       setdescription("");
       setError(null);
-      
+
       dispatch({ type: "CREATE_PROJECT", payload: json });
     }
   };
@@ -274,7 +274,7 @@ const Company = () => {
       const json = await response.json();
 
       if (response.ok) {
-     
+
         dispatch({ type: "SHOW_PROJECTS", payload: json });
       }
     };
@@ -518,15 +518,17 @@ const Company = () => {
                           flex: "wrap",
                         }}
                       >
+                        {/* {TODO:} */}
                         <div
                           onClick={() => projectClicked(project[0])}
+
                           style={{
                             width: " 250px",
                             height: " 45px",
                             marginLeft: "25px",
                             marginTop: "20px",
                             border: "1px solid",
-                            borderRadius: "10px",
+                            borderRadius: "5px",
                             paddingTop: "10px",
                             borderColor: "#ABAAAA",
                             overflow: "hidden",
@@ -534,11 +536,12 @@ const Company = () => {
                             // justifyContent: "center"
                             display: "flex",
                             cursor: "pointer",
+
                           }}
                         >
                           <div style={{ display: "flex", flex: "wrap" }}>
                             <div
-                              style={{ marginTop: "5px", marginLeft: "10px" }}
+                              style={{ marginTop: "0px", marginLeft: "10px" }}
                             >
                               <GrProjects />
                             </div>
@@ -653,11 +656,11 @@ const Company = () => {
                           marginLeft: "25px",
                           marginTop: "20px",
                           border: "1px solid",
-                          borderRadius: "10px",
+                          borderRadius: "5px",
                           paddingTop: "2px",
                           borderColor: "#ABAAAA",
                           overflow: "hidden",
-                          background: "#D1F4F4",
+                          background: "#CEEAF4",
                           display: "flex",
                           cursor: "pointer",
                         }}
@@ -789,11 +792,12 @@ const Company = () => {
           <div
             className="Boxcard"
             style={{
-              height:"60px",
+              height: "50px",
               position: "absolute",
               right: "35px",
               marginTop: "15px",
               padding: "5px",
+              paddingTop: "10px",
               background: "#CCE4F8",
               borderRadius: "5px",
               border: "1px solid",
@@ -802,10 +806,10 @@ const Company = () => {
               boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
             }}
           >
-            <div style={{ display: "flex"}}>
-              <div style={{ fontSize: "20px", marginTop: "9px", marginRight: "4px", fontFamily:"Raleway"}}>Company Settings</div>
-              <FcSettings className="rotate" style={{ fontSize: "45px" }} /></div>
-           
+            <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+              <div style={{ fontSize: "20px", marginRight: "4px", fontFamily: "Raleway", color: "black" }}>Company Settings</div>
+              <FcSettings className="rotate" style={{ fontSize: "26px" }} /></div>
+
           </div>
         </Link>
       </div>

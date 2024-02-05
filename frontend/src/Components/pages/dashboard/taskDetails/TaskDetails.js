@@ -1,6 +1,10 @@
 import React from "react";
 import styles from "./taskDetails.module.css";
 import { FaFileAlt } from "react-icons/fa";
+import { GrDocumentPdf } from "react-icons/gr";
+import { GrDocumentZip } from "react-icons/gr";
+import { GoFileZip } from "react-icons/go";
+import { BsFileEarmarkPdf } from "react-icons/bs";
 const TaskDetails = (props) => {
   return (
     <div>
@@ -53,10 +57,40 @@ const TaskDetails = (props) => {
           <div>
             {props.card.files.map((att, index) => {
               return (
-                <div key={index} className={styles.taskDetailsContainer}>
-                  <FaFileAlt className={styles.fileIcon} />
+                <div key={index} style={{height:"60px"}} className={styles.taskDetailsContainer}>
+                  {
+                    (att.location.split("-lenzz")[1].endsWith(".jpg") ||
+                      att.location.split("-lenzz")[1].endsWith(".png") ||
+                      att.location.split("-lenzz")[1].endsWith(".gif") ||
+                      att.location.split("-lenzz")[1].endsWith(".bmp") ||
+                      att.location.split("-lenzz")[1].endsWith(".webp") ||
+                      att.location.split("-lenzz")[1].endsWith(".svg")) && (
+                      <div>
+                        <img src={att.location} style={{ width: "50px", height: "50px", borderRadius: "5px", marginRight: "10px" }} />
+                      </div>
+                    )
+                  }
+
+                  {
+                    (att.location.split("-lenzz")[1].endsWith(".pdf")
+                     ) && (
+                      <div>
+                        <BsFileEarmarkPdf size={40} style={{color:"gray",marginRight:"20px"}}/>
+                      </div>
+                    )
+                  }
+                  {
+                    (att.location.split("-lenzz")[1].endsWith(".zip")
+                    ) && (
+                      <div>
+                        <GoFileZip size={40} style={{ color: "gray", marginRight: "20px" }} />
+                      </div>
+                    )
+                  }
+                   
+                 
                   <div className={styles.attContainer}>
-                    <p style={{ margin: 0 }}>
+                    <p style={{ margin: 0, width: "400px", overflow: "hidden" ,textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                       {att.location.split("-lenzz")[1]}
                     </p>
                     <a href={att.location} className={styles.downloadATag}>

@@ -164,7 +164,7 @@ const usersOfTheProject = async (req, res) => {
           projectUserId: user._id,
         };
 
-      
+
         const memberObj = member.toObject();
         const concatenatedObj = Object.assign({}, memberObj, ProjectUserObj);
 

@@ -92,9 +92,7 @@ projectSchema.statics.updateProject = async function (
   if (endDate < currentDate) {
     throw Error("End date cannot be before the current date");
   }
-  if (startDate < currentDate) {
-    throw Error("Start date cannot be before the current date");
-  }
+
   const project = await this.findByIdAndUpdate(
     id,
     {
